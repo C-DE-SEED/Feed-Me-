@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../Screens/Register.dart';
-import '../Screens/SignIn.dart';
+import '../Screens/register.dart';
+import '../Screens/sing_in.dart';
 
 class Authenticate extends StatefulWidget {
+  const Authenticate({Key key}) : super(key: key);
+
   @override
   _AuthenticateState createState() => _AuthenticateState();
 }
@@ -20,9 +22,9 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     if (showSignIn) {
-      return SignIn(toggleView:toggleView);
+      return SignIn(toggleView: toggleView);
     } else {
-      return Register(toggleView:toggleView);
+      return Register(toggleView: toggleView);
     }
   }
 }

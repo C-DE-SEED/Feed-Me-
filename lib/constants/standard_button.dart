@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 
 class StandardButton extends StatelessWidget {
-  StandardButton({
-    @required this.text,
-    @required this.onPress,
-    @required this.color,
-  });
+  const StandardButton({Key key, this.text, this.onPress, this.color})
+      : super(key: key);
 
   final Color color;
   final String text;
@@ -18,26 +15,23 @@ class StandardButton extends StatelessWidget {
       onPressed: onPress,
       child: Container(
           height: 50,
-          width: size.width*0.9,
+          width: size.width * 0.9,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(32.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(32.0)),
               color: color,
               boxShadow: [
                 BoxShadow(color: Colors.black.withAlpha(100), blurRadius: 5.0),
-              ]
-          ),
-
+              ]),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
             child: Center(
               child: Text(
                 text,
-                style: TextStyle(fontSize: 14, color: Colors.black),
+                style: const TextStyle(fontSize: 14, color: Colors.black),
                 maxLines: 1,
               ),
             ),
-          )
-      ),
+          )),
     );
   }
 }

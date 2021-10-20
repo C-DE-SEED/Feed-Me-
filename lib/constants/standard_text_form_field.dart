@@ -1,12 +1,10 @@
-import 'package:feed_me/Consts/Colors.dart';
 import 'package:flutter/material.dart';
 
+import 'Colors.dart';
 
 class MailTextFormField extends StatefulWidget {
-  MailTextFormField({
-    @required this.hintText,
-    @required this.onChange,
-  });
+  const MailTextFormField({Key key, this.hintText, this.onChange})
+      : super(key: key);
 
   final String hintText;
   final Function onChange;
@@ -20,32 +18,33 @@ class _MailTextFormFieldState extends State<MailTextFormField> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      padding: EdgeInsets.fromLTRB(20,0,20,0),
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.grey,
           fontSize: 12.0,
         ),
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.email_outlined,color: BasicGreen,),
+          prefixIcon: const Icon(
+            Icons.email_outlined,
+            color: BasicGreen,
+          ),
           filled: true,
           fillColor: Colors.white,
           hintText: widget.hintText,
-          contentPadding: EdgeInsets.symmetric(
-              vertical: 10.0, horizontal: 20.0),
-          border: OutlineInputBorder(
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+          border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderSide:
-            BorderSide(color: Colors.grey, width: 1.0),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey, width: 1.0),
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide:
-            BorderSide(color: BasicGreen, width: 2.0),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: BasicGreen, width: 2.0),
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),
         ),
