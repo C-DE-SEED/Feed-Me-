@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
     return StreamProvider<UserLocal>.value(
       value: AuthService().user,
       initialData: null,
-      child: MaterialApp(
-        localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
-        supportedLocales: const [Locale('en'), Locale('de')],
+      child: const MaterialApp(
+        localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+        supportedLocales: [Locale('en'), Locale('de')],
         home: Wrapper(),
       ),
     );
@@ -41,5 +41,31 @@ class MyApp extends StatelessWidget {
     //     home: SignIn(),
     //   ),
     // );
+
+    /*
+     ----------------------------------------------
+    |             _____             _____          |
+    |     ___-----     -----   -----     -----___  |
+    |    '___               '''               ___' |
+    |         -----_____----, ,-----_____-----	   |
+    |  							    	 ' '  									 |
+    |  						   	   ' '											 |
+    |                   ' '                        |
+    |                  ' '                         |
+    |                 ' '                          |
+    |      / ____|  / __ \   |  __ \  |  ____|     |
+    |     | |      | |  | |  | |  | | | |__        |
+    |     | |      | |  | |  | |  | | |  __|       |
+    |     | |____  | |__| |  | |__| | | |____      |
+    |      \_____|  \____/   |_____/  |______|     |
+    |  																			       |
+    | 	   / ____| |  ____|  |  ____| |  __ \	     |
+    |     | (___   | |__     | |__    | |  | |	   |
+    |      \___ \  |  __|    |  __|   | |  | |     |
+    |      ____) | | |____   | |____  | |__| |	   |
+    |     |_____/  |______|  |______| |_____/ 	   |
+    |  																			       |
+     ----------------------------------------------
+    */
   }
 }

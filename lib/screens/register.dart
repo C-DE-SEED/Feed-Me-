@@ -1,4 +1,5 @@
 import 'package:feed_me/constants/Colors.dart';
+import 'package:feed_me/constants/custom_alert.dart';
 import 'package:feed_me/constants/password_text_form_field.dart';
 import 'package:feed_me/constants/standard_button.dart';
 import 'package:feed_me/constants/standard_text_form_field.dart';
@@ -21,6 +22,8 @@ class _RegisterState extends State<Register> {
 
   String email = "";
   String password = "";
+  String password1 = "";
+  String password2 = "";
   String error = "";
   bool loading = false;
 
@@ -106,94 +109,129 @@ class _RegisterState extends State<Register> {
             //         ],
             //       ),
             //     )),
-
             backgroundColor: Colors.white,
             body: Form(
               key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: size.height * 0.4,
-                    width: size.width * 1,
-                    color: BasicGreen,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: size.height * 0.3,
-                          width: size.width * 0.4,
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/feedmelogo.png"),
-                                fit: BoxFit.cover,
-                              ),
-                              color: BasicGreen),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: size.height * 0.4,
+                      width: size.width * 1,
+                      color: BasicGreen,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: size.height * 0.3,
+                            width: size.width * 0.4,
+                            decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/feedmelogo.png"),
+                                  fit: BoxFit.cover,
+                                ),
+                                color: BasicGreen),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.15,
-                  ),
-                  MailTextFormField(
-                    hintText: "Bitte geben Sie Ihre E-Mail ein",
-                    onChange: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  PasswordTextFormField(
-                    hintText: "Bitte geben Sie Ihr Passwort ein",
-                    onChange: (value) {
-                      setState(() {
-                        password = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 90,
-                  ),
-                  StandardButton(
-                    color: Colors.white,
-                    text: "Registrieren",
-                    onPress: () async {
-                      // dynamic result = await _auth
-                      //     .loginWithEmailAndPassword(email, password);
-                      if (_formKey.currentState.validate()) {
+                    SizedBox(
+                      height: size.height * 0.05,
+                    ),
+                    MailTextFormField(
+                      hintText: "Bitte geben Sie Ihre E-Mail ein",
+                      onChange: (value) {
                         setState(() {
-                          loading = true;
+                          email = value;
                         });
-                        dynamic result = await _auth.loginWithEmailAndPassword(
-                            email, password);
-                        if (result == null) {
-                          setState(() {
-                            error = "Please supply a valid email";
-                            loading = false;
-                          });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    PasswordTextFormField(
+                      hintText: "Bitte geben Sie Ihr Passwort ein",
+                      onChange: (value) {
+                        setState(() {
+                          password1 = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    PasswordTextFormField(
+                      hintText: "Bitte geben Sie Ihr Passwort erneut ein",
+                      onChange: (value) {
+                        setState(() {
+                          password2 = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 60,
+                    ),
+                    StandardButton(
+                      color: Colors.white,
+                      text: "Registrieren",
+                      onPress: () async {
+                        if (checkIfPasswordsMatching() == true) {
+                          if (_formKey.currentState.validate()) {
+                            setState(() {
+                              loading = true;
+                            });
+                            dynamic result = await _auth
+                                .registerWithEmailAndPassword(email, password);
+                            if (result == null) {
+                              setState(() {
+                                error =
+                                    "Bitte geben Sie eine valide E-Mail ein!";
+                                loading = false;
+                              });
+                            }
+                          }
+                        } else {
+
                         }
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  StandardButton(
-                      color: BasicGreen,
-                      text: "Zurück zum Login",
-                      onPress: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => SignIn()));
-                        Navigator.pop(context);
-                      })
-                ],
+                        // dynamic result = await _auth
+                        //     .loginWithEmailAndPassword(email, password);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    StandardButton(
+                        color: BasicGreen,
+                        text: "Zurück zum Login",
+                        onPress: () {
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => SignIn()));
+                          Navigator.pop(context);
+                        })
+                  ],
+                ),
               ),
             ));
+  }
+
+  bool checkIfPasswordsMatching() {
+    if (password1 == password2) {
+      password = password1;
+      return true;
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomAlert(
+              title: "Ihre eingegebenen Passwörter stimmen nicht überein!",
+              descriptions: "Bitte überprüfen Sie ihre Eingaben.",
+              text: "OK",
+            );
+          });
+      return false;
+    }
   }
 }

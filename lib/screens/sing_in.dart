@@ -36,97 +36,99 @@ class _SignInState extends State<SignIn> {
             backgroundColor: Colors.white,
             body: Form(
               key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: size.height * 0.4,
-                    width: size.width * 1,
-                    color: BasicGreen,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: size.height * 0.3,
-                          width: size.width * 0.4,
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/feedmelogo.png"),
-                                fit: BoxFit.cover,
-                              ),
-                              color: BasicGreen),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: size.height * 0.4,
+                      width: size.width * 1,
+                      color: BasicGreen,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: size.height * 0.3,
+                            width: size.width * 0.4,
+                            decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/feedmelogo.png"),
+                                  fit: BoxFit.cover,
+                                ),
+                                color: BasicGreen),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.15,
-                  ),
-                  MailTextFormField(
-                    hintText: "Bitte geben Sie Ihre E-Mail ein",
-                    onChange: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  PasswordTextFormField(
-                    hintText: "Bitte geben Sie Ihr Passwort ein",
-                    onChange: (value) {
-                      setState(() {
-                        password = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 90,
-                  ),
-                  StandardButton(
-                    color: Colors.white,
-                    text: "Login",
-                    onPress: () async {
-                      // dynamic result = await _auth
-                      //     .loginWithEmailAndPassword(email, password);
-                      if (_formKey.currentState.validate()) {
+                    SizedBox(
+                      height: size.height * 0.15,
+                    ),
+                    MailTextFormField(
+                      hintText: "Bitte geben Sie Ihre E-Mail ein",
+                      onChange: (value) {
                         setState(() {
-                          loading = true;
+                          email = value;
                         });
-                        dynamic result = await _auth.loginWithEmailAndPassword(
-                            email, password);
-                        if (result == null) {
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    PasswordTextFormField(
+                      hintText: "Bitte geben Sie Ihr Passwort ein",
+                      onChange: (value) {
+                        setState(() {
+                          password = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 90,
+                    ),
+                    StandardButton(
+                      color: Colors.white,
+                      text: "Login",
+                      onPress: () async {
+                        // dynamic result = await _auth
+                        //     .loginWithEmailAndPassword(email, password);
+                        if (_formKey.currentState.validate()) {
                           setState(() {
-                            error = "Please supply a valid email";
-                            loading = false;
+                            loading = true;
                           });
-                        } else {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Home()));
+                          dynamic result = await _auth.loginWithEmailAndPassword(
+                              email, password);
+                          if (result == null) {
+                            setState(() {
+                              error = "Please supply a valid email";
+                              loading = false;
+                            });
+                          } else {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => Home()));
+                          }
                         }
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Noch nicht registriert?"),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Register()));
-                        },
-                        child: const Text("Hier klicken"),
-                      ),
-                    ],
-                  )
-                ],
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Noch nicht registriert?"),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Register()));
+                          },
+                          child: const Text("Hier klicken"),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ));
   }
