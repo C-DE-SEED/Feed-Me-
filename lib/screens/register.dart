@@ -166,6 +166,11 @@ class _RegisterState extends State<Register> {
                       text: "Registrieren",
                       onPress: () async {
                         if (checkIfPasswordsMatching() == true) {
+                          if (_formKey.currentState.validate()) {
+                            setState(() {
+                              loading = true;
+                            });
+                          }
                           dynamic result = await _auth
                               .registerWithEmailAndPassword(email, password);
                           if (result == null) {
