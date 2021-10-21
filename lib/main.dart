@@ -2,6 +2,7 @@ import 'package:feed_me/Screens/sing_in.dart';
 import 'package:feed_me/Screens/wrapper.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
+import 'package:feed_me/screens/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       child: const MaterialApp(
         localizationsDelegates: [GlobalMaterialLocalizations.delegate],
         supportedLocales: [Locale('en'), Locale('de')],
-        home: Wrapper(),
+        home: Welcome(),
       ),
     );
     // return StreamProvider<UserLocal>.value(
