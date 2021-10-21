@@ -51,7 +51,7 @@ class _CustomAlertState extends State<CustomAlert> {
                 widget.title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontFamily: openSansTextStyle,
+                  fontFamily: openSansFontFamily,
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
                     color: BasicGreen),
@@ -61,7 +61,7 @@ class _CustomAlertState extends State<CustomAlert> {
               ),
               Text(
                 widget.descriptions,
-                style: const TextStyle(fontFamily: openSansTextStyle,
+                style: const TextStyle(fontFamily: openSansFontFamily,
                     fontSize: 15, color:
                 BasicGreen),
                 textAlign: TextAlign.center,
@@ -77,7 +77,7 @@ class _CustomAlertState extends State<CustomAlert> {
                     },
                     child: Text(
                       widget.text,
-                      style: const TextStyle(fontFamily:openSansTextStyle,
+                      style: const TextStyle(fontFamily:openSansFontFamily,
                           fontSize: 18, color:
                       Colors
                           .black),

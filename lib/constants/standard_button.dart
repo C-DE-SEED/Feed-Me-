@@ -28,8 +28,9 @@ class StandardButton extends StatelessWidget {
             child: Center(
               child: Text(
                 text,
-                style: const TextStyle(fontFamily: openSansTextStyle,fontSize: 14, color:
-                Colors.black),
+                style: const TextStyle(fontFamily: openSansFontFamily,fontSize: 14, color:
+                Colors.black,                    fontWeight: FontWeight.w400,
+                ),
                 maxLines: 1,
               ),
             ),

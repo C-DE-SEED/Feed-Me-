@@ -27,9 +27,11 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
         keyboardType: TextInputType.visiblePassword,
         textAlign: TextAlign.center,
         style: const TextStyle(
-          fontFamily: openSansTextStyle,
+          fontFamily: openSansFontFamily,
           color: Colors.grey,
           fontSize: 12.0,
+          fontWeight: FontWeight.w600,
+
         ),
         decoration: InputDecoration(
           prefixIcon: const Icon(

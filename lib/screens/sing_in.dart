@@ -111,7 +111,9 @@ class _SignInState extends State<SignIn> {
                         const Text(
                           "Noch nicht registriert?",
                           style: TextStyle(
-                            fontFamily: openSansTextStyle,
+                            fontFamily: openSansFontFamily,
+                            fontWeight: FontWeight.w500,
+
                           ),
                         ),
                         TextButton(
@@ -123,7 +125,9 @@ class _SignInState extends State<SignIn> {
                           },
                           child: const Text("Hier klicken",
                               style: TextStyle(
-                                fontFamily: openSansTextStyle,
+                                fontFamily: openSansFontFamily,
+                                fontWeight: FontWeight.w500,
+
                               )),
                         ),
                       ],

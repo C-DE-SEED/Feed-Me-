@@ -122,8 +122,8 @@ class _RegisterState extends State<Register> {
                       width: size.width * 1,
                       child: Center(
                           child: FeedMeCircleAvatar(
-                            radius: size.height * 0.4,
-                          )),
+                        radius: size.height * 0.4,
+                      )),
                     ),
                     SizedBox(
                       height: size.height * 0.05,
@@ -166,23 +166,16 @@ class _RegisterState extends State<Register> {
                       text: "Registrieren",
                       onPress: () async {
                         if (checkIfPasswordsMatching() == true) {
-                          if (_formKey.currentState.validate()) {
+                          dynamic result = await _auth
+                              .registerWithEmailAndPassword(email, password);
+                          if (result == null) {
                             setState(() {
-                              loading = true;
+                              error = "Bitte geben Sie eine valide E-Mail ein!";
+                              loading = false;
                             });
-                            dynamic result = await _auth
-                                .registerWithEmailAndPassword(email, password);
-                            if (result == null) {
-                              setState(() {
-                                error =
-                                    "Bitte geben Sie eine valide E-Mail ein!";
-                                loading = false;
-                              });
-                            }
                           }
-                        } else {
-
                         }
+
                         // dynamic result = await _auth
                         //     .loginWithEmailAndPassword(email, password);
                       },

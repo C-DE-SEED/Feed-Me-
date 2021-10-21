@@ -38,7 +38,7 @@ class _Welcome extends State<Welcome> {
   }
 
   startTime() async {
-    var duration = const Duration(seconds: 3);
+    var duration = const Duration(seconds: 4);
     return Timer(duration, route);
   }
 

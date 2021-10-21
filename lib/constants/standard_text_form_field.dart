@@ -24,9 +24,10 @@ class _MailTextFormFieldState extends State<MailTextFormField> {
         keyboardType: TextInputType.emailAddress,
         textAlign: TextAlign.center,
         style: const TextStyle(
-          fontFamily: openSansTextStyle,
+          fontFamily: openSansFontFamily,
           color: Colors.grey,
           fontSize: 12.0,
+          fontWeight: FontWeight.w600,
         ),
         decoration: InputDecoration(
           prefixIcon: const Icon(

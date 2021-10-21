@@ -83,8 +83,8 @@ flutter:
   fonts:
     - family: Open Sans
       fonts:
-        - asset: fonts/OpenSans-Light.ttf
-        ##- asset: fonts/OpenSans-Regular.ttf
+        ##- asset: fonts/OpenSans-Light.ttf
+        - asset: fonts/OpenSans-Regular.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:
