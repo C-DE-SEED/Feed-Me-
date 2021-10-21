@@ -1,8 +1,10 @@
 import 'package:feed_me/Screens/register.dart';
 import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/constants/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/password_text_form_field.dart';
 import 'package:feed_me/constants/standard_button.dart';
 import 'package:feed_me/constants/standard_text_form_field.dart';
+import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/loading.dart';
 import 'package:flutter/material.dart';
@@ -31,37 +33,26 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return loading
-        ? Loading()
+        ? const Loading()
         : Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: BasicGreen,
             body: Form(
               key: _formKey,
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(height: size.height * 0.05),
+                    SizedBox(
                       height: size.height * 0.4,
                       width: size.width * 1,
-                      color: BasicGreen,
                       child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: size.height * 0.3,
-                            width: size.width * 0.4,
-                            decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage("assets/feedmelogo.png"),
-                                  fit: BoxFit.cover,
-                                ),
-                                color: BasicGreen),
-                          ),
-                        ),
-                      ),
+                          child: FeedMeCircleAvatar(
+                        radius: size.height * 0.6,
+                      )),
                     ),
                     SizedBox(
-                      height: size.height * 0.15,
+                      height: size.height * 0.10,
                     ),
                     MailTextFormField(
                       hintText: "Bitte geben Sie Ihre E-Mail ein",
@@ -95,16 +86,18 @@ class _SignInState extends State<SignIn> {
                           setState(() {
                             loading = true;
                           });
-                          dynamic result = await _auth.loginWithEmailAndPassword(
-                              email, password);
+                          dynamic result = await _auth
+                              .loginWithEmailAndPassword(email, password);
                           if (result == null) {
                             setState(() {
                               error = "Please supply a valid email";
                               loading = false;
                             });
                           } else {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => Home()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Home()));
                           }
                         }
                       },
@@ -115,7 +108,12 @@ class _SignInState extends State<SignIn> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Noch nicht registriert?"),
+                        const Text(
+                          "Noch nicht registriert?",
+                          style: TextStyle(
+                            fontFamily: openSansTextStyle,
+                          ),
+                        ),
                         TextButton(
                           onPressed: () {
                             Navigator.push(
@@ -123,7 +121,10 @@ class _SignInState extends State<SignIn> {
                                 MaterialPageRoute(
                                     builder: (context) => Register()));
                           },
-                          child: const Text("Hier klicken"),
+                          child: const Text("Hier klicken",
+                              style: TextStyle(
+                                fontFamily: openSansTextStyle,
+                              )),
                         ),
                       ],
                     )

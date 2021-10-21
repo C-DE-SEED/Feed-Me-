@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
 import 'Colors.dart';
@@ -26,6 +27,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
         keyboardType: TextInputType.visiblePassword,
         textAlign: TextAlign.center,
         style: const TextStyle(
+          fontFamily: openSansTextStyle,
           color: Colors.grey,
           fontSize: 12.0,
         ),

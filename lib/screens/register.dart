@@ -1,5 +1,6 @@
 import 'package:feed_me/constants/Colors.dart';
 import 'package:feed_me/constants/custom_alert.dart';
+import 'package:feed_me/constants/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/password_text_form_field.dart';
 import 'package:feed_me/constants/standard_button.dart';
 import 'package:feed_me/constants/standard_text_form_field.dart';
@@ -31,9 +32,8 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return loading
-        ? Loading()
+        ? const Loading()
         : Scaffold(
-            // backgroundColor: Colors.brown[100],
             // appBar: AppBar(
             //   backgroundColor: Colors.brown[400],
             //   elevation: 0.0,
@@ -109,32 +109,21 @@ class _RegisterState extends State<Register> {
             //         ],
             //       ),
             //     )),
-            backgroundColor: Colors.white,
+            backgroundColor: BasicGreen,
             body: Form(
               key: _formKey,
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(height: size.height * 0.05),
+                    SizedBox(
                       height: size.height * 0.4,
                       width: size.width * 1,
-                      color: BasicGreen,
                       child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: size.height * 0.3,
-                            width: size.width * 0.4,
-                            decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage("assets/feedmelogo.png"),
-                                  fit: BoxFit.cover,
-                                ),
-                                color: BasicGreen),
-                          ),
-                        ),
-                      ),
+                          child: FeedMeCircleAvatar(
+                            radius: size.height * 0.4,
+                          )),
                     ),
                     SizedBox(
                       height: size.height * 0.05,
@@ -202,7 +191,7 @@ class _RegisterState extends State<Register> {
                       height: 20,
                     ),
                     StandardButton(
-                        color: BasicGreen,
+                        color: Colors.white,
                         text: "Zurück zum Login",
                         onPress: () {
                           // Navigator.push(

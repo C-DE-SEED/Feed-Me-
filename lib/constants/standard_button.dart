@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
 class StandardButton extends StatelessWidget {
@@ -27,7 +28,8 @@ class StandardButton extends StatelessWidget {
             child: Center(
               child: Text(
                 text,
-                style: const TextStyle(fontSize: 14, color: Colors.black),
+                style: const TextStyle(fontFamily: openSansTextStyle,fontSize: 14, color:
+                Colors.black),
                 maxLines: 1,
               ),
             ),

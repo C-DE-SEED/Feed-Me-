@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
 import 'Colors.dart';
@@ -23,6 +24,7 @@ class _MailTextFormFieldState extends State<MailTextFormField> {
         keyboardType: TextInputType.emailAddress,
         textAlign: TextAlign.center,
         style: const TextStyle(
+          fontFamily: openSansTextStyle,
           color: Colors.grey,
           fontSize: 12.0,
         ),

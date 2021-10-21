@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
 import 'colors.dart';
@@ -50,6 +51,7 @@ class _CustomAlertState extends State<CustomAlert> {
                 widget.title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
+                  fontFamily: openSansTextStyle,
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
                     color: BasicGreen),
@@ -59,7 +61,9 @@ class _CustomAlertState extends State<CustomAlert> {
               ),
               Text(
                 widget.descriptions,
-                style: const TextStyle(fontSize: 15, color: BasicGreen),
+                style: const TextStyle(fontFamily: openSansTextStyle,
+                    fontSize: 15, color:
+                BasicGreen),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -73,7 +77,10 @@ class _CustomAlertState extends State<CustomAlert> {
                     },
                     child: Text(
                       widget.text,
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontFamily:openSansTextStyle,
+                          fontSize: 18, color:
+                      Colors
+                          .black),
                     )),
               ),
             ],
