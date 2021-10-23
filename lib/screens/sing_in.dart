@@ -1,4 +1,3 @@
-import 'package:feed_me/Screens/register.dart';
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/password_text_form_field.dart';
@@ -7,6 +6,7 @@ import 'package:feed_me/constants/standard_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/loading.dart';
+import 'package:feed_me/screens/registration.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
@@ -97,7 +97,7 @@ class _SignInState extends State<SignIn> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Home()));
+                                    builder: (context) => const Home()));
                           }
                         }
                       },
@@ -121,7 +121,8 @@ class _SignInState extends State<SignIn> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Register()));
+                                    builder: (context) => const Registration
+                                      ()));
                           },
                           child: const Text("Hier klicken",
                               style: TextStyle(

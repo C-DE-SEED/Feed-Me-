@@ -8,16 +8,16 @@ import 'package:feed_me/registration_and_login/Loading.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:flutter/material.dart';
 
-class Register extends StatefulWidget {
-  const Register({Key key, this.toggleView}) : super(key: key);
+class Registration extends StatefulWidget {
+  const Registration({Key key, this.toggleView}) : super(key: key);
 
   final Function toggleView;
 
   @override
-  _RegisterState createState() => _RegisterState();
+  _RegistrationState createState() => _RegistrationState();
 }
 
-class _RegisterState extends State<Register> {
+class _RegistrationState extends State<Registration> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
@@ -153,9 +153,11 @@ class _RegisterState extends State<Register> {
                     PasswordTextFormField(
                       hintText: "Bitte geben Sie Ihr Passwort erneut ein",
                       onChange: (value) {
-                        setState(() {
-                          password2 = value;
-                        });
+                        setState(
+                          () {
+                            password2 = value;
+                          },
+                        );
                       },
                     ),
                     const SizedBox(
@@ -166,23 +168,14 @@ class _RegisterState extends State<Register> {
                       text: "Registrieren",
                       onPress: () async {
                         if (checkIfPasswordsMatching() == true) {
-                          if (_formKey.currentState.validate()) {
-                            setState(() {
-                              loading = true;
-                            });
-                          }
-                          dynamic result = await _auth
-                              .registerWithEmailAndPassword(email, password);
-                          if (result == null) {
-                            setState(() {
-                              error = "Bitte geben Sie eine valide E-Mail ein!";
-                              loading = false;
-                            });
-                          }
+                          await _auth.registerWithEmailAndPassword(
+                              email, password);
+                          loading = true;
+                           print('loading done');
+                        } else {
+                          error = "Bitte geben Sie eine valide E-Mail ein!";
+                          loading = false;
                         }
-
-                        // dynamic result = await _auth
-                        //     .loginWithEmailAndPassword(email, password);
                       },
                     ),
                     const SizedBox(

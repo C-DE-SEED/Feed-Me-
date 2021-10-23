@@ -1,6 +1,6 @@
+import 'package:feed_me/screens/registration.dart';
 import 'package:flutter/material.dart';
 
-import '../Screens/register.dart';
 import '../Screens/sing_in.dart';
 
 class Authenticate extends StatefulWidget {
@@ -24,7 +24,7 @@ class _AuthenticateState extends State<Authenticate> {
     if (showSignIn) {
       return SignIn(toggleView: toggleView);
     } else {
-      return Register(toggleView: toggleView);
+      return Registration(toggleView: toggleView);
     }
   }
 }
