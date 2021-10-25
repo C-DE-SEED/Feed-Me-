@@ -1,9 +1,6 @@
-import 'package:feed_me/Screens/sing_in.dart';
-import 'package:feed_me/Screens/wrapper.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:feed_me/screens/welcome.dart';
-import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';

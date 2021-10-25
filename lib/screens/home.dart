@@ -17,7 +17,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SystemChrome.setEnabledSystemUIOverlays([]);
   }
@@ -82,13 +81,5 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
-
-    //
-    //   TextButton(
-    //   onPressed: () async {
-    //     await _auth.signOut();
-    //   },
-    //   child: const Text("logout"),
-    // );
   }
 }
