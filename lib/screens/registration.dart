@@ -6,6 +6,7 @@ import 'package:feed_me/constants/standard_button.dart';
 import 'package:feed_me/constants/standard_text_form_field.dart';
 import 'package:feed_me/registration_and_login/Loading.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/screens/welcome.dart';
 import 'package:flutter/material.dart';
 
 class Registration extends StatefulWidget {
@@ -170,8 +171,10 @@ class _RegistrationState extends State<Registration> {
                         if (checkIfPasswordsMatching() == true) {
                           await _auth.registerWithEmailAndPassword(
                               email, password);
-                          loading = true;
-                           print('loading done');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Welcome()));
                         } else {
                           error = "Bitte geben Sie eine valide E-Mail ein!";
                           loading = false;
