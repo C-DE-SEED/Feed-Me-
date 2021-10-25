@@ -1,5 +1,6 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
@@ -11,10 +12,14 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    PickedFile imageFile;
+
+    final picker = ImagePicker();
+
     return Center(
       child: Stack(
         children: [
-          buildImage(size),
+          buildImage(size, imagePath),
           Positioned(
             bottom: 0,
             right: 4,
@@ -25,7 +30,10 @@ class ProfileWidget extends StatelessWidget {
     );
   }
 
-  Widget buildImage(Size size) {
+  Widget buildImage(Size size, String imagePath){
+    if(imagePath.isEmpty){
+
+    }
     final image = NetworkImage(imagePath);
     return ClipOval(
       child: Material(
@@ -67,4 +75,15 @@ class ProfileWidget extends StatelessWidget {
           child: child,
         ),
       );
+
+  void _openGallery(BuildContext context) async{
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery ,
+    );
+    setState(() {
+      imageFile = pickedFile!;
+    );
+
+    Navigator.pop(context);
+  }
 }
