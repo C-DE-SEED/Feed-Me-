@@ -1,28 +1,24 @@
 import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/constants/standard_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/user/model/user.dart';
-import 'package:feed_me/user/utils/user_preferences.dart';
 import 'package:feed_me/user/widget/appbar_widget.dart';
 import 'package:feed_me/user/widget/numbers_widget.dart';
 import 'package:feed_me/user/widget/profile_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 class SetProfilePage extends StatefulWidget {
-  const SetProfilePage({Key key, @required this.email}) : super(key: key);
-  final String email;
+  const SetProfilePage({Key key, @required this.user}) : super(key: key);
+  final User user;
 
   @override
   _SetProfilePageState createState() => _SetProfilePageState();
 }
 
 class _SetProfilePageState extends State<SetProfilePage> {
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    const user = UserPreferences.myUser;
     return Scaffold(
       appBar: buildAppBar(context),
       backgroundColor: BasicGreen,
@@ -30,15 +26,14 @@ class _SetProfilePageState extends State<SetProfilePage> {
         physics: const BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath: user.imagePath,
-            onClicked: (){},
+            user: widget.user,
           ),
           SizedBox(height: size.height * 0.07),
-          buildName(user),
+          buildName(widget.user),
           SizedBox(height: size.height * 0.07),
           const NumbersWidget(),
           SizedBox(height: size.height * 0.07),
-          buildAbout(user),
+          buildAbout(widget.user),
         ],
       ),
     );
@@ -46,13 +41,13 @@ class _SetProfilePageState extends State<SetProfilePage> {
 
   Widget buildName(User user) => Column(
         children: [
-          Text(
-            user.name,
-            style: const TextStyle(
-                fontFamily: openSansFontFamily,
-                fontWeight: FontWeight.bold,
-                fontSize: 24),
-          ),
+          MailTextFormField(
+              hintText: 'Benutzername',
+              onChange: (value) {
+                setState(() {
+                  widget.user.name = value;
+                });
+              }),
           const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -81,14 +76,13 @@ class _SetProfilePageState extends State<SetProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Über mich:',
-              style: TextStyle(
-                  color: Colors.black45,
-                  fontFamily: openSansFontFamily,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
-            ),
+            MailTextFormField(
+            hintText: 'Über mich:',
+            onChange: (value) {
+              setState(() {
+                widget.user.about = value;
+              });
+            }),
             const SizedBox(height: 16),
             Text(
               user.about,
@@ -98,6 +92,4 @@ class _SetProfilePageState extends State<SetProfilePage> {
           ],
         ),
       );
-
-
 }

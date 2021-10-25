@@ -28,7 +28,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
         textAlign: TextAlign.center,
         style: const TextStyle(
           fontFamily: openSansFontFamily,
-          color: Colors.grey,
+          color:Colors.black,
           fontSize: 12.0,
           fontWeight: FontWeight.w600,
 

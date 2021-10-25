@@ -18,6 +18,13 @@ class AuthService {
         .map(_userFromFireBaseUser);
   }
 
+  String getUserId(){
+    return _auth.currentUser.uid;
+  }
+
+  String getUserMail(){
+    return _auth.currentUser.email;
+  }
 // Sign in anonymize
   Future signInAnonymize() async {
     try {

@@ -5,6 +5,7 @@ import 'package:feed_me/constants/password_text_form_field.dart';
 import 'package:feed_me/constants/standard_button.dart';
 import 'package:feed_me/constants/standard_text_form_field.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/user/model/user.dart';
 import 'package:feed_me/user/page/set_profile_information.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class Registration extends StatefulWidget {
 class _RegistrationState extends State<Registration> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-
+  User user = User('', '', '', '', '');
   String email = "";
   String password = "";
   String password1 = "";
@@ -92,11 +93,13 @@ class _RegistrationState extends State<Registration> {
                   onPress: () async {
                     if (checkIfPasswordsMatching() == true) {
                       await _auth.registerWithEmailAndPassword(email, password);
+                      user.id = _auth.getUserId();
+                      user.email = _auth.getUserMail();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SetProfilePage
-                                (email: email,)));
+                              builder: (context) =>
+                                  SetProfilePage(user: user)));
                     } else {
                       error = "Bitte geben Sie eine valide E-Mail ein!";
                       loading = false;

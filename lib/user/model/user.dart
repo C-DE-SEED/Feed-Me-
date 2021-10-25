@@ -1,15 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 class User {
-  final String imagePath;
-  final String name;
-  final String email;
-  final String about;
+  String id;
+   String imagePath;
+   String name;
+   String email;
+   String about;
 
-  const User({
-   @required this.imagePath,
-   @required this.name,
-   @required this.email,
-   @required this.about,
-  });
+   User(this.id,this.imagePath, this.name, this.email, this.about);
 }
