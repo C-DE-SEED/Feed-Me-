@@ -1,5 +1,6 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/cook_book.dart';
+import 'package:feed_me/constants/cook_book_row.dart';
 import 'package:feed_me/constants/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/search_text_form_field.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
@@ -25,26 +26,39 @@ class _HomeState extends State<Home> {
         onPressed: () {},
         child: Icon(Icons.add),
       ),
-      floatingActionButtonLocation:FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: BasicGreen,
             height: size.height * 0.4,
             width: size.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: BasicGreen,
+            ),
             child: Column(
-              children: [FeedMeCircleAvatar(radius: 120), SearchTextFormField(hintText: "Nach Rezepten suchen",)],
+              children: [
+                FeedMeCircleAvatar(radius: 120),
+                SearchTextFormField(
+                  hintText: "Nach Rezepten suchen",
+                )
+              ],
             ),
           ),
-          SizedBox(height: size.height * 0.02),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CookBook(text: "Leckeres Essen", onPress: () {print("test");}),
-              CookBook(text: "Leckeres Essen2", onPress: () {}),
-            ],
-          )
+          Expanded(
+            child: Container(
+              child: ListView.builder(
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return CookBookRow(
+                        name1: "Leckeres Essen",
+                        name2: "Vegie 4Life",
+                        objectID1: "objectId1",
+                        objectID2: "objectid2");
+                  }),
+            ),
+          ),
         ],
       ),
     );
