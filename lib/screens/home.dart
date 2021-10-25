@@ -3,7 +3,7 @@ import 'package:feed_me/constants/cook_book_row.dart';
 import 'package:feed_me/constants/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/profile_button.dart';
 import 'package:feed_me/constants/search_text_form_field.dart';
-import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,8 +15,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final AuthService _auth = AuthService();
-
   @override
   void initState() {
     // TODO: implement initState
@@ -71,15 +69,16 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-
           Align(
               alignment: Alignment.topRight,
               child: ProfileButton(
-                onPress: (){
-                  print("logo");
+                onPress: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfilePage()));
                 },
-              )
-          ),
+              )),
         ],
       ),
     );
