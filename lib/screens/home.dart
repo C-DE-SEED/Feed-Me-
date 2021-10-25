@@ -39,6 +39,7 @@ class _HomeState extends State<Home> {
           ),
           SizedBox(height: size.height * 0.02),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CookBook(text: "Leckeres Essen", onPress: () {print("test");}),
               CookBook(text: "Leckeres Essen2", onPress: () {}),
