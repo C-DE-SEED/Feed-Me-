@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 import 'user_local.dart';
 
@@ -11,20 +12,18 @@ class AuthService {
   }
 
 // auth change user stream
-  Stream<UserLocal> get user {
+  Stream<UserLocal> getUserLocal() {
     return _auth
         .authStateChanges()
         // .map((FirebaseUser user) => _userFromFireBaseUser(user));   this is the same as the line below
         .map(_userFromFireBaseUser);
   }
 
-  String getUserId(){
-    return _auth.currentUser.uid;
+  User getUser() {
+    return _auth.currentUser;
   }
 
-  String getUserMail(){
-    return _auth.currentUser.email;
-  }
+
 // Sign in anonymize
   Future signInAnonymize() async {
     try {

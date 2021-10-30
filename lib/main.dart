@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<UserLocal>.value(
-      value: AuthService().user,
+      value: AuthService().getUserLocal(),
       initialData: null,
       child: const MaterialApp(
         localizationsDelegates: [GlobalMaterialLocalizations.delegate],
