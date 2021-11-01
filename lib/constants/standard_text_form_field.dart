@@ -25,7 +25,7 @@ class _MailTextFormFieldState extends State<MailTextFormField> {
         textAlign: TextAlign.center,
         style: const TextStyle(
           fontFamily: openSansFontFamily,
-          color: Colors.grey,
+          color: Colors.black,
           fontSize: 12.0,
           fontWeight: FontWeight.w600,
         ),

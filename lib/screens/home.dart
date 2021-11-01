@@ -4,6 +4,7 @@ import 'package:feed_me/constants/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/profile_button.dart';
 import 'package:feed_me/constants/search_text_form_field.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -32,7 +33,7 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: BasicGreen,
         onPressed: () {},
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Stack(
@@ -48,7 +49,7 @@ class _HomeState extends State<Home> {
                   color: BasicGreen,
                 ),
                 child: Column(
-                  children: [
+                  children: const [
                     FeedMeCircleAvatar(radius: 120),
                     SearchTextFormField(
                       hintText: "Nach Rezepten suchen",
@@ -61,7 +62,7 @@ class _HomeState extends State<Home> {
                   child: ListView.builder(
                       itemCount: 3,
                       itemBuilder: (context, index) {
-                        return CookBookRow(
+                        return const CookBookRow(
                             name1: "Leckeres Essen",
                             name2: "Vegie 4Life",
                             objectID1: "objectId1",
@@ -71,15 +72,16 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-
           Align(
               alignment: Alignment.topRight,
               child: ProfileButton(
-                onPress: (){
-                  print("logo");
+                onPress: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfilePage()));
                 },
-              )
-          ),
+              )),
         ],
       ),
     );

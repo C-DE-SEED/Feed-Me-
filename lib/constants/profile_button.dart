@@ -10,7 +10,7 @@ class ProfileButton extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       height: size.height * 0.1,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         // borderRadius: const BorderRadius.all(Radius.circular(32.0)),
         color: Colors.white,
         shape: BoxShape.circle,
@@ -20,7 +20,7 @@ class ProfileButton extends StatelessWidget {
         ),
       ),
       child: TextButton(
-        onPressed: onPress,
+        onPressed: onPress, child: null,
       ),
     );
   }
