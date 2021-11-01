@@ -1,12 +1,11 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
-import 'package:feed_me/user/page/image_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart'; // For Image Picker
-import 'package:path/path.dart' as Path;
 
 class ProfileWidget extends StatefulWidget {
   const ProfileWidget({
@@ -18,12 +17,12 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class _ProfileWidget extends State<ProfileWidget> {
-  ImageService imageService = ImageService();
-
   @override
   Widget build(BuildContext context) {
     File _image;
-    String _uploadedFileURL;
+    String errorMsg;
+    Uint8List imageBytes;
+
     final AuthService _authService = AuthService();
     Size size = MediaQuery.of(context).size;
     return Center(
@@ -33,7 +32,7 @@ class _ProfileWidget extends State<ProfileWidget> {
             child: Material(
               color: Colors.transparent,
               child: Ink.image(
-                image: getImage(_authService, _image),
+                image: getImage(_authService, _image, imageBytes, errorMsg),
                 fit: BoxFit.cover,
                 width: size.height * 0.18,
                 height: size.height * 0.18,
@@ -55,11 +54,10 @@ class _ProfileWidget extends State<ProfileWidget> {
                     size: 25,
                   ),
                   onPressed: () async {
-                    chooseFile(_image, _authService);
                     setState(() {
                       /*widget.user.imagePath = xFile.path;
                       getImage(widget.user);*/
-
+                      chooseFile(_image, _authService);
                     });
                   },
                 ),
@@ -71,11 +69,13 @@ class _ProfileWidget extends State<ProfileWidget> {
     );
   }
 
-  ImageProvider getImage(AuthService auth, File _image) {
+  ImageProvider getImage(
+      AuthService auth, File _image, Uint8List imageBytes, String errorMsg) {
     if (auth.getUser().photoURL == null) {
       return const AssetImage('assets/feedmelogo_without_border.png');
     } else {
-      return FileImage(File(auth.getUser().photoURL));
+      return MemoryImage(getImageFromFireBaseStorage(
+          auth.getUser().photoURL, imageBytes, errorMsg));
     }
   }
 
@@ -91,11 +91,36 @@ class _ProfileWidget extends State<ProfileWidget> {
   }
 
   Future uploadFile(File img, AuthService auth) async {
+    String filePath = auth.getUser().uid + '_profile_image';
     Reference ref = FirebaseStorage.instance.ref();
-    TaskSnapshot uploadFile = await ref.child('profile_pictures/').putFile(img);
+    TaskSnapshot uploadFile =
+        await ref.child('profile_pictures/' + filePath).putFile(img);
     if (uploadFile.state == TaskState.success) {
       final String downloadUrl = uploadFile.ref.fullPath;
+      print('upload File path ');
+      print(downloadUrl);
       auth.getUser().updatePhotoURL(downloadUrl);
     }
+  }
+
+  Uint8List getImageFromFireBaseStorage(
+      String imagePath, Uint8List imageBytes, String errorMsg) {
+    Reference ref = FirebaseStorage.instance.ref();
+    print('IMAGE PATH FROM METHODE');
+    print(imagePath);
+    ref
+        .child(imagePath)
+        .getData(10000000)
+        .then((data) => setState(() {
+              print('ImageBytes before');
+              print(imageBytes);
+              imageBytes = data;
+              print('ImageBytes after');
+              print(imageBytes);
+            }))
+        .catchError((e) => setState(() {
+              errorMsg = e.error;
+            }));
+    return imageBytes;
   }
 }

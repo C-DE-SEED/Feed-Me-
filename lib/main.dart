@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().getUserLocal(),
       initialData: null,
       child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: [GlobalMaterialLocalizations.delegate],
         supportedLocales: [Locale('en'), Locale('de')],
         home: Welcome(),
