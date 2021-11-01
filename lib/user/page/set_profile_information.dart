@@ -2,6 +2,7 @@ import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/standard_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/user/widget/appbar_widget.dart';
 import 'package:feed_me/user/widget/numbers_widget.dart';
 import 'package:feed_me/user/widget/profile_widget.dart';
@@ -19,9 +20,17 @@ class _SetProfilePageState extends State<SetProfilePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final AuthService _auth = AuthService();
-    String userName='';
+    String userName = '';
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: buildAppBar(
+          context,
+          IconButton(
+              onPressed: () {
+                //TODO if check that all user informatoins are filled
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Home()));
+              },
+              icon: const Icon(Icons.save_outlined, size: 40.0, color: Colors.white60,))),
       backgroundColor: BasicGreen,
       body: ListView(
         physics: const BouncingScrollPhysics(),
@@ -39,49 +48,25 @@ class _SetProfilePageState extends State<SetProfilePage> {
   }
 
   Widget buildName(AuthService authService, String userName) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-    Container(
-    color: Colors.transparent,
-    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-    child: TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      textAlign: TextAlign.center,
-      style: const TextStyle(
-        fontFamily: openSansFontFamily,
-        color: Colors.black,
-        fontSize: 12.0,
-        fontWeight: FontWeight.w600,
-      ),
-      decoration: const InputDecoration(
-        prefixIcon: Icon(
-          Icons.person,
-          color: BasicGreen,
-        ),
-        filled: true,
-        fillColor: Colors.white60,
-        hintText: 'Benutzername',
-        contentPadding:
-        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.transparent, width: 1.0),
-          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: BasicGreen, width: 2.0),
-          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-        ),
-      ),
-      onChanged: (value) {
-        setState(() {
-          userName = value;
-        });
-        authService.getUser().updateDisplayName(userName);
-      },
-    ),
-  ),
+          Container(
+            color: Colors.transparent,
+            padding: const EdgeInsets.fromLTRB(90, 0, 90, 0),
+            child: TextFormField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.transparent,
+                  ),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                hintText: "Benutzername eingeben",
+              ),
+              //TODO find a way to add external User data
+            ),
+          ),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -118,18 +103,19 @@ class _SetProfilePageState extends State<SetProfilePage> {
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
             TextFormField(
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: LightBasicGreen,
+                    color: Colors.transparent,
                   ),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                hintText: "Schreibe etwas über dich",
+                hintText: "Schreibe etwas über dich:",
               ),
-             //TODO find a way to add external User data
+              minLines: 6,
+              maxLines: 7,
+              //TODO find a way to add external User data
             ),
           ],
         ),

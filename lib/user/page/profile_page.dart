@@ -1,6 +1,7 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/user/page/set_profile_information.dart';
 import 'package:feed_me/user/widget/appbar_widget.dart';
 import 'package:feed_me/user/widget/numbers_widget.dart';
 import 'package:feed_me/user/widget/profile_widget.dart';
@@ -18,7 +19,13 @@ class _ProfilePageState extends State<ProfilePage> {
     Size size = MediaQuery.of(context).size;
     AuthService authService = AuthService();
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: buildAppBar(context, IconButton(
+          onPressed: () {
+            //TODO if check that all user informatoins are filled
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const SetProfilePage()));
+          },
+          icon: const Icon(Icons.edit_outlined, size: 27.0))),
       backgroundColor: BasicGreen,
       body: ListView(
         physics: const BouncingScrollPhysics(),
