@@ -26,22 +26,26 @@ class _SetProfilePageState extends State<SetProfilePage> {
           context,
           IconButton(
               onPressed: () {
-                //TODO if check that all user informatoins are filled
+                //TODO if check that all user informations are filled
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Home()));
               },
-              icon: const Icon(Icons.save_outlined, size: 40.0, color: Colors.white60,))),
+              icon: const Icon(
+                Icons.save_outlined,
+                size: 40.0,
+                color: Colors.white60,
+              ))),
       backgroundColor: BasicGreen,
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
           const ProfileWidget(),
-          SizedBox(height: size.height * 0.07),
+          SizedBox(height: size.height * 0.06),
           buildName(_auth, userName),
-          SizedBox(height: size.height * 0.07),
+          SizedBox(height: size.height * 0.06),
           const NumbersWidget(),
-          SizedBox(height: size.height * 0.07),
-          buildAbout(_auth),
+          SizedBox(height: size.height * 0.06),
+          buildAbout(_auth, size),
         ],
       ),
     );
@@ -67,7 +71,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
               //TODO find a way to add external User data
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -90,34 +94,31 @@ class _SetProfilePageState extends State<SetProfilePage> {
         ],
       );
 
-  Widget buildAbout(AuthService authService) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 48),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Über mich:',
-              style: TextStyle(
-                  color: Colors.black45,
-                  fontFamily: openSansFontFamily,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.transparent,
-                  ),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                hintText: "Schreibe etwas über dich:",
-              ),
-              minLines: 6,
-              maxLines: 7,
-              //TODO find a way to add external User data
-            ),
-          ],
+  Widget buildAbout(AuthService authService, Size size) => Container(
+        height: size.height * 0.27,
+        decoration: BoxDecoration(
+          color: Colors.white54,
+          border: Border.all(
+            width: 20,
+            color: BasicGreen,
+            style: BorderStyle.solid,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(40)),
+        ),
+        child: TextFormField(
+          textAlign: TextAlign.center,
+          decoration: const InputDecoration(
+              border: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              contentPadding:
+              EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+              hintText: 'Schreibe etwas über dich:'),
+          minLines: 6,
+          maxLines: 9,
+          //TODO find a way to add external User data
         ),
       );
 }
