@@ -1,4 +1,5 @@
 import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/constants/standard_button.dart';
 import 'package:feed_me/constants/standard_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
@@ -22,30 +23,32 @@ class _SetProfilePageState extends State<SetProfilePage> {
     final AuthService _auth = AuthService();
     String userName = '';
     return Scaffold(
-      appBar: buildAppBar(
-          context,
-          IconButton(
-              onPressed: () {
-                //TODO if check that all user informations are filled
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Home()));
-              },
-              icon: const Icon(
-                Icons.save_outlined,
-                size: 40.0,
-                color: Colors.white60,
-              ))),
+      appBar: AppBar(
+        leading: const BackButton(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: const [],
+      ),
       backgroundColor: BasicGreen,
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
           const ProfileWidget(),
-          SizedBox(height: size.height * 0.06),
+          SizedBox(height: size.height * 0.015),
           buildName(_auth, userName),
-          SizedBox(height: size.height * 0.06),
-          const NumbersWidget(),
-          SizedBox(height: size.height * 0.06),
+          SizedBox(height: size.height * 0.01),
+          NumbersWidget(userMail: _auth.getUser().email),
+          SizedBox(height: size.height * 0.01),
           buildAbout(_auth, size),
+          SizedBox(height: size.height * 0.0025),
+          StandardButton(
+              color: Colors.white,
+              text: "Eingaben speichern",
+              onPress: () {
+                //TODO if check if all data is stored
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Home()));
+              }),
         ],
       ),
     );
@@ -55,42 +58,29 @@ class _SetProfilePageState extends State<SetProfilePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            color: Colors.transparent,
-            padding: const EdgeInsets.fromLTRB(90, 0, 90, 0),
+            decoration: BoxDecoration(
+              color: Colors.white54,
+              border: Border.all(
+                width: 15,
+                color: BasicGreen,
+                style: BorderStyle.solid,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(40)),
+            ),
             child: TextFormField(
               textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.transparent,
-                  ),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                hintText: "Benutzername eingeben",
-              ),
+              decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  contentPadding:
+                      EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                  hintText: 'Benutzername eingeben'),
               //TODO find a way to add external User data
             ),
           ),
-          const SizedBox(height: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.email_outlined,
-                color: Colors.black54,
-              ),
-              const SizedBox(
-                width: 7.0,
-              ),
-              Text(
-                authService.getUser().email,
-                style: const TextStyle(
-                  fontFamily: openSansFontFamily,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          )
         ],
       );
 
@@ -99,7 +89,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
         decoration: BoxDecoration(
           color: Colors.white54,
           border: Border.all(
-            width: 20,
+            width: 15,
             color: BasicGreen,
             style: BorderStyle.solid,
           ),
@@ -114,7 +104,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               contentPadding:
-              EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                  EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
               hintText: 'Schreibe etwas über dich:'),
           minLines: 6,
           maxLines: 9,

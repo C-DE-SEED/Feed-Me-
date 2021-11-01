@@ -31,11 +31,11 @@ class _ProfilePageState extends State<ProfilePage> {
         physics: const BouncingScrollPhysics(),
         children: [
           const ProfileWidget(),
-          SizedBox(height: size.height * 0.07),
+          SizedBox(height: size.height * 0.015),
           buildName(authService),
-          SizedBox(height: size.height * 0.07),
-          const NumbersWidget(),
-          SizedBox(height: size.height * 0.07),
+          SizedBox(height: size.height * 0.01),
+          NumbersWidget(userMail: authService.getUser().email,),
+          SizedBox(height: size.height * 0.01),
           buildAbout(authService),
         ],
       ),
@@ -52,25 +52,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 fontSize: 24),
           ),
           const SizedBox(height: 4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.email_outlined,
-                color: Colors.black54,
-              ),
-              const SizedBox(
-                width: 7.0,
-              ),
-              Text(
-                authService.getUser().email,
-                style: const TextStyle(
-                  fontFamily: openSansFontFamily,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          )
         ],
       );
 
