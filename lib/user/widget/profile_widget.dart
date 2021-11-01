@@ -30,7 +30,7 @@ class _ProfileWidget extends State<ProfileWidget> {
             child: Material(
               color: Colors.transparent,
               child: Ink.image(
-                image: getImage(_authService, _image),
+                image: getImage(_authService),
                 fit: BoxFit.cover,
                 width: size.height * 0.18,
                 height: size.height * 0.18,
@@ -53,8 +53,6 @@ class _ProfileWidget extends State<ProfileWidget> {
                   ),
                   onPressed: () async {
                     setState(() {
-                      /*widget.user.imagePath = xFile.path;
-                      getImage(widget.user);*/
                       chooseFile(_image, _authService);
                     });
                   },
@@ -67,13 +65,11 @@ class _ProfileWidget extends State<ProfileWidget> {
     );
   }
 
-  ImageProvider getImage(AuthService auth, File _image) {
-    print('user photo path');
-    print(auth.getUser().photoURL);
+  ImageProvider getImage(AuthService auth) {
     if (auth.getUser().photoURL == null) {
       return const AssetImage('assets/feedmelogo_without_border.png');
     } else {
-      return NetworkImage(_image.path);
+      return NetworkImage(auth.getUser().photoURL);
     }
   }
 
@@ -90,34 +86,18 @@ class _ProfileWidget extends State<ProfileWidget> {
 
   Future uploadFile(File img, AuthService auth) async {
     String filePath = auth.getUser().uid + '_profile_picture';
+    String refChildPath = 'profile_pictures/' + filePath;
     Reference ref = FirebaseStorage.instance.ref();
     TaskSnapshot uploadFile =
-        await ref.child('profile_pictures/' + filePath).putFile(img);
+        await ref.child(refChildPath).putFile(img);
     if (uploadFile.state == TaskState.success) {
-      final String downloadUrl = uploadFile.ref.fullPath;
-      auth.getUser().updatePhotoURL(downloadUrl);
-      getImage(auth,File(auth.getUser().photoURL));
+      Reference refStorage = FirebaseStorage.instance.ref().child
+        (refChildPath);
+      final String downloadUrl = await refStorage.getDownloadURL();
+      await auth.getUser().updatePhotoURL(downloadUrl);
+      getImage(auth);
+      setState(() {});
     }
   }
 
-  /*MemoryImage getImageFromFireBaseStorage(
-      String imagePath, Uint8List imageBytes, String errorMsg) {
-    Reference ref = FirebaseStorage.instance.ref();
-    print('IMAGE PATH FROM METHODE');
-    print(imagePath);
-    ref
-        .child(imagePath)
-        .getData(10000000)
-        .then((data) => setState(() {
-              print('ImageBytes before');
-              print(imageBytes);
-              imageBytes = data;
-              print('ImageBytes after');
-              print(imageBytes);
-            }))
-        .catchError((e) => setState(() {
-              errorMsg = e.error;
-            }));
-    return MemoryImage(imageBytes);
-  }*/
 }
