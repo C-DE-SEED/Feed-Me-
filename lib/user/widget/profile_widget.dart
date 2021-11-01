@@ -20,8 +20,6 @@ class _ProfileWidget extends State<ProfileWidget> {
   @override
   Widget build(BuildContext context) {
     File _image;
-    String errorMsg;
-    Uint8List imageBytes;
 
     final AuthService _authService = AuthService();
     Size size = MediaQuery.of(context).size;
@@ -32,7 +30,7 @@ class _ProfileWidget extends State<ProfileWidget> {
             child: Material(
               color: Colors.transparent,
               child: Ink.image(
-                image: getImage(_authService, _image, imageBytes, errorMsg),
+                image: getImage(_authService, _image),
                 fit: BoxFit.cover,
                 width: size.height * 0.18,
                 height: size.height * 0.18,
@@ -69,13 +67,13 @@ class _ProfileWidget extends State<ProfileWidget> {
     );
   }
 
-  ImageProvider getImage(
-      AuthService auth, File _image, Uint8List imageBytes, String errorMsg) {
+  ImageProvider getImage(AuthService auth, File _image) {
+    print('user photo path');
+    print(auth.getUser().photoURL);
     if (auth.getUser().photoURL == null) {
       return const AssetImage('assets/feedmelogo_without_border.png');
     } else {
-      return MemoryImage(getImageFromFireBaseStorage(
-          auth.getUser().photoURL, imageBytes, errorMsg));
+      return NetworkImage(_image.path);
     }
   }
 
@@ -91,19 +89,18 @@ class _ProfileWidget extends State<ProfileWidget> {
   }
 
   Future uploadFile(File img, AuthService auth) async {
-    String filePath = auth.getUser().uid + '_profile_image';
+    String filePath = auth.getUser().uid + '_profile_picture';
     Reference ref = FirebaseStorage.instance.ref();
     TaskSnapshot uploadFile =
         await ref.child('profile_pictures/' + filePath).putFile(img);
     if (uploadFile.state == TaskState.success) {
       final String downloadUrl = uploadFile.ref.fullPath;
-      print('upload File path ');
-      print(downloadUrl);
       auth.getUser().updatePhotoURL(downloadUrl);
+      getImage(auth,File(auth.getUser().photoURL));
     }
   }
 
-  Uint8List getImageFromFireBaseStorage(
+  /*MemoryImage getImageFromFireBaseStorage(
       String imagePath, Uint8List imageBytes, String errorMsg) {
     Reference ref = FirebaseStorage.instance.ref();
     print('IMAGE PATH FROM METHODE');
@@ -121,6 +118,6 @@ class _ProfileWidget extends State<ProfileWidget> {
         .catchError((e) => setState(() {
               errorMsg = e.error;
             }));
-    return imageBytes;
-  }
+    return MemoryImage(imageBytes);
+  }*/
 }
