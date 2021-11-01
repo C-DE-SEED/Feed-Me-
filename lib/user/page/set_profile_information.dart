@@ -130,13 +130,6 @@ class _SetProfilePageState extends State<SetProfilePage> {
                 hintText: "Schreibe etwas über dich",
               ),
              //TODO find a way to add external User data
-             /*onChanged: (value) {
-                // phoneNumber isn't used by us - so we take the field for the
-                // individual user information
-                setState(() {
-                  authService.getUser().updatePhoneNumber();
-                });
-              },*/
             ),
           ],
         ),

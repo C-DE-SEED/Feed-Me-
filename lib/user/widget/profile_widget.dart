@@ -87,17 +87,15 @@ class _ProfileWidget extends State<ProfileWidget> {
   Future uploadFile(File img, AuthService auth) async {
     String filePath = auth.getUser().uid + '_profile_picture';
     String refChildPath = 'profile_pictures/' + filePath;
+    String downloadUrl = '';
     Reference ref = FirebaseStorage.instance.ref();
-    TaskSnapshot uploadFile =
-        await ref.child(refChildPath).putFile(img);
+    TaskSnapshot uploadFile = await ref.child(refChildPath).putFile(img);
     if (uploadFile.state == TaskState.success) {
-      Reference refStorage = FirebaseStorage.instance.ref().child
-        (refChildPath);
-      final String downloadUrl = await refStorage.getDownloadURL();
-      await auth.getUser().updatePhotoURL(downloadUrl);
-      getImage(auth);
-      setState(() {});
+      Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
+      downloadUrl = await refStorage.getDownloadURL();
     }
+    await auth.getUser().updatePhotoURL(downloadUrl);
+    getImage(auth);
+    setState(() {});
   }
-
 }
