@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        automaticallyImplyLeading: false,
         backgroundColor: BasicGreen.withOpacity(0.9),
         elevation: 0,
         actions: [
