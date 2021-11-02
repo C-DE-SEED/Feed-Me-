@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
                     builder: (context) => const CreateNewCookingBook()));
           },
           heroTag: "book",
-          backgroundColor: Colors.grey,
+          backgroundColor: BasicGreen,
           mini: true,
           child: const Icon(Icons.menu_book),
         )));
@@ -59,9 +59,10 @@ class _HomeState extends State<Home> {
                       builder: (context) => const CreateNewRecipt()));
             },
             heroTag: "recipt",
-            backgroundColor: BasicGreen,
+            backgroundColor: Colors.white,
             mini: true,
-            child: const Icon(Icons.sticky_note_2_outlined))));
+            child: const Icon(Icons.sticky_note_2_outlined, color: BasicGreen)
+        )));
 
     childButtons.add(UnicornButton(
         hasLabel: true,
@@ -74,7 +75,20 @@ class _HomeState extends State<Home> {
             heroTag: "profile",
             backgroundColor: Colors.grey,
             mini: true,
-            child: const Icon(Icons.person_rounded))));
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(authService.getUser().photoURL),
+                radius: 40,
+                backgroundColor: Colors.black,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ProfilePage()));
+                  },
+                  child: null,
+                ),
+            ),)));
 
     return Scaffold(
       appBar: AppBar(

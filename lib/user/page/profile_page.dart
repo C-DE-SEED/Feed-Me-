@@ -24,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const SetProfilePage()));
           },
-          icon: const Icon(Icons.edit_outlined, size: 27.0))),
+          icon: const Icon(Icons.edit_outlined, size: 35.0))),
       backgroundColor: BasicGreen,
       body: ListView(
         physics: const BouncingScrollPhysics(),
