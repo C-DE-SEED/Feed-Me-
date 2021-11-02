@@ -72,11 +72,6 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: BasicGreen,
-      //   onPressed: () {},
-      //   child: const Icon(Icons.add),
-      // ),
       floatingActionButton: UnicornDialer(
           backgroundColor: Colors.transparent,
           parentButtonBackground: BasicGreen,
@@ -108,13 +103,14 @@ class _HomeState extends State<Home> {
               Expanded(
                 child: Container(
                   child: ListView.builder(
-                      itemCount: 3,
+                      itemCount: 1,
                       itemBuilder: (context, index) {
                         return const CookBookRow(
                             name1: "Leckeres Essen",
-                            name2: "Vegie 4Life",
+                            // name2: "Vegie 4Life",
                             objectID1: "objectId1",
-                            objectID2: "objectid2");
+                            // objectID2: "objectid2"
+                        );
                       }),
                 ),
               ),
