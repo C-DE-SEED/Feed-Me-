@@ -1,4 +1,5 @@
 import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/constants/standard_button.dart';
 import 'package:feed_me/constants/standard_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
@@ -18,106 +19,105 @@ class SetProfilePage extends StatefulWidget {
 class _SetProfilePageState extends State<SetProfilePage> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     final AuthService _auth = AuthService();
     String userName = '';
     return Scaffold(
-      appBar: buildAppBar(
-          context,
-          IconButton(
-              onPressed: () {
-                //TODO if check that all user informatoins are filled
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Home()));
-              },
-              icon: const Icon(Icons.save_outlined, size: 40.0, color: Colors.white60,))),
+      appBar: AppBar(
+        leading: const BackButton(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: const [],
+      ),
       backgroundColor: BasicGreen,
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          const ProfileWidget(),
-          SizedBox(height: size.height * 0.07),
+          const ProfileWidget(isProfileRoot: true),
+          SizedBox(height: size.height * 0.015),
           buildName(_auth, userName),
-          SizedBox(height: size.height * 0.07),
-          const NumbersWidget(),
-          SizedBox(height: size.height * 0.07),
-          buildAbout(_auth),
+          SizedBox(height: size.height * 0.01),
+          NumbersWidget(userMail: _auth
+              .getUser()
+              .email),
+          SizedBox(height: size.height * 0.01),
+          buildAbout(_auth, size),
+          SizedBox(height: size.height * 0.0025),
+          StandardButton(
+              color: Colors.white,
+              text: "Eingaben speichern",
+              onPress: () {
+                //TODO if check if all data is stored
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Home()));
+              }),
         ],
       ),
     );
   }
 
-  Widget buildName(AuthService authService, String userName) => Column(
+  Widget buildName(AuthService authService, String userName) =>
+      Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            color: Colors.transparent,
-            padding: const EdgeInsets.fromLTRB(90, 0, 90, 0),
+            decoration: BoxDecoration(
+              color: Colors.white54,
+              border: Border.all(
+                width: 15,
+                color: BasicGreen,
+                style: BorderStyle.solid,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(40)),
+            ),
             child: TextFormField(
               textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.transparent,
-                  ),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                hintText: "Benutzername eingeben",
-              ),
+              decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  contentPadding:
+                  EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                  hintText: 'Benutzername eingeben'),
+              onChanged: (value) {
+                authService.getUser().updateDisplayName(value);
+              },
               //TODO find a way to add external User data
             ),
           ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.email_outlined,
-                color: Colors.black54,
-              ),
-              const SizedBox(
-                width: 7.0,
-              ),
-              Text(
-                authService.getUser().email,
-                style: const TextStyle(
-                  fontFamily: openSansFontFamily,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          )
         ],
       );
 
-  Widget buildAbout(AuthService authService) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 48),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Über mich:',
-              style: TextStyle(
-                  color: Colors.black45,
-                  fontFamily: openSansFontFamily,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.transparent,
-                  ),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                hintText: "Schreibe etwas über dich:",
-              ),
-              minLines: 6,
-              maxLines: 7,
-              //TODO find a way to add external User data
-            ),
-          ],
+  Widget buildAbout(AuthService authService, Size size) =>
+      Container(
+        height: size.height * 0.27,
+        decoration: BoxDecoration(
+          color: Colors.white54,
+          border: Border.all(
+            width: 15,
+            color: BasicGreen,
+            style: BorderStyle.solid,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(40)),
+        ),
+        child: TextFormField(
+          textAlign: TextAlign.center,
+          decoration: const InputDecoration(
+              border: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              contentPadding:
+              EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+              hintText: 'Schreibe etwas über dich:'),
+          minLines: 6,
+          maxLines: 9,
+          //TODO find a way to add external User data
         ),
       );
 }

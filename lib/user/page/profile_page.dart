@@ -21,21 +21,20 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: buildAppBar(context, IconButton(
           onPressed: () {
-            //TODO if check that all user informatoins are filled
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const SetProfilePage()));
           },
-          icon: const Icon(Icons.edit_outlined, size: 27.0))),
+          icon: const Icon(Icons.edit_outlined, size: 35.0))),
       backgroundColor: BasicGreen,
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          const ProfileWidget(),
-          SizedBox(height: size.height * 0.07),
+          const ProfileWidget(isProfileRoot: false),
+          SizedBox(height: size.height * 0.015),
           buildName(authService),
-          SizedBox(height: size.height * 0.07),
-          const NumbersWidget(),
-          SizedBox(height: size.height * 0.07),
+          SizedBox(height: size.height * 0.01),
+          NumbersWidget(userMail: authService.getUser().email,),
+          SizedBox(height: size.height * 0.01),
           buildAbout(authService),
         ],
       ),
@@ -46,31 +45,13 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Text(
             authService.getUser().displayName,
+            textAlign: TextAlign.center,
             style: const TextStyle(
                 fontFamily: openSansFontFamily,
                 fontWeight: FontWeight.bold,
-                fontSize: 24),
+                fontSize: 20),
           ),
           const SizedBox(height: 4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.email_outlined,
-                color: Colors.black54,
-              ),
-              const SizedBox(
-                width: 7.0,
-              ),
-              Text(
-                authService.getUser().email,
-                style: const TextStyle(
-                  fontFamily: openSansFontFamily,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          )
         ],
       );
 

@@ -1,22 +1,57 @@
+import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
 class NumbersWidget extends StatelessWidget {
-  const NumbersWidget({Key key}) : super(key: key);
+  const NumbersWidget({Key key, @required this.userMail}) : super(key: key);
+  final String userMail;
 
   @override
-  Widget build(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          buildButton(context, '35', 'Rezepte'),
-          buildDivider(),
-          buildButton(context, '3', 'Kochbücher'),
-          //TODO show how many friends every user have (implement addFriends()
-          // -Method)
-          /*buildDivider(),
-      buildButton(context, '50', 'Followers'),*/
-        ],
-      );
+  Widget build(BuildContext context) => Container(
+      decoration: BoxDecoration(
+        color: Colors.white54,
+        border: Border.all(
+          width: 15,
+          color: BasicGreen,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(40)),
+      ),
+    child: Column(
+      children: [
+        const SizedBox(height: 5.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.email_outlined,
+              color: Colors.black54,
+            ),
+            const SizedBox(
+              width: 7.0,
+            ),
+            Text(
+              userMail,
+              style: const TextStyle(
+                fontFamily: openSansFontFamily,
+                color: Colors.black54,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 5.0),
+        Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                buildButton(context, '35', 'Rezepte'),
+                buildDivider(),
+                buildButton(context, '3', 'Kochbücher'),
+                //TODO show how many friends every user have (implement addFriends()
+              ],
+            ),
+      ],
+    ),
+  );
 
   Widget buildDivider() => const SizedBox(
         height: 24,

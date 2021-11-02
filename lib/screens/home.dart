@@ -3,9 +3,11 @@ import 'package:feed_me/constants/cook_book_row.dart';
 import 'package:feed_me/constants/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/profile_button.dart';
 import 'package:feed_me/constants/search_text_form_field.dart';
+import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/screens/create_new_cooking_book.dart';
 import 'package:feed_me/screens/create_new_recipt.dart';
 import 'package:feed_me/user/page/profile_page.dart';
+import 'package:feed_me/user/widget/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:unicorndial/unicorndial.dart';
@@ -21,13 +23,13 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    AuthService authService = AuthService();
     List<UnicornButton> childButtons = [];
 
     childButtons.add(UnicornButton(
@@ -41,7 +43,7 @@ class _HomeState extends State<Home> {
                     builder: (context) => const CreateNewCookingBook()));
           },
           heroTag: "book",
-          backgroundColor: Colors.grey,
+          backgroundColor: BasicGreen,
           mini: true,
           child: const Icon(Icons.menu_book),
         )));
@@ -57,9 +59,10 @@ class _HomeState extends State<Home> {
                       builder: (context) => const CreateNewRecipt()));
             },
             heroTag: "recipt",
-            backgroundColor: BasicGreen,
+            backgroundColor: Colors.white,
             mini: true,
-            child: const Icon(Icons.sticky_note_2_outlined))));
+            child: const Icon(Icons.sticky_note_2_outlined, color: BasicGreen)
+        )));
 
     childButtons.add(UnicornButton(
         hasLabel: true,
@@ -72,16 +75,56 @@ class _HomeState extends State<Home> {
             heroTag: "profile",
             backgroundColor: Colors.grey,
             mini: true,
-            child: const Icon(Icons.person_rounded))));
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(authService.getUser().photoURL),
+                radius: 40,
+                backgroundColor: Colors.black,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ProfilePage()));
+                  },
+                  child: null,
+                ),
+            ),)));
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      floatingActionButton: UnicornDialer(
-          backgroundColor: Colors.transparent,
-          parentButtonBackground: BasicGreen,
-          orientation: UnicornOrientation.VERTICAL,
-          parentButton: const Icon(Icons.add),
-          childButtons: childButtons),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: BasicGreen.withOpacity(0.9),
+        elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(authService.getUser().photoURL),
+              radius: 40,
+              backgroundColor: Colors.black,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfilePage()));
+                },
+                child: null,
+              ),
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: BasicGreen.withOpacity(0.9),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.fromLTRB(size.width * 0.6, 0.0, 0.0, 0.0),
+        child: UnicornDialer(
+            backgroundColor: Colors.transparent,
+            parentButtonBackground: BasicGreen,
+            orientation: UnicornOrientation.VERTICAL,
+            parentButton: const Icon(Icons.add),
+            childButtons: childButtons),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Stack(
         children: [
@@ -91,14 +134,27 @@ class _HomeState extends State<Home> {
               Container(
                 height: size.height * 0.4,
                 width: size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(
+                      top: Radius.zero, bottom: Radius.circular(30)),
                   color: BasicGreen,
                 ),
                 child: Column(
-                  children: const [
-                    FeedMeCircleAvatar(radius: 120),
-                    SearchTextFormField(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: LightBasicGreen,
+                      radius: size.width * 0.2125 + 1.0,
+                      child: CircleAvatar(
+                          backgroundImage: const AssetImage(
+                              'assets/feedmelogo_without_border'
+                              '.png'),
+                          radius: size.width * 0.2125,
+                          backgroundColor: Colors.transparent),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.05,
+                    ),
+                    const SearchTextFormField(
                       hintText: "Nach Rezepten suchen",
                     )
                   ],
@@ -118,16 +174,6 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-          Align(
-              alignment: Alignment.topRight,
-              child: ProfileButton(
-                onPress: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProfilePage()));
-                },
-              )),
         ],
       ),
     );
