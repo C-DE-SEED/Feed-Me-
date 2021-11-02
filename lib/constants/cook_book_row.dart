@@ -26,12 +26,10 @@ class CookBookRow extends StatelessWidget {
               CookBook(
                   text: name1,
                   onPress: () {
-                    print(objectID1);
                   }),
               CookBook(
                   text: name2,
                   onPress: () {
-                    print(objectID2);
                   }),
             ],
           )
@@ -41,11 +39,10 @@ class CookBookRow extends StatelessWidget {
               CookBook(
                   text: name1,
                   onPress: () {
-                    print(objectID1);
                   }),
               TextButton(
                 
-                onPressed: newBook;
+                onPressed: newBook,
                 child: Container(
                     height: size.height * 0.2,
                     width: size.width * 0.45,
