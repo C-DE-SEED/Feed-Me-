@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
         elevation: 0,
         actions: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
             child: CircleAvatar(
               backgroundImage: NetworkImage(authService.getUser().photoURL),
               radius: 40,
