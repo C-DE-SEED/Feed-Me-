@@ -21,7 +21,6 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: buildAppBar(context, IconButton(
           onPressed: () {
-            //TODO if check that all user informatoins are filled
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const SetProfilePage()));
           },

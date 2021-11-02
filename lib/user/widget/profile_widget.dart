@@ -55,6 +55,7 @@ class _ProfileWidget extends State<ProfileWidget> {
                     setState(() {
                       chooseFile(_image, _authService);
                     });
+                    setState(() {});
                   },
                 ),
               ),
