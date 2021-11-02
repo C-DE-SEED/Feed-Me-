@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          const ProfileWidget(),
+          const ProfileWidget(isProfileRoot: false),
           SizedBox(height: size.height * 0.015),
           buildName(authService),
           SizedBox(height: size.height * 0.01),
@@ -45,10 +45,11 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Text(
             authService.getUser().displayName,
+            textAlign: TextAlign.center,
             style: const TextStyle(
                 fontFamily: openSansFontFamily,
                 fontWeight: FontWeight.bold,
-                fontSize: 24),
+                fontSize: 20),
           ),
           const SizedBox(height: 4),
         ],

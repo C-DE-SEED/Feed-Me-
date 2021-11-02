@@ -94,19 +94,23 @@ class _HomeState extends State<Home> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const ProfilePage()));
-                }, child: null,
+                },
+                child: null,
               ),
             ),
           ),
         ],
       ),
       backgroundColor: BasicGreen.withOpacity(0.9),
-      floatingActionButton: UnicornDialer(
-          backgroundColor: Colors.transparent,
-          parentButtonBackground: BasicGreen,
-          orientation: UnicornOrientation.VERTICAL,
-          parentButton: const Icon(Icons.add),
-          childButtons: childButtons),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.fromLTRB(size.width * 0.6, 0.0, 0.0, 0.0),
+        child: UnicornDialer(
+            backgroundColor: Colors.transparent,
+            parentButtonBackground: BasicGreen,
+            orientation: UnicornOrientation.VERTICAL,
+            parentButton: const Icon(Icons.add),
+            childButtons: childButtons),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Stack(
         children: [
