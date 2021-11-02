@@ -3,6 +3,7 @@ import 'package:feed_me/constants/cook_book_row.dart';
 import 'package:feed_me/constants/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/profile_button.dart';
 import 'package:feed_me/constants/search_text_form_field.dart';
+import 'package:feed_me/screens/create_new_cooking_book.dart';
 import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,6 +34,10 @@ class _HomeState extends State<Home> {
         labelText: "Neues Rezeptbuch",
         currentButton: FloatingActionButton(
           onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const CreateNewCookingBook()));
           },
           heroTag: "book",
           backgroundColor: Colors.grey,
