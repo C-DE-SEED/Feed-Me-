@@ -17,6 +17,7 @@ class _ReciptOverviewState extends State<ReciptOverview> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: <Widget>[
           const SliverAppBar(
