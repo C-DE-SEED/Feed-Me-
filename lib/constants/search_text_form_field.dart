@@ -17,8 +17,10 @@ class SearchTextFormField extends StatefulWidget {
 class _SearchTextFormFieldState extends State<SearchTextFormField> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
       color: Colors.transparent,
+      width: size.width*0.9,
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: TextFormField(
         keyboardType: TextInputType.text,
