@@ -1,13 +1,10 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/cook_book_row.dart';
-import 'package:feed_me/constants/feed_me_circle_avatar.dart';
-import 'package:feed_me/constants/profile_button.dart';
 import 'package:feed_me/constants/search_text_form_field.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/screens/create_new_cooking_book.dart';
 import 'package:feed_me/screens/create_new_recipt.dart';
 import 'package:feed_me/user/page/profile_page.dart';
-import 'package:feed_me/user/widget/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:unicorndial/unicorndial.dart';
@@ -61,39 +58,40 @@ class _HomeState extends State<Home> {
             heroTag: "recipt",
             backgroundColor: Colors.white,
             mini: true,
-            child: const Icon(Icons.sticky_note_2_outlined, color: BasicGreen)
-        )));
+            child:
+                const Icon(Icons.sticky_note_2_outlined, color: BasicGreen))));
 
     childButtons.add(UnicornButton(
         hasLabel: true,
         labelText: "Mein Profil",
         currentButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const ProfilePage()));
-            },
-            heroTag: "profile",
-            backgroundColor: Colors.grey,
-            mini: true,
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(authService.getUser().photoURL),
-                radius: 40,
-                backgroundColor: Colors.black,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ProfilePage()));
-                  },
-                  child: null,
-                ),
-            ),)));
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ProfilePage()));
+          },
+          heroTag: "profile",
+          backgroundColor: Colors.grey,
+          mini: true,
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(authService.getUser().photoURL),
+            radius: 40,
+            backgroundColor: Colors.black,
+            child: TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfilePage()));
+              },
+              child: null,
+            ),
+          ),
+        )));
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: BasicGreen.withOpacity(0.9),
+        backgroundColor: BasicGreen,
         elevation: 0,
         actions: [
           Padding(
@@ -115,7 +113,7 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      backgroundColor: BasicGreen.withOpacity(0.9),
+      backgroundColor: Colors.white,
       floatingActionButton: Padding(
         padding: EdgeInsets.fromLTRB(size.width * 0.6, 0.0, 0.0, 0.0),
         child: UnicornDialer(
@@ -132,7 +130,7 @@ class _HomeState extends State<Home> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: size.height * 0.4,
+                height: size.height * 0.3,
                 width: size.width,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.vertical(
@@ -142,8 +140,8 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: [
                     CircleAvatar(
-                      backgroundColor: LightBasicGreen,
-                      radius: size.width * 0.2125 + 1.0,
+                      backgroundColor: BasicGreen,
+                      radius: size.width * 0.15,
                       child: CircleAvatar(
                           backgroundImage: const AssetImage(
                               'assets/feedmelogo_without_border'
