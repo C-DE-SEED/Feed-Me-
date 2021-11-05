@@ -1,4 +1,5 @@
 import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/screens/choose_kind_of_food.dart';
 import 'package:feed_me/screens/create_new_cooking_book.dart';
 import 'package:feed_me/screens/recipt_overview.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,7 +46,7 @@ class CookBookRow extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReciptOverview()));
+                            builder: (context) => const ChooseKindOfFood()));
                   }),
               TextButton(
                 
