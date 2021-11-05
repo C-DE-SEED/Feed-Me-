@@ -1,4 +1,6 @@
 import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/screens/create_new_cooking_book.dart';
+import 'package:feed_me/screens/recipt_overview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +28,7 @@ class CookBookRow extends StatelessWidget {
               CookBook(
                   text: name1,
                   onPress: () {
+
                   }),
               CookBook(
                   text: name2,
@@ -39,10 +42,19 @@ class CookBookRow extends StatelessWidget {
               CookBook(
                   text: name1,
                   onPress: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReciptOverview()));
                   }),
               TextButton(
                 
-                onPressed: newBook,
+                onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateNewCookingBook()));
+                },
                 child: Container(
                     height: size.height * 0.2,
                     width: size.width * 0.45,
