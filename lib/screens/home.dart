@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CreateNewRecipt()));
+                      builder: (context) => const CreateNewRecipe()));
             },
             heroTag: "recipt",
             backgroundColor: Colors.white,

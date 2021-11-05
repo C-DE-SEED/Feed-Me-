@@ -1,4 +1,5 @@
-import 'package:feed_me/constants/Colors.dart';
+
+import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/custom_alert.dart';
 import 'package:feed_me/constants/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/password_text_form_field.dart';
@@ -55,13 +56,13 @@ class _RegistrationState extends State<Registration> {
                 SizedBox(
                   height: size.height * 0.05,
                 ),
-                MailTextFormField(
+                StandardTextFormField(
                   hintText: "Bitte geben Sie Ihre E-Mail ein",
                   onChange: (value) {
                     setState(() {
                       email = value;
                     });
-                  },
+                  }
                 ),
                 const SizedBox(
                   height: 20,
@@ -93,7 +94,7 @@ class _RegistrationState extends State<Registration> {
                 StandardButton(
                   color: Colors.white,
                   text: "Registrieren",
-                  onPress: () async {
+                  onPressed: () async {
                     if (checkIfPasswordsMatching() == true) {
                       await _auth.registerWithEmailAndPassword(email, password);
                       Navigator.push(

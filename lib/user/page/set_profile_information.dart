@@ -1,10 +1,7 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/standard_button.dart';
-import 'package:feed_me/constants/standard_text_form_field.dart';
-import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/screens/home.dart';
-import 'package:feed_me/user/widget/appbar_widget.dart';
 import 'package:feed_me/user/widget/numbers_widget.dart';
 import 'package:feed_me/user/widget/profile_widget.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +45,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
           StandardButton(
               color: Colors.white,
               text: "Eingaben speichern",
-              onPress: () {
+              onPressed: () {
                 //TODO if check if all data is stored
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Home()));

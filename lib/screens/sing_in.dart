@@ -54,7 +54,7 @@ class _SignInState extends State<SignIn> {
                     SizedBox(
                       height: size.height * 0.10,
                     ),
-                    MailTextFormField(
+                    StandardTextFormField(
                       hintText: "Bitte geben Sie Ihre E-Mail ein",
                       onChange: (value) {
                         setState(() {
@@ -79,7 +79,7 @@ class _SignInState extends State<SignIn> {
                     StandardButton(
                       color: Colors.white,
                       text: "Login",
-                      onPress: () async {
+                      onPressed: () async {
                         // dynamic result = await _auth
                         //     .loginWithEmailAndPassword(email, password);
                         if (_formKey.currentState.validate()) {

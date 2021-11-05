@@ -1,6 +1,6 @@
 import 'package:feed_me/constants/add_image_button.dart';
+import 'package:feed_me/constants/animated_text_field_list.dart';
 import 'package:feed_me/constants/colors.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:feed_me/constants/standard_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,78 +8,117 @@ import 'dart:io';
 
 import 'home.dart';
 
-class CreateNewRecipt extends StatefulWidget {
-  const CreateNewRecipt({Key key}) : super(key: key);
+class CreateNewRecipe extends StatefulWidget {
+  const CreateNewRecipe({Key key}) : super(key: key);
 
   @override
-  _CreateNewReciptState createState() => _CreateNewReciptState();
+  _CreateNewRecipeState createState() => _CreateNewRecipeState();
 }
 
-class _CreateNewReciptState extends State<CreateNewRecipt> {
+class _CreateNewRecipeState extends State<CreateNewRecipe> {
   bool hasImage = false;
   File image;
-  int ingedients = 1;
+  int ingredients = 1;
+  String inputText;
+  String recipeName;
+  List<String> items = [];
+  final List<String> keys = [];
+  final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: BasicGreen,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-                height: size.height * 0.3,
-                width: size.width,
-                decoration: hasImage
-                    ? BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.white,
-                        image: DecorationImage(
-                          image: new AssetImage(image.path),
-                          fit: BoxFit.cover,
-                        ))
-                    : BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.white,
-                      ),
-                child: !hasImage
-                    ? AddImageButton(
-                        hasImage: hasImage,
-                        onPressed: () async {
-                          await chooseFile();
-                        },
-                      )
-                    : null),
-            TextFormField(
-              textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                  hintText: 'Namen des Rezeptes eingeben'),
+            Column(
+              children: [ Container(
+                  height: size.height * 0.25,
+                  width: size.width * 0.91,
+                  decoration: hasImage
+                      ? BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color:  Colors.white54,
+                      image: DecorationImage(
+                        image: new AssetImage(image.path),
+                        fit: BoxFit.cover,
+                      ))
+                      : BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color:  Colors.white54,
+                  ),
+                  child: !hasImage
+                      ? AddImageButton(
+                    hasImage: hasImage,
+                    onPressed: () async {
+                      await chooseFile();
+                    },
+                  )
+                      : null),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white54,
+                    border: Border.all(
+                      width: 15,
+                      color: BasicGreen,
+                      style: BorderStyle.solid,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(40)),
+                  ),
+                  child: TextFormField(
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.only(
+                            left: 15, bottom: 11, top: 11, right: 15),
+                        hintText: 'Name des Rezeptes eingeben'),
+                    onChanged: (value) {
+                      recipeName = value;
+                      // authService.getUser().updateDisplayName(value);
+                    },
+                    //TODO find a way to add external User data
+                  ),
+                ),
+                AnimatedListOnePage(listKey:listKey),],
             ),
-
-            _buildList(),
-
-
-            StandardButton(
-                color: Colors.white,
-                text: "Eingabe speichern",
-                onPress: () {
-                  //TODO: Save recipt
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Home()));
-                }),
           ],
         ),
       ),
+      floatingActionButton:
+       Row(
+          children: [
+            SizedBox(width: size.width * 0.09,),
+            Expanded(
+              child: StandardButton(
+                  color: Colors.white,
+                  text: "Eingabe speichern",
+                  onPressed: () {
+                    //TODO: Save recipt
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const Home()));
+                  }),
+            ),
+            FloatingActionButton(
+              foregroundColor: BasicGreen,
+              focusColor: BasicGreen.withOpacity(0.5),
+              backgroundColor: Colors.white,
+              hoverColor: BasicGreen.withOpacity(0.5),
+              splashColor: BasicGreen.withOpacity(0.5),
+              child: const Icon(Icons.add),
+              onPressed: () {
+                listKey.currentState.insertItem(items.length);
+                setState(() {});
+              },
+            ),
+          ],
+        ),
     );
   }
 
@@ -94,36 +133,4 @@ class _CreateNewReciptState extends State<CreateNewRecipt> {
     });
   }
 
-  Widget _buildList() {
-    return Container(
-      height: 120+(30*ingedients.toDouble()),
-      color: Colors.transparent,
-      child: Column(
-          children:[
-            Expanded(
-              child: ListView.builder(
-                  itemCount: ingedients,
-                  itemBuilder: (context, index) {
-                    return Center(child:  TextFormField(
-                      textAlign: TextAlign.center,
-                      decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                          contentPadding:
-                          EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                          hintText: 'Zutaten eingeben'),
-                    ),);
-                  }),
-            ),
-            IconButton(onPressed: (){
-              setState(() {
-                ingedients++;
-              });
-            }, icon: const Icon(Icons.add)),
-          ]),
-    );
-  }
 }

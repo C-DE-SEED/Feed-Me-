@@ -49,7 +49,7 @@ class _CreateNewCookingBookState extends State<CreateNewCookingBook> {
           StandardButton(
               color: Colors.white,
               text: "Eingabe speichern",
-              onPress: () {
+              onPressed: () {
                 //TODO: Save new book in Database
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Home()));
