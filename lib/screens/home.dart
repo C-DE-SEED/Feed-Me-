@@ -1,13 +1,17 @@
+import 'dart:async';
+
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/cook_book_row.dart';
 import 'package:feed_me/constants/search_text_form_field.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:feed_me/screens/create_new_cooking_book.dart';
 import 'package:feed_me/screens/create_new_recipt.dart';
 import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:unicorndial/unicorndial.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -73,7 +77,7 @@ class _HomeState extends State<Home> {
           backgroundColor: Colors.grey,
           mini: true,
           child: CircleAvatar(
-            backgroundImage: NetworkImage(authService.getUser().photoURL),
+            backgroundImage: NetworkImage(Provider.of<UserLocal>(context,listen: false)?.getProfilePictureURL()),
             radius: 40,
             backgroundColor: Colors.black,
             child: TextButton(
@@ -87,7 +91,6 @@ class _HomeState extends State<Home> {
             ),
           ),
         )));
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -97,7 +100,7 @@ class _HomeState extends State<Home> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
             child: CircleAvatar(
-              backgroundImage: NetworkImage(authService.getUser().photoURL),
+              backgroundImage: NetworkImage(Provider.of<UserLocal>(context,listen: false)?.getProfilePictureURL()),
               radius: 40,
               backgroundColor: Colors.black,
               child: TextButton(
