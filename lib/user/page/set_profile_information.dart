@@ -16,6 +16,19 @@ class SetProfilePage extends StatefulWidget {
 }
 
 class _SetProfilePageState extends State<SetProfilePage> {
+  String userDescription='';
+
+  @override
+  void initState() {
+    super.initState();
+    waitAndRefresh();
+  }
+
+  waitAndRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 5));
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -36,8 +49,9 @@ class _SetProfilePageState extends State<SetProfilePage> {
           buildName(userName),
           SizedBox(height: size.height * 0.01),
           NumbersWidget(
-              userMail:
-                  Provider.of<UserLocal>(context, listen: false).getUserMail()),
+              userMail: Provider.of<UserLocal>(context, listen: false)
+                  .getFireBaseUser()
+                  .email),
           SizedBox(height: size.height * 0.01),
           buildAbout(size),
           SizedBox(height: size.height * 0.0025),
@@ -46,6 +60,8 @@ class _SetProfilePageState extends State<SetProfilePage> {
               text: "Eingaben speichern",
               onPress: () {
                 //TODO if check if all data is stored
+
+                Provider.of<UserLocal>(context, listen: false).setDescription(userDescription);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Home()));
               }),
@@ -113,6 +129,11 @@ class _SetProfilePageState extends State<SetProfilePage> {
               hintText: 'Schreibe etwas über dich:'),
           minLines: 6,
           maxLines: 9,
+          onChanged: (value){
+            setState(() {
+              userDescription = value;
+            });
+          },
           //TODO find a way to add external User data
         ),
       );

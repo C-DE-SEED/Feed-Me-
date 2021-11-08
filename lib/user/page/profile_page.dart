@@ -62,8 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.symmetric(horizontal: 48),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
+          children:  [
+            const Text(
               'Über mich:',
               style: TextStyle(
                   color: Colors.black45,
@@ -71,10 +71,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
-              'Lore Ipsum Lore Ipsum',
-              style: TextStyle(
+              Provider.of<UserLocal>(context, listen: false)
+                  .getDescription(),
+              style: const TextStyle(
                   fontFamily: openSansFontFamily, fontSize: 16, height: 1.4),
             ),
           ],
