@@ -1,6 +1,6 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/cook_book_row.dart';
-import 'package:feed_me/constants/search_text_form_field.dart';
+import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/screens/create_new_cooking_book.dart';
 import 'package:feed_me/screens/create_new_recipt.dart';

@@ -1,43 +1,36 @@
 import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
-import 'Colors.dart';
+import '../Colors.dart';
 
-class PasswordTextFormField extends StatefulWidget {
-  const PasswordTextFormField({Key key, this.hintText, this.onChange})
+class StandardTextFormField extends StatefulWidget {
+  const StandardTextFormField({Key key, this.hintText, this.onChange})
       : super(key: key);
 
   final String hintText;
   final Function onChange;
 
   @override
-  _PasswordTextFormFieldState createState() => _PasswordTextFormFieldState();
+  _StandardTextFormFieldState createState() => _StandardTextFormFieldState();
 }
 
-class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
+class _StandardTextFormFieldState extends State<StandardTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       color: Colors.transparent,
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: TextFormField(
-        obscureText: true,
-        enableSuggestions: false,
-        autocorrect: false,
-        keyboardType: TextInputType.visiblePassword,
+        keyboardType: TextInputType.emailAddress,
         textAlign: TextAlign.center,
         style: const TextStyle(
           fontFamily: openSansFontFamily,
-          color:Colors.black,
+          color: Colors.black,
           fontSize: 12.0,
           fontWeight: FontWeight.w600,
-
         ),
         decoration: InputDecoration(
-          prefixIcon: const Icon(
-            Icons.lock,
-            color: BasicGreen,
-          ),
+          prefixIcon: const Icon(Icons.mail_outlined, color:BasicGreen),
           filled: true,
           fillColor: Colors.white,
           hintText: widget.hintText,

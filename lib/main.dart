@@ -18,6 +18,15 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key key}) : super(key: key);
+// TODO insert UserObject with additional data (use Firebase User object as
+//  root)
+  // TODO insert google login
+  // TODO NOT FAST - show loading animation as soon as profile picture is
+  //  loading
+  // TODO insert toolbar in home() screen
+  // TODO show dish of the day instead of feed me logo
+  // FIXME CHANGE HOME PAGE!
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +37,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: [GlobalMaterialLocalizations.delegate],
         supportedLocales: [Locale('en'), Locale('de')],
-        home: Home(),
+        home: Welcome(),
       ),
     );
     // return StreamProvider<UserLocal>.value(

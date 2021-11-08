@@ -7,7 +7,8 @@ class ReciptPreviewImage extends StatelessWidget {
   final bool isTitle;
 
   const ReciptPreviewImage(
-      {Key key, this.fit, this.height, this.width, this.image, this.isTitle})
+      {Key key, this.fit, this.height, this.width, this.image, this.isTitle,
+        })
       : super(key: key);
 
   @override

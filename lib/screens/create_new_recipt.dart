@@ -1,7 +1,7 @@
-import 'package:feed_me/constants/add_image_button.dart';
+import 'package:feed_me/constants/buttons/add_image_button.dart';
 import 'package:feed_me/constants/animated_text_field_list.dart';
 import 'package:feed_me/constants/colors.dart';
-import 'package:feed_me/constants/standard_button.dart';
+import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';

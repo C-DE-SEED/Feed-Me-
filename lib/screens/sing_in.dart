@@ -1,8 +1,8 @@
 import 'package:feed_me/constants/colors.dart';
-import 'package:feed_me/constants/feed_me_circle_avatar.dart';
-import 'package:feed_me/constants/password_text_form_field.dart';
-import 'package:feed_me/constants/standard_button.dart';
-import 'package:feed_me/constants/standard_text_form_field.dart';
+import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
+import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
+import 'package:feed_me/constants/buttons/standard_button.dart';
+import 'package:feed_me/constants/text_fields/standard_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/loading.dart';
@@ -13,7 +13,7 @@ import 'home.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key key, this.toggleView}) : super(key: key);
-
+//TODO insert google log in option
   final Function toggleView;
 
   @override
