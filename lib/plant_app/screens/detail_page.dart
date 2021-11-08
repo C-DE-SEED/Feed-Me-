@@ -1,3 +1,5 @@
+import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/plant_app/model/data_model.dart';
 import 'package:flutter/material.dart';
 
@@ -5,10 +7,12 @@ class DetailPage extends StatelessWidget {
   final Plant plant;
 
   const DetailPage({Key key, this.plant}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: BasicGreen,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -22,84 +26,111 @@ class DetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 35),
+                  SizedBox(height: size.height * 0.045),
                   Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back),
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          size: 30,
+                        ),
                         onPressed: () => Navigator.pop(context),
                       ),
                       const Spacer(),
                       IconButton(
-                        icon: const Icon(Icons.shopping_cart),
-                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.file_download,
+                          size: 30,
+                        ),
+                        onPressed: () {
+                          //TODO insert share function
+                        },
                       ),
                     ],
                   ),
-                  Container(
-                    child: Hero(
-                      tag: plant.title,
-                      child: Image.network(plant.image),
-                    ),
+                  Hero(
+                    tag: plant.title,
+                    child: Image.network(plant.image),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: size.height * 0.01),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 70),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 10),
+                        SizedBox(height: size.height * 0.005),
                         Text(
                           plant.title,
                           style: const TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
+                            fontFamily: openSansFontFamily,
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: size.height * 0.005),
                         Text(
                           plant.discription,
                           style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
+                            fontFamily: openSansFontFamily,
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: size.height * 0.005),
                         Row(
                           children: [
                             Text(
-                              "\$${plant.price}",
+                              'Für ' + plant.price + ' Personen',
                               style: const TextStyle(
-                                fontSize: 35,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
+                                fontFamily: openSansFontFamily,
                               ),
                             ),
-                            TextButton(
-                              child: const Text(
-                                "+",
-                                style: const TextStyle(fontSize: 22),
-                              ),
-                              onPressed: () {},
-                            )
+                            Column(
+                              children: [
+                                IconButton(
+                                    icon: const Icon(
+                                      Icons.add,
+                                      size: 22,
+                                    ),
+                                    onPressed: () {
+                                      // TODO insert person counter
+                                      setState() {}
+                                    }),
+                                IconButton(
+                                    icon: const Icon(
+                                      Icons.remove,
+                                      size: 22,
+                                    ),
+                                    onPressed: () {
+                                      // TODO insert person counter
+                                      setState() {}
+                                    }),
+                              ],
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 70),
+                  SizedBox(height: size.height * 0.05),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(5),
-              child: new SingleChildScrollView(
+              child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    buildCard("Height", Icons.height, plant.height),
-                    buildCard("Temperature", Icons.thermostat_outlined,plant.temprature),
-                    buildCard("Pot", Icons.portrait, plant.port),
+                    //TODO insert additonal data
+                    buildCard("Schwierigkeit", Icons.settings, plant.temprature,
+                        size),
+                    buildCard("Dauer", Icons.alarm, plant.height, size),
+                    buildCard("Kalorien", Icons.align_vertical_bottom_outlined,
+                        plant.port, size),
                   ],
                 ),
               ),
@@ -110,23 +141,27 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  Widget buildCard(String title, IconData icon, String data) {
+  Widget buildCard(String title, IconData icon, String data, Size size) {
     return Column(
       children: [
         Icon(icon, color: Colors.white, size: 25),
-        const SizedBox(height: 10),
+        SizedBox(height: size.height * 0.01),
         Text(
           title,
           style: const TextStyle(
             fontSize: 20,
-            fontWeight: FontWeight.bold,
             color: Colors.white,
+            fontFamily: openSansFontFamily,
+            fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: size.height * 0.01),
         Text(
           data,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(
+            color: Colors.white,
+            fontFamily: openSansFontFamily,
+          ),
         )
       ],
     );

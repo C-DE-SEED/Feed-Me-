@@ -1,10 +1,11 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/plant_app/screens/fast_dishes_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'indoor_plant_page.dart';
-import 'shape_plant_page.dart';
+import 'main_dishes_page.dart';
+import 'dessert_dishes_page.dart';
 import 'starter_dishes_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,8 +19,9 @@ class _HomePageState extends State<HomePage> {
   AuthService authService = AuthService();
   List<Widget> widgets = [
     const StarterDishesPage(),
-    IndoorPlantPage(),
-    ShapePlantPage(),
+    const MainDishesPage(),
+    const DessertDishesPage(),
+    const FastDishesPage(),
   ];
   int currentIndex = 0;
   @override
@@ -95,7 +97,7 @@ class _HomePageState extends State<HomePage> {
             height: 10,
             width: 10,
             decoration: const BoxDecoration(
-              color: Colors.amber,
+              color: Colors.amberAccent,
               shape: BoxShape.circle,
             ),
           )

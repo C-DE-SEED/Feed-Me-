@@ -4,8 +4,8 @@ import 'package:feed_me/plant_app/model/data_model.dart';
 import 'package:flutter/material.dart';
 import 'detail_page.dart';
 
-class StarterDishesPage extends StatelessWidget {
-  const StarterDishesPage({Key key}) : super(key: key);
+class MainDishesPage extends StatelessWidget {
+  const MainDishesPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class StarterDishesPage extends StatelessWidget {
         children: [
           SizedBox(height: size.height * 0.08),
           const Center(
-            child: Text('Vorspeisen', style: TextStyle(color: Colors.grey,
+            child: Text('Hauptgerichte', style: TextStyle(color: Colors.grey,
                 fontSize: 22, fontFamily: openSansFontFamily)),
           ),
           SizedBox(height: size.height * 0.02),
@@ -36,8 +36,7 @@ class StarterDishesPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DetailPage(
-                          //TODO change Plants with recipes
-                          plant: plants[index],
+                          plant: Indoor[index],
                         ),
                       ),
                     );
@@ -46,12 +45,12 @@ class StarterDishesPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Hero(
-                        tag: plants[index].title,
-                        child: Image.network(plants[index].image),
+                        tag: Indoor[index].title,
+                        child: Image.network(Indoor[index].image),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        plants[index].title,
+                        Indoor[index].title,
                         style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
@@ -61,7 +60,7 @@ class StarterDishesPage extends StatelessWidget {
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        plants[index].discription,
+                        Indoor[index].discription,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
@@ -73,12 +72,11 @@ class StarterDishesPage extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "\$${plants[index].price}",
+                            "\$${Indoor[index].price}",
                             style: const TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,
                               fontFamily: openSansFontFamily,
-
                             ),
                           ),
                           TextButton(
