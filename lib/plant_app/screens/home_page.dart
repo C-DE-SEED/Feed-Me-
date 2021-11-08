@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   AuthService authService = AuthService();
+
   List<Widget> widgets = [
     const StarterDishesPage(),
     const MainDishesPage(),
@@ -26,14 +27,15 @@ class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 90,
-            padding: const EdgeInsets.symmetric(vertical: 35),
+            width: size.width * 0.222,
+            padding: const EdgeInsets.symmetric(vertical: 55),
             color:BasicGreen,
             child: RotatedBox(
               quarterTurns: 1,
@@ -56,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                     quarterTurns: -1,
                     child:  CircleAvatar(
                       backgroundImage: NetworkImage(authService.getUser().photoURL),
-                      radius: 30,
+                      radius: size.width * 0.085,
                       backgroundColor: Colors.black,
                       child: TextButton(
                         onPressed: () {
