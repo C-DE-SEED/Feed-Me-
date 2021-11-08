@@ -1,5 +1,7 @@
 import 'package:feed_me/Screens/sing_in.dart';
 import 'package:feed_me/Screens/wrapper.dart';
+import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/plant_app/screens/home_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:feed_me/screens/home.dart';
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: [GlobalMaterialLocalizations.delegate],
         supportedLocales: [Locale('en'), Locale('de')],
-        home: Welcome(),
+        home: HomePage(),
       ),
     );
     // return StreamProvider<UserLocal>.value(
