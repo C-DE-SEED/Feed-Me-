@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import 'home.dart';
+import 'choose_cookbook.dart';
 
 class CreateNewRecipe extends StatefulWidget {
   const CreateNewRecipe({Key key}) : super(key: key);
@@ -102,7 +102,8 @@ class _CreateNewRecipeState extends State<CreateNewRecipe> {
                   onPressed: () {
                     //TODO: Save recipt
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Home()));
+                        MaterialPageRoute(builder: (context) => ChooseCookbook()
+                          ));
                   }),
             ),
             FloatingActionButton(

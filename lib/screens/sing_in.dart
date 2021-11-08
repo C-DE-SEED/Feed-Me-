@@ -4,12 +4,13 @@ import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/text_fields/standard_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/home_page/screens/home_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/loading.dart';
 import 'package:feed_me/screens/registration.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import 'choose_cookbook.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key key, this.toggleView}) : super(key: key);
@@ -97,7 +98,7 @@ class _SignInState extends State<SignIn> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Home()));
+                                    builder: (context) => const HomePage()));
                           }
                         }
                       },

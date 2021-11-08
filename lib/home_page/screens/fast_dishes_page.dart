@@ -1,6 +1,6 @@
 import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/plant_app/model/data_model.dart';
+import 'package:feed_me/home_page/model/data_model.dart';
 import 'package:flutter/material.dart';
 import 'detail_page.dart';
 

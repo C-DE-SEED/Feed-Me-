@@ -1,16 +1,13 @@
-import 'package:feed_me/Screens/sing_in.dart';
-import 'package:feed_me/Screens/wrapper.dart';
-import 'package:feed_me/constants/colors.dart';
-import 'package:feed_me/plant_app/screens/home_page.dart';
+
+import 'package:feed_me/home_page/screens/home_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
-import 'package:feed_me/screens/home.dart';
-import 'package:feed_me/screens/welcome.dart';
-import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'screens/choose_cookbook.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +36,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: [GlobalMaterialLocalizations.delegate],
         supportedLocales: [Locale('en'), Locale('de')],
-        home: HomePage(),
+        home: ChooseCookbook(),
       ),
     );
     // return StreamProvider<UserLocal>.value(

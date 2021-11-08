@@ -4,7 +4,7 @@ import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'home.dart';
+import 'choose_cookbook.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({Key key}) : super(key: key);
@@ -17,7 +17,7 @@ class Wrapper extends StatelessWidget {
       return const Authenticate();
     }
     else{
-      return const Home();
+      return const ChooseCookbook();
     }
   }
 }
