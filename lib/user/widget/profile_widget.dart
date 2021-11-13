@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class ProfileWidget extends StatefulWidget {
   const ProfileWidget({Key key,@required this.isProfileRoot}) : super(key: key);
@@ -69,14 +71,10 @@ class _ProfileWidget extends State<ProfileWidget> {
   }
 
   ImageProvider getImage(AuthService auth) {
-    if (auth
-        .getUser()
-        .photoURL == null) {
+    if (Provider.of<UserLocal>(context,listen: false).getProfilePictureURL() == null) {
       return const AssetImage('assets/feedmelogo_without_border.png');
     } else {
-      return NetworkImage(auth
-          .getUser()
-          .photoURL);
+      return NetworkImage(Provider.of<UserLocal>(context,listen: false).getProfilePictureURL());
     }
   }
 
@@ -92,9 +90,7 @@ class _ProfileWidget extends State<ProfileWidget> {
   }
 
   Future uploadFile(File img, AuthService auth) async {
-    String filePath = auth
-        .getUser()
-        .uid + '_profile_picture';
+    String filePath = Provider.of<UserLocal>(context,listen: false).getUID()+ '_profile_picture';
     String refChildPath = 'profile_pictures/' + filePath;
     String downloadUrl = '';
     Reference ref = FirebaseStorage.instance.ref();
@@ -103,7 +99,7 @@ class _ProfileWidget extends State<ProfileWidget> {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
     }
-    await auth.getUser().updatePhotoURL(downloadUrl);
+    Provider.of<UserLocal>(context,listen: false).setProfilePictureURL(downloadUrl);
     getImage(auth);
     setState(() {});
   }

@@ -8,7 +8,7 @@ class AuthService {
 
 // Create User Object based on Firebase User
   UserLocal _userFromFireBaseUser(User user) {
-    return user != null ? UserLocal(uid: user.uid) : null;
+    return user != null ? UserLocal(uid: user.uid ,description: "", books:0, recipes:0) : null;
   }
 
 // auth change user stream

@@ -19,6 +19,21 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key key}) : super(key: key);
 
+
+  // List<Recipt> plant_food_factory = [];
+  //
+  // void getAllRecipes() async {
+  //   plant_food_factory =
+  //   await ReciptDbObject().getReciptObject("plant_food_factory").elementAt(0);
+  // }
+  //
+  // @override
+  // void initState() {
+  //   getAllRecipes();
+  //   super.initState();
+  //
+  // }
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<UserLocal>.value(
@@ -28,7 +43,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: [GlobalMaterialLocalizations.delegate],
         supportedLocales: [Locale('en'), Locale('de')],
-        home: Home(),
+        home: Welcome(),
       ),
     );
     // return StreamProvider<UserLocal>.value(

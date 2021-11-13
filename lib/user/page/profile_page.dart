@@ -1,11 +1,13 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:feed_me/user/page/set_profile_information.dart';
 import 'package:feed_me/user/widget/appbar_widget.dart';
 import 'package:feed_me/user/widget/numbers_widget.dart';
 import 'package:feed_me/user/widget/profile_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key key}) : super(key: key);
@@ -33,7 +35,8 @@ class _ProfilePageState extends State<ProfilePage> {
           SizedBox(height: size.height * 0.015),
           buildName(authService),
           SizedBox(height: size.height * 0.01),
-          NumbersWidget(userMail: authService.getUser().email,),
+          NumbersWidget(userMail: Provider.of<UserLocal>(context, listen: false)
+              .getUserMail()),
           SizedBox(height: size.height * 0.01),
           buildAbout(authService),
         ],
@@ -44,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildName(AuthService authService) => Column(
         children: [
           Text(
-            authService.getUser().displayName,
+            Provider.of<UserLocal>(context,listen: false).getFireBaseUser().displayName,
             textAlign: TextAlign.center,
             style: const TextStyle(
                 fontFamily: openSansFontFamily,
@@ -59,8 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.symmetric(horizontal: 48),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
+          children:  [
+            const Text(
               'Über mich:',
               style: TextStyle(
                   color: Colors.black45,
@@ -68,10 +71,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
-              'Lore Ipsum Lore Ipsum',
-              style: TextStyle(
+              Provider.of<UserLocal>(context, listen: false)
+                  .getDescription(),
+              style: const TextStyle(
                   fontFamily: openSansFontFamily, fontSize: 16, height: 1.4),
             ),
           ],
