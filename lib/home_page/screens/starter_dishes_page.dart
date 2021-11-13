@@ -61,7 +61,7 @@ class StarterDishesPage extends StatelessWidget {
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        plants[index].discription,
+                        plants[index].description,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
@@ -73,7 +73,7 @@ class StarterDishesPage extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "\$${plants[index].price}",
+                            "\$${plants[index].persons}",
                             style: const TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,

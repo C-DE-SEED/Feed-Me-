@@ -59,7 +59,7 @@ class DessertDishesPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        Shape[index].discription,
+                        Shape[index].description,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
@@ -70,7 +70,7 @@ class DessertDishesPage extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "\$${Shape[index].price}",
+                            "\$${Shape[index].persons}",
                             style: const TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,

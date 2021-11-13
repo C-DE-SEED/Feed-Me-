@@ -1,76 +1,76 @@
-class Plant {
+class Recipe {
   final String title;
-  final String discription;
-  final String price;
-  final String height;
+  final String description;
+  final String persons;
+  final String timeNeeded;
   final String image;
-  final String temprature;
-  final String port;
+  final String level;
+  final String calories;
 
-  Plant({
+  Recipe({
     this.title,
-    this.discription,
-    this.price,
-    this.height,
+    this.description,
+    this.persons,
+    this.timeNeeded,
     this.image,
-    this.temprature,
-    this.port,
+    this.level,
+    this.calories,
   });
 }
 
-List<Plant> plants = [
-  Plant(
-      title: "Turf Pot Plant",
-      discription: "Small leaf plant for your home and office decoration",
-      height: "40.0 cm to 50cm",
-      temprature: "18c to 25c",
+List<Recipe> plants = [
+  Recipe(
+      title: "Indian Curry",
+      description: "Small leaf plant for your home and office decoration",
+      timeNeeded: "30 minutes",
+      level: "beginner",
       image: "https://img.pngio.com/download-artificial"
           "-potted-plant-oregano-png-image-for-free-potted-plants-png-2000_2000.png",
-      port: "Self Growing pot",
-      price: "59.00"),
-  Plant(
+      calories: "490 kcl",
+      persons: "2"),
+  Recipe(
       title: "Scandinavain",
-      discription: "Small leaf plant for your home and office decoration",
-      height: "40.0 cm to 50cm",
-      temprature: "18c to 25c",
+      description: "Small leaf plant for your home and office decoration",
+      timeNeeded: "40.0 cm to 50cm",
+      level: "18c to 25c",
       image:
       "https://purepng.com/public/uploads/large/purepng.com-plantnatureplant-961524678664sj8de.png",
-      port: "Self Growing pot",
-      price: "59.00"),
+      calories: "Self Growing pot",
+      persons: "59.00"),
 ];
-List<Plant> Indoor = [
-  Plant(
+List<Recipe> Indoor = [
+  Recipe(
       title: "Cactsgrass Plant",
-      discription: "Indoor plant for your home and office decoration",
-      height: "40.0 cm to 50cm",
-      temprature: "18c to 25c",
+      description: "Indoor plant for your home and office decoration",
+      timeNeeded: "40.0 cm to 50cm",
+      level: "18c to 25c",
       image: 'https://purepng.com/public/uploads/large/purepng.com-classic-duo-cactusgrassbushplantnaturegreen-541521125305jqngl.png',
-      port: "Self Growing pot",
-      price: "59.00"),
-  Plant(
+      calories: "Self Growing pot",
+      persons: "59.00"),
+  Recipe(
       title: "Castsgrass bush Plant",
-      discription: "Plant for your home and office decoration",
-      height: "40.0 cm to 50cm",
-      temprature: "18c to 25c",
+      description: "Plant for your home and office decoration",
+      timeNeeded: "40.0 cm to 50cm",
+      level: "18c to 25c",
       image: "https://purepng.com/public/uploads/large/purepng.com-green-cactusgrassbushplantnaturegreen-541521125231377lf.png",
-      port: "Self Growing pot",
-      price: "59.00"),
+      calories: "Self Growing pot",
+      persons: "59.00"),
 ];
-List<Plant> Shape = [
-  Plant(
+List<Recipe> Shape = [
+  Recipe(
       title: "Yew Plant",
-      discription: "Indoor plant for your home and office decoration",
-      height: "40.0 cm to 50cm",
-      temprature: "18c to 25c",
+      description: "Indoor plant for your home and office decoration",
+      timeNeeded: "40.0 cm to 50cm",
+      level: "18c to 25c",
       image: 'https://purepng.com/public/uploads/large/clover-heart-bi1.png',
-      port: "Self Growing pot",
-      price: "59.00"),
-  Plant(
+      calories: "Self Growing pot",
+      persons: "59.00"),
+  Recipe(
       title: "Lily bush Plant",
-      discription: "Plant for your home and office decoration",
-      height: "40.0 cm to 50cm",
-      temprature: "18c to 25c",
+      description: "Plant for your home and office decoration",
+      timeNeeded: "40.0 cm to 50cm",
+      level: "18c to 25c",
       image: "https://purepng.com/public/uploads/large/plant-1hn.png",
-      port: "Self Growing pot",
-      price: "59.00"),
+      calories: "Self Growing pot",
+      persons: "59.00"),
 ];

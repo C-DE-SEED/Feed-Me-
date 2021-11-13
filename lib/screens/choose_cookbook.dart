@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 class ChooseCookbook extends StatefulWidget {
-
   const ChooseCookbook({Key key}) : super(key: key);
+
   @override
   _ChooseCookbookState createState() => _ChooseCookbookState();
 }
@@ -19,12 +18,10 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
   PageController pageController = PageController(initialPage: 0);
   StreamController<int> indexController = StreamController<int>.broadcast();
   int index = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bottom navigation fancy'),
-      ),
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         onPageChanged: (index) {
@@ -59,9 +56,11 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                 FancyBottomNavigationItem(
                     icon: const Icon(Icons.person), title: const Text('User')),
                 FancyBottomNavigationItem(
-                    icon: const Icon(Icons.security), title: const Text('Security')),
+                    icon: const Icon(Icons.security),
+                    title: const Text('Security')),
                 FancyBottomNavigationItem(
-                    icon: const Icon(Icons.message), title: const Text('Message')),
+                    icon: const Icon(Icons.message),
+                    title: const Text('Message')),
               ],
               onItemSelected: (int value) {
                 indexController.add(value);
@@ -84,13 +83,13 @@ class FancyBottomNavigation extends StatefulWidget {
 
   FancyBottomNavigation(
       {Key key,
-        this.currentIndex = 0,
-        this.iconSize = 24,
-        this.activeColor,
-        this.inactiveColor,
-        this.backgroundColor,
-        @required this.items,
-        @required this.onItemSelected}) {
+      this.currentIndex = 0,
+      this.iconSize = 24,
+      this.activeColor,
+      this.inactiveColor,
+      this.backgroundColor,
+      @required this.items,
+      @required this.onItemSelected}) {
     assert(items != null);
     assert(onItemSelected != null);
   }
@@ -120,12 +119,12 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
 
   _FancyBottomNavigationState(
       {@required this.items,
-        this.currentIndex,
-        this.activeColor,
-        this.inactiveColor = Colors.black,
-        this.backgroundColor,
-        this.iconSize,
-        @required this.onItemSelected}) {
+      this.currentIndex,
+      this.activeColor,
+      this.inactiveColor = Colors.black,
+      this.backgroundColor,
+      this.iconSize,
+      @required this.onItemSelected}) {
     _selectedIndex = currentIndex;
   }
 
@@ -138,9 +137,9 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
       decoration: !isSelected
           ? null
           : BoxDecoration(
-        color: activeColor,
-        borderRadius: const BorderRadius.all(const Radius.circular(50)),
-      ),
+              color: activeColor,
+              borderRadius: const BorderRadius.all(const Radius.circular(50)),
+            ),
       child: ListView(
         shrinkWrap: true,
         padding: const EdgeInsets.all(0),
@@ -162,9 +161,9 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
               ),
               isSelected
                   ? DefaultTextStyle.merge(
-                style: TextStyle(color: backgroundColor),
-                child: item.title,
-              )
+                      style: TextStyle(color: backgroundColor),
+                      child: item.title,
+                    )
                   : const SizedBox.shrink()
             ],
           )
@@ -176,7 +175,7 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
   @override
   Widget build(BuildContext context) {
     activeColor =
-    (activeColor == null) ? Theme.of(context).accentColor : activeColor;
+        (activeColor == null) ? Theme.of(context).accentColor : activeColor;
 
     backgroundColor = (backgroundColor == null)
         ? Theme.of(context).bottomAppBarColor
@@ -196,7 +195,6 @@ class _FancyBottomNavigationState extends State<FancyBottomNavigation> {
           return GestureDetector(
             onTap: () {
               onItemSelected(index);
-
               setState(() {
                 _selectedIndex = index;
               });

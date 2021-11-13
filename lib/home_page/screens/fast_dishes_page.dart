@@ -60,7 +60,7 @@ class FastDishesPage extends StatelessWidget {
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        Indoor[index].discription,
+                        Indoor[index].description,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
@@ -72,7 +72,7 @@ class FastDishesPage extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "\$${Indoor[index].price}",
+                            "\$${Indoor[index].persons}",
                             style: const TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,

@@ -4,7 +4,7 @@ import 'package:feed_me/home_page/model/data_model.dart';
 import 'package:flutter/material.dart';
 
 class DetailPage extends StatelessWidget {
-  final Plant plant;
+  final Recipe plant;
 
   const DetailPage({Key key, this.plant}) : super(key: key);
 
@@ -69,7 +69,7 @@ class DetailPage extends StatelessWidget {
                         ),
                         SizedBox(height: size.height * 0.005),
                         Text(
-                          plant.discription,
+                          plant.description,
                           style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
@@ -80,7 +80,7 @@ class DetailPage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Für ' + plant.price + ' Personen',
+                              'Für ' + plant.persons + ' Personen',
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -126,11 +126,11 @@ class DetailPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     //TODO insert additonal data
-                    buildCard("Schwierigkeit", Icons.settings, plant.temprature,
+                    buildCard("Schwierigkeit", Icons.settings, plant.level,
                         size),
-                    buildCard("Dauer", Icons.alarm, plant.height, size),
+                    buildCard("Dauer", Icons.alarm, plant.timeNeeded, size),
                     buildCard("Kalorien", Icons.align_vertical_bottom_outlined,
-                        plant.port, size),
+                        plant.calories, size),
                   ],
                 ),
               ),
