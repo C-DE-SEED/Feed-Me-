@@ -1,5 +1,6 @@
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/registration_and_login/auth_service.dart';
 
 import 'package:feed_me/screens/choose_cookbook.dart';
 
@@ -34,6 +35,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    AuthService auth = AuthService();
     Size size = MediaQuery.of(context).size;
     String userName = '';
     return Scaffold(
@@ -49,7 +51,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
         children: [
           const ProfileWidget(isProfileRoot: true),
           SizedBox(height: size.height * 0.015),
-          buildName(userName),
+          buildName(userName, auth),
           SizedBox(height: size.height * 0.01),
           NumbersWidget(
               userMail:email),
@@ -60,8 +62,6 @@ class _SetProfilePageState extends State<SetProfilePage> {
               color: Colors.white,
               text: "Eingaben speichern",
               onPressed: () {
-                //TODO if check if all data is stored
-
                 Provider.of<UserLocal>(context, listen: false).setDescription(userDescription);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const ChooseCookbook()));
@@ -71,7 +71,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
     );
   }
 
-  Widget buildName(String userName) => Column(
+  Widget buildName(String userName, AuthService auth) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
@@ -96,11 +96,8 @@ class _SetProfilePageState extends State<SetProfilePage> {
                       EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                   hintText: 'Benutzername eingeben'),
               onChanged: (value) {
-                Provider.of<UserLocal>(context, listen: false)
-                    .getFireBaseUser()
-                    .updateDisplayName(value);
+                auth.getUser().updateDisplayName(value);
               },
-              //TODO find a way to add external User data
             ),
           ),
         ],
@@ -131,11 +128,8 @@ class _SetProfilePageState extends State<SetProfilePage> {
           minLines: 6,
           maxLines: 9,
           onChanged: (value){
-            setState(() {
               userDescription = value;
-            });
           },
-          //TODO find a way to add external User data
         ),
       );
 }

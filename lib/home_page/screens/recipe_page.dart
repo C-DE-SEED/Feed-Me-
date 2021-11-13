@@ -2,8 +2,10 @@ import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
+import 'package:feed_me/screens/choose_cookbook.dart';
 import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'fast_dishes_page.dart';
 import 'main_dishes_page.dart';
 import 'dessert_dishes_page.dart';
@@ -43,12 +45,23 @@ class _RecipePageState extends State<RecipePage> {
               quarterTurns: 1,
               child: Row(
                 children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.more_horiz,
-                      color: Colors.white,
+                  RotatedBox(
+                    quarterTurns: -1,
+                    child: IconButton(
+                      icon: Icon(
+                       MdiIcons.chefHat,
+                        color: Colors.white,
+                        size: size.width * 0.1,
+                      ),
+                      tooltip: 'Zurück zur\n'
+                          'Kochbuchübersicht',
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ChooseCookbook()));
+                      },
                     ),
-                    onPressed: () {},
                   ),
                   const Spacer(),
                   buildMenuItem("Vorspeisen", 0),

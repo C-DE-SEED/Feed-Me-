@@ -2,6 +2,7 @@ import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/home_page/screens/recipe_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class ChooseCookbook extends StatefulWidget {
@@ -61,7 +62,15 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                             backgroundImage: NetworkImage(
                                authService.getUser().photoURL),
                             radius: size.width * 0.09,
-                          ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const ProfilePage()));
+                              },
+                              child: null,
+                            ), ),
                         )
                       ],
                     ),
@@ -87,14 +96,28 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                 onTap: () => _openDestinationPage(context),
                 child: _buildFeaturedItem(
                     image:
-                        "https://purepng.com/public/uploads/large/purepng.com-plantnatureplant-961524678664sj8de.png",
-                    title: "Kathmandu",
+                        "https://www.hamburg.de/image/10944368/16x9/990/557/68afbf4236ccc4e825ec58a71d67af7/Md/vegane-restaurants-symbolbild.jpg",
+                    title: "Summer Bowl",
                     subtitle: "90 places worth to visit")),
             GestureDetector(
                 onTap: () => _openDestinationPage(context),
                 child: _buildFeaturedItem(
                     image:
-                        "https://purepng.com/public/uploads/large/purepng.com-plantnatureplant-961524678664sj8de.png",
+                        "https://www.takt-magazin.de/wp-content/uploads/2021/05/edgar-castrejon-1SPu0KT-Ejg-unsplash-scaled-e1622116685668-1170x855.jpg?x48126",
+                    title: "Pokhara",
+                    subtitle: "40 places worth to visit")),
+            GestureDetector(
+                onTap: () => _openDestinationPage(context),
+                child: _buildFeaturedItem(
+                    image:
+                    "https://i.pinimg.com/originals/cd/88/e9/cd88e9b8c1875b7813d6af93343040d8.jpg",
+                    title: "Pokhara",
+                    subtitle: "40 places worth to visit")),
+            GestureDetector(
+                onTap: () => _openDestinationPage(context),
+                child: _buildFeaturedItem(
+                    image:
+                    "https://www.belderbusch.de/wp-content/uploads/2018/09/vegetarisch-vegan-restaurant-essen-kln-bonn-5-von-5.jpg",
                     title: "Pokhara",
                     subtitle: "40 places worth to visit")),
           ],
@@ -102,10 +125,11 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: ' Kochbuch\nhinzufügen',
-        backgroundColor: BasicGreen,
+        backgroundColor: Colors.white,
         child: Icon(
           Icons.add,
-          size: size.width * 0.08,
+          size: size.width * 0.11,
+          color: BasicGreen,
         ),
         onPressed: () {},
       ),

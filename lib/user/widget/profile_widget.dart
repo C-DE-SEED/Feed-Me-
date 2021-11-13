@@ -71,10 +71,10 @@ class _ProfileWidget extends State<ProfileWidget> {
   }
 
   ImageProvider getImage(AuthService auth) {
-    if (Provider.of<UserLocal>(context,listen: false).getProfilePictureURL() == null) {
+    if (auth.getUser().photoURL == null) {
       return const AssetImage('assets/feedmelogo_without_border.png');
     } else {
-      return NetworkImage(Provider.of<UserLocal>(context,listen: false).getProfilePictureURL());
+      return NetworkImage(auth.getUser().photoURL);
     }
   }
 
@@ -99,7 +99,7 @@ class _ProfileWidget extends State<ProfileWidget> {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
     }
-    Provider.of<UserLocal>(context,listen: false).setProfilePictureURL(downloadUrl);
+    auth.getUser().updatePhotoURL(downloadUrl);
     getImage(auth);
     setState(() {});
   }

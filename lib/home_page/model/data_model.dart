@@ -24,8 +24,7 @@ List<Recipe> plants = [
       description: "Small leaf plant for your home and office decoration",
       timeNeeded: "30 minutes",
       level: "beginner",
-      image: "https://img.pngio.com/download-artificial"
-          "-potted-plant-oregano-png-image-for-free-potted-plants-png-2000_2000.png",
+      image: "https://www.hamburg.de/image/10944368/16x9/990/557/68afbf4236ccc4e825ec58a71d67af7/Md/vegane-restaurants-symbolbild.jpg",
       calories: "490 kcl",
       persons: "2"),
   Recipe(
