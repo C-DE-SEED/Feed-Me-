@@ -45,9 +45,12 @@ class NumbersWidget extends StatelessWidget {
         Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                buildButton(context, Provider.of<UserLocal>(context, listen: false).books.toString(), 'Rezepte'),
+                buildButton(context, '0' ?? Provider.of<UserLocal>(context,
+                    listen: false).books.toString(), 'Rezepte'),
                 buildDivider(),
-                buildButton(context, Provider.of<UserLocal>(context, listen: false).recipes.toString(), 'Kochbücher'),
+                buildButton(context, '0' ?? Provider.of<UserLocal>(context,
+                    listen:
+                    false).recipes.toString(), 'Kochbücher'),
                 //TODO show how many friends every user have (implement addFriends()
               ],
             ),

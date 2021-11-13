@@ -20,13 +20,6 @@ class SetProfilePage extends StatefulWidget {
 
 class _SetProfilePageState extends State<SetProfilePage> {
   String userDescription='';
-  String email ='';
-
-  @override
-  void initState() {
-    email =  Provider.of<UserLocal>(context, listen: false).getUserMail();
-    super.initState();
-  }
 
   waitAndRefresh() async {
     await Future.delayed(const Duration(milliseconds: 5));
@@ -54,7 +47,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
           buildName(userName, auth),
           SizedBox(height: size.height * 0.01),
           NumbersWidget(
-              userMail:email),
+              userMail:auth.getUser().email),
           SizedBox(height: size.height * 0.01),
           buildAbout(size),
           SizedBox(height: size.height * 0.0025),

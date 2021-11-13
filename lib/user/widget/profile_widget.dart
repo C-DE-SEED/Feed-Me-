@@ -9,7 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class ProfileWidget extends StatefulWidget {
-  const ProfileWidget({Key key,@required this.isProfileRoot}) : super(key: key);
+  const ProfileWidget({Key key, @required this.isProfileRoot})
+      : super(key: key);
   final bool isProfileRoot;
 
   @override
@@ -17,7 +18,6 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class _ProfileWidget extends State<ProfileWidget> {
-
   @override
   Widget build(BuildContext context) {
     File _image;
@@ -46,19 +46,18 @@ class _ProfileWidget extends State<ProfileWidget> {
             child: ClipOval(
               child: Container(
                 padding: const EdgeInsets.all(2),
-                color: widget.isProfileRoot ? Colors.white54 : Colors.transparent,
+                color:
+                    widget.isProfileRoot ? Colors.white54 : Colors.transparent,
                 child: IconButton(
                   icon: Icon(
                     Icons.add_a_photo_outlined,
-                    color: widget.isProfileRoot ? BasicGreen : Colors.transparent,
+                    color:
+                        widget.isProfileRoot ? BasicGreen : Colors.transparent,
                     size: 25,
                   ),
                   onPressed: () async {
                     if (!widget.isProfileRoot == false) {
-                      setState(() {
-                        chooseFile(_image, _authService);
-                      });
-                      setState(() {});
+                      chooseFile(_image, _authService);
                     }
                   },
                 ),
@@ -74,6 +73,7 @@ class _ProfileWidget extends State<ProfileWidget> {
     if (auth.getUser().photoURL == null) {
       return const AssetImage('assets/feedmelogo_without_border.png');
     } else {
+      setState(() {});
       return NetworkImage(auth.getUser().photoURL);
     }
   }
@@ -90,7 +90,8 @@ class _ProfileWidget extends State<ProfileWidget> {
   }
 
   Future uploadFile(File img, AuthService auth) async {
-    String filePath = Provider.of<UserLocal>(context,listen: false).getUID()+ '_profile_picture';
+    var user =  auth.getUser();
+    String filePath = user.uid + '_profile_picture';
     String refChildPath = 'profile_pictures/' + filePath;
     String downloadUrl = '';
     Reference ref = FirebaseStorage.instance.ref();
@@ -98,9 +99,10 @@ class _ProfileWidget extends State<ProfileWidget> {
     if (uploadFile.state == TaskState.success) {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
+      user.updatePhotoURL(downloadUrl);
+      await Future.delayed(const Duration(seconds: 1,));
+      setState(() {});
     }
-    auth.getUser().updatePhotoURL(downloadUrl);
     getImage(auth);
-    setState(() {});
   }
 }
