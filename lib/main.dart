@@ -29,6 +29,21 @@ class MyApp extends StatelessWidget {
   // FIXME CHANGE HOME PAGE!
   //
 
+
+  // List<Recipt> plant_food_factory = [];
+  //
+  // void getAllRecipes() async {
+  //   plant_food_factory =
+  //   await ReciptDbObject().getReciptObject("plant_food_factory").elementAt(0);
+  // }
+  //
+  // @override
+  // void initState() {
+  //   getAllRecipes();
+  //   super.initState();
+  //
+  // }
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<UserLocal>.value(
@@ -38,7 +53,11 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: [GlobalMaterialLocalizations.delegate],
         supportedLocales: [Locale('en'), Locale('de')],
+<<<<<<< HEAD
         home: ChooseCookbook(),
+=======
+        home: Welcome(),
+>>>>>>> 55e4cad41065049c840d599a038a7041c52d94c5
       ),
     );
     // return StreamProvider<UserLocal>.value(

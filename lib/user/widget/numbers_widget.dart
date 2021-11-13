@@ -1,6 +1,8 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NumbersWidget extends StatelessWidget {
   const NumbersWidget({Key key, @required this.userMail}) : super(key: key);
@@ -43,9 +45,9 @@ class NumbersWidget extends StatelessWidget {
         Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                buildButton(context, '35', 'Rezepte'),
+                buildButton(context, Provider.of<UserLocal>(context, listen: false).books.toString(), 'Rezepte'),
                 buildDivider(),
-                buildButton(context, '3', 'Kochbücher'),
+                buildButton(context, Provider.of<UserLocal>(context, listen: false).recipes.toString(), 'Kochbücher'),
                 //TODO show how many friends every user have (implement addFriends()
               ],
             ),

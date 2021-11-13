@@ -1,10 +1,18 @@
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/colors.dart';
+<<<<<<< HEAD
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/screens/choose_cookbook.dart';
+=======
+import 'package:feed_me/constants/standard_button.dart';
+import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/registration_and_login/user_local.dart';
+import 'package:feed_me/screens/home.dart';
+>>>>>>> 55e4cad41065049c840d599a038a7041c52d94c5
 import 'package:feed_me/user/widget/numbers_widget.dart';
 import 'package:feed_me/user/widget/profile_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SetProfilePage extends StatefulWidget {
   const SetProfilePage({Key key}) : super(key: key);
@@ -14,12 +22,22 @@ class SetProfilePage extends StatefulWidget {
 }
 
 class _SetProfilePageState extends State<SetProfilePage> {
+  String userDescription='';
+
+  @override
+  void initState() {
+    super.initState();
+    waitAndRefresh();
+  }
+
+  waitAndRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 5));
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
-    final AuthService _auth = AuthService();
+    Size size = MediaQuery.of(context).size;
     String userName = '';
     return Scaffold(
       appBar: AppBar(
@@ -34,19 +52,22 @@ class _SetProfilePageState extends State<SetProfilePage> {
         children: [
           const ProfileWidget(isProfileRoot: true),
           SizedBox(height: size.height * 0.015),
-          buildName(_auth, userName),
+          buildName(userName),
           SizedBox(height: size.height * 0.01),
-          NumbersWidget(userMail: _auth
-              .getUser()
-              .email),
+          NumbersWidget(
+              userMail: Provider.of<UserLocal>(context, listen: false)
+                  .getFireBaseUser()
+                  .email),
           SizedBox(height: size.height * 0.01),
-          buildAbout(_auth, size),
+          buildAbout(size),
           SizedBox(height: size.height * 0.0025),
           StandardButton(
               color: Colors.white,
               text: "Eingaben speichern",
               onPressed: () {
                 //TODO if check if all data is stored
+
+                Provider.of<UserLocal>(context, listen: false).setDescription(userDescription);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const ChooseCookbook()));
               }),
@@ -55,8 +76,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
     );
   }
 
-  Widget buildName(AuthService authService, String userName) =>
-      Column(
+  Widget buildName(String userName) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
@@ -78,10 +98,12 @@ class _SetProfilePageState extends State<SetProfilePage> {
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
                   contentPadding:
-                  EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                      EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                   hintText: 'Benutzername eingeben'),
               onChanged: (value) {
-                authService.getUser().updateDisplayName(value);
+                Provider.of<UserLocal>(context, listen: false)
+                    .getFireBaseUser()
+                    .updateDisplayName(value);
               },
               //TODO find a way to add external User data
             ),
@@ -89,8 +111,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
         ],
       );
 
-  Widget buildAbout(AuthService authService, Size size) =>
-      Container(
+  Widget buildAbout(Size size) => Container(
         height: size.height * 0.27,
         decoration: BoxDecoration(
           color: Colors.white54,
@@ -110,10 +131,15 @@ class _SetProfilePageState extends State<SetProfilePage> {
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               contentPadding:
-              EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                  EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
               hintText: 'Schreibe etwas über dich:'),
           minLines: 6,
           maxLines: 9,
+          onChanged: (value){
+            setState(() {
+              userDescription = value;
+            });
+          },
           //TODO find a way to add external User data
         ),
       );

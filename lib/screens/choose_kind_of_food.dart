@@ -1,17 +1,29 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/recipt_object.dart';
 import 'package:feed_me/screens/recipt_overview.dart';
 import 'package:flutter/material.dart';
 
-class ChooseKindOfFood extends StatelessWidget {
+import '../recipt_db_object.dart';
+
+class ChooseKindOfFood extends StatefulWidget {
   const ChooseKindOfFood({Key key}) : super(key: key);
+
+  @override
+  State<ChooseKindOfFood> createState() => _ChooseKindOfFoodState();
+}
+
+class _ChooseKindOfFoodState extends State<ChooseKindOfFood> {
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: BasicGreen,
-      appBar: AppBar(backgroundColor: BasicGreen,elevation: 0,),
+      appBar: AppBar(
+        backgroundColor: BasicGreen,
+        elevation: 0,
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -20,32 +32,32 @@ class ChooseKindOfFood extends StatelessWidget {
             children: [
               food_kind_button(
                   "assets/food_kinds/starters.png", "Vorspeisen", size, () {}),
-              food_kind_button("assets/food_kinds/main_course.png",
-                  "Hauptgerichte", size, () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ReciptOverview()));
-                  }),
+              food_kind_button(
+                  "assets/food_kinds/main_course.png", "Hauptgerichte", size,
+                  () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ReciptOverview()));
+              }),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               food_kind_button(
-                  "assets/food_kinds/fast.png", "Schnell", size, () {}),
+                  "assets/food_kinds/fast.png", "Schnell", size, () {
+              }),
               food_kind_button(
                   "assets/food_kinds/dessert.png", "Nachspeisen", size, () {}),
             ],
           ),
-
-          button_no_filter("Alle Gerichte",size,(){
+          button_no_filter("Alle Gerichte", size, () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const ReciptOverview()));
           })
-
         ],
       ),
     );
