@@ -30,7 +30,6 @@ class _SetProfilePageState extends State<SetProfilePage> {
   Widget build(BuildContext context) {
     AuthService auth = AuthService();
     Size size = MediaQuery.of(context).size;
-    String userName = '';
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
@@ -44,7 +43,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
         children: [
           const ProfileWidget(isProfileRoot: true),
           SizedBox(height: size.height * 0.015),
-          buildName(userName, auth),
+          buildName(auth),
           SizedBox(height: size.height * 0.01),
           NumbersWidget(
               userMail:auth.getUser().email),
@@ -55,7 +54,9 @@ class _SetProfilePageState extends State<SetProfilePage> {
               color: Colors.white,
               text: "Eingaben speichern",
               onPressed: () {
-                Provider.of<UserLocal>(context, listen: false).setDescription(userDescription);
+                print('user descpription************* $userDescription');
+                Provider.of<UserLocal>(context, listen: false).setDescription
+                  (userDescription);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const ChooseCookbook()));
               }),
@@ -64,7 +65,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
     );
   }
 
-  Widget buildName(String userName, AuthService auth) => Column(
+  Widget buildName(AuthService auth) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
@@ -79,17 +80,20 @@ class _SetProfilePageState extends State<SetProfilePage> {
             ),
             child: TextFormField(
               textAlign: TextAlign.center,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
                   contentPadding:
-                      EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                  hintText: 'Benutzername eingeben'),
+                     const EdgeInsets.only(left: 15, bottom: 11, top: 11,
+                         right: 15),
+                  hintText: auth.getUser().displayName ?? 'Benutzername '
+                      'eingeben'),
               onChanged: (value) {
-                auth.getUser().updateDisplayName(value);
+                String name = value;
+                auth.getUser().updateDisplayName(name);
               },
             ),
           ),
@@ -109,15 +113,16 @@ class _SetProfilePageState extends State<SetProfilePage> {
         ),
         child: TextFormField(
           textAlign: TextAlign.center,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               contentPadding:
-                  EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-              hintText: 'Schreibe etwas über dich:'),
+                  const EdgeInsets.only(left: 15, bottom: 11, top: 11, right:
+                  15),
+              hintText: 'Schreibe etwas über dich:' ?? userDescription),
           minLines: 6,
           maxLines: 9,
           onChanged: (value){

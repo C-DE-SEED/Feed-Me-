@@ -80,10 +80,11 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 16),
             Text(
-               'Keine Beschreibung vorhanden'?? Provider.of<UserLocal>(context,
-                   listen: false).getDescription(),
+              Provider.of<UserLocal>(context, listen: false).getDescription()
+              ?? 'Keine Beschreibung vorhanden' ,
               style: const TextStyle(
-                  fontFamily: openSansFontFamily, fontSize: 16, height: 1.4),
+                  fontFamily: openSansFontFamily, fontSize: 16, height: 1.4,
+                  color: Colors.black54),
             ),
           ],
         ),
