@@ -17,6 +17,10 @@ class UserLocal {
     description = newDescription;
   }
 
+  String getUserName(){
+    return _auth.currentUser.displayName;
+  }
+
   String getDescription() {
     return description;
   }
@@ -51,5 +55,10 @@ class UserLocal {
 
   String getUID(){
     return uid;
+  }
+
+  @override
+  String toString() {
+    return 'UserLocal{uid: $uid, description: $description, books: $books, recipes: $recipes}';
   }
 }

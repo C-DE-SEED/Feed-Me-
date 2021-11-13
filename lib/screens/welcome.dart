@@ -6,7 +6,7 @@ import 'package:feed_me/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gifimage/flutter_gifimage.dart';
 
-import 'home.dart';
+import 'choose_cookbook.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
-import 'Colors.dart';
+import '../Colors.dart';
 
 class PasswordTextFormField extends StatefulWidget {
   const PasswordTextFormField({Key key, this.hintText, this.onChange})

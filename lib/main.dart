@@ -1,14 +1,15 @@
-import 'package:feed_me/Screens/sing_in.dart';
-import 'package:feed_me/Screens/wrapper.dart';
+
+import 'package:feed_me/home_page/screens/recipe_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
-import 'package:feed_me/screens/home.dart';
+import 'package:feed_me/screens/recipt_overview.dart';
 import 'package:feed_me/screens/welcome.dart';
-import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'screens/choose_cookbook.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +19,15 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key key}) : super(key: key);
+// TODO insert UserObject with additional data (use Firebase User object as
+//  root)
+  // TODO insert google login
+  // TODO NOT FAST - show loading animation as soon as profile picture is
+  //  loading
+  // TODO insert toolbar in home() screen
+  // TODO show dish of the day instead of feed me logo
+  // FIXME CHANGE HOME PAGE!
+  //
 
 
   // List<Recipt> plant_food_factory = [];

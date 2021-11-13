@@ -1,20 +1,20 @@
 import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
-import 'Colors.dart';
+import '../Colors.dart';
 
-class MailTextFormField extends StatefulWidget {
-  const MailTextFormField({Key key, this.hintText, this.onChange})
+class StandardTextFormField extends StatefulWidget {
+  const StandardTextFormField({Key key, this.hintText, this.onChange})
       : super(key: key);
 
   final String hintText;
   final Function onChange;
 
   @override
-  _MailTextFormFieldState createState() => _MailTextFormFieldState();
+  _StandardTextFormFieldState createState() => _StandardTextFormFieldState();
 }
 
-class _MailTextFormFieldState extends State<MailTextFormField> {
+class _StandardTextFormFieldState extends State<StandardTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,10 +30,7 @@ class _MailTextFormFieldState extends State<MailTextFormField> {
           fontWeight: FontWeight.w600,
         ),
         decoration: InputDecoration(
-          prefixIcon: const Icon(
-            Icons.email_outlined,
-            color: BasicGreen,
-          ),
+          prefixIcon: const Icon(Icons.mail_outlined, color:BasicGreen),
           filled: true,
           fillColor: Colors.white,
           hintText: widget.hintText,

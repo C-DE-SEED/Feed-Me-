@@ -1,19 +1,20 @@
 import 'package:feed_me/constants/colors.dart';
-import 'package:feed_me/constants/feed_me_circle_avatar.dart';
-import 'package:feed_me/constants/password_text_form_field.dart';
-import 'package:feed_me/constants/standard_button.dart';
-import 'package:feed_me/constants/standard_text_form_field.dart';
+import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
+import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
+import 'package:feed_me/constants/buttons/standard_button.dart';
+import 'package:feed_me/constants/text_fields/standard_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/home_page/screens/recipe_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/loading.dart';
 import 'package:feed_me/screens/registration.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import 'choose_cookbook.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key key, this.toggleView}) : super(key: key);
-
+//TODO insert google log in option
   final Function toggleView;
 
   @override
@@ -54,7 +55,7 @@ class _SignInState extends State<SignIn> {
                     SizedBox(
                       height: size.height * 0.10,
                     ),
-                    MailTextFormField(
+                    StandardTextFormField(
                       hintText: "Bitte geben Sie Ihre E-Mail ein",
                       onChange: (value) {
                         setState(() {
@@ -79,7 +80,7 @@ class _SignInState extends State<SignIn> {
                     StandardButton(
                       color: Colors.white,
                       text: "Login",
-                      onPress: () async {
+                      onPressed: () async {
                         // dynamic result = await _auth
                         //     .loginWithEmailAndPassword(email, password);
                         if (_formKey.currentState.validate()) {
@@ -97,7 +98,8 @@ class _SignInState extends State<SignIn> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Home()));
+                                    builder: (context) => const ChooseCookbook
+                                      ()));
                           }
                         }
                       },

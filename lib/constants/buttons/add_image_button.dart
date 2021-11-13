@@ -2,7 +2,7 @@ import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
 class AddImageButton extends StatelessWidget {
-  const AddImageButton({Key key, this.hasImage, this.onPressed})
+  const AddImageButton({ Key key, this.hasImage, this.onPressed})
       : super(key: key);
 
   final bool hasImage;

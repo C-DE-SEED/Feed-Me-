@@ -1,7 +1,7 @@
 import 'package:feed_me/constants/colors.dart';
-import 'package:feed_me/constants/feed_me_circle_avatar.dart';
-import 'package:feed_me/constants/recipt_preview_image.dart';
-import 'package:feed_me/constants/search_text_form_field.dart';
+import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
+import 'package:feed_me/constants/images/recipt_preview_image.dart';
+import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +20,7 @@ class _ReciptOverviewState extends State<ReciptOverview> {
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: <Widget>[
-          const SliverAppBar(
+           const SliverAppBar(
             backgroundColor: BasicGreen,
             expandedHeight: 150.0,
             pinned: true,
@@ -37,10 +37,9 @@ class _ReciptOverviewState extends State<ReciptOverview> {
               background: ReciptPreviewImage(
                   isTitle: true,
                   image: "assets/testImages/11.jpg",
-                  fit: BoxFit.cover),
-            ),
+                  fit: BoxFit.cover),          ),
           ),
-          SliverToBoxAdapter(
+          /*SliverToBoxAdapter(
             child: Container(
                 color: BasicGreen,
                 child: Padding(
@@ -54,7 +53,7 @@ class _ReciptOverviewState extends State<ReciptOverview> {
                     ],
                   ),
                 )),
-          ),
+          ),*/
           SliverToBoxAdapter(child: SizedBox(height: size.height * 0.025)),
           SliverPadding(
             padding: EdgeInsets.only(left: 16.0, right: 16.0),

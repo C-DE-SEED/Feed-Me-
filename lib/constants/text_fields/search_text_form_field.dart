@@ -1,7 +1,7 @@
 import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
-import 'Colors.dart';
+import '../Colors.dart';
 
 class SearchTextFormField extends StatefulWidget {
   const SearchTextFormField({Key key, this.hintText, this.onChange})
@@ -20,8 +20,8 @@ class _SearchTextFormFieldState extends State<SearchTextFormField> {
     Size size = MediaQuery.of(context).size;
     return Container(
       color: Colors.transparent,
-      width: size.width*0.9,
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+      width: size.width * 0.65,
+      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
       child: TextFormField(
         keyboardType: TextInputType.text,
         textAlign: TextAlign.center,
