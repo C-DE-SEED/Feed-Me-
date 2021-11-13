@@ -1,5 +1,5 @@
 
-import 'package:feed_me/home_page/screens/home_page.dart';
+import 'package:feed_me/home_page/screens/recipe_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:feed_me/screens/recipt_overview.dart';
@@ -53,11 +53,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: [GlobalMaterialLocalizations.delegate],
         supportedLocales: [Locale('en'), Locale('de')],
-<<<<<<< HEAD
         home: ChooseCookbook(),
-=======
-        home: Welcome(),
->>>>>>> 55e4cad41065049c840d599a038a7041c52d94c5
       ),
     );
     // return StreamProvider<UserLocal>.value(

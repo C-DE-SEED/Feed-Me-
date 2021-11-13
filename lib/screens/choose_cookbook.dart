@@ -1,9 +1,8 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/home_page/screens/recipe_page.dart';
+import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ChooseCookbook extends StatefulWidget {
   const ChooseCookbook({Key key}) : super(key: key);
@@ -14,71 +13,172 @@ class ChooseCookbook extends StatefulWidget {
 
 class _ChooseCookbookState extends State<ChooseCookbook> {
   int selectedIndex = 0;
-
+  AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      bottomNavigationBar: SizedBox(
-        height: size.height * 0.14,
-        child: BottomNavigationBar(
-          backgroundColor: Colors.black45,
-          currentIndex: selectedIndex,
-          onTap: _onItemTapped,
-          selectedFontSize: size.width * 0.04,
-          selectedIconTheme:
-              IconThemeData(color: BasicGreen, size: size.width * 0.06),
-          selectedItemColor: BasicGreen,
-          selectedLabelStyle: const TextStyle(
-              fontWeight: FontWeight.bold, fontFamily: openSansFontFamily),
-          unselectedIconTheme: IconThemeData(
-            color: Colors.green,size: size.width * 0.05,
-          ),
-          unselectedItemColor: Colors.green,
-          unselectedLabelStyle: const TextStyle(
-              fontWeight: FontWeight.normal, fontFamily: openSansFontFamily),
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                FontAwesomeIcons.user,
+      backgroundColor: BasicGreen,
+      body: SafeArea(
+        child: ListView(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.white
+                  ),
+                  borderRadius: const BorderRadius.vertical(top: Radius
+                      .circular(5.0), bottom: Radius.circular(0.0))),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                                Text("Hallo, " + authService.getUser().displayName,
+                                  style: const TextStyle(
+                                      fontSize: 18.0, fontWeight: FontWeight
+                                      .bold, fontFamily: openSansFontFamily)),
+                              const SizedBox(height: 5.0,),
+                              Text(
+                                "Was möchtest du heute kochen?",
+                                style: TextStyle(color: Colors.grey.shade700,
+                                    fontFamily: openSansFontFamily),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                               authService.getUser().photoURL),
+                            radius: size.width * 0.09,
+                          ),
+                        )
+                      ],
+                    ),
+                    Material(
+                      elevation: 5.0,
+                      child: TextField(
+
+                        onChanged: (value) {
+                          //TODO insert filtered value
+                        },
+                        showCursor: true,
+                        decoration: const InputDecoration(
+                            hintText: "Nach Rezept suchen",
+                            prefixIcon: Icon(Icons.search, color: Colors.black54),
+                            border: InputBorder.none,
+                        ))
+                    ),
+                  ],
+                ),
               ),
-              label: 'Profil',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add),
-              label: ' Kochbuch\nhinzufügen',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Einstellungen',
-            ),
+            GestureDetector(
+                onTap: () => _openDestinationPage(context),
+                child: _buildFeaturedItem(
+                    image:
+                        "https://purepng.com/public/uploads/large/purepng.com-plantnatureplant-961524678664sj8de.png",
+                    title: "Kathmandu",
+                    subtitle: "90 places worth to visit")),
+            GestureDetector(
+                onTap: () => _openDestinationPage(context),
+                child: _buildFeaturedItem(
+                    image:
+                        "https://purepng.com/public/uploads/large/purepng.com-plantnatureplant-961524678664sj8de.png",
+                    title: "Pokhara",
+                    subtitle: "40 places worth to visit")),
           ],
         ),
       ),
-      body: Center(
-        child: _pages.elementAt(selectedIndex), //New
+      floatingActionButton: FloatingActionButton(
+        tooltip: ' Kochbuch\nhinzufügen',
+        backgroundColor: BasicGreen,
+        child: Icon(
+          Icons.add,
+          size: size.width * 0.08,
+        ),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  Widget _buildItem({@required String title}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Material(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+        elevation: 5.0,
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(title,
+              style: const TextStyle(
+                fontSize: 20.0,
+              )),
+        ),
       ),
     );
   }
 
-  static const List<Widget> _pages = <Widget>[
-    Icon(
-      FontAwesomeIcons.user,
-      size: 150,
-    ),
-    Icon(
-      Icons.camera,
-      size: 150,
-    ),
-    Icon(
-      Icons.settings,
-      size: 150,
-    ),
-  ];
+  Container _buildFeaturedItem({String image, String title, String subtitle}) {
+    return Container(
+      padding: const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0, bottom: 16.0),
+      child: Material(
+        elevation: 5.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+        child: Stack(
+          children: <Widget>[
+            ClipRRect(
+                borderRadius: BorderRadius.circular(5.0),
+                child: Image.network(
+                  image,
+                )),
+            Positioned(
+              right: 10.0,
+              top: 10.0,
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.favorite_border, color: Colors.white),
+              ),
+            ),
+            Positioned(
+              bottom: 20.0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                color: Colors.black.withOpacity(0.7),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text(title,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: openSansFontFamily)),
+                    Text(subtitle, style: const TextStyle(color: Colors
+                        .white, fontFamily: openSansFontFamily)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+  _openDestinationPage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => const RecipePage()));
   }
 }

@@ -1,14 +1,10 @@
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/colors.dart';
-<<<<<<< HEAD
-import 'package:feed_me/registration_and_login/auth_service.dart';
+
 import 'package:feed_me/screens/choose_cookbook.dart';
-=======
-import 'package:feed_me/constants/standard_button.dart';
-import 'package:feed_me/registration_and_login/auth_service.dart';
+
 import 'package:feed_me/registration_and_login/user_local.dart';
-import 'package:feed_me/screens/home.dart';
->>>>>>> 55e4cad41065049c840d599a038a7041c52d94c5
+
 import 'package:feed_me/user/widget/numbers_widget.dart';
 import 'package:feed_me/user/widget/profile_widget.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +19,12 @@ class SetProfilePage extends StatefulWidget {
 
 class _SetProfilePageState extends State<SetProfilePage> {
   String userDescription='';
+  String email ='';
 
   @override
   void initState() {
+    email =  Provider.of<UserLocal>(context, listen: false).getUserMail();
     super.initState();
-    waitAndRefresh();
   }
 
   waitAndRefresh() async {
@@ -55,9 +52,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
           buildName(userName),
           SizedBox(height: size.height * 0.01),
           NumbersWidget(
-              userMail: Provider.of<UserLocal>(context, listen: false)
-                  .getFireBaseUser()
-                  .email),
+              userMail:email),
           SizedBox(height: size.height * 0.01),
           buildAbout(size),
           SizedBox(height: size.height * 0.0025),

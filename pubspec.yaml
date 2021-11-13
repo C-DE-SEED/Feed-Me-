@@ -39,6 +39,7 @@ dependencies:
   firebase_storage: ^10.0.6
   carousel_slider: ^4.0.0
   font_awesome_flutter: ^9.2.0
+  fluttericon: ^2.0.0
 
 dev_dependencies:
   flutter_test:
