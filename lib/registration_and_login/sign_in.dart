@@ -9,11 +9,12 @@ import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/loading.dart';
 import 'package:feed_me/screens/registration.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../screens/choose_cookbook.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key key, this.toggleView}) : super(key: key);
+  const SignIn({Key key, this.toggleView,}) : super(key: key);
 //TODO insert google log in option
   final Function toggleView;
 
@@ -89,6 +90,7 @@ class _SignInState extends State<SignIn> {
                           });
                           dynamic result = await _auth
                               .loginWithEmailAndPassword(email, password);
+                          await GetStorage.init(_auth.getUser().uid);
                           if (result == null) {
                             setState(() {
                               error = "Please supply a valid email";
@@ -98,8 +100,7 @@ class _SignInState extends State<SignIn> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ChooseCookbook
-                                      ()));
+                                    builder: (context) => const ChooseCookbook()));
                           }
                         }
                       },

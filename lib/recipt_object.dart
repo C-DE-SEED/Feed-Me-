@@ -27,43 +27,4 @@ class Recipt {
       this.short_discription,
       this.spices,
       this.time);
-
-  // static List<Recipt> starters = [];
-  // static List<Recipt> main = [];
-  // static List<Recipt> dessert = [];
-  // static List<Recipt> fast = [];
-  //
-  // static void setStartersRecipts(List<Recipt> recipts) {
-  //   recipts.forEach((element) {
-  //     if (element.category == "starter") {
-  //       starters.add(element);
-  //     }
-  //   });
-  // }
-  //
-  // static void setMainRecipts(List<Recipt> recipts) {
-  //   recipts.forEach((element) {
-  //     if (element.category == "Hauptgericht") {
-  //       print("was here");
-  //       main.add(element);
-  //       print(main);
-  //     }
-  //   });
-  // }
-  //
-  // static void setDessertRecipts(List<Recipt> recipts) {
-  //   recipts.forEach((element) {
-  //     if (element.category == "dessert") {
-  //       dessert.add(element);
-  //     }
-  //   });
-  // }
-  //
-  // static void setFastRecipts(List<Recipt> recipts) {
-  //   recipts.forEach((element) {
-  //     if (element.category == "fast") {
-  //       fast.add(element);
-  //     }
-  //   });
-  // }
 }

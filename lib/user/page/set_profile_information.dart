@@ -9,26 +9,36 @@ import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:feed_me/user/widget/numbers_widget.dart';
 import 'package:feed_me/user/widget/profile_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
+import '../../recipt_db_object.dart';
+
 class SetProfilePage extends StatefulWidget {
-  const SetProfilePage({Key key}) : super(key: key);
+
+  const SetProfilePage({Key key,}) : super(key: key);
 
   @override
   _SetProfilePageState createState() => _SetProfilePageState();
 }
 
 class _SetProfilePageState extends State<SetProfilePage> {
-  String userDescription='';
+  String userDescription = '';
+  AuthService auth = AuthService();
 
   waitAndRefresh() async {
     await Future.delayed(const Duration(milliseconds: 5));
     setState(() {});
   }
 
+  getAdditionalData() async {
+     Future<int> recipes = ReciptDbObject().getReciptObject
+      ("plant_food_factory").length;
+     await GetStorage(auth.getUser().uid).write('recipes', recipes);
+  }
+
   @override
   Widget build(BuildContext context) {
-    AuthService auth = AuthService();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -43,29 +53,27 @@ class _SetProfilePageState extends State<SetProfilePage> {
         children: [
           const ProfileWidget(isProfileRoot: true),
           SizedBox(height: size.height * 0.015),
-          buildName(auth),
+          buildName(auth,GetStorage(auth.getUser().uid)),
           SizedBox(height: size.height * 0.01),
-          NumbersWidget(
-              userMail:auth.getUser().email),
+          NumbersWidget(),
           SizedBox(height: size.height * 0.01),
-          buildAbout(size),
+          buildAbout(size, auth),
           SizedBox(height: size.height * 0.0025),
           StandardButton(
               color: Colors.white,
               text: "Eingaben speichern",
               onPressed: () {
-                print('user descpription************* $userDescription');
-                Provider.of<UserLocal>(context, listen: false).setDescription
-                  (userDescription);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const ChooseCookbook()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChooseCookbook()));
               }),
         ],
       ),
     );
   }
 
-  Widget buildName(AuthService auth) => Column(
+  Widget buildName(AuthService auth, GetStorage box) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
@@ -86,13 +94,16 @@ class _SetProfilePageState extends State<SetProfilePage> {
                   enabledBorder: InputBorder.none,
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
-                  contentPadding:
-                     const EdgeInsets.only(left: 15, bottom: 11, top: 11,
-                         right: 15),
-                  hintText: auth.getUser().displayName ?? 'Benutzername '
-                      'eingeben'),
+                  contentPadding: const EdgeInsets.only(
+                      left: 15, bottom: 11, top: 11, right: 15),
+                  hintText: GetStorage(auth.getUser().uid).read('displayName') ??
+                      'Benutzername '
+                          'eingeben'),
               onChanged: (value) {
                 String name = value;
+                //TODO remove enter from string
+                name.replaceAll('\n', ' ');
+                GetStorage(auth.getUser().uid).write('displayName', name);
                 auth.getUser().updateDisplayName(name);
               },
             ),
@@ -100,7 +111,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
         ],
       );
 
-  Widget buildAbout(Size size) => Container(
+  Widget buildAbout(Size size, AuthService auth) => Container(
         height: size.height * 0.27,
         decoration: BoxDecoration(
           color: Colors.white54,
@@ -119,14 +130,16 @@ class _SetProfilePageState extends State<SetProfilePage> {
               enabledBorder: InputBorder.none,
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
-              contentPadding:
-                  const EdgeInsets.only(left: 15, bottom: 11, top: 11, right:
-                  15),
-              hintText: 'Schreibe etwas über dich:' ?? userDescription),
+              contentPadding: const EdgeInsets.only(
+                  left: 15, bottom: 11, top: 11, right: 15),
+              hintText:
+                  GetStorage(auth.getUser().uid).read('userDescription')
+                      .toString() ?? 'Schreibe etwas über dich:'),
           minLines: 6,
           maxLines: 9,
-          onChanged: (value){
-              userDescription = value;
+          onChanged: (value) {
+            userDescription = value;
+            GetStorage(auth.getUser().uid).write('userDescription', userDescription);
           },
         ),
       );

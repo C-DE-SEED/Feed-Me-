@@ -2,6 +2,7 @@ import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:feed_me/screens/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,32 +15,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key key}) : super(key: key);
-// TODO insert UserObject with additional data (use Firebase User object as
-//  root)
-  // TODO insert google login
-  // TODO NOT FAST - show loading animation as soon as profile picture is
-  //  loading
-  // TODO insert toolbar in home() screen
-  // TODO show dish of the day instead of feed me logo
-  // FIXME CHANGE HOME PAGE!
-  //TODO: Favourite heart
-  //TODO: Decription from user
-  //
-
-
-  // List<Recipt> plant_food_factory = [];
-  //
-  // void getAllRecipes() async {
-  //   plant_food_factory =
-  //   await ReciptDbObject().getReciptObject("plant_food_factory").elementAt(0);
-  // }
-  //
-  // @override
-  // void initState() {
-  //   getAllRecipes();
-  //   super.initState();
-  //
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -53,21 +28,33 @@ class MyApp extends StatelessWidget {
         home: Welcome(),
       ),
     );
-    // return StreamProvider<UserLocal>.value(
-    //   value: AuthService().user,
-    //   initialData: null,
-    //   child: MaterialApp(
-    //     localizationsDelegates: [
-    //       GlobalMaterialLocalizations.delegate
-    //     ],
-    //     supportedLocales: [
-    //       const Locale('en'),
-    //       const Locale('de')
-    //     ],
-    //     home: SignIn(),
-    //   ),
-    // );
 
+// TODO insert UserObject with additional data (use Firebase User object as
+//  root)
+    // TODO insert google login
+    // TODO NOT FAST - show loading animation as soon as profile picture is
+    //  loading
+    // TODO insert toolbar in home() screen
+    // TODO show dish of the day instead of feed me logo
+    // FIXME CHANGE HOME PAGE!
+    //TODO: Favourite heart
+    //TODO: Decription from user
+    //
+
+
+    // List<Recipt> plant_food_factory = [];
+    //
+    // void getAllRecipes() async {
+    //   plant_food_factory =
+    //   await ReciptDbObject().getReciptObject("plant_food_factory").elementAt(0);
+    // }
+    //
+    // @override
+    // void initState() {
+    //   getAllRecipes();
+    //   super.initState();
+    //
+    // }
     /*
      ----------------------------------------------
     |             _____             _____          |
