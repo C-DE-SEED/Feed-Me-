@@ -96,30 +96,30 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                 onTap: () => _openDestinationPage(context),
                 child: _buildFeaturedItem(
                     image:
-                        "https://www.hamburg.de/image/10944368/16x9/990/557/68afbf4236ccc4e825ec58a71d67af7/Md/vegane-restaurants-symbolbild.jpg",
-                    title: "Summer Bowl",
-                    subtitle: "90 places worth to visit")),
-            GestureDetector(
-                onTap: () => _openDestinationPage(context),
-                child: _buildFeaturedItem(
-                    image:
-                        "https://www.takt-magazin.de/wp-content/uploads/2021/05/edgar-castrejon-1SPu0KT-Ejg-unsplash-scaled-e1622116685668-1170x855.jpg?x48126",
-                    title: "Pokhara",
-                    subtitle: "40 places worth to visit")),
-            GestureDetector(
-                onTap: () => _openDestinationPage(context),
-                child: _buildFeaturedItem(
-                    image:
-                    "https://i.pinimg.com/originals/cd/88/e9/cd88e9b8c1875b7813d6af93343040d8.jpg",
-                    title: "Pokhara",
-                    subtitle: "40 places worth to visit")),
-            GestureDetector(
-                onTap: () => _openDestinationPage(context),
-                child: _buildFeaturedItem(
-                    image:
-                    "https://www.belderbusch.de/wp-content/uploads/2018/09/vegetarisch-vegan-restaurant-essen-kln-bonn-5-von-5.jpg",
-                    title: "Pokhara",
-                    subtitle: "40 places worth to visit")),
+                        "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
+                    title: "Vegetarische Rezepte",
+                    subtitle: "Gesund & Lecker")),
+            // GestureDetector(
+            //     onTap: () => _openDestinationPage(context),
+            //     child: _buildFeaturedItem(
+            //         image:
+            //             "https://www.takt-magazin.de/wp-content/uploads/2021/05/edgar-castrejon-1SPu0KT-Ejg-unsplash-scaled-e1622116685668-1170x855.jpg?x48126",
+            //         title: "Pokhara",
+            //         subtitle: "40 places worth to visit")),
+            // GestureDetector(
+            //     onTap: () => _openDestinationPage(context),
+            //     child: _buildFeaturedItem(
+            //         image:
+            //         "https://i.pinimg.com/originals/cd/88/e9/cd88e9b8c1875b7813d6af93343040d8.jpg",
+            //         title: "Pokhara",
+            //         subtitle: "40 places worth to visit")),
+            // GestureDetector(
+            //     onTap: () => _openDestinationPage(context),
+            //     child: _buildFeaturedItem(
+            //         image:
+            //         "https://www.belderbusch.de/wp-content/uploads/2018/09/vegetarisch-vegan-restaurant-essen-kln-bonn-5-von-5.jpg",
+            //         title: "Pokhara",
+            //         subtitle: "40 places worth to visit")),
           ],
         ),
       ),
