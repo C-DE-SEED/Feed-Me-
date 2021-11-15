@@ -7,13 +7,19 @@ import 'detail_page.dart';
 
 class MainDishesPage extends StatefulWidget {
   List<Recipt> plant_food_factory;
-  MainDishesPage({Key key,this.plant_food_factory}) : super(key: key);
+
+  MainDishesPage({Key key, this.plant_food_factory}) : super(key: key);
 
   @override
   State<MainDishesPage> createState() => _MainDishesPageState();
 }
 
 class _MainDishesPageState extends State<MainDishesPage> {
+  List<String> reciptSteps = [];
+
+  void filterSteps(Recipt recipe) {
+    reciptSteps = recipe.description.split("/");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,26 +31,33 @@ class _MainDishesPageState extends State<MainDishesPage> {
         children: [
           SizedBox(height: size.height * 0.08),
           const Center(
-            child: Text('Hauptgerichte', style: TextStyle(color: Colors.grey,
-                fontSize: 22, fontFamily: openSansFontFamily)),
+            child: Text('Hauptgerichte',
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 22,
+                    fontFamily: openSansFontFamily)),
           ),
           SizedBox(height: size.height * 0.02),
-          SearchTextFormField(hintText: 'Nach Gerichten suchen', onChange:
-              (value){
-            //TODO insert search function
-            print(value);
-          },),
+          SearchTextFormField(
+            hintText: 'Nach Gerichten suchen',
+            onChange: (value) {
+              //TODO insert search function
+              print(value);
+            },
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: widget.plant_food_factory.length,
               itemBuilder: (_, index) {
                 return GestureDetector(
                   onTap: () {
+                    filterSteps(widget.plant_food_factory[index]);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (_) => DetailPage(
                           recipt: widget.plant_food_factory[index],
+                          reciptSteps: reciptSteps,
                         ),
                       ),
                     );
@@ -54,7 +67,8 @@ class _MainDishesPageState extends State<MainDishesPage> {
                     children: [
                       Hero(
                         tag: widget.plant_food_factory[index].name,
-                        child: Image.network(widget.plant_food_factory[index].image),
+                        child: Image.network(
+                            widget.plant_food_factory[index].image),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
@@ -63,7 +77,6 @@ class _MainDishesPageState extends State<MainDishesPage> {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           fontFamily: openSansFontFamily,
-
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),
@@ -73,7 +86,6 @@ class _MainDishesPageState extends State<MainDishesPage> {
                           color: Colors.grey,
                           fontSize: 16,
                           fontFamily: openSansFontFamily,
-
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),
