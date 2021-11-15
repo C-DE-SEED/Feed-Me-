@@ -52,7 +52,7 @@ class DetailPage extends StatelessWidget {
                   ),
                   Hero(
                     tag: recipt.name,
-                    child: Image.network(recipt.image1),
+                    child: Image.network(recipt.image),
                   ),
                   SizedBox(height: size.height * 0.01),
                   Container(

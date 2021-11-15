@@ -55,7 +55,7 @@ class _MainDishesPageState extends State<MainDishesPage> {
                       Hero(
                         tag: widget.plant_food_factory[index].name,
                         child: Image.network(widget.plant_food_factory[index]
-                            .image1),
+                            .image),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(

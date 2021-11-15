@@ -60,7 +60,7 @@ class _FastDishesPageState extends State<FastDishesPage> {
                       Hero(
                         tag: widget.plant_food_factory[index].name,
                         child: Image.network(
-                            widget.plant_food_factory[index].image1),
+                            widget.plant_food_factory[index].image),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
