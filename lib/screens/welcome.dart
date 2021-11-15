@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:feed_me/constants/colors.dart';
-import 'package:feed_me/screens/sing_in.dart';
+import 'package:feed_me/registration_and_login/sign_in.dart';
 import 'package:feed_me/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gifimage/flutter_gifimage.dart';

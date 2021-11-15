@@ -1,6 +1,6 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/home_page/screens/recipe_page.dart';
+import 'package:feed_me/open_cookbook/screens/recipe_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';

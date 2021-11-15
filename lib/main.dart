@@ -1,15 +1,10 @@
-
-import 'package:feed_me/home_page/screens/recipe_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
-import 'package:feed_me/screens/recipt_overview.dart';
 import 'package:feed_me/screens/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import 'screens/choose_cookbook.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

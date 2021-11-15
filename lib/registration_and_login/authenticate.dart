@@ -1,7 +1,7 @@
+import 'package:feed_me/registration_and_login/sign_in.dart';
 import 'package:feed_me/screens/registration.dart';
 import 'package:flutter/material.dart';
 
-import '../Screens/sing_in.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({Key key}) : super(key: key);

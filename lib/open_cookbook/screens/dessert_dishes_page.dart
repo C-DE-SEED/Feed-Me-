@@ -1,11 +1,11 @@
 import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/home_page/model/data_model.dart';
+import 'package:feed_me/open_cookbook/model/data_model.dart';
 import 'package:flutter/material.dart';
 import 'detail_page.dart';
 
-class FastDishesPage extends StatelessWidget {
-  const FastDishesPage({Key key}) : super(key: key);
+class DessertDishesPage extends StatelessWidget {
+  const DessertDishesPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class FastDishesPage extends StatelessWidget {
         children: [
           SizedBox(height: size.height * 0.08),
           const Center(
-            child: Text('Schnelle Gerichte', style: TextStyle(color: Colors.grey,
+            child: Text('Hauptgerichte', style: TextStyle(color: Colors.grey,
                 fontSize: 22, fontFamily: openSansFontFamily)),
           ),
           SizedBox(height: size.height * 0.02),
@@ -36,7 +36,7 @@ class FastDishesPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DetailPage(
-                          plant: Indoor[index],
+                          plant: Shape[index],
                         ),
                       ),
                     );
@@ -45,34 +45,32 @@ class FastDishesPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Hero(
-                        tag: Indoor[index].title,
-                        child: Image.network(Indoor[index].image),
+                        tag: Shape[index].title,
+                        child: Image.network(Shape[index].image),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        Indoor[index].title,
+                        Shape[index].title,
                         style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                           fontFamily: openSansFontFamily,
-
                         ),
                       ),
-                      SizedBox(height: size.height * 0.01),
+                      const SizedBox(height: 10),
                       Text(
-                        Indoor[index].description,
+                        Shape[index].description,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
                           fontFamily: openSansFontFamily,
-
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Row(
                         children: [
                           Text(
-                            "\$${Indoor[index].persons}",
+                            "\$${Shape[index].persons}",
                             style: const TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,
@@ -82,7 +80,7 @@ class FastDishesPage extends StatelessWidget {
                           TextButton(
                             child: const Text(
                               "+",
-                              style: TextStyle(fontSize: 22),
+                              style: const TextStyle(fontSize: 22),
                             ),
                             onPressed: () {},
                           )

@@ -7,7 +7,7 @@ import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/text_fields/standard_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
-import 'package:feed_me/screens/sing_in.dart';
+import 'package:feed_me/registration_and_login/sign_in.dart';
 import 'package:feed_me/user/page/set_profile_information.dart';
 import 'package:flutter/material.dart';
 

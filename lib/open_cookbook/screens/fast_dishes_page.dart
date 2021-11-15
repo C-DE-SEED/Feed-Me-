@@ -1,11 +1,11 @@
 import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/home_page/model/data_model.dart';
+import 'package:feed_me/open_cookbook/model/data_model.dart';
 import 'package:flutter/material.dart';
 import 'detail_page.dart';
 
-class MainDishesPage extends StatelessWidget {
-  const MainDishesPage({Key key}) : super(key: key);
+class FastDishesPage extends StatelessWidget {
+  const FastDishesPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class MainDishesPage extends StatelessWidget {
         children: [
           SizedBox(height: size.height * 0.08),
           const Center(
-            child: Text('Hauptgerichte', style: TextStyle(color: Colors.grey,
+            child: Text('Schnelle Gerichte', style: TextStyle(color: Colors.grey,
                 fontSize: 22, fontFamily: openSansFontFamily)),
           ),
           SizedBox(height: size.height * 0.02),

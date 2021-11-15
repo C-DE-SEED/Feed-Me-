@@ -1,11 +1,11 @@
 import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/home_page/model/data_model.dart';
+import 'package:feed_me/open_cookbook/model/data_model.dart';
 import 'package:flutter/material.dart';
 import 'detail_page.dart';
 
-class DessertDishesPage extends StatelessWidget {
-  const DessertDishesPage({Key key}) : super(key: key);
+class MainDishesPage extends StatelessWidget {
+  const MainDishesPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class DessertDishesPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DetailPage(
-                          plant: Shape[index],
+                          plant: Indoor[index],
                         ),
                       ),
                     );
@@ -45,32 +45,34 @@ class DessertDishesPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Hero(
-                        tag: Shape[index].title,
-                        child: Image.network(Shape[index].image),
+                        tag: Indoor[index].title,
+                        child: Image.network(Indoor[index].image),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        Shape[index].title,
+                        Indoor[index].title,
                         style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                           fontFamily: openSansFontFamily,
+
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: size.height * 0.01),
                       Text(
-                        Shape[index].description,
+                        Indoor[index].description,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
                           fontFamily: openSansFontFamily,
+
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Row(
                         children: [
                           Text(
-                            "\$${Shape[index].persons}",
+                            "\$${Indoor[index].persons}",
                             style: const TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,
@@ -80,7 +82,7 @@ class DessertDishesPage extends StatelessWidget {
                           TextButton(
                             child: const Text(
                               "+",
-                              style: const TextStyle(fontSize: 22),
+                              style: TextStyle(fontSize: 22),
                             ),
                             onPressed: () {},
                           )
