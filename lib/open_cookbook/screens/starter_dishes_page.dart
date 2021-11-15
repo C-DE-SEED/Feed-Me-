@@ -1,11 +1,21 @@
 import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/open_cookbook/model/data_model.dart';
 import 'package:flutter/material.dart';
+import '../../recipt_object.dart';
 import 'detail_page.dart';
 
-class StarterDishesPage extends StatelessWidget {
-  const StarterDishesPage({Key key}) : super(key: key);
+class StarterDishesPage extends StatefulWidget {
+  List<Recipt> plant_food_factory;
+
+  StarterDishesPage({Key key, this.plant_food_factory})
+      : super(key: key);
+
+  @override
+  State<StarterDishesPage> createState() => _StarterDishesPageState();
+}
+
+class _StarterDishesPageState extends State<StarterDishesPage> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +27,23 @@ class StarterDishesPage extends StatelessWidget {
         children: [
           SizedBox(height: size.height * 0.08),
           const Center(
-            child: Text('Vorspeisen', style: TextStyle(color: Colors.grey,
-                fontSize: 22, fontFamily: openSansFontFamily)),
+            child: Text('Vorspeisen',
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 22,
+                    fontFamily: openSansFontFamily)),
           ),
           SizedBox(height: size.height * 0.02),
-          SearchTextFormField(hintText: 'Nach Gerichten suchen', onChange:
-              (value){
-            //TODO insert search function
-            print(value);
-          },),
+          SearchTextFormField(
+            hintText: 'Nach Gerichten suchen',
+            onChange: (value) {
+              //TODO insert search function
+              print(value);
+            },
+          ),
           Expanded(
             child: ListView.builder(
-              itemCount: plants.length,
+              itemCount: widget.plant_food_factory.length,
               itemBuilder: (_, index) {
                 return GestureDetector(
                   onTap: () {
@@ -37,7 +52,7 @@ class StarterDishesPage extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (_) => DetailPage(
                           //TODO change Plants with recipes
-                          plant: plants[index],
+                          recipt: widget.plant_food_factory[index],
                         ),
                       ),
                     );
@@ -46,50 +61,28 @@ class StarterDishesPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Hero(
-                        tag: plants[index].title,
-                        child: Image.network(plants[index].image),
+                        tag: widget.plant_food_factory[index].name,
+                        child: Image.network(widget.plant_food_factory[index].image),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        plants[index].title,
+                        widget.plant_food_factory[index].name,
                         style: const TextStyle(
-                          fontSize: 25,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           fontFamily: openSansFontFamily,
-
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        plants[index].description,
+                        widget.plant_food_factory[index].short_discription,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
                           fontFamily: openSansFontFamily,
-
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),
-                      Row(
-                        children: [
-                          Text(
-                            "\$${plants[index].persons}",
-                            style: const TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: openSansFontFamily,
-
-                            ),
-                          ),
-                          TextButton(
-                            child: const Text(
-                              "+",
-                              style: TextStyle(fontSize: 22),
-                            ),
-                            onPressed: () {},
-                          )
-                        ],
-                      ),
                       const SizedBox(height: 30),
                       const Divider(),
                     ],
