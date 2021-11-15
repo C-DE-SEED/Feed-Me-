@@ -1,7 +1,6 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
-import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:feed_me/screens/choose_cookbook.dart';
 import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +10,10 @@ import 'fast_dishes_page.dart';
 import 'main_dishes_page.dart';
 import 'dessert_dishes_page.dart';
 import 'starter_dishes_page.dart';
-import 'package:provider/provider.dart';
 
 class RecipePage extends StatefulWidget {
   List<Recipt> plant_food_factory;
-  RecipePage({this.plant_food_factory});
+  RecipePage({Key key, this.plant_food_factory}) : super(key: key);
 
   @override
   State<RecipePage> createState() => _RecipePageState();
@@ -29,6 +27,7 @@ class _RecipePageState extends State<RecipePage> {
   List<Recipt> starter= [];
   AuthService authService = AuthService();
   int currentIndex = 0;
+
 
   void filterRecipts(List<Recipt> recipts) {
     recipts.forEach((element) {
@@ -71,7 +70,7 @@ class _RecipePageState extends State<RecipePage> {
           Container(
             width: size.width * 0.222,
             padding: const EdgeInsets.symmetric(vertical: 55),
-            color:BasicGreen,
+            color: BasicGreen,
             child: RotatedBox(
               quarterTurns: 1,
               child: Row(
@@ -80,7 +79,7 @@ class _RecipePageState extends State<RecipePage> {
                     quarterTurns: -1,
                     child: IconButton(
                       icon: Icon(
-                       MdiIcons.chefHat,
+                        MdiIcons.chefHat,
                         color: Colors.white,
                         size: size.width * 0.1,
                       ),
@@ -90,7 +89,8 @@ class _RecipePageState extends State<RecipePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ChooseCookbook()));
+                                builder: (context) =>
+                                    const ChooseCookbook()));
                       },
                     ),
                   ),
@@ -102,8 +102,9 @@ class _RecipePageState extends State<RecipePage> {
                   const Spacer(),
                   RotatedBox(
                     quarterTurns: -1,
-                    child:  CircleAvatar(
-                      backgroundImage: NetworkImage(authService.getUser().photoURL),
+                    child: CircleAvatar(
+                      backgroundImage:
+                          NetworkImage(authService.getUser().photoURL),
                       radius: size.width * 0.085,
                       backgroundColor: Colors.black,
                       child: TextButton(
@@ -142,13 +143,13 @@ class _RecipePageState extends State<RecipePage> {
         children: [
           isSelected
               ? Container(
-            height: 10,
-            width: 10,
-            decoration: const BoxDecoration(
-              color: Colors.amberAccent,
-              shape: BoxShape.circle,
-            ),
-          )
+                  height: 10,
+                  width: 10,
+                  decoration: const BoxDecoration(
+                    color: Colors.amberAccent,
+                    shape: BoxShape.circle,
+                  ),
+                )
               : Container(height: 10),
           const SizedBox(height: 10),
           Text(

@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/registration_and_login/sign_in.dart';
-import 'package:feed_me/screens/wrapper.dart';
+import 'package:feed_me/screens/choose_cookbook.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gifimage/flutter_gifimage.dart';
-
-import 'choose_cookbook.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get_storage/get_storage.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key key}) : super(key: key);
@@ -16,7 +15,6 @@ class Welcome extends StatefulWidget {
 }
 
 class _Welcome extends State<Welcome> {
-
   @override
   void initState() {
     super.initState();
@@ -43,7 +41,19 @@ class _Welcome extends State<Welcome> {
   }
 
   route() {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const SignIn()));
+    var auth = FirebaseAuth.instance;
+
+    auth.authStateChanges().listen((user) async {
+      if (user != null) {
+        print("user is logged in");
+        await GetStorage.init(auth.currentUser.uid);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ChooseCookbook()));
+      } else {
+        print("user is not logged in");
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const SignIn()));
+      }
+    });
   }
 }

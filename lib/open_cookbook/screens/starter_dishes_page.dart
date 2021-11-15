@@ -62,7 +62,8 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                     children: [
                       Hero(
                         tag: widget.plant_food_factory[index].name,
-                        child: Image.network(widget.plant_food_factory[index].image),
+                        child: Image.network(widget.plant_food_factory[index]
+                            .image1),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(

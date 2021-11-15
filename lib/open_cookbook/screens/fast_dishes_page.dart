@@ -1,6 +1,6 @@
 import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/open_cookbook/model/data_model.dart';
+import 'package:feed_me/recipt_object.dart';
 import 'package:flutter/material.dart';
 import '../../recipt_object.dart';
 import 'detail_page.dart';
@@ -60,7 +60,7 @@ class _FastDishesPageState extends State<FastDishesPage> {
                       Hero(
                         tag: widget.plant_food_factory[index].name,
                         child: Image.network(
-                            widget.plant_food_factory[index].image),
+                            widget.plant_food_factory[index].image1),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(

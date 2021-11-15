@@ -8,7 +8,7 @@ import '../../recipt_object.dart';
 class DetailPage extends StatelessWidget {
   final Recipt recipt;
 
-  const DetailPage({Key key, this.recipt}) : super(key: key);
+  const DetailPage({Key key, this.recipt, Recipe plant}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class DetailPage extends StatelessWidget {
                   ),
                   Hero(
                     tag: recipt.name,
-                    child: Image.network(recipt.image),
+                    child: Image.network(recipt.image1),
                   ),
                   SizedBox(height: size.height * 0.01),
                   Container(
