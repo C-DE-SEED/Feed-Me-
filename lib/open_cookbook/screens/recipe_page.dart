@@ -14,15 +14,15 @@ import 'starter_dishes_page.dart';
 import 'package:provider/provider.dart';
 
 class RecipePage extends StatefulWidget {
-  List<Recipt> plant_food_factory;
-  RecipePage({this.plant_food_factory});
+  List<Recipt> plantFoodFactory;
+  RecipePage({this.plantFoodFactory});
 
   @override
   State<RecipePage> createState() => _RecipePageState();
 }
 
 class _RecipePageState extends State<RecipePage> {
-  List<Recipt> plant_food_factory;
+  List<Recipt> plantFoodFactory;
   List<Recipt> fast= [];
   List<Recipt> main= [];
   List<Recipt> dessert= [];
@@ -49,17 +49,17 @@ class _RecipePageState extends State<RecipePage> {
 
   @override
   void initState() {
-    filterRecipts(widget.plant_food_factory);
+    filterRecipts(widget.plantFoodFactory);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [
-      StarterDishesPage(plant_food_factory: starter),
-      MainDishesPage(plant_food_factory: main),
-      DessertDishesPage(plant_food_factory: dessert),
-      FastDishesPage(plant_food_factory: starter),
+      StarterDishesPage(plantFoodFactory: main),
+      MainDishesPage(plantFoodFactory: main),
+      DessertDishesPage(plantFoodFactory: main),
+      FastDishesPage(plantFoodFactory: main),
     ];
 
     Size size = MediaQuery.of(context).size;

@@ -211,6 +211,6 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
   }
 
   _openDestinationPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => RecipePage(plant_food_factory: plant_food_factory,)));
+    Navigator.push(context, MaterialPageRoute(builder: (_) => RecipePage(plantFoodFactory: plant_food_factory,)));
   }
 }

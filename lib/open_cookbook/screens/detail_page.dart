@@ -1,24 +1,40 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
-
+import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 import '../../recipt_object.dart';
 
 class DetailPage extends StatelessWidget {
   final Recipt recipt;
   final List<String> reciptSteps;
+  final List<String> ingredients;
 
-  const DetailPage({Key key, this.recipt,this.reciptSteps}) : super(key: key);
+  const DetailPage({Key key, this.recipt, this.reciptSteps, this.ingredients})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-
-
     return Scaffold(
       backgroundColor: BasicGreen,
-      appBar: AppBar(backgroundColor: BasicGreen,),
+      appBar: AppBar(
+        leading: const BackButton(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+            child: IconButton(
+              icon: const Icon(
+                EvilIcons.share_apple,
+                size: 35,
+              ),
+              onPressed: () {},
+            ),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -51,17 +67,37 @@ class DetailPage extends StatelessWidget {
                             fontFamily: openSansFontFamily,
                           ),
                         ),
-                        SizedBox(height: size.height * 0.005),
+                        SizedBox(height: size.height * 0.01),
+                        Text(
+                          recipt.short_discription,
+                          style: const TextStyle(
+                            fontFamily: openSansFontFamily,
+                            color: Colors.black,
+                            fontSize: 15.0,
+                          ),
+                        ),
+                        SizedBox(height: size.height * 0.05),
+                        const Text(
+                          "Zutaten:",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: openSansFontFamily,
+                          ),
+                        ),
+                        SizedBox(height: size.height * 0.01),
+                        getIngredientsWidget(),
+                        const Text(
+                          "Schritte:",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: openSansFontFamily,
+                          ),
+                        ),
+                        SizedBox(height: size.height * 0.01),
                         getStepWidget(reciptSteps),
-                        // Text(
-                        //   recipt.description,
-                        //   style: const TextStyle(
-                        //     color: Colors.grey,
-                        //     fontSize: 16,
-                        //     fontFamily: openSansFontFamily,
-                        //   ),
-                        // ),
-                        SizedBox(height: size.height * 0.005),
+                        SizedBox(height: size.height * 0.05),
                         Row(
                           children: [
                             Text(
@@ -111,11 +147,11 @@ class DetailPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     //TODO insert additonal data
-                    buildCard("Schwierigkeit", Icons.settings, recipt.difficulty,
-                        size),
-                    SizedBox(width: size.width*0.05),
+                    buildCard("Schwierigkeit", Icons.settings,
+                        recipt.difficulty, size),
+                    SizedBox(width: size.width * 0.05),
                     buildCard("Dauer", Icons.alarm, recipt.time, size),
-                    SizedBox(width: size.width*0.05),
+                    SizedBox(width: size.width * 0.05),
                     buildCard("Kalorien", Icons.align_vertical_bottom_outlined,
                         "100", size),
                   ],
@@ -154,36 +190,78 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  Widget getStepWidget(List<String> reciptSteps){
-    return
-      ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: reciptSteps.length,
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            return  Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      height: 20,
-                      width: 20,
-                      decoration: const BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle
-                      ),
-                      child: Center(child: Text((index+1).toString(),style: const TextStyle(color: Colors.white),)),
+  Widget getStepWidget(List<String> reciptSteps) {
+    return ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: reciptSteps.length,
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    height: 20,
+                    width: 20,
+                    decoration: const BoxDecoration(
+                        color: Colors.red, shape: BoxShape.circle),
+                    child: Center(
+                        child: Text(
+                      (index + 1).toString(),
+                      style: const TextStyle(color: Colors.white),
+                    )),
+                  ),
+                  const SizedBox(width: 20),
+                  Flexible(
+                      child: Text(
+                    reciptSteps.elementAt(index),
+                    style: const TextStyle(
+                      fontFamily: openSansFontFamily,
+                      color: Colors.black,
+                      fontSize: 15.0,
                     ),
-                    const SizedBox(
-                        width: 20
+                  ))
+                ],
+              ),
+              const SizedBox(height: 20)
+            ],
+          );
+        });
+  }
+
+  Widget getIngredientsWidget() {
+    return ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: ingredients.length,
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    height: 10,
+                    width: 10,
+                    decoration: const BoxDecoration(
+                        color: Colors.red, shape: BoxShape.circle),
+                  ),
+                  const SizedBox(width: 10),
+                  Flexible(
+                      child: Text(
+                    ingredients.elementAt(index),
+                    style: const TextStyle(
+                      fontFamily: openSansFontFamily,
+                      color: Colors.black,
+                      fontSize: 15.0,
                     ),
-                    Flexible(child: Text(reciptSteps.elementAt(index)))
-                  ],
-                ),
-                SizedBox(height:30)
-              ],
-            );
-          });
+                  ))
+                ],
+              ),
+              const SizedBox(height: 10)
+            ],
+          );
+        });
   }
 }
