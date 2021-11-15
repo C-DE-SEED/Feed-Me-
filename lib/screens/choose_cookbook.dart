@@ -4,9 +4,10 @@ import 'package:feed_me/open_cookbook/screens/recipe_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ChooseCookbook extends StatefulWidget {
-  const ChooseCookbook({Key key}) : super(key: key);
+  const ChooseCookbook({Key key,}) : super(key: key);
 
   @override
   _ChooseCookbookState createState() => _ChooseCookbookState();
@@ -15,6 +16,7 @@ class ChooseCookbook extends StatefulWidget {
 class _ChooseCookbookState extends State<ChooseCookbook> {
   int selectedIndex = 0;
   AuthService authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -43,7 +45,8 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                                Text("Hallo, " + authService.getUser().displayName,
+                                Text("Hallo, " + GetStorage(authService.getUser().uid)
+                  .read('displayName').toString(),
                                   style: const TextStyle(
                                       fontSize: 18.0, fontWeight: FontWeight
                                       .bold, fontFamily: openSansFontFamily)),
@@ -67,7 +70,8 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const ProfilePage()));
+                                        builder: (context) =>
+                                        const ProfilePage()));
                               },
                               child: null,
                             ), ),

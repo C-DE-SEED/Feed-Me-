@@ -1,62 +1,60 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/registration_and_login/user_local.dart';
+import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get_storage/get_storage.dart';
 
 class NumbersWidget extends StatelessWidget {
-  const NumbersWidget({Key key, @required this.userMail}) : super(key: key);
-  final String userMail;
+  NumbersWidget({Key key,}) : super(key: key);
+  final AuthService auth = AuthService();
 
   @override
   Widget build(BuildContext context) => Container(
-      decoration: BoxDecoration(
-        color: Colors.white54,
-        border: Border.all(
-          width: 15,
-          color: BasicGreen,
-          style: BorderStyle.solid,
+        decoration: BoxDecoration(
+          color: Colors.white54,
+          border: Border.all(
+            width: 15,
+            color: BasicGreen,
+            style: BorderStyle.solid,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(40)),
         ),
-        borderRadius: const BorderRadius.all(Radius.circular(40)),
-      ),
-    child: Column(
-      children: [
-        const SizedBox(height: 5.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
           children: [
-            const Icon(
-              Icons.email_outlined,
-              color: Colors.black54,
+            const SizedBox(height: 5.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.email_outlined,
+                  color: Colors.black54,
+                ),
+                const SizedBox(
+                  width: 7.0,
+                ),
+                Text(
+                  GetStorage(auth.getUser().uid).read('email').toString(),
+                  style: const TextStyle(
+                    fontFamily: openSansFontFamily,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(
-              width: 7.0,
-            ),
-            Text(
-              userMail,
-              style: const TextStyle(
-                fontFamily: openSansFontFamily,
-                color: Colors.black54,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 5.0),
-        Row(
+            const SizedBox(height: 5.0),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                buildButton(context,'0' ?? Provider.of<UserLocal>(context,
-                    listen: false).books.toString(), 'Rezepte'),
+                buildButton(context, '0' ?? GetStorage(auth.getUser().uid).read('recipes'), 'Rezepte'),
                 buildDivider(),
-                buildButton(context, '0'??Provider.of<UserLocal>(context,
-                    listen:
-                    false).recipes.toString(), 'Kochbücher'),
+                buildButton(
+                    context, '0' ??  GetStorage(auth.getUser().uid).read('cookbooks'), 'Kochbücher'),
                 //TODO show how many friends every user have (implement addFriends()
               ],
             ),
-      ],
-    ),
-  );
+          ],
+        ),
+      );
 
   Widget buildDivider() => const SizedBox(
         height: 24,
@@ -75,7 +73,7 @@ class NumbersWidget extends StatelessWidget {
             Text(
               value,
               style: const TextStyle(
-                color: Colors.black87,
+                  color: Colors.black87,
                   fontFamily: openSansFontFamily,
                   fontWeight: FontWeight.bold,
                   fontSize: 24),
@@ -85,7 +83,8 @@ class NumbersWidget extends StatelessWidget {
               text,
               style: const TextStyle(
                   color: Colors.black54,
-                  fontFamily: openSansFontFamily, fontWeight: FontWeight.bold),
+                  fontFamily: openSansFontFamily,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),

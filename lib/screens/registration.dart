@@ -1,4 +1,3 @@
-
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/custom_alert.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
@@ -10,6 +9,7 @@ import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/sign_in.dart';
 import 'package:feed_me/user/page/set_profile_information.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key key, this.toggleView}) : super(key: key);
@@ -55,13 +55,12 @@ class _RegistrationState extends State<Registration> {
                   height: size.height * 0.05,
                 ),
                 StandardTextFormField(
-                  hintText: "Bitte geben Sie Ihre E-Mail ein",
-                  onChange: (value) {
-                    setState(() {
-                      email = value;
-                    });
-                  }
-                ),
+                    hintText: "Bitte geben Sie Ihre E-Mail ein",
+                    onChange: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    }),
                 const SizedBox(
                   height: 20,
                 ),
@@ -95,6 +94,8 @@ class _RegistrationState extends State<Registration> {
                   onPressed: () async {
                     if (checkIfPasswordsMatching() == true) {
                       await _auth.registerWithEmailAndPassword(email, password);
+                      await GetStorage.init(_auth.getUser().uid);
+                      GetStorage(_auth.getUser().uid).write('email', email);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -120,7 +121,8 @@ class _RegistrationState extends State<Registration> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(context,
+                        Navigator.push(
+                            context,
                             MaterialPageRoute(
                                 builder: (context) => const SignIn()));
                       },
