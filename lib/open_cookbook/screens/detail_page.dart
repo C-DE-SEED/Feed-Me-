@@ -3,10 +3,12 @@ import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/open_cookbook/model/data_model.dart';
 import 'package:flutter/material.dart';
 
-class DetailPage extends StatelessWidget {
-  final Recipe plant;
+import '../../recipt_object.dart';
 
-  const DetailPage({Key key, this.plant}) : super(key: key);
+class DetailPage extends StatelessWidget {
+  final Recipt recipt;
+
+  const DetailPage({Key key, this.recipt, Recipe plant}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +51,8 @@ class DetailPage extends StatelessWidget {
                     ],
                   ),
                   Hero(
-                    tag: plant.title,
-                    child: Image.network(plant.image),
+                    tag: recipt.name,
+                    child: Image.network(recipt.image1),
                   ),
                   SizedBox(height: size.height * 0.01),
                   Container(
@@ -60,7 +62,7 @@ class DetailPage extends StatelessWidget {
                       children: [
                         SizedBox(height: size.height * 0.005),
                         Text(
-                          plant.title,
+                          recipt.name,
                           style: const TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -69,7 +71,7 @@ class DetailPage extends StatelessWidget {
                         ),
                         SizedBox(height: size.height * 0.005),
                         Text(
-                          plant.description,
+                          recipt.description,
                           style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
@@ -80,7 +82,7 @@ class DetailPage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Für ' + plant.persons + ' Personen',
+                              'Für ' + recipt.persons + ' Personen',
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -126,11 +128,11 @@ class DetailPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     //TODO insert additonal data
-                    buildCard("Schwierigkeit", Icons.settings, plant.level,
+                    buildCard("Schwierigkeit", Icons.settings, recipt.difficulty,
                         size),
-                    buildCard("Dauer", Icons.alarm, plant.timeNeeded, size),
+                    buildCard("Dauer", Icons.alarm, recipt.time, size),
                     buildCard("Kalorien", Icons.align_vertical_bottom_outlined,
-                        plant.calories, size),
+                        "100", size),
                   ],
                 ),
               ),

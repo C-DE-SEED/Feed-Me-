@@ -3,9 +3,7 @@ class Recipt {
   final String category;
   final String description;
   final String difficulty;
-  final String image1;
-  final String image2;
-  final String image3;
+  final String image;
   final String ingredients_and_amount;
   final String kitchen_utensils;
   final String name;
@@ -20,9 +18,7 @@ class Recipt {
       this.category,
       this.description,
       this.difficulty,
-      this.image1,
-      this.image2,
-      this.image3,
+      this.image,
       this.ingredients_and_amount,
       this.kitchen_utensils,
       this.name,
@@ -31,4 +27,43 @@ class Recipt {
       this.short_discription,
       this.spices,
       this.time);
+
+  // static List<Recipt> starters = [];
+  // static List<Recipt> main = [];
+  // static List<Recipt> dessert = [];
+  // static List<Recipt> fast = [];
+  //
+  // static void setStartersRecipts(List<Recipt> recipts) {
+  //   recipts.forEach((element) {
+  //     if (element.category == "starter") {
+  //       starters.add(element);
+  //     }
+  //   });
+  // }
+  //
+  // static void setMainRecipts(List<Recipt> recipts) {
+  //   recipts.forEach((element) {
+  //     if (element.category == "Hauptgericht") {
+  //       print("was here");
+  //       main.add(element);
+  //       print(main);
+  //     }
+  //   });
+  // }
+  //
+  // static void setDessertRecipts(List<Recipt> recipts) {
+  //   recipts.forEach((element) {
+  //     if (element.category == "dessert") {
+  //       dessert.add(element);
+  //     }
+  //   });
+  // }
+  //
+  // static void setFastRecipts(List<Recipt> recipts) {
+  //   recipts.forEach((element) {
+  //     if (element.category == "fast") {
+  //       fast.add(element);
+  //     }
+  //   });
+  // }
 }

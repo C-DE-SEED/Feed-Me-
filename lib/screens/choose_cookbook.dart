@@ -6,6 +6,9 @@ import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../recipt_db_object.dart';
+import '../recipt_object.dart';
+
 class ChooseCookbook extends StatefulWidget {
   const ChooseCookbook({Key key,}) : super(key: key);
 
@@ -16,6 +19,19 @@ class ChooseCookbook extends StatefulWidget {
 class _ChooseCookbookState extends State<ChooseCookbook> {
   int selectedIndex = 0;
   AuthService authService = AuthService();
+
+  List<Recipt> plant_food_factory = [];
+
+  void getAllRecipes() async {
+    plant_food_factory =
+    await ReciptDbObject().getReciptObject("plant_food_factory").elementAt(0);
+  }
+
+  @override
+  void initState() {
+    getAllRecipes();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,14 +188,6 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                   image,
                 )),
             Positioned(
-              right: 10.0,
-              top: 10.0,
-              child: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.favorite_border, color: Colors.white),
-              ),
-            ),
-            Positioned(
               bottom: 20.0,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -207,6 +215,6 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
   }
 
   _openDestinationPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => const RecipePage()));
+    Navigator.push(context, MaterialPageRoute(builder: (_) => RecipePage(plant_food_factory: plant_food_factory,)));
   }
 }

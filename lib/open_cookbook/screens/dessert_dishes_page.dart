@@ -1,11 +1,20 @@
 import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/open_cookbook/model/data_model.dart';
+import 'package:feed_me/recipt_object.dart';
 import 'package:flutter/material.dart';
+import '../../recipt_object.dart';
 import 'detail_page.dart';
 
-class DessertDishesPage extends StatelessWidget {
-  const DessertDishesPage({Key key}) : super(key: key);
+class DessertDishesPage extends StatefulWidget {
+  final List<Recipt> plant_food_factory;
+  const DessertDishesPage({Key key,this.plant_food_factory}) : super(key: key);
+
+  @override
+  State<DessertDishesPage> createState() => _DessertDishesPageState();
+}
+
+class _DessertDishesPageState extends State<DessertDishesPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +37,7 @@ class DessertDishesPage extends StatelessWidget {
           },),
           Expanded(
             child: ListView.builder(
-              itemCount: plants.length,
+              itemCount: widget.plant_food_factory.length,
               itemBuilder: (_, index) {
                 return GestureDetector(
                   onTap: () {
@@ -36,7 +45,7 @@ class DessertDishesPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DetailPage(
-                          plant: Shape[index],
+                          recipt: widget.plant_food_factory[index],
                         ),
                       ),
                     );
@@ -45,21 +54,21 @@ class DessertDishesPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Hero(
-                        tag: Shape[index].title,
-                        child: Image.network(Shape[index].image),
+                        tag: widget.plant_food_factory[index].name,
+                        child: Image.network(widget.plant_food_factory[index].image1),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        Shape[index].title,
+                        widget.plant_food_factory[index].name,
                         style: const TextStyle(
-                          fontSize: 25,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           fontFamily: openSansFontFamily,
                         ),
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        Shape[index].description,
+                        widget.plant_food_factory[index].short_discription,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
@@ -67,25 +76,6 @@ class DessertDishesPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),
-                      Row(
-                        children: [
-                          Text(
-                            "\$${Shape[index].persons}",
-                            style: const TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: openSansFontFamily,
-                            ),
-                          ),
-                          TextButton(
-                            child: const Text(
-                              "+",
-                              style: const TextStyle(fontSize: 22),
-                            ),
-                            onPressed: () {},
-                          )
-                        ],
-                      ),
                       const SizedBox(height: 30),
                       const Divider(),
                     ],
