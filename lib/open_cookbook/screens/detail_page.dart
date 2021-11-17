@@ -148,10 +148,11 @@ class DetailPage extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        SizedBox(height: size.height * 0.01),
+        SizedBox(height: size.height * 0.002,),
         Text(
           data,
           style: const TextStyle(
+            fontSize: 15,
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontFamily: openSansFontFamily,
