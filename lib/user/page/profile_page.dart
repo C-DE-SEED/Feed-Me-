@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildName() => Column(
         children: [
           Text(
-            GetStorage(auth.getUser().uid).read('displayName').toString(),
+            auth.getUser().displayName,
             textAlign: TextAlign.center,
             style: const TextStyle(
                 fontFamily: openSansFontFamily,
