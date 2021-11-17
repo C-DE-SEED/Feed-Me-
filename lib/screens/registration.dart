@@ -103,8 +103,6 @@ class _RegistrationState extends State<Registration> {
                   onPressed: () async {
                     if (checkIfPasswordsMatching() == true) {
                       await _auth.registerWithEmailAndPassword(email, password);
-                      await GetStorage.init(_auth.getUser().uid);
-                      GetStorage(_auth.getUser().uid).write('email', email);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

@@ -33,7 +33,7 @@ class NumbersWidget extends StatelessWidget {
                   width: 7.0,
                 ),
                 Text(
-                  GetStorage(auth.getUser().uid).read('email').toString(),
+                  auth.getUser().email,
                   style: const TextStyle(
                     fontFamily: openSansFontFamily,
                     color: Colors.black54,
@@ -45,10 +45,9 @@ class NumbersWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                buildButton(context, '0' ?? GetStorage(auth.getUser().uid).read('recipes'), 'Rezepte'),
+                buildButton(context, '0' ,'Rezepte'),
                 buildDivider(),
-                buildButton(
-                    context, '0' ??  GetStorage(auth.getUser().uid).read('cookbooks'), 'Kochbücher'),
+                buildButton(context, '0', 'Kochbücher'),
                 //TODO show how many friends every user have (implement addFriends()
               ],
             ),

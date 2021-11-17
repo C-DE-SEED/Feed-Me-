@@ -65,9 +65,7 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                             children: <Widget>[
                               Text(
                                   "Hallo, " +
-                                      GetStorage(authService.getUser().uid)
-                                          .read('displayName')
-                                          .toString(),
+                                      authService.getUser().displayName,
                                   style: const TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,

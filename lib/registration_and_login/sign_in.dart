@@ -99,13 +99,13 @@ class _SignInState extends State<SignIn> {
                         onPressed: () async {
                           // dynamic result = await _auth
                           //     .loginWithEmailAndPassword(email, password);
+
                           if (_formKey.currentState.validate()) {
                             setState(() {
                               loading = true;
                             });
                             dynamic result = await _auth
                                 .loginWithEmailAndPassword(email, password);
-                            await GetStorage.init(_auth.getUser().uid);
                             if (result == null) {
                               setState(() {
                                 error = "Please supply a valid email";

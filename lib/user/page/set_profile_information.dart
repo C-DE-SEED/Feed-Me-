@@ -32,12 +32,6 @@ class _SetProfilePageState extends State<SetProfilePage> {
     setState(() {});
   }
 
-  getAdditionalData() async {
-    Future<int> recipes =
-        ReciptDbObject().getReciptObject("plant_food_factory").length;
-    await GetStorage(auth.getUser().uid).write('recipes', recipes);
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -54,7 +48,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
         children: [
           const ProfileWidget(isProfileRoot: true),
           SizedBox(height: size.height * 0.015),
-          buildName(auth, GetStorage(auth.getUser().uid)),
+          buildName(auth),
           SizedBox(height: size.height * 0.01),
           NumbersWidget(),
           SizedBox(height: size.height * 0.01),
@@ -74,7 +68,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
     );
   }
 
-  Widget buildName(AuthService auth, GetStorage box) => Column(
+  Widget buildName(AuthService auth) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
@@ -98,14 +92,11 @@ class _SetProfilePageState extends State<SetProfilePage> {
                   contentPadding: const EdgeInsets.only(
                       left: 15, bottom: 11, top: 11, right: 15),
                   hintText:
-                      GetStorage(auth.getUser().uid).read('displayName') ??
-                          'Benutzername '
-                              'eingeben'),
+                      auth.getUser().displayName ?? 'Benutzername eingeben'),
               onChanged: (value) {
                 String name = value;
                 //TODO remove enter from string
                 name.replaceAll('\n', ' ');
-                GetStorage(auth.getUser().uid).write('displayName', name);
                 auth.getUser().updateDisplayName(name);
               },
             ),
@@ -126,24 +117,21 @@ class _SetProfilePageState extends State<SetProfilePage> {
         ),
         child: TextFormField(
           textAlign: TextAlign.center,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
-              contentPadding: const EdgeInsets.only(
-                  left: 15, bottom: 11, top: 11, right: 15),
-              hintText: 'Schreibe etwas über dich:' ??
-                  GetStorage(auth.getUser().uid)
-                      .read('userDescription')
-                      .toString()),
+              contentPadding:
+                  EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+              hintText: 'Schreibe etwas über dich:'
+              //TODO insert UserDescription
+              ),
           minLines: 6,
           maxLines: 9,
           onChanged: (value) {
-            userDescription = value;
-            GetStorage(auth.getUser().uid)
-                .write('userDescription', userDescription);
+            //TODO inser method for user description
           },
         ),
       );
