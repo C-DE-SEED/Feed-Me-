@@ -47,7 +47,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
         elevation: 0,
         actions: const [],
       ),
-      backgroundColor: BasicGreen,
+      backgroundColor: basicColor,
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
@@ -81,7 +81,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
               color: Colors.white54,
               border: Border.all(
                 width: 15,
-                color: BasicGreen,
+                color: basicColor,
                 style: BorderStyle.solid,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(40)),
@@ -117,7 +117,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
           color: Colors.white54,
           border: Border.all(
             width: 15,
-            color: BasicGreen,
+            color: basicColor,
             style: BorderStyle.solid,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(40)),

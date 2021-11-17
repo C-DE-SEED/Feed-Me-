@@ -14,7 +14,7 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: BasicGreen,
+      backgroundColor: basicColor,
       body: SingleChildScrollView(
         child: Column(
           children: [

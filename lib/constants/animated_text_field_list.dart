@@ -42,7 +42,7 @@ class _AnimatedListOnePageState extends State<AnimatedListOnePage> {
               color: Colors.white54,
               border: Border.all(
                 width: 15,
-                color: BasicGreen,
+                color: basicColor,
                 style: BorderStyle.solid,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(40)),

@@ -54,7 +54,7 @@ class _CustomAlertState extends State<CustomAlert> {
                   fontFamily: openSansFontFamily,
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
-                    color: BasicGreen),
+                    color: basicColor),
               ),
               const SizedBox(
                 height: 15,
@@ -63,7 +63,7 @@ class _CustomAlertState extends State<CustomAlert> {
                 widget.descriptions,
                 style: const TextStyle(fontFamily: openSansFontFamily,
                     fontSize: 15, color:
-                BasicGreen),
+                basicColor),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(

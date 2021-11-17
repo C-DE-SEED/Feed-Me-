@@ -52,7 +52,7 @@ class _ProfileWidget extends State<ProfileWidget> {
                   icon: Icon(
                     Icons.add_a_photo_outlined,
                     color:
-                        widget.isProfileRoot ? BasicGreen : Colors.transparent,
+                        widget.isProfileRoot ? basicColor : Colors.transparent,
                     size: 25,
                   ),
                   onPressed: () async {

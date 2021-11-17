@@ -34,10 +34,19 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-        backgroundColor: BasicGreen,
-        body: Form(
-          key: _formKey,
+    return  Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          decoration: const BoxDecoration(
+              gradient: SweepGradient(
+                center: Alignment.bottomLeft,
+                colors: [
+                  basicColor,
+                  basicColor,
+                  Colors.orange,
+                  Colors.deepOrange,
+                ],
+              )),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +57,7 @@ class _RegistrationState extends State<Registration> {
                   width: size.width * 1,
                   child: Center(
                       child: FeedMeCircleAvatar(
-                    radius: size.height * 0.4,
+                    radius: size.height * 0.5,
                   )),
                 ),
                 SizedBox(

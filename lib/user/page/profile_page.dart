@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         builder: (context) => const SetProfilePage()));
               },
               icon: Icon(MdiIcons.accountEdit, size: size.width * 0.11))),
-      backgroundColor: BasicGreen,
+      backgroundColor: basicColor,
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [

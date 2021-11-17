@@ -26,7 +26,7 @@ class _Welcome extends State<Welcome> {
     Size size = MediaQuery.of(context).size;
     return Container(
       alignment: Alignment.center,
-      color: BasicGreen,
+      color: basicColor,
       child: Image.asset(
         "assets/feedMe.gif",
         height: size.height * 1.0,

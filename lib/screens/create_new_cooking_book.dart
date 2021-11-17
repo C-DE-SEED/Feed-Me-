@@ -16,9 +16,9 @@ class _CreateNewCookingBookState extends State<CreateNewCookingBook> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: BasicGreen,
+      backgroundColor: basicColor,
       appBar: AppBar(
-        backgroundColor: BasicGreen,
+        backgroundColor: basicColor,
         elevation: 0,
       ),
       body: Column(

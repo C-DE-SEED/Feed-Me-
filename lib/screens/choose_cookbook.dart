@@ -40,7 +40,7 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.orangeAccent,
+      backgroundColor: basicColor,
       body: SafeArea(
         child: ListView(
           children: <Widget>[
@@ -158,7 +158,7 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
         child: Icon(
           Icons.add,
           size: size.width * 0.11,
-          color: BasicGreen,
+          color: basicColor,
         ),
         onPressed: () {},
       ),
