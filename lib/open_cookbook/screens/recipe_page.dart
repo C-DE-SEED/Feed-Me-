@@ -70,7 +70,7 @@ class _RecipePageState extends State<RecipePage> {
           Container(
             width: size.width * 0.222,
             padding: const EdgeInsets.symmetric(vertical: 55),
-            color: BasicGreen,
+            color: Colors.orange,
             child: RotatedBox(
               quarterTurns: 1,
               child: Row(
