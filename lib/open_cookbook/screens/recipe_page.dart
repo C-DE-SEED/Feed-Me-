@@ -13,6 +13,7 @@ import 'starter_dishes_page.dart';
 
 class RecipePage extends StatefulWidget {
   List<Recipt> plant_food_factory;
+
   RecipePage({Key key, this.plant_food_factory}) : super(key: key);
 
   @override
@@ -21,26 +22,22 @@ class RecipePage extends StatefulWidget {
 
 class _RecipePageState extends State<RecipePage> {
   List<Recipt> plant_food_factory;
-  List<Recipt> fast= [];
-  List<Recipt> main= [];
-  List<Recipt> dessert= [];
-  List<Recipt> starter= [];
+  List<Recipt> fast = [];
+  List<Recipt> main = [];
+  List<Recipt> dessert = [];
+  List<Recipt> starter = [];
   AuthService authService = AuthService();
   int currentIndex = 0;
 
-
-  void filterRecipts(List<Recipt> recipts) {
+  void filterRecipes(List<Recipt> recipts) {
     recipts.forEach((element) {
       if (element.category == "Hauptgericht") {
         main.add(element);
-      }
-      else if(element.category == "starter"){
+      } else if (element.category == "starter") {
         main.add(element);
-      }
-      else if(element.category == "dessert"){
+      } else if (element.category == "dessert") {
         main.add(element);
-      }
-      else if(element.category == "fast"){
+      } else if (element.category == "fast") {
         main.add(element);
       }
     });
@@ -48,7 +45,7 @@ class _RecipePageState extends State<RecipePage> {
 
   @override
   void initState() {
-    filterRecipts(widget.plant_food_factory);
+    filterRecipes(widget.plant_food_factory);
     super.initState();
   }
 
@@ -68,30 +65,33 @@ class _RecipePageState extends State<RecipePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: size.width * 0.222,
+            width: size.width * 0.18,
             padding: const EdgeInsets.symmetric(vertical: 55),
-            color: Colors.orange,
+            color: basicColor,
             child: RotatedBox(
               quarterTurns: 1,
               child: Row(
                 children: [
                   RotatedBox(
                     quarterTurns: -1,
-                    child: IconButton(
-                      icon: Icon(
-                        MdiIcons.chefHat,
-                        color: Colors.white,
-                        size: size.width * 0.1,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 15.0, 0.0),
+                      child: IconButton(
+                        icon: Icon(
+                          MdiIcons.chefHat,
+                          color: Colors.white,
+                          size: size.width * 0.1,
+                        ),
+                        tooltip: 'Zurück zur\n'
+                            'Kochbuchübersicht',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ChooseCookbook()));
+                        },
                       ),
-                      tooltip: 'Zurück zur\n'
-                          'Kochbuchübersicht',
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const ChooseCookbook()));
-                      },
                     ),
                   ),
                   const Spacer(),
@@ -105,7 +105,7 @@ class _RecipePageState extends State<RecipePage> {
                     child: CircleAvatar(
                       backgroundImage:
                           NetworkImage(authService.getUser().photoURL),
-                      radius: size.width * 0.085,
+                      radius: size.width * 0.065,
                       backgroundColor: Colors.black,
                       child: TextButton(
                         onPressed: () {
@@ -141,16 +141,6 @@ class _RecipePageState extends State<RecipePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          isSelected
-              ? Container(
-                  height: 10,
-                  width: 10,
-                  decoration: const BoxDecoration(
-                    color: Colors.amberAccent,
-                    shape: BoxShape.circle,
-                  ),
-                )
-              : Container(height: 10),
           const SizedBox(height: 10),
           Text(
             title,

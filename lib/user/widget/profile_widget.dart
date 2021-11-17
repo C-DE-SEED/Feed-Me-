@@ -71,7 +71,7 @@ class _ProfileWidget extends State<ProfileWidget> {
 
   ImageProvider getImage(AuthService auth) {
     if (auth.getUser().photoURL == null) {
-      return const AssetImage('assets/feedmelogo_without_border.png');
+      return const AssetImage('assets/feedMeOrange2.gif');
     } else {
       setState(() {});
       return NetworkImage(auth.getUser().photoURL);

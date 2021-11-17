@@ -2,6 +2,7 @@ import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:feed_me/screens/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     return StreamProvider<UserLocal>.value(
       value: AuthService().getUserLocal(),
       initialData: null,

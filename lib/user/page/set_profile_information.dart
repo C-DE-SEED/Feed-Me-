@@ -15,8 +15,9 @@ import 'package:provider/provider.dart';
 import '../../recipt_db_object.dart';
 
 class SetProfilePage extends StatefulWidget {
-
-  const SetProfilePage({Key key,}) : super(key: key);
+  const SetProfilePage({
+    Key key,
+  }) : super(key: key);
 
   @override
   _SetProfilePageState createState() => _SetProfilePageState();
@@ -32,9 +33,9 @@ class _SetProfilePageState extends State<SetProfilePage> {
   }
 
   getAdditionalData() async {
-     Future<int> recipes = ReciptDbObject().getReciptObject
-      ("plant_food_factory").length;
-     await GetStorage(auth.getUser().uid).write('recipes', recipes);
+    Future<int> recipes =
+        ReciptDbObject().getReciptObject("plant_food_factory").length;
+    await GetStorage(auth.getUser().uid).write('recipes', recipes);
   }
 
   @override
@@ -53,7 +54,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
         children: [
           const ProfileWidget(isProfileRoot: true),
           SizedBox(height: size.height * 0.015),
-          buildName(auth,GetStorage(auth.getUser().uid)),
+          buildName(auth, GetStorage(auth.getUser().uid)),
           SizedBox(height: size.height * 0.01),
           NumbersWidget(),
           SizedBox(height: size.height * 0.01),
@@ -96,9 +97,10 @@ class _SetProfilePageState extends State<SetProfilePage> {
                   disabledBorder: InputBorder.none,
                   contentPadding: const EdgeInsets.only(
                       left: 15, bottom: 11, top: 11, right: 15),
-                  hintText: GetStorage(auth.getUser().uid).read('displayName') ??
-                      'Benutzername '
-                          'eingeben'),
+                  hintText:
+                      GetStorage(auth.getUser().uid).read('displayName') ??
+                          'Benutzername '
+                              'eingeben'),
               onChanged: (value) {
                 String name = value;
                 //TODO remove enter from string
@@ -132,14 +134,16 @@ class _SetProfilePageState extends State<SetProfilePage> {
               disabledBorder: InputBorder.none,
               contentPadding: const EdgeInsets.only(
                   left: 15, bottom: 11, top: 11, right: 15),
-              hintText:
-                  GetStorage(auth.getUser().uid).read('userDescription')
-                      .toString() ?? 'Schreibe etwas über dich:'),
+              hintText: 'Schreibe etwas über dich:' ??
+                  GetStorage(auth.getUser().uid)
+                      .read('userDescription')
+                      .toString()),
           minLines: 6,
           maxLines: 9,
           onChanged: (value) {
             userDescription = value;
-            GetStorage(auth.getUser().uid).write('userDescription', userDescription);
+            GetStorage(auth.getUser().uid)
+                .write('userDescription', userDescription);
           },
         ),
       );
