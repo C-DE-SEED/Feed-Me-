@@ -65,11 +65,11 @@ class _SignInState extends State<SignIn> {
                         width: size.width * 1,
                         child: Center(
                             child: FeedMeCircleAvatar(
-                          radius: size.width * 0.8,
-                        )),
+                              radius: size.height * 0.5,
+                            )),
                       ),
                       SizedBox(
-                        height: size.height * 0.10,
+                        height: size.height * 0.095,
                       ),
                       StandardTextFormField(
                         hintText: "Bitte geben Sie Ihre E-Mail ein",
@@ -144,6 +144,7 @@ class _SignInState extends State<SignIn> {
                             },
                             child: const Text("Hier klicken",
                                 style: TextStyle(
+                                  color: Color(0xFFFDFAF6),
                                   fontFamily: openSansFontFamily,
                                   fontWeight: FontWeight.w500,
                                 )),

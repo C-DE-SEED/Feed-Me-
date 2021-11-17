@@ -137,6 +137,7 @@ class _RegistrationState extends State<Registration> {
                       },
                       child: const Text("Hier klicken",
                           style: TextStyle(
+                            color: Color(0xFFFDFAF6),
                             fontFamily: openSansFontFamily,
                             fontWeight: FontWeight.w500,
                           )),

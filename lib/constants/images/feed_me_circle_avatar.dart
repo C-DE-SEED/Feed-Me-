@@ -9,12 +9,8 @@ class FeedMeCircleAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: Colors.transparent,
-      radius: radius + 1.0,
-      child: CircleAvatar(
-          backgroundImage: const AssetImage('assets/FeedMeFreigestellt.png'),
-          radius: radius,
-          backgroundColor: Colors.transparent),
-    );
+        backgroundImage: const AssetImage('assets/FeedMeFreigestellt.png'),
+        radius: radius,
+        backgroundColor: Colors.transparent);
   }
 }
