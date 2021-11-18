@@ -99,7 +99,7 @@ class _SignInState extends State<SignIn> {
                         onPressed: () async {
                           // dynamic result = await _auth
                           //     .loginWithEmailAndPassword(email, password);
-
+          //FIXME validate method doesent work with flutter --relase on device
                           if (_formKey.currentState.validate()) {
                             setState(() {
                               loading = true;
