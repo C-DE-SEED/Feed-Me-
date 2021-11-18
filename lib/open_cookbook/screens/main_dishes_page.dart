@@ -33,19 +33,22 @@ class _MainDishesPageState extends State<MainDishesPage> {
                     fontFamily: openSansFontFamily)),
           ),
           SizedBox(height: size.height * 0.02),
-          Material(
-              elevation: 5.0,
-              child: TextField(
-                  onChanged: (value) {
-                    //TODO insert filtered value
-                  },
-                  showCursor: true,
-                  decoration: const InputDecoration(
-                    hintText: "Nach Gerichten suchen",
-                    prefixIcon:
-                    Icon(Icons.search, color: Colors.black54),
-                    border: InputBorder.none,
-                  ))),
+          TextField(
+              onChanged: (value) {
+                //TODO insert filtered value
+              },
+              showCursor: true,
+              decoration: InputDecoration(
+                hintText: "Nach Gerichten suchen",
+                prefixIcon:
+                const Icon(Icons.search, color: Colors.black54),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.white,
+                  ),
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+              )),
           Expanded(
             child: ListView.builder(
               itemCount: widget.plant_food_factory.length,

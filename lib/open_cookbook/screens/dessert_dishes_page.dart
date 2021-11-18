@@ -31,11 +31,22 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                 fontSize: 22, fontFamily: openSansFontFamily)),
           ),
           SizedBox(height: size.height * 0.02),
-          SearchTextFormField(hintText: 'Nach Gerichten suchen', onChange:
-              (value){
-            //TODO insert search function
-            print(value);
-          },),
+          TextField(
+              onChanged: (value) {
+                //TODO insert filtered value
+              },
+              showCursor: true,
+              decoration: InputDecoration(
+                hintText: "Nach Gerichten suchen",
+                prefixIcon:
+                const Icon(Icons.search, color: Colors.black54),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.white,
+                  ),
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+              )),
           Expanded(
             child: ListView.builder(
               itemCount: widget.plant_food_factory.length,

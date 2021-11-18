@@ -48,9 +48,9 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.white),
-                  borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(20.0),
-                      bottom: Radius.circular(0.0))),
+                  borderRadius: const BorderRadius.all(
+                       Radius.circular(15.0),
+                      )),
               child: Column(
                 children: [
                   Row(
@@ -101,19 +101,22 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                       )
                     ],
                   ),
-                  Material(
-                      elevation: 5.0,
-                      child: TextField(
-                          onChanged: (value) {
-                            //TODO insert filtered value
-                          },
-                          showCursor: true,
-                          decoration: const InputDecoration(
-                            hintText: "Nach Rezept suchen",
-                            prefixIcon:
-                                Icon(Icons.search, color: Colors.black54),
-                            border: InputBorder.none,
-                          ))),
+                  TextField(
+                      onChanged: (value) {
+                        //TODO insert filtered value
+                      },
+                      showCursor: true,
+                      decoration: InputDecoration(
+                        hintText: "Nach Rezept suchen",
+                        prefixIcon:
+                            const Icon(Icons.search, color: Colors.black54),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                          ),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      )),
                 ],
               ),
             ),
