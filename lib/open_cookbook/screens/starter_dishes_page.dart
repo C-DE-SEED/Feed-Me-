@@ -3,11 +3,11 @@ import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
-import '../../recipt_object.dart';
+import '../../recipe_object.dart';
 import 'detail_page.dart';
 
 class StarterDishesPage extends StatefulWidget {
-  List<Recipt> plant_food_factory;
+  List<Recipe> plant_food_factory;
 
   StarterDishesPage({Key key, this.plant_food_factory})
       : super(key: key);
@@ -36,13 +36,19 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                     fontFamily: openSansFontFamily)),
           ),
           SizedBox(height: size.height * 0.02),
-          SearchTextFormField(
-            hintText: 'Nach Gerichten suchen',
-            onChange: (value) {
-              //TODO insert search function
-              print(value);
-            },
-          ),
+          Material(
+              elevation: 5.0,
+              child: TextField(
+                  onChanged: (value) {
+                    //TODO insert filtered value
+                  },
+                  showCursor: true,
+                  decoration: const InputDecoration(
+                    hintText: "Nach Gerichten suchen",
+                    prefixIcon:
+                    Icon(Icons.search, color: Colors.black54),
+                    border: InputBorder.none,
+                  ))),
           Expanded(
             child: ListView.builder(
               itemCount: widget.plant_food_factory.length,
@@ -54,7 +60,7 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                       MaterialPageRoute(
                         builder: (_) => DetailPage(
                           //TODO change Plants with recipes
-                          recipt: widget.plant_food_factory[index],
+                          recipe: widget.plant_food_factory[index],
                         ),
                       ),
                     );
@@ -82,7 +88,7 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        widget.plant_food_factory[index].short_discription,
+                        widget.plant_food_factory[index].shortDescription,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,

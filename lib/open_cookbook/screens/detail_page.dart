@@ -1,14 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/open_cookbook/model/data_model.dart';
 import 'package:flutter/material.dart';
 
-import '../../recipt_object.dart';
+import '../../recipe_object.dart';
 
 class DetailPage extends StatelessWidget {
-  final Recipt recipt;
+  final Recipe recipe;
 
-  const DetailPage({Key key, this.recipt, Recipe plant}) : super(key: key);
+  const DetailPage({Key key, this.recipe, Recipe plant}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,13 @@ class DetailPage extends StatelessWidget {
           Stack(
             children: [
               Hero(
-                tag: recipt.name,
-                child: Image.network(recipt.image),
+                tag: recipe.name,
+                child: CachedNetworkImage(
+                  imageUrl: recipe.image,
+                  placeholder: (context, url) => const CircularProgressIndicator(
+                    color: basicColor,
+                  ),
+                ),
               ),
               Positioned(
                 bottom: 10,
@@ -60,7 +65,7 @@ class DetailPage extends StatelessWidget {
                 children: [
                   SizedBox(height: size.height * 0.005),
                   Text(
-                    recipt.name,
+                    recipe.name,
                     style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -69,7 +74,7 @@ class DetailPage extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.005),
                   Text(
-                    recipt.description,
+                    recipe.description,
                     style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 16,
@@ -80,7 +85,7 @@ class DetailPage extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Für ' + recipt.persons + ' Personen',
+                        'Für ' + recipe.persons + ' Personen',
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -122,8 +127,8 @@ class DetailPage extends StatelessWidget {
               children: [
                 //TODO insert additonal data
                 buildCard(
-                    "Schwierigkeit", Icons.settings, recipt.difficulty, size),
-                buildCard("Dauer", Icons.alarm, recipt.time, size),
+                    "Schwierigkeit", Icons.settings, recipe.difficulty, size),
+                buildCard("Dauer", Icons.alarm, recipe.time, size),
                 buildCard("Kalorien", Icons.align_vertical_bottom_outlined,
                     "100", size),
               ],

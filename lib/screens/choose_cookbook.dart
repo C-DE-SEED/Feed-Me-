@@ -5,10 +5,8 @@ import 'package:feed_me/open_cookbook/screens/recipe_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
-
-import '../recipt_db_object.dart';
-import '../recipt_object.dart';
+import '../recipe_db_object.dart';
+import '../recipe_object.dart';
 
 class ChooseCookbook extends StatefulWidget {
   const ChooseCookbook({
@@ -23,11 +21,11 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
   int selectedIndex = 0;
   AuthService authService = AuthService();
 
-  List<Recipt> plant_food_factory = [];
+  List<Recipe> plant_food_factory = [];
 
   void getAllRecipes() async {
-    plant_food_factory = await ReciptDbObject()
-        .getReciptObject("plant_food_factory")
+    plant_food_factory = await RecipeDbObject()
+        .getRecipeObject("plant_food_factory")
         .elementAt(0);
   }
 
@@ -46,13 +44,13 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
         child: ListView(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(16.0,0.0,16.0,15.0),
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: Colors.white),
                     borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(5.0),
+                        top: Radius.circular(20.0),
                         bottom: Radius.circular(0.0))),
                 child: Column(
                   children: [
@@ -60,7 +58,7 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(15.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
@@ -83,7 +81,7 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(5.0),
+                          padding: const EdgeInsets.fromLTRB(0.0,10.0,10.0,0.0),
                           child: CircleAvatar(
                             backgroundImage:
                             CachedNetworkImageProvider(

@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/recipt_object.dart';
+import 'package:feed_me/recipe_object.dart';
 import 'package:flutter/material.dart';
-import '../../recipt_object.dart';
+import '../../recipe_object.dart';
 import 'detail_page.dart';
 
 class FastDishesPage extends StatefulWidget {
-  List<Recipt> plant_food_factory;
+  List<Recipe> plant_food_factory;
 
   FastDishesPage({Key key, this.plant_food_factory}) : super(key: key);
 
@@ -51,7 +51,7 @@ class _FastDishesPageState extends State<FastDishesPage> {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DetailPage(
-                          recipt: widget.plant_food_factory[index],
+                          recipe: widget.plant_food_factory[index],
                         ),
                       ),
                     );
@@ -79,7 +79,7 @@ class _FastDishesPageState extends State<FastDishesPage> {
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        widget.plant_food_factory[index].short_discription,
+                        widget.plant_food_factory[index].shortDescription,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,

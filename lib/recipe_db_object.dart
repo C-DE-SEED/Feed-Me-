@@ -1,16 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:feed_me/recipt_object.dart';
 
-class ReciptDbObject {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:feed_me/recipe_object.dart';
+
+
+class RecipeDbObject {
   final String uid;
   final String objectName;
 
-  ReciptDbObject({this.uid, this.objectName});
+  RecipeDbObject({this.uid, this.objectName});
 
 //  Club list from snapshot
-  List<Recipt> _reciptListFromSnapshot(QuerySnapshot snapshot) {
+  List<Recipe> _recipeListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      return Recipt(
+      return Recipe(
           doc['id'] ?? '',
           doc['category'] ?? '',
           doc['description'] ?? '',
@@ -29,9 +31,10 @@ class ReciptDbObject {
   }
 
 //  get clubs stream
-  Stream<List<Recipt>> getReciptObject(String objectName) {
-    CollectionReference clubCollection =
+  Stream<List<Recipe>> getRecipeObject(String objectName) {
+    CollectionReference recipeCollection =
     FirebaseFirestore.instance.collection(objectName);
-    return clubCollection.snapshots().map(_reciptListFromSnapshot);
+    return recipeCollection.snapshots().map(_recipeListFromSnapshot);
   }
 }
+

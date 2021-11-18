@@ -6,14 +6,14 @@ import 'package:feed_me/screens/choose_cookbook.dart';
 import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import '../../recipt_object.dart';
+import '../../recipe_object.dart';
 import 'fast_dishes_page.dart';
 import 'main_dishes_page.dart';
 import 'dessert_dishes_page.dart';
 import 'starter_dishes_page.dart';
 
 class RecipePage extends StatefulWidget {
-  List<Recipt> plant_food_factory;
+  List<Recipe> plant_food_factory;
 
   RecipePage({Key key, this.plant_food_factory}) : super(key: key);
 
@@ -22,15 +22,15 @@ class RecipePage extends StatefulWidget {
 }
 
 class _RecipePageState extends State<RecipePage> {
-  List<Recipt> plant_food_factory;
-  List<Recipt> fast = [];
-  List<Recipt> main = [];
-  List<Recipt> dessert = [];
-  List<Recipt> starter = [];
+  List<Recipe> plant_food_factory;
+  List<Recipe> fast = [];
+  List<Recipe> main = [];
+  List<Recipe> dessert = [];
+  List<Recipe> starter = [];
   AuthService authService = AuthService();
   int currentIndex = 0;
 
-  void filterRecipes(List<Recipt> recipts) {
+  void filterRecipes(List<Recipe> recipts) {
     recipts.forEach((element) {
       if (element.category == "Hauptgericht") {
         main.add(element);

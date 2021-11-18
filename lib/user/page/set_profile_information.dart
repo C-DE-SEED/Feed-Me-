@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
-import '../../recipt_db_object.dart';
+import '../../recipe_db_object.dart';
 
 class SetProfilePage extends StatefulWidget {
   const SetProfilePage({
