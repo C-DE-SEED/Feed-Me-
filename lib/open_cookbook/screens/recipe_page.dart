@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
@@ -104,7 +105,9 @@ class _RecipePageState extends State<RecipePage> {
                     quarterTurns: -1,
                     child: CircleAvatar(
                       backgroundImage:
-                          NetworkImage(authService.getUser().photoURL),
+                      CachedNetworkImageProvider(
+                        authService.getUser().photoURL,
+                      ),
                       radius: size.width * 0.065,
                       backgroundColor: Colors.black,
                       child: TextButton(

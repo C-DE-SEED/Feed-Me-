@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/open_cookbook/model/data_model.dart';
@@ -55,7 +57,12 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                     children: [
                       Hero(
                         tag: widget.plant_food_factory[index].name,
-                        child: Image.network(widget.plant_food_factory[index].image),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.plant_food_factory[index].image,
+                          placeholder: (context, url) => const CircularProgressIndicator(
+                            color: basicColor,
+                          ),
+                        ),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(

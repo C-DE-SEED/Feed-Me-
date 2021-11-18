@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
@@ -74,7 +75,7 @@ class _ProfileWidget extends State<ProfileWidget> {
       return const AssetImage('assets/feedMeOrange2.gif');
     } else {
       setState(() {});
-      return NetworkImage(auth.getUser().photoURL);
+      return CachedNetworkImageProvider(auth.getUser().photoURL,);
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/open_cookbook/screens/recipe_page.dart';
@@ -64,8 +65,7 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                  "Hallo, " +
-                                      authService.getUser().displayName,
+                                  "Hallo, " + authService.getUser().displayName,
                                   style: const TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
@@ -86,7 +86,9 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                           padding: const EdgeInsets.all(5.0),
                           child: CircleAvatar(
                             backgroundImage:
-                                NetworkImage(authService.getUser().photoURL),
+                            CachedNetworkImageProvider(
+                              authService.getUser().photoURL,
+                            ),
                             radius: size.width * 0.09,
                             child: TextButton(
                               onPressed: () {
@@ -124,7 +126,7 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                 child: _buildFeaturedItem(
                     image:
                         "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
-                    title: "Maxi's Kochbuch",
+                    title: "Plant Food Factory's Kochbuch",
                     subtitle: "Gesund & Lecker")),
             GestureDetector(
                 onTap: () => _openDestinationPage(context),
@@ -178,9 +180,12 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
           children: <Widget>[
             ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
-                child: Image.network(
-                  image,
-                )),
+                child: CachedNetworkImage(
+                  imageUrl: image,
+                  placeholder: (context, url) => const CircularProgressIndicator(
+                    color: basicColor,
+                  ),
+                ),),
             Positioned(
               bottom: 20.0,
               child: Container(
