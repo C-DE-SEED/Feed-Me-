@@ -2,6 +2,8 @@ import 'package:feed_me/constants/show_steps_widget.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
+import 'create_new_recipt_3.dart';
+
 class CreateNewRecipe_2 extends StatefulWidget {
   const CreateNewRecipe_2({Key key}) : super(key: key);
 
@@ -274,7 +276,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const CreateNewRecipe_2()));
+                        builder: (context) => const CreateNewRecipe_3()));
               },
               child: const Text(
                 "Nächster Schritt",
