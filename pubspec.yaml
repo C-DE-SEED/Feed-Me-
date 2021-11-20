@@ -42,6 +42,7 @@ dependencies:
   fluttericon: ^2.0.0
   material_design_icons_flutter: ^5.0.6295
   get_storage: ^2.0.3
+  animated_textformfields: ^1.0.1
 
 dev_dependencies:
   flutter_test:
