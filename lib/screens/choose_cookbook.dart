@@ -2,6 +2,7 @@ import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/open_cookbook/screens/recipe_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/screens/create_new_cooking_book.dart';
 import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -126,22 +127,22 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                 child: _buildFeaturedItem(
                     image:
                         "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
-                    title: "Maxi's Kochbuch",
+                    title: "Maxi stinkt :D",
                     subtitle: "Gesund & Lecker")),
-            GestureDetector(
-                onTap: () => _openDestinationPage(context),
-                child: _buildFeaturedItem(
-                    image:
-                        "https://www.takt-magazin.de/wp-content/uploads/2021/05/edgar-castrejon-1SPu0KT-Ejg-unsplash-scaled-e1622116685668-1170x855.jpg?x48126",
-                    title: "Laura's Rezepte",
-                    subtitle: "Frisch & Lecker")),
-            GestureDetector(
-                onTap: () => _openDestinationPage(context),
-                child: _buildFeaturedItem(
-                    image:
-                        "https://i.pinimg.com/originals/cd/88/e9/cd88e9b8c1875b7813d6af93343040d8.jpg",
-                    title: "Kim's Ideen",
-                    subtitle: "Ausgefallen & Frech")),
+            // GestureDetector(
+            //     onTap: () => _openDestinationPage(context),
+            //     child: _buildFeaturedItem(
+            //         image:
+            //             "https://www.takt-magazin.de/wp-content/uploads/2021/05/edgar-castrejon-1SPu0KT-Ejg-unsplash-scaled-e1622116685668-1170x855.jpg?x48126",
+            //         title: "Laura's Rezepte",
+            //         subtitle: "Frisch & Lecker")),
+            // GestureDetector(
+            //     onTap: () => _openDestinationPage(context),
+            //     child: _buildFeaturedItem(
+            //         image:
+            //             "https://i.pinimg.com/originals/cd/88/e9/cd88e9b8c1875b7813d6af93343040d8.jpg",
+            //         title: "Kim's Ideen",
+            //         subtitle: "Ausgefallen & Frech")),
             // GestureDetector(
             //     onTap: () => _openDestinationPage(context),
             //     child: _buildFeaturedItem(
@@ -160,7 +161,13 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
           size: size.width * 0.11,
           color: BasicGreen,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                  const CreateNewCookingBook()));
+        },
       ),
       //TODO ersetze den floatin action button durch normalen button der
       // durch align und padding an der position sitzt - so hat man keine

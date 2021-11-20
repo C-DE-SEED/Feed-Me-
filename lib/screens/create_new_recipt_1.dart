@@ -6,14 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-class CreateNewRecipe extends StatefulWidget {
-  const CreateNewRecipe({Key key}) : super(key: key);
+import 'create_new_recipt_2.dart';
+
+class CreateNewRecipe_1 extends StatefulWidget {
+  const CreateNewRecipe_1({Key key}) : super(key: key);
 
   @override
-  _CreateNewRecipeState createState() => _CreateNewRecipeState();
+  _CreateNewRecipe_1State createState() => _CreateNewRecipe_1State();
 }
 
-class _CreateNewRecipeState extends State<CreateNewRecipe> {
+class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   File image;
   String inputText;
   List<String> items = [];
@@ -141,7 +143,9 @@ class _CreateNewRecipeState extends State<CreateNewRecipe> {
               color: Colors.white.withOpacity(0.5),
               borderRadius: BorderRadius.circular(20)),
           child: TextButton(
-            onPressed: (){},
+            onPressed: (){
+              Navigator.pop(context);
+            },
             child: const Text("Zurück",style: TextStyle(
               color: Colors.black,
               fontSize: 14.0,
@@ -158,7 +162,13 @@ class _CreateNewRecipeState extends State<CreateNewRecipe> {
               color: Colors.white.withOpacity(0.5),
               borderRadius: BorderRadius.circular(20)),
           child: TextButton(
-            onPressed: (){},
+            onPressed: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                      const CreateNewRecipe_2()));
+            },
             child: const Text("Nächster Schritt",style: TextStyle(
               color: Colors.black,
               fontSize: 14.0,
