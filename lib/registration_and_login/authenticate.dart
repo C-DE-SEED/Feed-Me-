@@ -1,5 +1,5 @@
 import 'package:feed_me/registration_and_login/sign_in.dart';
-import 'package:feed_me/screens/registration.dart';
+import 'package:feed_me/registration_and_login/registration.dart';
 import 'package:flutter/material.dart';
 
 

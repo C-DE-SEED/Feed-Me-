@@ -9,7 +9,7 @@ import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/open_cookbook/screens/recipe_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/loading.dart';
-import 'package:feed_me/screens/registration.dart';
+import 'package:feed_me/registration_and_login/registration.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -97,8 +97,7 @@ class _SignInState extends State<SignIn> {
                         color: Colors.white,
                         text: "Login",
                         onPressed: () async {
-                          // dynamic result = await _auth
-                          //     .loginWithEmailAndPassword(email, password);
+
           //FIXME validate method doesent work with flutter --relase on device
                           if (_formKey.currentState.validate()) {
                             setState(() {

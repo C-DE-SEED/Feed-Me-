@@ -30,16 +30,7 @@ class _ProfileWidget extends State<ProfileWidget> {
       child: Stack(
         children: [
           ClipOval(
-            child: Material(
-              color: Colors.transparent,
-              child: Ink.image(
-                image: getImage(_authService),
-                fit: BoxFit.cover,
-                width: size.height * 0.18,
-                height: size.height * 0.18,
-                child: const InkWell(),
-              ),
-            ),
+            child: getImage(_authService, size),
           ),
           Positioned(
             bottom: 0,
@@ -58,7 +49,7 @@ class _ProfileWidget extends State<ProfileWidget> {
                   ),
                   onPressed: () async {
                     if (!widget.isProfileRoot == false) {
-                      chooseFile(_image, _authService);
+                      chooseFile(_image, _authService, size);
                     }
                   },
                 ),
@@ -70,28 +61,44 @@ class _ProfileWidget extends State<ProfileWidget> {
     );
   }
 
-  ImageProvider getImage(AuthService auth) {
+  CachedNetworkImage getImage(AuthService auth, Size size) {
     if (auth.getUser().photoURL == null) {
-      return const AssetImage('assets/feedMeOrange2.gif');
+      return CachedNetworkImage(
+        imageUrl:
+            'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2FFeed%20Me!%20Logo%20Kopie.png?alt=media&token=e012a4ee-6f75-4630-81bb-e65b939f6647',
+        placeholder: (context, url) => const CircularProgressIndicator(
+          color: basicColor,
+        ),
+        width: size.height * 0.18,
+        height: size.height * 0.18,
+        fit: BoxFit.cover,
+      );
     } else {
-      setState(() {});
-      return CachedNetworkImageProvider(auth.getUser().photoURL,);
+      return CachedNetworkImage(
+        imageUrl: auth.getUser().photoURL,
+        placeholder: (context, url) => const CircularProgressIndicator(
+          color: basicColor,
+        ),
+        fit: BoxFit.cover,
+        width: size.height * 0.18,
+        height: size.height * 0.18,
+      );
     }
   }
 
-  Future chooseFile(File _image, AuthService auth) async {
+  Future chooseFile(File _image, AuthService auth, Size size) async {
     await ImagePicker.platform
         .pickImage(source: ImageSource.gallery)
         .then((image) {
       setState(() {
         _image = File(image.path);
-        uploadFile(_image, auth);
+        uploadFile(_image, auth, size);
       });
     });
   }
 
-  Future uploadFile(File img, AuthService auth) async {
-    var user =  auth.getUser();
+  Future uploadFile(File img, AuthService auth, Size size) async {
+    var user = auth.getUser();
     String filePath = user.uid + '_profile_picture';
     String refChildPath = 'profile_pictures/' + filePath;
     String downloadUrl = '';
@@ -101,9 +108,11 @@ class _ProfileWidget extends State<ProfileWidget> {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
       user.updatePhotoURL(downloadUrl);
-      await Future.delayed(const Duration(seconds: 1,));
+      await Future.delayed(const Duration(
+        seconds: 1,
+      ));
       setState(() {});
     }
-    getImage(auth);
+    getImage(auth, size);
   }
 }
