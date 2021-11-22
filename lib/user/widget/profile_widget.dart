@@ -83,7 +83,9 @@ class _ProfileWidget extends State<ProfileWidget> {
         width: size.height * 0.18,
         height: size.height * 0.18,
       );
+
     }
+
   }
 
   Future chooseFile(File _image, AuthService auth, Size size) async {

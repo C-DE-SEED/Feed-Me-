@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/constants/custom_alert.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
@@ -45,115 +46,141 @@ class _SignInState extends State<SignIn> {
         : Scaffold(
             backgroundColor: Colors.transparent,
             body: Container(
-                decoration: const BoxDecoration(
-                    gradient: SweepGradient(
-                      center: Alignment.bottomLeft,
-                  colors: [
-                    basicColor,
-                    basicColor,
-                    Colors.orange,
-                    Colors.deepOrange,
-                  ],
-                )),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: size.height * 0.05),
-                      SizedBox(
-                        height: size.height * 0.4,
-                        width: size.width * 1,
-                        child: Center(
-                            child: FeedMeCircleAvatar(
-                              radius: size.height * 0.5,
-                            )),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.095,
-                      ),
-                      StandardTextFormField(
-                        hintText: "Bitte geben Sie Ihre E-Mail ein",
-                        onChange: (value) {
+              decoration: const BoxDecoration(
+                  gradient: SweepGradient(
+                center: Alignment.bottomLeft,
+                colors: [
+                  basicColor,
+                  basicColor,
+                  Colors.orange,
+                  Colors.deepOrange,
+                ],
+              )),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: size.height * 0.05),
+                    SizedBox(
+                      height: size.height * 0.4,
+                      width: size.width * 1,
+                      child: Center(
+                          child: FeedMeCircleAvatar(
+                        radius: size.height * 0.5,
+                      )),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.095,
+                    ),
+                    StandardTextFormField(
+                      hintText: "Bitte geben Sie Ihre E-Mail ein",
+                      onChange: (value) {
+                        setState(() {
+                          email = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    PasswordTextFormField(
+                      hintText: "Bitte geben Sie Ihr Passwort ein",
+                      onChange: (value) {
+                        setState(() {
+                          password = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 90,
+                    ),
+                    StandardButton(
+                      color: Colors.white,
+                      text: "Login",
+                      onPressed: () async {
+                        if (isUserInformationComplete()) {
                           setState(() {
-                            email = value;
+                            loading = true;
                           });
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      PasswordTextFormField(
-                        hintText: "Bitte geben Sie Ihr Passwort ein",
-                        onChange: (value) {
-                          setState(() {
-                            password = value;
-                          });
-                        },
-                      ),
-                      const SizedBox(
-                        height: 90,
-                      ),
-                      StandardButton(
-                        color: Colors.white,
-                        text: "Login",
-                        onPressed: () async {
-
-          //FIXME validate method doesent work with flutter --relase on device
-                          if (_formKey.currentState.validate()) {
+                          dynamic result = await _auth
+                              .loginWithEmailAndPassword(email, password);
+                          if (result == null) {
                             setState(() {
-                              loading = true;
+                              loading = false;
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const CustomAlert(
+                                      title: "Ihre Eingaben stimmen nicht "
+                                          "mit den hinterlegten Daten "
+                                          "überein!",
+                                      descriptions:
+                                          "Bitte überprüfen Sie ihre Eingaben.",
+                                      text: "OK",
+                                    );
+                                  });
                             });
-                            dynamic result = await _auth
-                                .loginWithEmailAndPassword(email, password);
-                            if (result == null) {
-                              setState(() {
-                                error = "Please supply a valid email";
-                                loading = false;
-                              });
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ChooseCookbook()));
-                            }
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ChooseCookbook()));
                           }
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Noch nicht registriert?",
-                            style: TextStyle(
-                              fontFamily: openSansFontFamily,
-                              fontWeight: FontWeight.w500,
-                            ),
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Noch nicht registriert?",
+                          style: TextStyle(
+                            fontFamily: openSansFontFamily,
+                            fontWeight: FontWeight.w500,
                           ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const Registration()));
-                            },
-                            child: const Text("Hier klicken",
-                                style: TextStyle(
-                                  color: Color(0xFFFDFAF6),
-                                  fontFamily: openSansFontFamily,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Registration()));
+                          },
+                          child: const Text("Hier klicken",
+                              style: TextStyle(
+                                color: Color(0xFFFDFAF6),
+                                fontFamily: openSansFontFamily,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
+            ),
+          );
+  }
+
+  bool isUserInformationComplete() {
+    if (email.isNotEmpty && password.isNotEmpty) {
+      return true;
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomAlert(
+              title: "Ihre Eingaben sind noch nicht vollständig!",
+              descriptions: "Bitte überprüfen Sie ihre Eingaben.",
+              text: "OK",
             );
+          });
+      return false;
+    }
   }
 }
