@@ -43,6 +43,7 @@ dependencies:
   material_design_icons_flutter: ^5.0.6295
   get_storage: ^2.0.3
   cached_network_image: ^3.1.0+1
+  animated_textformfields: ^1.0.1
 
 dev_dependencies:
   flutter_test:

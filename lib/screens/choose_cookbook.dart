@@ -3,6 +3,7 @@ import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/open_cookbook/screens/recipe_page.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/screens/create_new_cooking_book.dart';
 import 'package:feed_me/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 import '../recipe_db_object.dart';
@@ -143,7 +144,8 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                   title: "Kim's Ideen",
                   subtitle: "Ausgefallen & Frech")),
         ],
-      ),
+        ),
+
       floatingActionButton: FloatingActionButton(
         tooltip: ' Kochbuch\nhinzufügen',
         backgroundColor: Colors.white,
@@ -152,11 +154,14 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
           size: size.width * 0.11,
           color: basicColor,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                  const CreateNewCookingBook()));
+        },
       ),
-      //TODO ersetze den floatin action button durch normalen button der
-      // durch align und padding an der position sitzt - so hat man keine
-      // abgeschintte fläche unten
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
