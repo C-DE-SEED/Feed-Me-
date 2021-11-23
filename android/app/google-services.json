@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "458838989173",
+    "project_id": "feed-me-b8533",
+    "storage_bucket": "feed-me-b8533.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458838989173:android:7466a86c33c4ee88c91b3c",
+        "android_client_info": {
+          "package_name": "Codeseed.FeedMe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458838989173-olehtt70acun74etdqkacj0acafju3bg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "Codeseed.FeedMe",
+            "certificate_hash": "3b88291a1831dab919d4a3cf440a8927e9a7f1ac"
+          }
+        },
+        {
+          "client_id": "458838989173-moge6up9ek23mo2f4g1gs9i906f98vab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPWvFSJuEkp3zvavInh0wUePBIURFazRw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458838989173-moge6up9ek23mo2f4g1gs9i906f98vab.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "458838989173-eteaqsjvul54f1r3lbvet6o5lmuup4vf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "Codeseed.FeedMe"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
