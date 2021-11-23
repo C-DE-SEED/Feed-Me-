@@ -1,7 +1,10 @@
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/constants/orange_box_decoration.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/registration_and_login/authenticate.dart';
+import 'package:feed_me/registration_and_login/google_services/google_auth.dart';
 import 'package:feed_me/registration_and_login/sign_in.dart';
 import 'package:feed_me/user/page/set_profile_information.dart';
 import 'package:feed_me/user/widget/appbar_widget.dart';
@@ -21,43 +24,49 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   AuthService auth = AuthService();
+  AuthenticationGoogle authGoogle = AuthenticationGoogle();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: buildAppBar(
-          context,
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SetProfilePage()));
-              },
-              icon: Icon(MdiIcons.accountEdit, size: size.width * 0.11))),
-      backgroundColor: basicColor,
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          const ProfileWidget(isProfileRoot: false),
-          SizedBox(height: size.height * 0.015),
-          buildName(),
-          SizedBox(height: size.height * 0.01),
-          NumbersWidget(),
-          SizedBox(height: size.height * 0.01),
-          buildAbout(auth),
-          SizedBox(height: size.height * 0.01),
-          StandardButton(
-              color: Colors.white,
-              text: "Log out",
-              onPressed: () {
-                auth.signOut();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignIn()));
-              }),
-        ],
+    return Container(
+      decoration: orangeBoxDecoration,
+      child: Scaffold(
+        appBar: buildAppBar(
+            context,
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SetProfilePage()));
+                },
+                icon: Icon(MdiIcons.accountEdit, size: size.width * 0.11))),
+        backgroundColor: basicColor,
+        body: ListView(
+          physics: const BouncingScrollPhysics(),
+          children: [
+            const ProfileWidget(isProfileRoot: false),
+            SizedBox(height: size.height * 0.015),
+            buildName(),
+            SizedBox(height: size.height * 0.01),
+            NumbersWidget(),
+            SizedBox(height: size.height * 0.01),
+            buildAbout(auth),
+            SizedBox(height: size.height * 0.01),
+            StandardButton(
+                color: Colors.white,
+                text: "Log out",
+                onPressed: () {
+                  auth.signOut();
+                  AuthenticationGoogle.signOut(context: context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignIn()));
+                }),
+          ],
+        ),
       ),
     );
   }

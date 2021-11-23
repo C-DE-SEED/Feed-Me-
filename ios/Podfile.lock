@@ -338,6 +338,11 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
   - BoringSSL-GRPC (0.0.7):
     - BoringSSL-GRPC/Implementation (= 0.0.7)
     - BoringSSL-GRPC/Interface (= 0.0.7)
@@ -404,10 +409,17 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - google_sign_in (0.0.1):
+    - Flutter
+    - GoogleSignIn (~> 5.0)
   - GoogleDataTransport (9.1.2):
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleSignIn (5.0.2):
+    - AppAuth (~> 1.2)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
   - GoogleUtilities/AppDelegateSwizzler (7.6.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -447,6 +459,9 @@ PODS:
     - BoringSSL-GRPC (= 0.0.7)
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
+  - GTMAppAuth (1.2.2):
+    - AppAuth/Core (~> 1.4)
+    - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.7.0)
   - image_picker (0.0.1):
     - Flutter
@@ -469,6 +484,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
+  - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -476,6 +492,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - abseil
+    - AppAuth
     - BoringSSL-GRPC
     - Firebase
     - FirebaseAuth
@@ -485,9 +502,11 @@ SPEC REPOS:
     - FirebaseStorage
     - FMDB
     - GoogleDataTransport
+    - GoogleSignIn
     - GoogleUtilities
     - "gRPC-C++"
     - gRPC-Core
+    - GTMAppAuth
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
@@ -504,6 +523,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
     :path: Flutter
+  google_sign_in:
+    :path: ".symlinks/plugins/google_sign_in/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   path_provider_ios:
@@ -513,6 +534,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: 814002a5be7dc955deaa18216ebe8c2e8be15d10
   Firebase: 629510f1a9ddb235f3a7c5c8ceb23ba887f0f814
@@ -526,10 +548,13 @@ SPEC CHECKSUMS:
   FirebaseStorage: 54ff752ecbd27f1c354c3f5e8c55f6ad5783699b
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  google_sign_in: c5cecea71f3be43282263550556e311c4cc03582
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
+  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GoogleUtilities: 684ee790a24f73ebb2d1d966e9711c203f2a4237
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
+  GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   image_picker: 9aa50e1d8cdacdbed739e925b7eea16d014367e6
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729

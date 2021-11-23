@@ -36,10 +36,7 @@ class MyApp extends StatelessWidget {
     // TODO insert google login
     // TODO NOT FAST - show loading animation as soon as profile picture is
     //  loading
-    // TODO insert toolbar in home() screen
     // TODO show dish of the day instead of feed me logo
-    // FIXME CHANGE HOME PAGE!
-    //TODO: Favourite heart
     //TODO: Decription from user
     //
 

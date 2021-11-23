@@ -1,6 +1,7 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/custom_alert.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
+import 'package:feed_me/constants/orange_box_decoration.dart';
 import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/text_fields/standard_text_form_field.dart';
@@ -37,16 +38,7 @@ class _RegistrationState extends State<Registration> {
     return  Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
-          decoration: const BoxDecoration(
-              gradient: SweepGradient(
-                center: Alignment.bottomLeft,
-                colors: [
-                  basicColor,
-                  basicColor,
-                  Colors.orange,
-                  Colors.deepOrange,
-                ],
-              )),
+          decoration: orangeBoxDecoration,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,

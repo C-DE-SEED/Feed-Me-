@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/constants/orange_box_decoration.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/screens/choose_cookbook.dart';
@@ -66,9 +67,9 @@ class _RecipePageState extends State<RecipePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
+            decoration: orangeBoxDecoration,
             width: size.width * 0.18,
             padding: const EdgeInsets.symmetric(vertical: 55),
-            color: basicColor,
             child: RotatedBox(
               quarterTurns: 1,
               child: Row(

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/custom_alert.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
+import 'package:feed_me/constants/orange_box_decoration.dart';
 import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/text_fields/standard_text_form_field.dart';
@@ -15,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../screens/choose_cookbook.dart';
+import 'google_services/google_auth.dart';
+import 'google_services/google_sign_in_button.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({
@@ -46,16 +49,7 @@ class _SignInState extends State<SignIn> {
         : Scaffold(
             backgroundColor: Colors.transparent,
             body: Container(
-              decoration: const BoxDecoration(
-                  gradient: SweepGradient(
-                center: Alignment.bottomLeft,
-                colors: [
-                  basicColor,
-                  basicColor,
-                  Colors.orange,
-                  Colors.deepOrange,
-                ],
-              )),
+              decoration: orangeBoxDecoration,
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,7 +86,7 @@ class _SignInState extends State<SignIn> {
                       },
                     ),
                     const SizedBox(
-                      height: 90,
+                      height: 30,
                     ),
                     StandardButton(
                       color: Colors.white,
@@ -130,6 +124,10 @@ class _SignInState extends State<SignIn> {
                         }
                       },
                     ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const GoogleSignInButton(),
                     const SizedBox(
                       height: 20,
                     ),

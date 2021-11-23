@@ -3,11 +3,9 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
-import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 class ProfileWidget extends StatefulWidget {
   const ProfileWidget({Key key, @required this.isProfileRoot})
@@ -22,6 +20,7 @@ class _ProfileWidget extends State<ProfileWidget> {
   @override
   Widget build(BuildContext context) {
     File _image;
+    bool isDownloadingImageFromFbDb = false;
 
     final AuthService _authService = AuthService();
     Size size = MediaQuery.of(context).size;
@@ -40,19 +39,8 @@ class _ProfileWidget extends State<ProfileWidget> {
                 padding: const EdgeInsets.all(2),
                 color:
                     widget.isProfileRoot ? Colors.white54 : Colors.transparent,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.add_a_photo_outlined,
-                    color:
-                        widget.isProfileRoot ? basicColor : Colors.transparent,
-                    size: 25,
-                  ),
-                  onPressed: () async {
-                    if (!widget.isProfileRoot == false) {
-                      chooseFile(_image, _authService, size);
-                    }
-                  },
-                ),
+                child: getStateWidget(
+                    _image, _authService, size, isDownloadingImageFromFbDb),
               ),
             ),
           ),
@@ -61,7 +49,32 @@ class _ProfileWidget extends State<ProfileWidget> {
     );
   }
 
+  Widget getStateWidget(File _image, AuthService authService, Size size,
+      bool isDownloadingImageFromFbDb) {
+    if (isDownloadingImageFromFbDb == true) {
+      print('LOADING  KREISEL');
+      return const CircularProgressIndicator(
+        color: Colors.white,
+      );
+    } else {
+      print('KAMERA BUTTON');
+      return IconButton(
+        icon: Icon(
+          Icons.add_a_photo_outlined,
+          color: widget.isProfileRoot ? basicColor : Colors.transparent,
+          size: 25,
+        ),
+        onPressed: () async {
+          if (!widget.isProfileRoot == false) {
+            chooseFile(_image, authService, size, isDownloadingImageFromFbDb);
+          }
+        },
+      );
+    }
+  }
+
   CachedNetworkImage getImage(AuthService auth, Size size) {
+    setState(() {});
     if (auth.getUser().photoURL == null) {
       return CachedNetworkImage(
         imageUrl:
@@ -83,23 +96,25 @@ class _ProfileWidget extends State<ProfileWidget> {
         width: size.height * 0.18,
         height: size.height * 0.18,
       );
-
     }
-
   }
 
-  Future chooseFile(File _image, AuthService auth, Size size) async {
+  Future chooseFile(File _image, AuthService auth, Size size,
+      bool isDownloadingImageFromFbDb) async {
     await ImagePicker.platform
         .pickImage(source: ImageSource.gallery)
         .then((image) {
       setState(() {
         _image = File(image.path);
-        uploadFile(_image, auth, size);
+        isDownloadingImageFromFbDb = true;
+        getStateWidget(_image, auth, size, isDownloadingImageFromFbDb);
+        uploadFile(_image, auth, size, isDownloadingImageFromFbDb);
       });
     });
   }
 
-  Future uploadFile(File img, AuthService auth, Size size) async {
+  Future uploadFile(File img, AuthService auth, Size size,
+      bool isDownloadingImageFromFbDb) async {
     var user = auth.getUser();
     String filePath = user.uid + '_profile_picture';
     String refChildPath = 'profile_pictures/' + filePath;
@@ -109,12 +124,11 @@ class _ProfileWidget extends State<ProfileWidget> {
     if (uploadFile.state == TaskState.success) {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
-      user.updatePhotoURL(downloadUrl);
-      await Future.delayed(const Duration(
-        seconds: 1,
-      ));
-      setState(() {});
+      await user
+          .updatePhotoURL(downloadUrl)
+          .whenComplete(() => isDownloadingImageFromFbDb = false);
     }
     getImage(auth, size);
+    getStateWidget(img, auth, size, isDownloadingImageFromFbDb);
   }
 }
