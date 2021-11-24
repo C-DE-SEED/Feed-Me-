@@ -10,7 +10,6 @@ class Loading extends StatelessWidget {
     return Container(
       color: Colors.black12,
       child: const Center(
-        //TODO insert feedMe gif as loading animation
         child: SpinKitChasingDots(
           color: basicColor,
           size: 50.0,

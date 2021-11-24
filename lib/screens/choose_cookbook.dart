@@ -21,13 +21,16 @@ class ChooseCookbook extends StatefulWidget {
 class _ChooseCookbookState extends State<ChooseCookbook> {
   int selectedIndex = 0;
   AuthService authService = AuthService();
-
-  List<Recipe> plant_food_factory = [];
+  int recipeCount = 0;
+  int cookBookCount = 0;
+  List<Recipe> plantFoodFactory = [];
 
   void getAllRecipes() async {
-    plant_food_factory = await RecipeDbObject()
+    plantFoodFactory = await RecipeDbObject()
         .getRecipeObject("plant_food_factory")
         .elementAt(0);
+    recipeCount = plantFoodFactory.length;
+    cookBookCount = 1;
   }
 
   @override
@@ -44,14 +47,14 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
       body: ListView(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(16.0,0.0,16.0,15.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 15.0),
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.white),
                   borderRadius: const BorderRadius.all(
-                       Radius.circular(15.0),
-                      )),
+                    Radius.circular(15.0),
+                  )),
               child: Column(
                 children: [
                   Row(
@@ -63,11 +66,13 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                                "Hallo, " + authService.getUser().displayName,
-                                style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: openSansFontFamily)),
+                              "Hallo, " + authService.getUser().displayName.toString(),
+                              // .displayName,
+                              style: const TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: openSansFontFamily),
+                            ),
                             const SizedBox(
                               height: 5.0,
                             ),
@@ -81,10 +86,10 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0.0,10.0,10.0,0.0),
+                        padding:
+                            const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
                         child: CircleAvatar(
-                          backgroundImage:
-                          CachedNetworkImageProvider(
+                          backgroundImage: CachedNetworkImageProvider(
                             authService.getUser().photoURL,
                           ),
                           radius: size.width * 0.09,
@@ -93,8 +98,10 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ProfilePage()));
+                                      builder: (context) => ProfilePage(
+                                            recipeCount: recipeCount,
+                                            cookBookCount: cookBookCount,
+                                          )));
                             },
                             child: null,
                           ),
@@ -144,8 +151,7 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                   title: "Kim's Ideen",
                   subtitle: "Ausgefallen & Frech")),
         ],
-        ),
-
+      ),
       floatingActionButton: FloatingActionButton(
         tooltip: ' Kochbuch\nhinzufügen',
         backgroundColor: Colors.white,
@@ -158,8 +164,7 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                  const CreateNewCookingBook()));
+                  builder: (context) => const CreateNewCookingBook()));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -176,13 +181,14 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
         child: Stack(
           children: <Widget>[
             ClipRRect(
-                borderRadius: BorderRadius.circular(5.0),
-                child: CachedNetworkImage(
-                  imageUrl: image,
-                  placeholder: (context, url) => const CircularProgressIndicator(
-                    color: basicColor,
-                  ),
-                ),),
+              borderRadius: BorderRadius.circular(5.0),
+              child: CachedNetworkImage(
+                imageUrl: image,
+                placeholder: (context, url) => const CircularProgressIndicator(
+                  color: basicColor,
+                ),
+              ),
+            ),
             Positioned(
               bottom: 20.0,
               child: Container(
@@ -218,7 +224,9 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
         context,
         MaterialPageRoute(
             builder: (_) => RecipePage(
-                  plant_food_factory: plant_food_factory,
+                  plantFoodFactory: plantFoodFactory,
+                  cookBookCount: cookBookCount,
+                  recipeCount: recipeCount,
                 )));
   }
 }

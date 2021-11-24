@@ -1,4 +1,5 @@
 import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:feed_me/registration_and_login/sign_in.dart';
 import 'package:feed_me/registration_and_login/user_local.dart';
 import 'package:feed_me/screens/welcome.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         home: Welcome(),
       ),
     );
-
+// FIXME E-Mail confirmation überarbeiten
 // TODO insert UserObject with additional data (use Firebase User object as
 //  root)
     // TODO insert google login

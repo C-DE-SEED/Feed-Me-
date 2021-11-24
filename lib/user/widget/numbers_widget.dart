@@ -4,8 +4,20 @@ import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
-class NumbersWidget extends StatelessWidget {
-  NumbersWidget({Key key,}) : super(key: key);
+import '../../recipe_db_object.dart';
+
+class NumbersWidget extends StatefulWidget {
+  const NumbersWidget(
+      {Key key, @required this.recipeCount, @required this.cookBookCount})
+      : super(key: key);
+  final int recipeCount;
+  final int cookBookCount;
+
+  @override
+  State<NumbersWidget> createState() => _NumbersWidgetState();
+}
+
+class _NumbersWidgetState extends State<NumbersWidget> {
   final AuthService auth = AuthService();
 
   @override
@@ -45,10 +57,9 @@ class NumbersWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                buildButton(context, '0' ,'Rezepte'),
+                buildButton(context, widget.recipeCount.toString(), 'Rezepte'),
                 buildDivider(),
-                buildButton(context, '0', 'Kochbücher'),
-                //TODO show how many friends every user have (implement addFriends()
+                buildButton(context, widget.cookBookCount.toString(), 'Kochbücher'),
               ],
             ),
           ],

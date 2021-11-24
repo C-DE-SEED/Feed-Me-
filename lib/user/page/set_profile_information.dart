@@ -15,10 +15,11 @@ import 'package:provider/provider.dart';
 import '../../recipe_db_object.dart';
 
 class SetProfilePage extends StatefulWidget {
-  const SetProfilePage({
-    Key key,
-  }) : super(key: key);
-
+  const SetProfilePage({Key key,@required this.recipeCount, @required this.cookBookCount}) :
+super(key:
+  key);
+  final int recipeCount;
+  final int cookBookCount;
   @override
   _SetProfilePageState createState() => _SetProfilePageState();
 }
@@ -50,7 +51,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
           SizedBox(height: size.height * 0.015),
           buildName(auth),
           SizedBox(height: size.height * 0.01),
-          NumbersWidget(),
+          NumbersWidget(recipeCount: widget.recipeCount,),
           SizedBox(height: size.height * 0.01),
           buildAbout(size, auth),
           SizedBox(height: size.height * 0.0025),

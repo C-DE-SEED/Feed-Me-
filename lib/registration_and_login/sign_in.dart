@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/custom_alert.dart';
+import 'package:feed_me/constants/custom_alert_password_reset.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/orange_box_decoration.dart';
 import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
@@ -86,7 +87,7 @@ class _SignInState extends State<SignIn> {
                       },
                     ),
                     const SizedBox(
-                      height: 30,
+                      height: 35,
                     ),
                     StandardButton(
                       color: Colors.white,
@@ -128,6 +129,23 @@ class _SignInState extends State<SignIn> {
                       height: 5,
                     ),
                     const GoogleSignInButton(),
+                    StandardButton(
+                        color: Colors.white,
+                        text: "Passwort zurücksetzen",
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const CustomAlertPWReset(
+                                  title: "Ihnen wird eine E-Mail zum "
+                                      "zurücksetzen "
+                                      "Ihres Passwortes geschickt. Bitte "
+                                      "geben Sie Ihre E-Mail Adresse ein.",
+                                  text: "Paswort zurücksetzen",
+                                );
+                              });
+                        }),
+                    SizedBox(height: size.height * 0.01),
                     const SizedBox(
                       height: 20,
                     ),

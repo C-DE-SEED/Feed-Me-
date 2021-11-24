@@ -14,16 +14,23 @@ import 'dessert_dishes_page.dart';
 import 'starter_dishes_page.dart';
 
 class RecipePage extends StatefulWidget {
-  List<Recipe> plant_food_factory;
+  final List<Recipe> plantFoodFactory;
+  final int recipeCount;
+  final int cookBookCount;
 
-  RecipePage({Key key, this.plant_food_factory}) : super(key: key);
+  const RecipePage(
+      {Key key,
+      @required this.plantFoodFactory,
+      @required this.recipeCount,
+      @required this.cookBookCount})
+      : super(key: key);
 
   @override
   State<RecipePage> createState() => _RecipePageState();
 }
 
 class _RecipePageState extends State<RecipePage> {
-  List<Recipe> plant_food_factory;
+  List<Recipe> plantFoodFactory;
   List<Recipe> fast = [];
   List<Recipe> main = [];
   List<Recipe> dessert = [];
@@ -47,7 +54,7 @@ class _RecipePageState extends State<RecipePage> {
 
   @override
   void initState() {
-    filterRecipes(widget.plant_food_factory);
+    filterRecipes(widget.plantFoodFactory);
     super.initState();
   }
 
@@ -105,8 +112,7 @@ class _RecipePageState extends State<RecipePage> {
                   RotatedBox(
                     quarterTurns: -1,
                     child: CircleAvatar(
-                      backgroundImage:
-                      CachedNetworkImageProvider(
+                      backgroundImage: CachedNetworkImageProvider(
                         authService.getUser().photoURL,
                       ),
                       radius: size.width * 0.065,
@@ -114,9 +120,14 @@ class _RecipePageState extends State<RecipePage> {
                       child: TextButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ProfilePage()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePage(
+                                recipeCount: widget.recipeCount,
+                                cookBookCount: widget.cookBookCount,
+                              ),
+                            ),
+                          );
                         },
                         child: null,
                       ),

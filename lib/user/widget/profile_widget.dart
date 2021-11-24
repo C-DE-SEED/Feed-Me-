@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
@@ -20,7 +19,6 @@ class _ProfileWidget extends State<ProfileWidget> {
   @override
   Widget build(BuildContext context) {
     File _image;
-    bool isDownloadingImageFromFbDb = false;
 
     final AuthService _authService = AuthService();
     Size size = MediaQuery.of(context).size;
@@ -39,8 +37,7 @@ class _ProfileWidget extends State<ProfileWidget> {
                 padding: const EdgeInsets.all(2),
                 color:
                     widget.isProfileRoot ? Colors.white54 : Colors.transparent,
-                child: getStateWidget(
-                    _image, _authService, size, isDownloadingImageFromFbDb),
+                child: getStateWidget(_image, _authService, size),
               ),
             ),
           ),
@@ -49,16 +46,8 @@ class _ProfileWidget extends State<ProfileWidget> {
     );
   }
 
-  Widget getStateWidget(File _image, AuthService authService, Size size,
-      bool isDownloadingImageFromFbDb) {
-    if (isDownloadingImageFromFbDb == true) {
-      print('LOADING  KREISEL');
-      return const CircularProgressIndicator(
-        color: Colors.white,
-      );
-    } else {
-      print('KAMERA BUTTON');
-      return IconButton(
+  Widget getStateWidget(File _image, AuthService authService, Size size) {
+    return IconButton(
         icon: Icon(
           Icons.add_a_photo_outlined,
           color: widget.isProfileRoot ? basicColor : Colors.transparent,
@@ -66,11 +55,9 @@ class _ProfileWidget extends State<ProfileWidget> {
         ),
         onPressed: () async {
           if (!widget.isProfileRoot == false) {
-            chooseFile(_image, authService, size, isDownloadingImageFromFbDb);
+            chooseFile(_image, authService, size);
           }
-        },
-      );
-    }
+        });
   }
 
   CachedNetworkImage getImage(AuthService auth, Size size) {
@@ -99,22 +86,18 @@ class _ProfileWidget extends State<ProfileWidget> {
     }
   }
 
-  Future chooseFile(File _image, AuthService auth, Size size,
-      bool isDownloadingImageFromFbDb) async {
+  Future chooseFile(File _image, AuthService auth, Size size) async {
     await ImagePicker.platform
         .pickImage(source: ImageSource.gallery)
         .then((image) {
       setState(() {
         _image = File(image.path);
-        isDownloadingImageFromFbDb = true;
-        getStateWidget(_image, auth, size, isDownloadingImageFromFbDb);
-        uploadFile(_image, auth, size, isDownloadingImageFromFbDb);
+        uploadFile(_image, auth, size);
       });
     });
   }
 
-  Future uploadFile(File img, AuthService auth, Size size,
-      bool isDownloadingImageFromFbDb) async {
+  Future uploadFile(File img, AuthService auth, Size size) async {
     var user = auth.getUser();
     String filePath = user.uid + '_profile_picture';
     String refChildPath = 'profile_pictures/' + filePath;
@@ -124,11 +107,8 @@ class _ProfileWidget extends State<ProfileWidget> {
     if (uploadFile.state == TaskState.success) {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
-      await user
-          .updatePhotoURL(downloadUrl)
-          .whenComplete(() => isDownloadingImageFromFbDb = false);
+      await user.updatePhotoURL(downloadUrl);
     }
     getImage(auth, size);
-    getStateWidget(img, auth, size, isDownloadingImageFromFbDb);
   }
 }

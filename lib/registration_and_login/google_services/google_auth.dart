@@ -24,7 +24,6 @@ class AuthenticationGoogle {
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
-
       try {
         final UserCredential userCredential =
             await auth.signInWithCredential(credential);
@@ -52,9 +51,9 @@ class AuthenticationGoogle {
           ),
         );
       }
-
-      return user;
     }
+    return user;
+
   }
   static Future<void> signOut({@required BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();

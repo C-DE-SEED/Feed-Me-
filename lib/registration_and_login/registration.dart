@@ -1,4 +1,3 @@
-import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/custom_alert.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/orange_box_decoration.dart';
@@ -10,7 +9,6 @@ import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:feed_me/registration_and_login/sign_in.dart';
 import 'package:feed_me/user/page/set_profile_information.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key key, this.toggleView}) : super(key: key);
@@ -23,7 +21,6 @@ class Registration extends StatefulWidget {
 
 class _RegistrationState extends State<Registration> {
   final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>();
 
   String email = "";
   String password = "";
@@ -35,7 +32,7 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return  Scaffold(
+    return Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
           decoration: orangeBoxDecoration,
@@ -56,12 +53,15 @@ class _RegistrationState extends State<Registration> {
                   height: size.height * 0.05,
                 ),
                 StandardTextFormField(
-                    hintText: "Bitte geben Sie Ihre E-Mail ein",
-                    onChange: (value) {
-                      setState(() {
+                  hintText: "Bitte geben Sie Ihre E-Mail ein",
+                  onChange: (value) {
+                    setState(
+                      () {
                         email = value;
-                      });
-                    }),
+                      },
+                    );
+                  },
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -98,7 +98,10 @@ class _RegistrationState extends State<Registration> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SetProfilePage()));
+                              builder: (context) => const SetProfilePage(
+                                    cookBookCount: 1,
+                                    recipeCount: 0,
+                                  )));
                     } else {
                       error = "Bitte geben Sie eine valide E-Mail ein!";
                       loading = false;

@@ -1,5 +1,6 @@
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/constants/custom_alert.dart';
 import 'package:feed_me/constants/orange_box_decoration.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
@@ -15,8 +16,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key key,}) : super(key: key);
-
+  const ProfilePage({Key key, @required this.recipeCount, @required this.cookBookCount}) :
+super(key:
+key);
+  final int recipeCount;
+  final int cookBookCount;
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -39,7 +43,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SetProfilePage()));
+                          builder: (context) =>  SetProfilePage
+                            (recipeCount: widget.recipeCount, cookBookCount:
+                          widget.cookBookCount,)));
                 },
                 icon: Icon(MdiIcons.accountEdit, size: size.width * 0.11))),
         backgroundColor: basicColor,
@@ -50,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(height: size.height * 0.015),
             buildName(),
             SizedBox(height: size.height * 0.01),
-            NumbersWidget(),
+            NumbersWidget(recipeCount: widget.recipeCount, cookBookCount: 0,),
             SizedBox(height: size.height * 0.01),
             buildAbout(auth),
             SizedBox(height: size.height * 0.01),
@@ -60,10 +66,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 onPressed: () {
                   auth.signOut();
                   AuthenticationGoogle.signOut(context: context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignIn()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const SignIn()));
                 }),
           ],
         ),
@@ -74,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildName() => Column(
         children: [
           Text(
-            auth.getUser().displayName,
+            auth.getUser().displayName ?? 'Feed Me!',
             textAlign: TextAlign.center,
             style: const TextStyle(
                 fontFamily: openSansFontFamily,
@@ -100,14 +104,17 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 16),
             Text(
-              GetStorage(auth.getUser().uid).read('userDescription')
-              ?? 'Keine Beschreibung vorhanden' ,
+              GetStorage(auth.getUser().uid).read('userDescription') ??
+                  'Keine Beschreibung vorhanden',
               style: const TextStyle(
-                  fontFamily: openSansFontFamily, fontSize: 16, height: 1.4,
+                  fontFamily: openSansFontFamily,
+                  fontSize: 16,
+                  height: 1.4,
                   color: Colors.black54),
-
             ),
           ],
         ),
       );
+
+
 }
