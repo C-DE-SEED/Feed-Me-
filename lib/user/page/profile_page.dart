@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
         body: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-            const ProfileWidget(isProfileRoot: false),
+            ProfileWidget(isProfileRoot: false,isLoadingState: false,),
             SizedBox(height: size.height * 0.015),
             buildName(),
             SizedBox(height: size.height * 0.01),

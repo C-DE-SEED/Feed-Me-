@@ -47,7 +47,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          const ProfileWidget(isProfileRoot: true),
+          ProfileWidget(isProfileRoot: true, isLoadingState: false, ),
           SizedBox(height: size.height * 0.015),
           buildName(auth),
           SizedBox(height: size.height * 0.01),
