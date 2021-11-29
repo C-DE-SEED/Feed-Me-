@@ -4,7 +4,6 @@ import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttericon/rpg_awesome_icons.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileWidget extends StatefulWidget {
