@@ -3,6 +3,7 @@ import 'package:feed_me/constants/show_steps_widget.dart';
 import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
+import 'choose_cookbook.dart';
 import 'create_new_recipt_3.dart';
 
 class CreateNewRecipe_4 extends StatefulWidget {
@@ -15,11 +16,10 @@ class CreateNewRecipe_4 extends StatefulWidget {
 class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   int counter = 1;
   List<Color> colors = [
-    Colors.green,
-    Colors.green,
-    Colors.green,
-    Colors.green,
-    Colors.white.withOpacity(0.5),
+    DeepOrange,
+    DeepOrange,
+    DeepOrange,
+    DeepOrange
   ];
   List<String> items = ["test"];
   List<TextEditingController> controller = [];
@@ -236,7 +236,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CreateNewRecipe_4()));
+                      builder: (context) => const ChooseCookbook()));
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -26,10 +26,9 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
   String time = "0";
   String persons = "1";
   List<Color> colors = [
-    Colors.green,
-    Colors.green,
-    Colors.green,
-    Colors.white.withOpacity(0.5),
+    DeepOrange,
+    DeepOrange,
+    DeepOrange,
     Colors.white.withOpacity(0.5),
   ];
   List<String> timeList = [

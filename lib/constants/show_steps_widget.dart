@@ -22,37 +22,30 @@ class ShowSteps extends StatelessWidget {
           children: [
             Container(
               height: size.height * 0.01,
-              width: size.width * 0.2,
+              width: size.width * 0.25,
               decoration: BoxDecoration(
                   color: colors.elementAt(0),
                   borderRadius: BorderRadius.circular(15)),
             ),
             Container(
               height: size.height * 0.01,
-              width: size.width * 0.2,
+              width: size.width * 0.25,
               decoration: BoxDecoration(
                   color: colors.elementAt(1),
                   borderRadius: BorderRadius.circular(15)),
             ),
             Container(
               height: size.height * 0.01,
-              width: size.width * 0.2,
+              width: size.width * 0.25,
               decoration: BoxDecoration(
                   color: colors.elementAt(2),
                   borderRadius: BorderRadius.circular(15)),
             ),
             Container(
               height: size.height * 0.01,
-              width: size.width * 0.2,
+              width: size.width * 0.25,
               decoration: BoxDecoration(
                   color: colors.elementAt(3),
-                  borderRadius: BorderRadius.circular(15)),
-            ),
-            Container(
-              height: size.height * 0.01,
-              width: size.width * 0.2,
-              decoration: BoxDecoration(
-                  color: colors.elementAt(4),
                   borderRadius: BorderRadius.circular(15)),
             ),
           ],

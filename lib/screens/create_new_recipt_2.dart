@@ -16,9 +16,8 @@ class CreateNewRecipe_2 extends StatefulWidget {
 class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
   int counter = 1;
   List<Color> colors = [
-    Colors.green,
-    Colors.green,
-    Colors.white.withOpacity(0.5),
+    DeepOrange,
+    DeepOrange,
     Colors.white.withOpacity(0.5),
     Colors.white.withOpacity(0.5),
   ];

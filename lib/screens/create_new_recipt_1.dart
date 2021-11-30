@@ -21,8 +21,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   List<String> items = [];
   bool hasImage = false;
   List<Color> colors = [
-    Colors.green,
-    Colors.white.withOpacity(0.5),
+    DeepOrange,
     Colors.white.withOpacity(0.5),
     Colors.white.withOpacity(0.5),
     Colors.white.withOpacity(0.5),
