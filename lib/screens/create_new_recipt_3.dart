@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'create_new_recipt_2.dart';
+import 'create_new_recipt_4.dart';
 
 class CreateNewRecipe_3 extends StatefulWidget {
   const CreateNewRecipe_3({Key key}) : super(key: key);
@@ -154,7 +155,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                     width: size.width*0.3,
                     decoration: BoxDecoration(
                         color: Colors.transparent,
-                        border: Border.all(color: Colors.white),
+                        border: Border.all(color: DeepOrange),
                         borderRadius: BorderRadius.circular(10)),
                     child: TextButton(
                       onPressed: () {
@@ -188,7 +189,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                     width: size.width*0.3,
                     decoration: BoxDecoration(
                         color: Colors.transparent,
-                        border: Border.all(color: Colors.white),
+                        border: Border.all(color: DeepOrange),
                         borderRadius: BorderRadius.circular(10)),
                     child: TextButton(
                       onPressed: () {
@@ -220,7 +221,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
               width: size.width,
               height: 250,
               child: CupertinoPicker(
-                backgroundColor: Colors.white,
+                backgroundColor: DeepOrange,
                 itemExtent: 30,
                 scrollController: FixedExtentScrollController(initialItem: 1),
                 children: timeList
@@ -245,7 +246,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
           width: size.width,
           height: 250,
           child: CupertinoPicker(
-            backgroundColor: Colors.white,
+            backgroundColor: DeepOrange,
             itemExtent: 30,
             scrollController: FixedExtentScrollController(initialItem: 1),
             children: personList
@@ -269,7 +270,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
       width: size.width * 0.2,
       decoration: BoxDecoration(
           color: isChosen ? color : Colors.transparent,
-          border: Border.all(color: Colors.white),
+          border: isChosen ? null :Border.all(color: DeepOrange),
           borderRadius: BorderRadius.circular(10)),
       child: TextButton(
         onPressed: onPressed,
@@ -291,7 +292,8 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
           height: size.height * 0.08,
           width: size.width * 0.4,
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.5),
+              border: Border.all(color: Colors.deepOrange),
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(20)),
           child: TextButton(
             onPressed: () {
@@ -300,8 +302,8 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
             child: const Text(
               "Zurück",
               style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.0,
+                color: DeepOrange,
+                fontSize: 18.0,
               ),
             ),
           ),
@@ -313,21 +315,30 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
           height: size.height * 0.08,
           width: size.width * 0.4,
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(20)),
+              color: DeepOrange, borderRadius: BorderRadius.circular(20)),
           child: TextButton(
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CreateNewRecipe_2()));
+                      builder: (context) => const CreateNewRecipe_4()));
             },
-            child: const Text(
-              "Nächster Schritt",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.0,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Weiter",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                  ),
+                ),
+                SizedBox(width: size.width * 0.01),
+                const Icon(
+                  Icons.arrow_forward_outlined,
+                  color: Colors.white,
+                )
+              ],
             ),
           ),
         )

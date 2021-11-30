@@ -113,8 +113,8 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
             ? null
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.camera_alt, color: Colors.white, size: 100)
+                children:  const [
+                  Icon(Icons.camera_alt_outlined, color: DeepOrange, size: 100)
                 ],
               ),
       ),
@@ -140,15 +140,17 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
           height: size.height*0.08,
           width: size.width*0.4,
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.5),
+              border: Border.all(color: Colors.deepOrange),
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(20)),
+
           child: TextButton(
             onPressed: (){
               Navigator.pop(context);
             },
             child: const Text("Zurück",style: TextStyle(
-              color: Colors.black,
-              fontSize: 14.0,
+              color: DeepOrange,
+              fontSize: 18.0,
             ),),
           ),
         ),
@@ -159,7 +161,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
           height: size.height*0.08,
           width: size.width*0.4,
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.5),
+              color: DeepOrange,
               borderRadius: BorderRadius.circular(20)),
           child: TextButton(
             onPressed: (){
@@ -169,10 +171,19 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                       builder: (context) =>
                       const CreateNewRecipe_2()));
             },
-            child: const Text("Nächster Schritt",style: TextStyle(
-              color: Colors.black,
-              fontSize: 14.0,
-            ),),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:  [
+                const Text("Weiter",style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                ),),
+                SizedBox(
+                  width: size.width*0.01
+                ),
+                const Icon(Icons.arrow_forward_outlined, color: Colors.white,)
+              ],
+            ),
           ),
         )
       ],
