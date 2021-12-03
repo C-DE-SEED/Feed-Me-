@@ -29,4 +29,9 @@ class Recipe {
       this.shortDescription,
       this.spices,
       this.time);
+
+  @override
+  String toString() {
+    return 'Recipe{id: $id, category: $category, description: $description, difficulty: $difficulty, image: $image, ingredientsAndAmount: $ingredientsAndAmount, kitchenStuff: $kitchenStuff, name: $name, origin: $origin, persons: $persons, shortDescription: $shortDescription, spices: $spices, time: $time}';
+  }
 }

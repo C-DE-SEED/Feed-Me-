@@ -23,14 +23,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   Recipe recipe = Recipe();
   File image;
   String inputText;
-  List<String> items = [];
   bool hasImage = false;
-  List<Color> colors = [
-    deepOrange,
-    Colors.white.withOpacity(0.5),
-    Colors.white.withOpacity(0.5),
-    Colors.white.withOpacity(0.5),
-  ];
   final List<String> keys = [];
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   String recipeName = '';
@@ -47,7 +40,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ShowSteps(
-                  colors: colors,
+                  colors: step1,
                   step:
                       "1.Schritt: Rezeptnamen und  Bild des fertigen Gerichtes festlegen"),
               SizedBox(height: size.height * 0.05),
@@ -59,11 +52,11 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 14.0,
+                      fontSize: fontSize,
                     ),
                     decoration: const InputDecoration(
                       hintText: 'Rezeptname eingeben',
-                      hintStyle: TextStyle(color: Colors.white, fontSize: 12),
+                      hintStyle: TextStyle(color: Colors.white, fontSize: fontSize),
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.white)),
                       enabledBorder: UnderlineInputBorder(
@@ -81,8 +74,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
               const Text("Titelbild für das Rezept festlegen:",
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
+                      fontSize: fontSize,
                       fontFamily: openSansFontFamily)),
               SizedBox(height: size.height * 0.02),
               photoContainer(size),

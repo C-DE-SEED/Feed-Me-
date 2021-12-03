@@ -2,6 +2,7 @@ import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,8 @@ import '../../model/recipe_db_object.dart';
 import '../home.dart';
 
 class CreateNewRecipe_4 extends StatefulWidget {
-  const CreateNewRecipe_4({Key key}) : super(key: key);
+  const CreateNewRecipe_4({Key key, @required this.recipe}) : super(key: key);
+  final Recipe recipe;
 
   @override
   _CreateNewRecipe_4State createState() => _CreateNewRecipe_4State();
@@ -18,7 +20,6 @@ class CreateNewRecipe_4 extends StatefulWidget {
 class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   AuthService auth = AuthService();
   int counter = 1;
-  List<Color> colors = [deepOrange, deepOrange, deepOrange, deepOrange];
   List<String> items = ["test"];
   List<TextEditingController> controller = [];
   GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
@@ -35,7 +36,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
               child: Column(
                 children: [
                   ShowSteps(
-                      colors: colors,
+                      colors: step4,
                       step: "4.Schritt: Schritte der Zubereitung"),
                   SizedBox(height: size.height * 0.01),
                   AnimatedList(
@@ -65,10 +66,9 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                                         child: Text(
                                             (index + 1).toString() +
                                                 ". Schritt",
-                                            style: const TextStyle(
+                                            style:  TextStyle(
                                                 color: deepOrange,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.bold,
+                                                fontSize: fontSize,
                                                 fontFamily:
                                                     openSansFontFamily))),
                                     SizedBox(
@@ -79,19 +79,19 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                                       child: TextFormField(
                                         obscureText: false,
                                         textAlign: TextAlign.center,
-                                        style: const TextStyle(
+                                        style:  TextStyle(
                                           color: Colors.white,
-                                          fontSize: 14.0,
+                                          fontSize: fontSize,
                                         ),
-                                        decoration: const InputDecoration(
-                                          hintText: 'Beschreibeung',
+                                        decoration:  InputDecoration(
+                                          hintText: 'Beschreibung',
                                           hintStyle: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 12),
-                                          focusedBorder: UnderlineInputBorder(
+                                              fontSize: fontSize),
+                                          focusedBorder: const UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Colors.white)),
-                                          enabledBorder: UnderlineInputBorder(
+                                          enabledBorder: const UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Colors.white)),
                                         ),
@@ -154,7 +154,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                 child: ButtonRow(
                   onPressed: () async {
                     await RecipeDbObject().updateRecipe(
-                        "2",
+                        "1",
                         "catekory",
                         "description",
                         "difficulty",
@@ -204,13 +204,12 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.add, color: deepOrange),
+                children:  [
+                  const Icon(Icons.add, color: deepOrange),
                   Text("Weiteren Schritt hinzufügen",
                       style: TextStyle(
                           color: deepOrange,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
+                          fontSize: fontSize,
                           fontFamily: openSansFontFamily)),
                 ],
               )),
