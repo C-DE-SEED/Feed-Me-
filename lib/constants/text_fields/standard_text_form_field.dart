@@ -1,7 +1,8 @@
-import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
-import '../Colors.dart';
+import '../styles/colors.dart';
+
 
 class StandardTextFormField extends StatefulWidget {
   const StandardTextFormField({Key key, this.hintText, this.onChange})
@@ -30,7 +31,7 @@ class _StandardTextFormFieldState extends State<StandardTextFormField> {
           fontWeight: FontWeight.w600,
         ),
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.mail_outlined, color:BasicGreen),
+          prefixIcon: const Icon(Icons.mail_outlined, color:basicColor),
           filled: true,
           fillColor: Colors.white,
           hintText: widget.hintText,
@@ -44,7 +45,7 @@ class _StandardTextFormFieldState extends State<StandardTextFormField> {
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: BasicGreen, width: 2.0),
+            borderSide: BorderSide(color: basicColor, width: 2.0),
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),
         ),

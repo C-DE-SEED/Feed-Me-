@@ -1,7 +1,7 @@
-import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
-import '../Colors.dart';
+import '../styles/colors.dart';
 
 class PasswordTextFormField extends StatefulWidget {
   const PasswordTextFormField({Key key, this.hintText, this.onChange})
@@ -36,7 +36,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
         decoration: InputDecoration(
           prefixIcon: const Icon(
             Icons.lock,
-            color: BasicGreen,
+            color: basicColor,
           ),
           filled: true,
           fillColor: Colors.white,
@@ -51,7 +51,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: BasicGreen, width: 2.0),
+            borderSide: BorderSide(color: basicColor, width: 2.0),
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),
         ),

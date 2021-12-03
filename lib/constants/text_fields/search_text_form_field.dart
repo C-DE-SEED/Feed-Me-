@@ -1,7 +1,7 @@
-import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
-import '../Colors.dart';
+import '../styles/colors.dart';
 
 class SearchTextFormField extends StatefulWidget {
   const SearchTextFormField({Key key, this.hintText, this.onChange})
@@ -34,7 +34,7 @@ class _SearchTextFormFieldState extends State<SearchTextFormField> {
         decoration: InputDecoration(
           prefixIcon: const Icon(
             Icons.search,
-            color: BasicGreen,
+            color: basicColor,
           ),
           filled: true,
           fillColor: Colors.white,
@@ -49,7 +49,7 @@ class _SearchTextFormFieldState extends State<SearchTextFormField> {
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: BasicGreen, width: 2.0),
+            borderSide: BorderSide(color: basicColor, width: 2.0),
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),
         ),

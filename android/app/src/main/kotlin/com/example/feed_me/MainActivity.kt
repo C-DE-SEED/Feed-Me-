@@ -1,4 +1,4 @@
-package com.example.feed_me
+package Codeseed.FeedMe
 
 import io.flutter.embedding.android.FlutterActivity
 

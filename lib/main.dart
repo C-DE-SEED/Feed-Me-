@@ -1,7 +1,9 @@
-import 'package:feed_me/registration_and_login/auth_service.dart';
-import 'package:feed_me/registration_and_login/user_local.dart';
+import 'package:feed_me/services/auth_service.dart';
+import 'package:feed_me/screens/registration_and_login/sign_in.dart';
+import 'package:feed_me/model/user_local.dart';
 import 'package:feed_me/screens/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     return StreamProvider<UserLocal>.value(
       value: AuthService().getUserLocal(),
       initialData: null,
@@ -28,16 +31,13 @@ class MyApp extends StatelessWidget {
         home: Welcome(),
       ),
     );
-
+// FIXME E-Mail confirmation überarbeiten
 // TODO insert UserObject with additional data (use Firebase User object as
 //  root)
     // TODO insert google login
     // TODO NOT FAST - show loading animation as soon as profile picture is
     //  loading
-    // TODO insert toolbar in home() screen
     // TODO show dish of the day instead of feed me logo
-    // FIXME CHANGE HOME PAGE!
-    //TODO: Favourite heart
     //TODO: Decription from user
     //
 

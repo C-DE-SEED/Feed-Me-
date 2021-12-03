@@ -1,10 +1,10 @@
 
-import 'package:feed_me/registration_and_login/authenticate.dart';
-import 'package:feed_me/registration_and_login/user_local.dart';
+import 'package:feed_me/model/user_local.dart';
+import 'package:feed_me/services/authenticate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'choose_cookbook.dart';
+import 'home.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({Key key}) : super(key: key);
