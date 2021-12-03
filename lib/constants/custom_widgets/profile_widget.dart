@@ -94,7 +94,7 @@ class _ProfileWidget extends State<ProfileWidget> {
 
   Future chooseFile(File _image, AuthService auth, Size size) async {
     await ImagePicker.platform
-        .pickImage(source: ImageSource.gallery)
+        .pickImage(source: ImageSource.gallery,imageQuality:  10)
         .then((image) {
       setState(() {
         widget.isLoadingState = true;

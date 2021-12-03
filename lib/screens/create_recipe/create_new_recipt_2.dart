@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
@@ -9,7 +10,8 @@ import 'create_new_recipt_3.dart';
 
 class CreateNewRecipe_2 extends StatefulWidget {
   Recipe recipe;
-  CreateNewRecipe_2({Key key,this.recipe}) : super(key: key);
+
+  CreateNewRecipe_2({Key key, this.recipe}) : super(key: key);
 
   @override
   _CreateNewRecipe_2State createState() => _CreateNewRecipe_2State();
@@ -193,7 +195,16 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                 ],
               ),
             ),
-            Align(alignment: Alignment.bottomCenter, child: buttonRow(size))
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: ButtonRow(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CreateNewRecipe_3()));
+                  },
+                ))
           ],
         ),
       ),
@@ -264,67 +275,5 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                 },
               ),
             ));
-  }
-
-  Widget buttonRow(Size size) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          height: size.height * 0.08,
-          width: size.width * 0.4,
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.deepOrange),
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(20)),
-          child: TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "Zurück",
-              style: TextStyle(
-                color: deepOrange,
-                fontSize: 18.0,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: size.width * 0.1,
-        ),
-        Container(
-          height: size.height * 0.08,
-          width: size.width * 0.4,
-          decoration: BoxDecoration(
-              color: deepOrange, borderRadius: BorderRadius.circular(20)),
-          child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CreateNewRecipe_3()));
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Weiter",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-                SizedBox(width: size.width * 0.01),
-                const Icon(
-                  Icons.arrow_forward_outlined,
-                  color: Colors.white,
-                )
-              ],
-            ),
-          ),
-        )
-      ],
-    );
   }
 }

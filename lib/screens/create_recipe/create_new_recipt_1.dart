@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/services/auth_service.dart';
@@ -8,7 +9,6 @@ import 'dart:io';
 import 'package:feed_me/constants/styles/colors.dart';
 import '../../model/recipe_object.dart';
 import 'create_new_recipt_2.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class CreateNewRecipe_1 extends StatefulWidget {
   String cookBookName;
@@ -87,7 +87,17 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
               SizedBox(height: size.height * 0.02),
               photoContainer(size),
               SizedBox(height: size.height * 0.1),
-              buttonRow(size)
+              ButtonRow(
+                onPressed: () {
+                  recipe.name = recipeName;
+                  uploadFile(image, _authService);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CreateNewRecipe_2(recipe: recipe)));
+                },
+              )
             ],
           ),
         ),
@@ -128,78 +138,13 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
 
   Future chooseFile() async {
     await ImagePicker.platform
-        .pickImage(source: ImageSource.gallery, imageQuality:  10)
+        .pickImage(source: ImageSource.gallery, imageQuality: 10)
         .then((file) {
       setState(() {
-        print(file.path);
         image = File(file.path);
         hasImage = true;
       });
     });
-  }
-
-  Widget buttonRow(Size size) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          height: size.height * 0.08,
-          width: size.width * 0.4,
-          decoration: BoxDecoration(
-              border: Border.all(color: deepOrange),
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(20)),
-          child: TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "Zurück",
-              style: TextStyle(
-                color: deepOrange,
-                fontSize: 18.0,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: size.width * 0.1,
-        ),
-        Container(
-          height: size.height * 0.08,
-          width: size.width * 0.4,
-          decoration: BoxDecoration(
-              color: deepOrange, borderRadius: BorderRadius.circular(20)),
-          child: TextButton(
-            onPressed: () {
-              recipe.name = recipeName;
-              uploadFile(image, _authService);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CreateNewRecipe_2(recipe: recipe)));
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Weiter",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-                SizedBox(width: size.width * 0.01),
-                const Icon(
-                  Icons.arrow_forward_outlined,
-                  color: Colors.white,
-                )
-              ],
-            ),
-          ),
-        )
-      ],
-    );
   }
 
   void uploadFile(File img, AuthService auth) async {
@@ -207,11 +152,6 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
     String refChildPath = '';
     String filePath = user.uid + recipe.name;
     refChildPath = 'recipe_images_user/' + filePath;
-    /* img = await FlutterImageCompress.compressAndGetFile(
-      img.path,
-      refChildPath,
-      quality: 40,
-    );*/
     String downloadUrl = '';
     Reference ref = FirebaseStorage.instance.ref();
     TaskSnapshot uploadFile = await ref.child(refChildPath).putFile(img);
@@ -220,14 +160,5 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
       downloadUrl = await refStorage.getDownloadURL();
       recipe.image = downloadUrl;
     }
-  }
-
-  Future<File> testCompressAndGetFile(File file, String targetPath) async {
-    var result = await FlutterImageCompress.compressAndGetFile(
-      file.absolute.path,
-      targetPath,
-      quality: 40,
-    );
-    return result;
   }
 }

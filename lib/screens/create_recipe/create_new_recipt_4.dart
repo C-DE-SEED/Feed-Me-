@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
@@ -17,12 +18,7 @@ class CreateNewRecipe_4 extends StatefulWidget {
 class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   AuthService auth = AuthService();
   int counter = 1;
-  List<Color> colors = [
-    deepOrange,
-    deepOrange,
-    deepOrange,
-    deepOrange
-  ];
+  List<Color> colors = [deepOrange, deepOrange, deepOrange, deepOrange];
   List<String> items = ["test"];
   List<TextEditingController> controller = [];
   GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
@@ -51,7 +47,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                     itemBuilder: (context, index, anim) {
                       return SlideTransition(
                         position: Tween<Offset>(
-                            begin: const Offset(1, 0), end: Offset.zero)
+                                begin: const Offset(1, 0), end: Offset.zero)
                             .animate(anim),
                         child: ListTile(
                           title: Container(
@@ -61,18 +57,20 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                             height: size.height * 0.1,
                             child: Column(
                               children: [
-
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     SizedBox(
-                                      width: size.width * 0.2,
-                                      child: Text((index+1).toString()+". Schritt", style: const TextStyle(
-                                          color: deepOrange,
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: openSansFontFamily))
-                                    ),
+                                        width: size.width * 0.2,
+                                        child: Text(
+                                            (index + 1).toString() +
+                                                ". Schritt",
+                                            style: const TextStyle(
+                                                color: deepOrange,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily:
+                                                    openSansFontFamily))),
                                     SizedBox(
                                       width: size.width * 0.1,
                                     ),
@@ -113,7 +111,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                               items.remove(items.elementAt(index));
                               listKey.currentState.removeItem(
                                 index,
-                                    (context, animation) {
+                                (context, animation) {
                                   return SizeTransition(
                                     sizeFactor: animation,
                                     axis: Axis.vertical,
@@ -151,7 +149,31 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                 ],
               ),
             ),
-            Align(alignment: Alignment.bottomCenter, child: buttonRow(size))
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: ButtonRow(
+                  onPressed: () async {
+                    await RecipeDbObject().updateRecipe(
+                        "2",
+                        "catekory",
+                        "description",
+                        "difficulty",
+                        "image",
+                        "ingredientsAndAmount",
+                        "kitchenUtensils",
+                        "name2",
+                        "origin",
+                        "persons",
+                        "shortDescription",
+                        "spices",
+                        "time",
+                        "zweites Kochbuch");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ChooseCookbook()));
+                  },
+                ))
           ],
         ),
       ),
@@ -162,7 +184,6 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
     items.insert(index, item);
     listKey.currentState.insertItem(index);
   }
-
 
   Widget addNewStep(Size size) {
     return Row(
@@ -196,69 +217,6 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
         ),
         SizedBox(
           width: size.width * 0.15,
-        )
-      ],
-    );
-  }
-
-  Widget buttonRow(Size size) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          height: size.height * 0.08,
-          width: size.width * 0.4,
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.deepOrange),
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(20)),
-          child: TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "Zurück",
-              style: TextStyle(
-                color: deepOrange,
-                fontSize: 18.0,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: size.width * 0.1,
-        ),
-        Container(
-          height: size.height * 0.08,
-          width: size.width * 0.4,
-          decoration: BoxDecoration(
-              color: deepOrange, borderRadius: BorderRadius.circular(20)),
-          child: TextButton(
-            onPressed: () async{
-              await RecipeDbObject().updateRecipe("2", "catekory", "description", "difficulty", "image", "ingredientsAndAmount", "kitchenUtensils", "name2", "origin", "persons", "shortDescription", "spices", "time", "zweites Kochbuch");
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ChooseCookbook()));
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Weiter",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-                SizedBox(width: size.width * 0.01),
-                const Icon(
-                  Icons.arrow_forward_outlined,
-                  color: Colors.white,
-                )
-              ],
-            ),
-          ),
         )
       ],
     );

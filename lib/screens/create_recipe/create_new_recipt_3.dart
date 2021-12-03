@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
@@ -141,7 +142,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: size.width*0.4,
+                    width: size.width * 0.4,
                     child: const Text("Zubereitungszeit: ",
                         style: TextStyle(
                             color: Colors.white,
@@ -151,7 +152,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                   ),
                   SizedBox(width: size.width * 0.1),
                   Container(
-                    width: size.width*0.3,
+                    width: size.width * 0.3,
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         border: Border.all(color: deepOrange),
@@ -170,12 +171,12 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                   ),
                 ],
               ),
-              SizedBox(height: size.height*0.02),
+              SizedBox(height: size.height * 0.02),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: size.width*0.4,
+                    width: size.width * 0.4,
                     child: const Text("Anzahl der Personen:",
                         style: TextStyle(
                             color: Colors.white,
@@ -185,7 +186,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                   ),
                   SizedBox(width: size.width * 0.1),
                   Container(
-                    width: size.width*0.3,
+                    width: size.width * 0.3,
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         border: Border.all(color: deepOrange),
@@ -205,7 +206,14 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                 ],
               ),
               SizedBox(height: size.height * 0.17),
-              buttonRow(size)
+              ButtonRow(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateNewRecipe_4()));
+                },
+              )
             ],
           ),
         ),
@@ -237,29 +245,28 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
             ));
   }
 
-
   void _showPersonsPicker(BuildContext ctx, Size size) {
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => SizedBox(
-          width: size.width,
-          height: 250,
-          child: CupertinoPicker(
-            backgroundColor: deepOrange,
-            itemExtent: 30,
-            scrollController: FixedExtentScrollController(initialItem: 1),
-            children: personList
-                .map((item) => Center(
-              child: Text(item),
-            ))
-                .toList(),
-            onSelectedItemChanged: (value) {
-              setState(() {
-                persons = personList.elementAt(value);
-              });
-            },
-          ),
-        ));
+              width: size.width,
+              height: 250,
+              child: CupertinoPicker(
+                backgroundColor: deepOrange,
+                itemExtent: 30,
+                scrollController: FixedExtentScrollController(initialItem: 1),
+                children: personList
+                    .map((item) => Center(
+                          child: Text(item),
+                        ))
+                    .toList(),
+                onSelectedItemChanged: (value) {
+                  setState(() {
+                    persons = personList.elementAt(value);
+                  });
+                },
+              ),
+            ));
   }
 
   Widget difficultyButton(
@@ -269,7 +276,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
       width: size.width * 0.2,
       decoration: BoxDecoration(
           color: isChosen ? color : Colors.transparent,
-          border: isChosen ? null :Border.all(color: deepOrange),
+          border: isChosen ? null : Border.all(color: deepOrange),
           borderRadius: BorderRadius.circular(10)),
       child: TextButton(
         onPressed: onPressed,
@@ -280,68 +287,6 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                     fontSize: 14.0,
                     fontFamily: openSansFontFamily))),
       ),
-    );
-  }
-
-  Widget buttonRow(Size size) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          height: size.height * 0.08,
-          width: size.width * 0.4,
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.deepOrange),
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(20)),
-          child: TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "Zurück",
-              style: TextStyle(
-                color: deepOrange,
-                fontSize: 18.0,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: size.width * 0.1,
-        ),
-        Container(
-          height: size.height * 0.08,
-          width: size.width * 0.4,
-          decoration: BoxDecoration(
-              color: deepOrange, borderRadius: BorderRadius.circular(20)),
-          child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CreateNewRecipe_4()));
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Weiter",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-                SizedBox(width: size.width * 0.01),
-                const Icon(
-                  Icons.arrow_forward_outlined,
-                  color: Colors.white,
-                )
-              ],
-            ),
-          ),
-        )
-      ],
     );
   }
 }
