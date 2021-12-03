@@ -1,14 +1,12 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/open_cookbook/model/data_model.dart';
 import 'package:flutter/material.dart';
-
 import '../../recipt_object.dart';
 
 class DetailPage extends StatelessWidget {
   final Recipt recipt;
 
-  const DetailPage({Key key, this.recipt, Recipe plant}) : super(key: key);
+  const DetailPage({Key key, this.recipt, Recipt plant}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

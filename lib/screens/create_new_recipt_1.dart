@@ -1,21 +1,26 @@
-import 'package:feed_me/constants/animated_text_field_list.dart';
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/show_steps_widget.dart';
 import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/registration_and_login/auth_service.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import '../recipt_object.dart';
 import 'create_new_recipt_2.dart';
 
 class CreateNewRecipe_1 extends StatefulWidget {
-  const CreateNewRecipe_1({Key key}) : super(key: key);
+  String cookBookName;
+
+  CreateNewRecipe_1({Key key, this.cookBookName}) : super(key: key);
 
   @override
   _CreateNewRecipe_1State createState() => _CreateNewRecipe_1State();
 }
 
 class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
+  Recipt recipe = Recipt();
   File image;
   String inputText;
   List<String> items = [];
@@ -28,11 +33,12 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   ];
   final List<String> keys = [];
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
+  String reciptName = '';
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    String reciptName = '';
     return Scaffold(
       backgroundColor: Colors.orangeAccent,
       body: SafeArea(
@@ -112,7 +118,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
             ? null
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:  const [
+                children: const [
                   Icon(Icons.camera_alt_outlined, color: DeepOrange, size: 100)
                 ],
               ),
@@ -136,56 +142,77 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          height: size.height*0.08,
-          width: size.width*0.4,
+          height: size.height * 0.08,
+          width: size.width * 0.4,
           decoration: BoxDecoration(
               border: Border.all(color: Colors.deepOrange),
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(20)),
-
           child: TextButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text("Zurück",style: TextStyle(
-              color: DeepOrange,
-              fontSize: 18.0,
-            ),),
+            child: const Text(
+              "Zurück",
+              style: TextStyle(
+                color: DeepOrange,
+                fontSize: 18.0,
+              ),
+            ),
           ),
         ),
         SizedBox(
-          width: size.width*0.1,
+          width: size.width * 0.1,
         ),
         Container(
-          height: size.height*0.08,
-          width: size.width*0.4,
+          height: size.height * 0.08,
+          width: size.width * 0.4,
           decoration: BoxDecoration(
-              color: DeepOrange,
-              borderRadius: BorderRadius.circular(20)),
+              color: DeepOrange, borderRadius: BorderRadius.circular(20)),
           child: TextButton(
-            onPressed: (){
+            onPressed: () {
+              recipe.name = reciptName;
+              uploadFile(image,_authService);
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                      const CreateNewRecipe_2()));
+                      builder: (context) => CreateNewRecipe_2(recipe: recipe)));
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children:  [
-                const Text("Weiter",style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                ),),
-                SizedBox(
-                  width: size.width*0.01
+              children: [
+                const Text(
+                  "Weiter",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                  ),
                 ),
-                const Icon(Icons.arrow_forward_outlined, color: Colors.white,)
+                SizedBox(width: size.width * 0.01),
+                const Icon(
+                  Icons.arrow_forward_outlined,
+                  color: Colors.white,
+                )
               ],
             ),
           ),
         )
       ],
     );
+  }
+
+  void uploadFile(File img, AuthService auth) async {
+    var user =  auth.getUser();
+    String filePath = user.uid + recipe.name;
+    String refChildPath = 'recipe_images_user/' + filePath;
+    String downloadUrl = '';
+    Reference ref = FirebaseStorage.instance.ref();
+    TaskSnapshot uploadFile = await ref.child(refChildPath).putFile(img);
+    if (uploadFile.state == TaskState.success) {
+      Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
+      downloadUrl = await refStorage.getDownloadURL();
+      recipe.image = downloadUrl;
+    }
+
   }
 }

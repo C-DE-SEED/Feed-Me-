@@ -1,8 +1,10 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/show_steps_widget.dart';
 import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/registration_and_login/auth_service.dart';
 import 'package:flutter/material.dart';
 
+import '../recipt_db_object.dart';
 import 'choose_cookbook.dart';
 import 'create_new_recipt_3.dart';
 
@@ -14,6 +16,7 @@ class CreateNewRecipe_4 extends StatefulWidget {
 }
 
 class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
+  AuthService auth = AuthService();
   int counter = 1;
   List<Color> colors = [
     DeepOrange,
@@ -232,7 +235,8 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
           decoration: BoxDecoration(
               color: DeepOrange, borderRadius: BorderRadius.circular(20)),
           child: TextButton(
-            onPressed: () {
+            onPressed: () async{
+              await ReciptDbObject().updateRecipe("2", "catekory", "description", "difficulty", "image", "ingredientsAndAmount", "kitchenUtensils", "name2", "origin", "persons", "shortDescription", "spices", "time", "zweites Kochbuch");
               Navigator.push(
                   context,
                   MaterialPageRoute(

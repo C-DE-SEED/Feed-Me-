@@ -73,7 +73,7 @@ class _FastDishesPageState extends State<FastDishesPage> {
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        widget.plant_food_factory[index].short_discription,
+                        widget.plant_food_factory[index].shortDescription,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,

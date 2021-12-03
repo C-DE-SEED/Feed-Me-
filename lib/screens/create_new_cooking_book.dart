@@ -1,9 +1,8 @@
 import 'package:feed_me/constants/colors.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
-import 'package:feed_me/screens/steps_test.dart';
+import 'package:feed_me/constants/rounded_custom_alert.dart';
 import 'package:flutter/material.dart';
-
 import 'create_new_recipt_1.dart';
 
 class CreateNewCookingBook extends StatefulWidget {
@@ -14,11 +13,14 @@ class CreateNewCookingBook extends StatefulWidget {
 }
 
 class _CreateNewCookingBookState extends State<CreateNewCookingBook> {
+  String cookbookName = "";
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: BasicGreen,
       appBar: AppBar(
         backgroundColor: BasicGreen,
@@ -43,6 +45,11 @@ class _CreateNewCookingBookState extends State<CreateNewCookingBook> {
                 contentPadding:
                     EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                 hintText: 'Namen deines Rezeptbuchs eingeben'),
+            onChanged: (value){
+              setState(() {
+                cookbookName = value;
+              });
+            },
           ),
           SizedBox(
             height: size.height * 0.2,
@@ -51,11 +58,22 @@ class _CreateNewCookingBookState extends State<CreateNewCookingBook> {
               color: Colors.white,
               text: "Eingabe speichern",
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                        const CreateNewRecipe_1()));
+                if(cookbookName == ""){
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return RoundedAlert(title: "Achtung",text: "Bitte gebe deinem Kochbuch einen Namen",);
+                    },
+                  );
+                }
+                else{
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                           CreateNewRecipe_1(cookBookName: cookbookName)));
+                }
               }),
         ],
       ),

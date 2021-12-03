@@ -1,6 +1,5 @@
 import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/text_style.dart';
-import 'package:feed_me/open_cookbook/model/data_model.dart';
 import 'package:feed_me/recipt_object.dart';
 import 'package:flutter/material.dart';
 import '../../recipt_object.dart';
@@ -68,7 +67,7 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        widget.plant_food_factory[index].short_discription,
+                        widget.plant_food_factory[index].shortDescription,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,

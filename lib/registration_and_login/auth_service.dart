@@ -53,6 +53,7 @@ class AuthService {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      // create a new document for the user with the uid
       User user = result.user;
       return _userFromFireBaseUser(user);
     } catch (e) {

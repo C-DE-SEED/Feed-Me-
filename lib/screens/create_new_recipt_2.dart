@@ -4,10 +4,12 @@ import 'package:feed_me/constants/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../recipt_object.dart';
 import 'create_new_recipt_3.dart';
 
 class CreateNewRecipe_2 extends StatefulWidget {
-  const CreateNewRecipe_2({Key key}) : super(key: key);
+  Recipt recipe;
+  CreateNewRecipe_2({Key key,this.recipe}) : super(key: key);
 
   @override
   _CreateNewRecipe_2State createState() => _CreateNewRecipe_2State();
@@ -26,6 +28,12 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
   List<TextEditingController> controller = [];
   GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   String unit = "test";
+
+  @override
+  void initState() {
+    print(widget.recipe.image);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
