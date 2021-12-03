@@ -1,9 +1,9 @@
-import 'package:feed_me/constants/colors.dart';
+import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
-import 'package:feed_me/constants/rounded_custom_alert.dart';
+import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:flutter/material.dart';
-import 'create_new_recipt_1.dart';
+import 'create_recipe/create_new_recipt_1.dart';
 
 class CreateNewCookingBook extends StatefulWidget {
   const CreateNewCookingBook({Key key}) : super(key: key);
@@ -21,9 +21,9 @@ class _CreateNewCookingBookState extends State<CreateNewCookingBook> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: BasicGreen,
+      backgroundColor: basicColor,
       appBar: AppBar(
-        backgroundColor: BasicGreen,
+        backgroundColor: basicColor,
         elevation: 0,
       ),
       body: Column(

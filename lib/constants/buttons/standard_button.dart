@@ -1,4 +1,4 @@
-import 'package:feed_me/constants/text_style.dart';
+import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
 class StandardButton extends StatelessWidget {

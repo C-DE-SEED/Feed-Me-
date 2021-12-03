@@ -1,11 +1,10 @@
 import 'dart:async';
-
-import 'package:feed_me/constants/colors.dart';
-import 'package:feed_me/registration_and_login/sign_in.dart';
-import 'package:feed_me/screens/choose_cookbook.dart';
+import 'package:feed_me/constants/styles/colors.dart';
+import 'package:feed_me/services/auth_service.dart';
+import 'package:feed_me/screens/registration_and_login/sign_in.dart';
+import 'package:feed_me/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get_storage/get_storage.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key key}) : super(key: key);
@@ -17,8 +16,8 @@ class Welcome extends StatefulWidget {
 class _Welcome extends State<Welcome> {
   @override
   void initState() {
-    super.initState();
     startTime();
+    super.initState();
   }
 
   @override
@@ -26,9 +25,9 @@ class _Welcome extends State<Welcome> {
     Size size = MediaQuery.of(context).size;
     return Container(
       alignment: Alignment.center,
-      color: BasicGreen,
+      color: basicColor,
       child: Image.asset(
-        "assets/feedMe.gif",
+        "assets/feedMeOrange.gif",
         height: size.height * 1.0,
         width: size.width * 1.0,
       ),
@@ -42,18 +41,16 @@ class _Welcome extends State<Welcome> {
 
   route() {
     var auth = FirebaseAuth.instance;
-
-    auth.authStateChanges().listen((user) async {
-      if (user != null) {
-        print("user is logged in");
-        await GetStorage.init(auth.currentUser.uid);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const ChooseCookbook()));
-      } else {
-        print("user is not logged in");
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const SignIn()));
-      }
-    });
+    auth.authStateChanges().listen(
+      (user) async {
+        if (user != null) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const ChooseCookbook()));
+        } else {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => const SignIn()));
+        }
+      },
+    );
   }
 }
