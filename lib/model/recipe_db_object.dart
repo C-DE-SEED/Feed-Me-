@@ -3,6 +3,8 @@ import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:feed_me/model/recipe_object.dart';
 
+import 'cookbook.dart';
+
 class RecipeDbObject {
   AuthService auth = AuthService();
   final String objectName;
@@ -54,11 +56,18 @@ class RecipeDbObject {
     });
   }
 
-  Future<List<String>> getCookingBooks() async {
-    List<String> books = [];
-    // final CollectionReference collectionReference = FirebaseFirestore.instance.collection(auth.getUser().uid);
-    await FirebaseFirestore.instance.collection(auth.getUser().uid).get().then((snapshot) => {
+  getCookbooksFromFirebaseDb() async {
+    List<String> cookBookNames = await getCookBookNames();
+    List<Cookbook> cookBooks = [];
 
+    cookBookNames.forEach((element) async{
+      getCookBookObject(element);
+    });
+
+  }
+  Future<List<String>> getCookBookNames() async {
+    List<String> books = [];
+    await FirebaseFirestore.instance.collection(auth.getUser().uid).get().then((snapshot) => {
         snapshot.docs.forEach((element) {
           books.add(element.id);
         })
@@ -86,10 +95,27 @@ class RecipeDbObject {
     }).toList();
   }
 
+//  Recipt list from snapshot for plantFoodFactory cooking book
+List<Cookbook> _cookBookListFromSnapshot(QuerySnapshot snapshot) {
+  return snapshot.docs.map((doc) {
+    return Cookbook(
+        doc['image'] ?? '',
+        doc['name'] ?? '',
+        doc['recipes'] ?? '');
+  }).toList();
+}
+
 //  get recipt stream for plantFoddFactory cooking book
   Stream<List<Recipe>> getRecipeObject(String objectName) {
     CollectionReference recipesCollection =
         FirebaseFirestore.instance.collection(objectName);
     return recipesCollection.snapshots().map(_recipeListFromSnapshot);
   }
+
+
+Stream<List<Cookbook>> getCookBookObject(String objectName) {
+  CollectionReference recipesCollection =
+  FirebaseFirestore.instance.collection(objectName);
+  return recipesCollection.snapshots().map(_cookBookListFromSnapshot);
+}
 }

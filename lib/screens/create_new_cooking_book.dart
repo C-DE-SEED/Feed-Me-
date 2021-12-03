@@ -2,6 +2,7 @@ import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
+import 'package:feed_me/model/cookbook.dart';
 import 'package:flutter/material.dart';
 import 'create_recipe/create_new_recipt_1.dart';
 
@@ -14,6 +15,8 @@ class CreateNewCookingBook extends StatefulWidget {
 
 class _CreateNewCookingBookState extends State<CreateNewCookingBook> {
   String cookbookName = "";
+  Cookbook cookbook = Cookbook('', '', []);
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +70,12 @@ class _CreateNewCookingBookState extends State<CreateNewCookingBook> {
                   );
                 }
                 else{
-
+                  cookbook.name = cookbookName;
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                           CreateNewRecipe_1(cookBookName: cookbookName)));
+                           CreateNewRecipe_1(cookbook: cookbook)));
                 }
               }),
         ],

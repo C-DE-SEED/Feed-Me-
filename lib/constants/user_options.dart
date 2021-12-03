@@ -20,7 +20,21 @@ const List<String> personList = [
   "5",
   "6",
 ];
-
+const List<String> originList = [
+  'Italienisch',
+  'Griechisch',
+  'Mexikanisch',
+  'Spanisch',
+  'Burger',
+  'Koreanisch',
+  'Deutsch',
+  'Vietnamesich',
+  'Thainlandisch',
+  'Chinesisch',
+  'Japanisch',
+  'Indisch',
+  'Amerikanisch',
+];
 const List<String> categoryList = [
   "Vorspeise",
   "Hauptgang",

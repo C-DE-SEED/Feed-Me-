@@ -45,7 +45,7 @@ class _Welcome extends State<Welcome> {
       (user) async {
         if (user != null) {
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const ChooseCookbook()));
+              MaterialPageRoute(builder: (context) => const Home()));
         } else {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => const SignIn()));

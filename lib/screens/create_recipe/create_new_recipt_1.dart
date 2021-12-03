@@ -1,6 +1,7 @@
 import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,9 @@ import '../../model/recipe_object.dart';
 import 'create_new_recipt_2.dart';
 
 class CreateNewRecipe_1 extends StatefulWidget {
-  String cookBookName;
+  Cookbook cookbook;
 
-  CreateNewRecipe_1({Key key, this.cookBookName}) : super(key: key);
+  CreateNewRecipe_1({Key key, this.cookbook}) : super(key: key);
 
   @override
   _CreateNewRecipe_1State createState() => _CreateNewRecipe_1State();
@@ -87,7 +88,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              CreateNewRecipe_2(recipe: recipe)));
+                              CreateNewRecipe_2(recipe: recipe, cookbook: widget.cookbook)));
                 },
               )
             ],

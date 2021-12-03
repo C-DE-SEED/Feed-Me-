@@ -3,6 +3,7 @@ import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/constants/user_options.dart';
+import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/ingredient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,9 @@ import 'create_new_recipt_3.dart';
 
 class CreateNewRecipe_2 extends StatefulWidget {
   Recipe recipe;
+  Cookbook cookbook;
 
-  CreateNewRecipe_2({Key key, this.recipe}) : super(key: key);
+  CreateNewRecipe_2({Key key, this.recipe, this.cookbook}) : super(key: key);
 
   @override
   _CreateNewRecipe_2State createState() => _CreateNewRecipe_2State();
@@ -206,7 +208,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                CreateNewRecipe_3(recipe: widget.recipe)));
+                                CreateNewRecipe_3(recipe: widget.recipe, cookbook: widget.cookbook,)));
                   },
                 ))
           ],

@@ -17,7 +17,7 @@ class Wrapper extends StatelessWidget {
       return const Authenticate();
     }
     else{
-      return const ChooseCookbook();
+      return const Home();
     }
   }
 }

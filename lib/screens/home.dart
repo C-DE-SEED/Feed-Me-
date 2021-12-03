@@ -9,16 +9,16 @@ import 'package:flutter/material.dart';
 import '../model/recipe_db_object.dart';
 import '../model/recipe_object.dart';
 
-class ChooseCookbook extends StatefulWidget {
-  const ChooseCookbook({
+class Home extends StatefulWidget {
+  const Home({
     Key key,
   }) : super(key: key);
 
   @override
-  _ChooseCookbookState createState() => _ChooseCookbookState();
+  _HomeState createState() => _HomeState();
 }
 
-class _ChooseCookbookState extends State<ChooseCookbook> {
+class _HomeState extends State<Home> {
   int selectedIndex = 0;
   AuthService authService = AuthService();
   int recipeCount = 0;
@@ -35,9 +35,9 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
   }
 
   void getCookBooks() async {
-    RecipeDbObject().getCookingBooks().then((value) => setState(() {
+   /* RecipeDbObject().getCookingBooks().then((value) => setState(() {
           cookBooks = value;
-        }));
+        }));*/
   }
 
   @override
@@ -153,8 +153,7 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                 return GestureDetector(
                     onTap: () => _openDestinationPage(context),
                     child: _buildFeaturedItem(
-                        image:
-                        "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
+                        image: cookBooks.elementAt(index),
                         title: cookBooks.elementAt(index),
                         subtitle: ""));
               }),

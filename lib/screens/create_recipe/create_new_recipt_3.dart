@@ -3,6 +3,7 @@ import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/constants/user_options.dart';
+import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +11,16 @@ import 'dart:io';
 import 'create_new_recipt_4.dart';
 
 class CreateNewRecipe_3 extends StatefulWidget {
-  const CreateNewRecipe_3({Key key, @required this.recipe}) : super(key: key);
+  const CreateNewRecipe_3({Key key, @required this.recipe, @required this.cookbook}) : super(key: key);
   final Recipe recipe;
+  final Cookbook cookbook;
+
 
   @override
   _CreateNewRecipe_3State createState() => _CreateNewRecipe_3State();
 }
 
 class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
-  File image;
   String shortDescription;
   List<String> items = [];
   bool easy = false;
@@ -37,192 +39,190 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
     return Scaffold(
       backgroundColor: Colors.orangeAccent,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ShowSteps(
-                  colors: step3,
-                  step: "3.Schritt: Beschreibung und Schwierigkeit festlegen"),
-              SizedBox(height: size.height * 0.01),
-              const Text("Kurzbeschreibung hinzufügen:",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: fontSize,
-                      fontFamily: openSansFontFamily)),
-              SizedBox(height: size.height * 0.01),
-              Container(
-                height: size.height * 0.2,
-                width: size.width * 0.8,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white.withOpacity(0.5)),
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.text,
-                  maxLines: 10,
-                  onChanged: (value) {},
-                  decoration: const InputDecoration.collapsed(
-                    hintText: 'Kurzbeschreibung hinzufügen',
-                    border: InputBorder.none,
-                  ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ShowSteps(
+                colors: step3,
+                step: "3.Schritt: Beschreibung und Schwierigkeit festlegen"),
+            SizedBox(height: size.height * 0.01),
+            const Text("Kurzbeschreibung hinzufügen:",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: fontSize,
+                    fontFamily: openSansFontFamily)),
+            SizedBox(height: size.height * 0.01),
+            Container(
+              height: size.height * 0.2,
+              width: size.width * 0.8,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white.withOpacity(0.5)),
+              child: TextFormField(
+                textAlign: TextAlign.center,
+                keyboardType: TextInputType.text,
+                maxLines: 10,
+                onChanged: (value) {},
+                decoration: const InputDecoration.collapsed(
+                  hintText: 'Kurzbeschreibung hinzufügen',
+                  border: InputBorder.none,
                 ),
               ),
-              SizedBox(height: size.height * 0.05),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: size.width * 0.4,
-                    child: const Text("Zubereitungszeit: ",
-                        style: TextStyle(
+            ),
+            SizedBox(height: size.height * 0.05),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: size.width * 0.4,
+                  child: const Text("Zubereitungszeit: ",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
+                          fontFamily: openSansFontFamily)),
+                ),
+                SizedBox(width: size.width * 0.1),
+                Container(
+                  width: size.width * 0.3,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(color: deepOrange),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: TextButton(
+                    onPressed: () {
+                      _showMinutesPicker(context, size);
+                    },
+                    child: Text(time + " Minuten",
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: fontSize,
                             fontFamily: openSansFontFamily)),
                   ),
-                  SizedBox(width: size.width * 0.1),
-                  Container(
-                    width: size.width * 0.3,
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(color: deepOrange),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: TextButton(
-                      onPressed: () {
-                        _showMinutesPicker(context, size);
-                      },
-                      child: Text(time + " Minuten",
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: fontSize,
-                              fontFamily: openSansFontFamily)),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.02),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: size.width * 0.4,
-                    child: const Text("Anzahl der Personen:",
-                        style: TextStyle(
+                ),
+              ],
+            ),
+            SizedBox(height: size.height * 0.02),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: size.width * 0.4,
+                  child: const Text("Anzahl der Personen:",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
+                          fontFamily: openSansFontFamily)),
+                ),
+                SizedBox(width: size.width * 0.1),
+                Container(
+                  width: size.width * 0.3,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(color: deepOrange),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: TextButton(
+                    onPressed: () {
+                      _showPersonsPicker(context, size);
+                    },
+                    child: Text(persons + " Personen",
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: fontSize,
                             fontFamily: openSansFontFamily)),
                   ),
-                  SizedBox(width: size.width * 0.1),
-                  Container(
-                    width: size.width * 0.3,
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(color: deepOrange),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: TextButton(
-                      onPressed: () {
-                        _showPersonsPicker(context, size);
-                      },
-                      child: Text(persons + " Personen",
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: fontSize,
-                              fontFamily: openSansFontFamily)),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.02),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: size.width * 0.4,
-                    child: const Text("Art des Gerichts:",
-                        style: TextStyle(
+                ),
+              ],
+            ),
+            SizedBox(height: size.height * 0.02),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: size.width * 0.4,
+                  child: const Text("Art des Gerichts:",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
+                          fontFamily: openSansFontFamily)),
+                ),
+                SizedBox(width: size.width * 0.1),
+                Container(
+                  width: size.width * 0.3,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(color: deepOrange),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: TextButton(
+                    onPressed: () {
+                      _showCategoryPicker(context, size);
+                    },
+                    child: Text(category,
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: fontSize,
                             fontFamily: openSansFontFamily)),
                   ),
-                  SizedBox(width: size.width * 0.1),
-                  Container(
-                    width: size.width * 0.3,
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(color: deepOrange),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: TextButton(
-                      onPressed: () {
-                        _showCategoryPicker(context, size);
-                      },
-                      child: Text(category,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: fontSize,
-                              fontFamily: openSansFontFamily)),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.05),
-              const Text("Schwierigkeit:",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: fontSize,
-                      fontFamily: openSansFontFamily)),
-              SizedBox(height: size.height * 0.01),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  difficultyButton(size, "Einfach", deepOrange, easy, () {
-                    setState(() {
-                      easy = !easy;
-                      if (easy == true) {
-                        medium = false;
-                        hard = false;
-                        widget.recipe.difficulty = 'Einfach';
-                      }
-                    });
-                  }),
-                  SizedBox(width: size.width * 0.025),
-                  difficultyButton(size, "Mittel", deepOrange, medium, () {
-                    setState(() {
-                      medium = !medium;
-                      if (medium == true) {
-                        easy = false;
-                        hard = false;
-                        widget.recipe.difficulty = 'Mittel';
-                      }
-                    });
-                  }),
-                  SizedBox(width: size.width * 0.025),
-                  difficultyButton(size, "Schwer", deepOrange, hard, () {
-                    setState(() {
-                      hard = !hard;
-                      if (hard == true) {
-                        medium = false;
-                        easy = false;
-                        widget.recipe.difficulty = 'Schwer';
-                      }
-                    });
-                  }),
-                ],
-              ),
-              SizedBox(height: size.height * 0.15),
-              ButtonRow(
-                onPressed: () {
-                  widget.recipe.description = shortDescription;
-                  widget.recipe.time = time;
-                  widget.recipe.persons = persons;
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              CreateNewRecipe_4(recipe: widget.recipe)));
-                },
-              )
-            ],
-          ),
+                ),
+              ],
+            ),
+            SizedBox(height: size.height * 0.05),
+            const Text("Schwierigkeit:",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: fontSize,
+                    fontFamily: openSansFontFamily)),
+            SizedBox(height: size.height * 0.01),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                difficultyButton(size, "Einfach", deepOrange, easy, () {
+                  setState(() {
+                    easy = !easy;
+                    if (easy == true) {
+                      medium = false;
+                      hard = false;
+                      widget.recipe.difficulty = 'Einfach';
+                    }
+                  });
+                }),
+                SizedBox(width: size.width * 0.025),
+                difficultyButton(size, "Mittel", deepOrange, medium, () {
+                  setState(() {
+                    medium = !medium;
+                    if (medium == true) {
+                      easy = false;
+                      hard = false;
+                      widget.recipe.difficulty = 'Mittel';
+                    }
+                  });
+                }),
+                SizedBox(width: size.width * 0.025),
+                difficultyButton(size, "Schwer", deepOrange, hard, () {
+                  setState(() {
+                    hard = !hard;
+                    if (hard == true) {
+                      medium = false;
+                      easy = false;
+                      widget.recipe.difficulty = 'Schwer';
+                    }
+                  });
+                }),
+              ],
+            ),
+            SizedBox(height: size.height * 0.10),
+            ButtonRow(
+              onPressed: () {
+                widget.recipe.description = shortDescription;
+                widget.recipe.time = time;
+                widget.recipe.persons = persons;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            CreateNewRecipe_4(recipe: widget.recipe, cookbook: widget.cookbook)));
+              },
+            )
+          ],
         ),
       ),
     );

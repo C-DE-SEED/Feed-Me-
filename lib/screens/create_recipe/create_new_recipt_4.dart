@@ -2,16 +2,20 @@ import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/model/cookbook.dart';
+import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/model/recipe_object.dart';
+import 'package:feed_me/screens/create_recipe/create_new_recipe_5.dart';
+import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/recipe_db_object.dart';
-import '../home.dart';
-
 class CreateNewRecipe_4 extends StatefulWidget {
-  const CreateNewRecipe_4({Key key, @required this.recipe}) : super(key: key);
+  const CreateNewRecipe_4(
+      {Key key, @required this.recipe, @required this.cookbook})
+      : super(key: key);
   final Recipe recipe;
+  final Cookbook cookbook;
 
   @override
   _CreateNewRecipe_4State createState() => _CreateNewRecipe_4State();
@@ -66,7 +70,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                                         child: Text(
                                             (index + 1).toString() +
                                                 ". Schritt",
-                                            style:  TextStyle(
+                                            style: const TextStyle(
                                                 color: deepOrange,
                                                 fontSize: fontSize,
                                                 fontFamily:
@@ -79,19 +83,19 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                                       child: TextFormField(
                                         obscureText: false,
                                         textAlign: TextAlign.center,
-                                        style:  TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: fontSize,
                                         ),
-                                        decoration:  InputDecoration(
+                                        decoration: const InputDecoration(
                                           hintText: 'Beschreibung',
                                           hintStyle: TextStyle(
                                               color: Colors.white,
                                               fontSize: fontSize),
-                                          focusedBorder: const UnderlineInputBorder(
+                                          focusedBorder: UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Colors.white)),
-                                          enabledBorder: const UnderlineInputBorder(
+                                          enabledBorder: UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Colors.white)),
                                         ),
@@ -153,25 +157,25 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                 alignment: Alignment.bottomCenter,
                 child: ButtonRow(
                   onPressed: () async {
+
+
                     await RecipeDbObject().updateRecipe(
                         "1",
-                        "catekory",
-                        "description",
-                        "difficulty",
-                        "image",
-                        "ingredientsAndAmount",
-                        "kitchenUtensils",
-                        "name2",
-                        "origin",
-                        "persons",
-                        "shortDescription",
-                        "spices",
-                        "time",
-                        "zweites Kochbuch");
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ChooseCookbook()));
+                        widget.recipe.category,
+                        widget.recipe.description,
+                        widget.recipe.difficulty,
+                        widget.recipe.image,
+                        widget.recipe.ingredientsAndAmount,
+                        '',
+                        widget.recipe.name,
+                        '',
+                        widget.recipe.persons,
+                        widget.recipe.shortDescription,
+                        '',
+                        widget.recipe.time,
+                        widget.cookbook.name);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const Home()));
                   },
                 ))
           ],
@@ -204,8 +208,8 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
-                  const Icon(Icons.add, color: deepOrange),
+                children: const [
+                  Icon(Icons.add, color: deepOrange),
                   Text("Weiteren Schritt hinzufügen",
                       style: TextStyle(
                           color: deepOrange,

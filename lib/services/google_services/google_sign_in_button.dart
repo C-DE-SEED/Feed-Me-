@@ -32,7 +32,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
           if (user != null) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => const ChooseCookbook(),
+                builder: (context) => const Home(),
               ),
             );
           }
