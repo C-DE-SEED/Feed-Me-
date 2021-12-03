@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:feed_me/constants/styles/colors.dart';
 import '../../model/recipe_object.dart';
 import 'create_new_recipt_2.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class CreateNewRecipe_1 extends StatefulWidget {
   String cookBookName;
@@ -127,9 +128,10 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
 
   Future chooseFile() async {
     await ImagePicker.platform
-        .pickImage(source: ImageSource.gallery)
+        .pickImage(source: ImageSource.gallery, imageQuality:  10)
         .then((file) {
       setState(() {
+        print(file.path);
         image = File(file.path);
         hasImage = true;
       });
@@ -171,7 +173,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
           child: TextButton(
             onPressed: () {
               recipe.name = recipeName;
-              uploadFile(image,_authService);
+              uploadFile(image, _authService);
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -201,9 +203,15 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   }
 
   void uploadFile(File img, AuthService auth) async {
-    var user =  auth.getUser();
+    var user = auth.getUser();
+    String refChildPath = '';
     String filePath = user.uid + recipe.name;
-    String refChildPath = 'recipe_images_user/' + filePath;
+    refChildPath = 'recipe_images_user/' + filePath;
+    /* img = await FlutterImageCompress.compressAndGetFile(
+      img.path,
+      refChildPath,
+      quality: 40,
+    );*/
     String downloadUrl = '';
     Reference ref = FirebaseStorage.instance.ref();
     TaskSnapshot uploadFile = await ref.child(refChildPath).putFile(img);
@@ -212,6 +220,14 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
       downloadUrl = await refStorage.getDownloadURL();
       recipe.image = downloadUrl;
     }
+  }
 
+  Future<File> testCompressAndGetFile(File file, String targetPath) async {
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 40,
+    );
+    return result;
   }
 }
