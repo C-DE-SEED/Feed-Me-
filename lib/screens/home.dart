@@ -28,14 +28,14 @@ class _HomeState extends State<Home> {
 
   void getAllRecipes() async {
     plantFoodFactory = await RecipeDbObject()
-        .getRecipeObject("plant_food_factory")
+        .getRecipesFromPlantFoodFactory("plant_food_factory")
         .elementAt(0);
     recipeCount = plantFoodFactory.length;
     cookBookCount = 1;
   }
 
   void getCookBooks() async {
-   /* RecipeDbObject().getCookingBooks().then((value) => setState(() {
+    /* RecipeDbObject().getCookingBooks().then((value) => setState(() {
           cookBooks = value;
         }));*/
   }
@@ -74,7 +74,8 @@ class _HomeState extends State<Home> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "Hallo, " + authService.getUser().displayName.toString(),
+                              "Hallo, " +
+                                  authService.getUser().displayName.toString(),
                               // .displayName,
                               style: const TextStyle(
                                   fontSize: 18.0,
@@ -167,11 +168,21 @@ class _HomeState extends State<Home> {
           size: size.width * 0.11,
           color: basicColor,
         ),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const CreateNewCookingBook()));
+        onPressed: () async {
+          RecipeDbObject recipeDbObject = RecipeDbObject();
+          print(recipeDbObject.getAllCookBooksFromUser());
+
+          // List<String> names = await recipeDbObject.getCookBookNames();
+          // names.forEach((docName) {
+          //   var recipeFromUserObject = recipeDbObject.getRecipesFromUserCookbook(docName);
+          //   print(recipeFromUserObject.forEach((recipeElement) {
+          //     print(recipeElement);
+          //   }));
+          // });
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => const CreateNewCookingBook()));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
