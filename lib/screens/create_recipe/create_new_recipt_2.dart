@@ -2,16 +2,19 @@ import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/constants/user_options.dart';
+import 'package:feed_me/model/cookbook.dart';
+import 'package:feed_me/model/ingredient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../model/recipe_object.dart';
 import 'create_new_recipt_3.dart';
 
 class CreateNewRecipe_2 extends StatefulWidget {
   Recipe recipe;
+  Cookbook cookbook;
 
-  CreateNewRecipe_2({Key key, this.recipe}) : super(key: key);
+  CreateNewRecipe_2({Key key, this.recipe, this.cookbook}) : super(key: key);
 
   @override
   _CreateNewRecipe_2State createState() => _CreateNewRecipe_2State();
@@ -19,21 +22,13 @@ class CreateNewRecipe_2 extends StatefulWidget {
 
 class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
   int counter = 1;
-  List<Color> colors = [
-    deepOrange,
-    deepOrange,
-    Colors.white.withOpacity(0.5),
-    Colors.white.withOpacity(0.5),
-  ];
-  List<String> unitList = ["Gramm", "Kilogramm", "Liter", "Daumen", "Zehe"];
-  List<String> items = ["test"];
-  List<TextEditingController> controller = [];
+  List<String> items = [""];
+  List<Ingredient> ingredients = [];
   GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
-  String unit = "test";
 
   @override
   void initState() {
-    print(widget.recipe.image);
+    ingredients.add(Ingredient('', '', 'Einheit'));
     super.initState();
   }
 
@@ -49,7 +44,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
               child: Column(
                 children: [
                   ShowSteps(
-                      colors: colors,
+                      colors: step2,
                       step: "2.Schritt: Zutaten und Mengen eingeben"),
                   SizedBox(height: size.height * 0.01),
                   AnimatedList(
@@ -76,12 +71,13 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 14.0,
+                                    fontSize: fontSize,
                                   ),
                                   decoration: const InputDecoration(
                                     hintText: 'Zutat eingeben',
                                     hintStyle: TextStyle(
-                                        color: Colors.white, fontSize: 12),
+                                        color: Colors.white,
+                                        fontSize: fontSize),
                                     focusedBorder: UnderlineInputBorder(
                                         borderSide:
                                             BorderSide(color: Colors.white)),
@@ -90,13 +86,16 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                                             BorderSide(color: Colors.white)),
                                   ),
                                   onChanged: (value) {
-                                    setState(() {});
+                                    setState(() {
+                                      ingredients.elementAt(index).title =
+                                          value;
+                                    });
                                   },
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       width: size.width * 0.3,
                                       child: TextFormField(
                                         keyboardType: TextInputType.number,
@@ -104,13 +103,13 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
                                           color: Colors.white,
-                                          fontSize: 14.0,
+                                          fontSize: fontSize,
                                         ),
                                         decoration: const InputDecoration(
-                                          hintText: 'Menge eingeben',
+                                          hintText: 'Menge',
                                           hintStyle: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 12),
+                                              fontSize: fontSize),
                                           focusedBorder: UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Colors.white)),
@@ -119,7 +118,11 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                                                   color: Colors.white)),
                                         ),
                                         onChanged: (value) {
-                                          setState(() {});
+                                          setState(() {
+                                            ingredients
+                                                .elementAt(index)
+                                                .amount = value;
+                                          });
                                         },
                                       ),
                                     ),
@@ -136,14 +139,14 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                                         height: size.height * 0.058,
                                         child: TextButton(
                                             onPressed: () {
-                                              showUnits(context, size);
+                                              showUnits(context, size, index);
                                             },
                                             child: Center(
                                                 child: Text(
-                                              unit,
+                                              ingredients.elementAt(index).unit,
                                               style: const TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 14.0,
+                                                fontSize: fontSize,
                                               ),
                                             )))),
                                   ],
@@ -199,10 +202,13 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                 alignment: Alignment.bottomCenter,
                 child: ButtonRow(
                   onPressed: () {
+                    widget.recipe.ingredientsAndAmount =
+                        ingredientsAndAmountToString();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const CreateNewRecipe_3()));
+                            builder: (context) =>
+                                CreateNewRecipe_3(recipe: widget.recipe, cookbook: widget.cookbook,)));
                   },
                 ))
           ],
@@ -213,6 +219,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
 
   void insertItem(int index, String item) {
     items.insert(index, item);
+    ingredients.add(Ingredient('', '', ''));
     listKey.currentState.insertItem(index);
   }
 
@@ -240,7 +247,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                   Text("Weitere Zutat hinzufügen",
                       style: TextStyle(
                           color: deepOrange,
-                          fontSize: 14.0,
+                          fontSize: fontSize,
                           fontWeight: FontWeight.bold,
                           fontFamily: openSansFontFamily)),
                 ],
@@ -253,7 +260,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
     );
   }
 
-  void showUnits(BuildContext ctx, Size size) {
+  void showUnits(BuildContext ctx, Size size, int index) {
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => SizedBox(
@@ -270,10 +277,19 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                     .toList(),
                 onSelectedItemChanged: (value) {
                   setState(() {
-                    unit = unitList.elementAt(value);
+                    ingredients.elementAt(index).unit =
+                        unitList.elementAt(value);
                   });
                 },
               ),
             ));
+  }
+
+  String ingredientsAndAmountToString() {
+    String joiner = '';
+    for (var element in ingredients) {
+      joiner = joiner + element.amount + element.unit + element.title + '/';
+    }
+    return joiner;
   }
 }

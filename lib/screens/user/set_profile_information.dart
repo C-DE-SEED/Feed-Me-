@@ -62,7 +62,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ChooseCookbook()));
+                        builder: (context) => const Home()));
               }),
         ],
       ),

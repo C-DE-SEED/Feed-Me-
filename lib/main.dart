@@ -31,15 +31,13 @@ class MyApp extends StatelessWidget {
         home: Welcome(),
       ),
     );
-// FIXME E-Mail confirmation überarbeiten
 // TODO insert UserObject with additional data (use Firebase User object as
 //  root)
-    // TODO insert google login
-    // TODO NOT FAST - show loading animation as soon as profile picture is
-    //  loading
     // TODO show dish of the day instead of feed me logo
-    //TODO: Decription from user
-    //
+    // TODO: Decription from user
+    // TODO: insert chilis as spice integrator
+    //TODO: Radien anpassen
+    //TODO: buttonRow anpassen (Höhe)
 
 
     // List<Recipt> plant_food_factory = [];

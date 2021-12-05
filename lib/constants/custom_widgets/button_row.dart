@@ -17,7 +17,7 @@ class ButtonRow extends StatelessWidget {
           width: size.width * 0.4,
           decoration: BoxDecoration(
               border: Border.all(color: deepOrange),
-              color: Colors.transparent,
+              color: basicColor,
               borderRadius: BorderRadius.circular(20)),
           child: TextButton(
             onPressed: () {

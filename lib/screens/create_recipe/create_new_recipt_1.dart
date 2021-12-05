@@ -1,6 +1,7 @@
 import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,9 @@ import '../../model/recipe_object.dart';
 import 'create_new_recipt_2.dart';
 
 class CreateNewRecipe_1 extends StatefulWidget {
-  String cookBookName;
+  Cookbook cookbook;
 
-  CreateNewRecipe_1({Key key, this.cookBookName}) : super(key: key);
+  CreateNewRecipe_1({Key key, this.cookbook}) : super(key: key);
 
   @override
   _CreateNewRecipe_1State createState() => _CreateNewRecipe_1State();
@@ -23,14 +24,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   Recipe recipe = Recipe();
   File image;
   String inputText;
-  List<String> items = [];
   bool hasImage = false;
-  List<Color> colors = [
-    deepOrange,
-    Colors.white.withOpacity(0.5),
-    Colors.white.withOpacity(0.5),
-    Colors.white.withOpacity(0.5),
-  ];
   final List<String> keys = [];
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   String recipeName = '';
@@ -47,7 +41,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ShowSteps(
-                  colors: colors,
+                  colors: step1,
                   step:
                       "1.Schritt: Rezeptnamen und  Bild des fertigen Gerichtes festlegen"),
               SizedBox(height: size.height * 0.05),
@@ -59,11 +53,11 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 14.0,
+                      fontSize: fontSize,
                     ),
                     decoration: const InputDecoration(
                       hintText: 'Rezeptname eingeben',
-                      hintStyle: TextStyle(color: Colors.white, fontSize: 12),
+                      hintStyle: TextStyle(color: Colors.white, fontSize: fontSize),
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.white)),
                       enabledBorder: UnderlineInputBorder(
@@ -81,8 +75,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
               const Text("Titelbild für das Rezept festlegen:",
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
+                      fontSize: fontSize,
                       fontFamily: openSansFontFamily)),
               SizedBox(height: size.height * 0.02),
               photoContainer(size),
@@ -95,7 +88,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              CreateNewRecipe_2(recipe: recipe)));
+                              CreateNewRecipe_2(recipe: recipe, cookbook: widget.cookbook)));
                 },
               )
             ],

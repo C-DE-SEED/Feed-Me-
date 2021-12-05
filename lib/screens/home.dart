@@ -1,43 +1,44 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/screens/open_cookbook/recipe_page.dart';
 import 'package:feed_me/services/auth_service.dart';
-import 'package:feed_me/screens/create_new_cooking_book.dart';
 import 'package:feed_me/screens/user/profile_page.dart';
 import 'package:flutter/material.dart';
 import '../model/recipe_db_object.dart';
 import '../model/recipe_object.dart';
 
-class ChooseCookbook extends StatefulWidget {
-  const ChooseCookbook({
+class Home extends StatefulWidget {
+  const Home({
     Key key,
   }) : super(key: key);
 
   @override
-  _ChooseCookbookState createState() => _ChooseCookbookState();
+  _HomeState createState() => _HomeState();
 }
 
-class _ChooseCookbookState extends State<ChooseCookbook> {
+class _HomeState extends State<Home> {
   int selectedIndex = 0;
   AuthService authService = AuthService();
   int recipeCount = 0;
   int cookBookCount = 0;
   List<Recipe> plantFoodFactory = [];
   List<String> cookBooks = [];
+  List<Cookbook> realCookbooks = [];
 
   void getAllRecipes() async {
     plantFoodFactory = await RecipeDbObject()
-        .getRecipeObject("plant_food_factory")
+        .getRecipesFromPlantFoodFactory("plant_food_factory")
         .elementAt(0);
     recipeCount = plantFoodFactory.length;
     cookBookCount = 1;
   }
 
   void getCookBooks() async {
-    RecipeDbObject().getCookingBooks().then((value) => setState(() {
+    /* RecipeDbObject().getCookingBooks().then((value) => setState(() {
           cookBooks = value;
-        }));
+        }));*/
   }
 
   @override
@@ -74,7 +75,8 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "Hallo, " + authService.getUser().displayName.toString(),
+                              "Hallo, " +
+                                  authService.getUser().displayName.toString(),
                               // .displayName,
                               style: const TextStyle(
                                   fontSize: 18.0,
@@ -153,8 +155,7 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
                 return GestureDetector(
                     onTap: () => _openDestinationPage(context),
                     child: _buildFeaturedItem(
-                        image:
-                        "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
+                        image: cookBooks.elementAt(index),
                         title: cookBooks.elementAt(index),
                         subtitle: ""));
               }),
@@ -168,11 +169,21 @@ class _ChooseCookbookState extends State<ChooseCookbook> {
           size: size.width * 0.11,
           color: basicColor,
         ),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const CreateNewCookingBook()));
+        onPressed: () async {
+          RecipeDbObject recipeDbObject = RecipeDbObject();
+          realCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
+          print('realCookbooks $realCookbooks');
+          // List<String> names = await recipeDbObject.getCookBookNames();
+          // names.forEach((docName) {
+          //   var recipeFromUserObject = recipeDbObject.getRecipesFromUserCookbook(docName);
+          //   print(recipeFromUserObject.forEach((recipeElement) {
+          //     print(recipeElement);
+          //   }));
+          // });
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => const CreateNewCookingBook()));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
