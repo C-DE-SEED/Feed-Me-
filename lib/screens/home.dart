@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/screens/open_cookbook/recipe_page.dart';
 import 'package:feed_me/services/auth_service.dart';
-import 'package:feed_me/screens/create_new_cooking_book.dart';
 import 'package:feed_me/screens/user/profile_page.dart';
 import 'package:flutter/material.dart';
 import '../model/recipe_db_object.dart';
@@ -25,6 +25,7 @@ class _HomeState extends State<Home> {
   int cookBookCount = 0;
   List<Recipe> plantFoodFactory = [];
   List<String> cookBooks = [];
+  List<Cookbook> realCookbooks = [];
 
   void getAllRecipes() async {
     plantFoodFactory = await RecipeDbObject()
@@ -170,8 +171,8 @@ class _HomeState extends State<Home> {
         ),
         onPressed: () async {
           RecipeDbObject recipeDbObject = RecipeDbObject();
-          print(recipeDbObject.getAllCookBooksFromUser());
-
+          realCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
+          print('realCookbooks $realCookbooks');
           // List<String> names = await recipeDbObject.getCookBookNames();
           // names.forEach((docName) {
           //   var recipeFromUserObject = recipeDbObject.getRecipesFromUserCookbook(docName);

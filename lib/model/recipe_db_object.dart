@@ -8,6 +8,8 @@ import 'cookbook.dart';
 class RecipeDbObject {
   AuthService auth = AuthService();
   final String objectName;
+  List<Recipe> recipesFromCookbook = [];
+  List<Cookbook> finalCookbooks = [];
 
   RecipeDbObject({this.objectName});
 
@@ -53,19 +55,10 @@ class RecipeDbObject {
         .set({'name': documentName, 'image': image});
   }
 
-/*  getCookbooksFromFirebaseDb() async {
-    List<String> cookBookNames = await getCookBookNames();
-    List<Cookbook> cookBooks = [];
-
-    cookBookNames.forEach((element) async {
-      getCookBookObject(element);
-    });
-  }*/
-
 //  Recipt list from snapshot for plantFoodFactory cooking book
 
   List<Recipe> _recipeListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
+    var list = snapshot.docs.map((doc) {
       return Recipe.withAttributes(
           doc['id'] ?? '',
           doc['category'] ?? '',
@@ -81,26 +74,22 @@ class RecipeDbObject {
           doc['spices'] ?? '',
           doc['time'] ?? '');
     }).toList();
+    return list;
   }
 
-  List<Cookbook> _cookbookFromSnapshot(QuerySnapshot snapshot) {
-    List<Cookbook> cookBooks = [];
-    List<Future<Cookbook>> futureCookbook =  snapshot.docs.map((doc) async {
-      var cookbook =
-          Cookbook.fromDatabase(doc['image'] ?? '', doc['name'] ?? '');
-      await getRecipesFromUserCookbook(cookbook.name).first.then((value) => cookbook.recipes = value);
-      return cookbook;
+  Future<List<Cookbook>> _cookbookFromSnapshot(QuerySnapshot snapshot) async {
+    List<Cookbook> books = snapshot.docs.map((doc) {
+      return Cookbook.fromDatabase(
+        doc['image'] ?? '',
+        doc['name'] ?? '',
+      );
     }).toList();
 
-    for (var cookBook in futureCookbook) {
-      cookBook.then(
-              (value) => {
-                print(value);
-              }
-      );
-    }
-    print(cookBooks);
-    return cookBooks;
+    var recipesFromUserCookbook = getRecipesFromUserCookbook(books.first.name);
+    recipesFromCookbook = await recipesFromUserCookbook.first;
+    books.first.recipes = recipesFromCookbook;
+
+    return books;
   }
 
   Stream<List<Recipe>> getRecipesFromPlantFoodFactory(String objectName) {
@@ -112,7 +101,6 @@ class RecipeDbObject {
   Stream<List<Recipe>> getRecipesFromUserCookbook(String docName) {
     CollectionReference recipesCollection =
         FirebaseFirestore.instance.collection(auth.getUser().uid);
-
     return recipesCollection
         .doc(docName)
         .collection('recipes')
@@ -120,22 +108,13 @@ class RecipeDbObject {
         .map(_recipeListFromSnapshot);
   }
 
-  List<Cookbook> getAllCookBooksFromUser() {
-    List<Cookbook> finalCookbooks = [];
+  Future<Future<List<Cookbook>>> getAllCookBooksFromUser() {
     var cookbooks = FirebaseFirestore.instance
         .collection(auth.getUser().uid)
         .snapshots()
         .map(_cookbookFromSnapshot);
 
-    cookbooks.first.then((value) => print(value));
-    return finalCookbooks;
-
-    // cookbooks.first.then((futureCookbookList) =>
-    //     futureCookbookList.forEach((futureCookbook) async {
-    //       Cookbook cookbook = await futureCookbook;
-    //       finalCookbooks.add(cookbook);
-    //     }));
-    // return finalCookbooks;
+    return cookbooks.first;
   }
 
   Future<List<String>> getCookBookNames() async {
@@ -150,10 +129,4 @@ class RecipeDbObject {
             });
     return books;
   }
-
-/*  Stream<List<Cookbook>> getCookBookObject(String objectName) {
-    CollectionReference recipesCollection =
-        FirebaseFirestore.instance.collection(objectName);
-    return recipesCollection.snapshots().map(_cookBookListFromSnapshot);
-  }*/
 }
