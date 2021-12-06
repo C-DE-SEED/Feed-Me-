@@ -8,7 +8,7 @@ import 'package:feed_me/model/recipe_object.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'create_new_recipt_4.dart';
+import 'create_new_recipe_4.dart';
 
 class CreateNewRecipe_3 extends StatefulWidget {
   const CreateNewRecipe_3({Key key, @required this.recipe, @required this.cookbook}) : super(key: key);
@@ -21,7 +21,6 @@ class CreateNewRecipe_3 extends StatefulWidget {
 }
 
 class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
-  String shortDescription;
   List<String> items = [];
   bool easy = false;
   bool medium = false;
@@ -37,6 +36,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.orangeAccent,
       body: SafeArea(
         child: Column(
@@ -62,7 +62,9 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.text,
                 maxLines: 10,
-                onChanged: (value) {},
+                onChanged: (value) {
+                  widget.recipe.shortDescription = value;
+                },
                 decoration: const InputDecoration.collapsed(
                   hintText: 'Kurzbeschreibung hinzufügen',
                   border: InputBorder.none,
@@ -212,9 +214,9 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
             SizedBox(height: size.height * 0.10),
             ButtonRow(
               onPressed: () {
-                widget.recipe.description = shortDescription;
-                widget.recipe.time = time;
-                widget.recipe.persons = persons;
+                // widget.recipe.shortDescription = shortDescription;
+                // widget.recipe.time = time;
+                // widget.recipe.persons = persons;
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -248,6 +250,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                 onSelectedItemChanged: (value) {
                   setState(() {
                     time = timeList.elementAt(value);
+                    widget.recipe.time = time;
                   });
                 },
               ),
@@ -274,6 +277,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                 onSelectedItemChanged: (value) {
                   setState(() {
                     category = categoryList.elementAt(value);
+                    widget.recipe.category = category;
                   });
                 },
               ),
@@ -300,6 +304,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                 onSelectedItemChanged: (value) {
                   setState(() {
                     persons = personList.elementAt(value);
+                    widget.recipe.persons = persons;
                   });
                 },
               ),

@@ -3,10 +3,8 @@ import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
-import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/screens/create_recipe/create_new_recipe_5.dart';
-import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +22,7 @@ class CreateNewRecipe_4 extends StatefulWidget {
 class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   AuthService auth = AuthService();
   int counter = 1;
-  List<String> items = ["test"];
+  List<String> items = [""];
   List<TextEditingController> controller = [];
   GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 
@@ -157,25 +155,13 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                 alignment: Alignment.bottomCenter,
                 child: ButtonRow(
                   onPressed: () async {
-
-
-                    await RecipeDbObject().updateRecipe(
-                        "1",
-                        widget.recipe.category,
-                        widget.recipe.description,
-                        widget.recipe.difficulty,
-                        widget.recipe.image,
-                        widget.recipe.ingredientsAndAmount,
-                        '',
-                        widget.recipe.name,
-                        '',
-                        widget.recipe.persons,
-                        widget.recipe.shortDescription,
-                        '',
-                        widget.recipe.time,
-                        widget.cookbook.name);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Home()));
+                    widget.recipe.description = buildDescription();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateNewRecipe_5(
+                                recipe: widget.recipe,
+                                cookbook: widget.cookbook)));
                   },
                 ))
           ],
@@ -187,6 +173,15 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   void insertItem(int index, String item) {
     items.insert(index, item);
     listKey.currentState.insertItem(index);
+  }
+
+  String buildDescription() {
+    String description = '';
+    items.forEach((element) {
+      description = description + element;
+      description = description + '/';
+    });
+    return description;
   }
 
   Widget addNewStep(Size size) {

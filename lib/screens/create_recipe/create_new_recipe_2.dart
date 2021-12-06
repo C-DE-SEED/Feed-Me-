@@ -8,7 +8,7 @@ import 'package:feed_me/model/ingredient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../model/recipe_object.dart';
-import 'create_new_recipt_3.dart';
+import 'create_new_recipe_3.dart';
 
 class CreateNewRecipe_2 extends StatefulWidget {
   Recipe recipe;
