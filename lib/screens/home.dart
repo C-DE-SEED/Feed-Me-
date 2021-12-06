@@ -145,20 +145,20 @@ class _HomeState extends State<Home> {
             ),
           ),
           GestureDetector(
-              onTap: () => _openDestinationPage(context,plantFoodFactory),
+              onTap: () => _openDestinationPage(context,plantFoodFactory,Cookbook( 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161','Plant Food Facotry',plantFoodFactory)),
               child: _buildFeaturedItem(
                   image:
                       "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
                   title: "Plant Food Factory's Kochbuch",
-                  subtitle: "Gesund & Lecker")),
+                  subtitle: 'Gesund & Lecker')),
           ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               itemCount: userCookbooks.length,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 return GestureDetector(
-                    onTap: () => _openDestinationPage(context,userCookbooks.elementAt(index).recipes),
+                    onTap: () => _openDestinationPage(context,userCookbooks.elementAt(index).recipes,userCookbooks.elementAt(index)),
                     child: _buildFeaturedItem(
                         image: userCookbooks.elementAt(index).image,
                         title: userCookbooks.elementAt(index).name,
@@ -233,7 +233,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  _openDestinationPage(BuildContext context, List<Recipe> recipes) {
+  _openDestinationPage(BuildContext context, List<Recipe> recipes, Cookbook cookbook) {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -241,6 +241,7 @@ class _HomeState extends State<Home> {
                   recipes: recipes,
                   cookBookCount: cookBookCount,
                   recipeCount: recipeCount,
+                  cookBook: cookbook,
                 )));
   }
 }
