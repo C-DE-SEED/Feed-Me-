@@ -4,7 +4,7 @@ import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/model/cookbook.dart';
 import 'package:flutter/material.dart';
-import 'create_recipe/create_new_recipt_1.dart';
+import 'create_recipe/create_new_recipe_1.dart';
 
 class CreateNewCookingBook extends StatefulWidget {
   const CreateNewCookingBook({Key key}) : super(key: key);

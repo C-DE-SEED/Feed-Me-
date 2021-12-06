@@ -52,7 +52,7 @@ class ShowSteps extends StatelessWidget {
               height: size.height * 0.01,
               width: size.width * 0.2,
               decoration: BoxDecoration(
-                  color: colors.elementAt(3),
+                  color: colors.elementAt(4),
                   borderRadius: BorderRadius.circular(15)),
             ),
           ],

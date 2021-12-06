@@ -8,6 +8,7 @@ import 'package:feed_me/screens/user/profile_page.dart';
 import 'package:flutter/material.dart';
 import '../model/recipe_db_object.dart';
 import '../model/recipe_object.dart';
+import 'create_new_cooking_book.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -172,18 +173,12 @@ class _HomeState extends State<Home> {
         onPressed: () async {
           RecipeDbObject recipeDbObject = RecipeDbObject();
           realCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
-          print('realCookbooks $realCookbooks');
-          // List<String> names = await recipeDbObject.getCookBookNames();
-          // names.forEach((docName) {
-          //   var recipeFromUserObject = recipeDbObject.getRecipesFromUserCookbook(docName);
-          //   print(recipeFromUserObject.forEach((recipeElement) {
-          //     print(recipeElement);
-          //   }));
-          // });
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) => const CreateNewCookingBook()));
+          // print('realCookbooks $realCookbooks');
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreateNewCookingBook()));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

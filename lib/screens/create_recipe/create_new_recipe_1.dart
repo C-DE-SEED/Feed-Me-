@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:feed_me/constants/styles/colors.dart';
 import '../../model/recipe_object.dart';
-import 'create_new_recipt_2.dart';
+import 'create_new_recipe_2.dart';
 
 class CreateNewRecipe_1 extends StatefulWidget {
   Cookbook cookbook;
