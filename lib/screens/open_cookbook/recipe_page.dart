@@ -10,6 +10,7 @@ import 'package:feed_me/screens/user/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../model/recipe_object.dart';
+import 'cookbook_settings.dart';
 import 'fast_dishes_page.dart';
 import 'main_dishes_page.dart';
 import 'dessert_dishes_page.dart';
@@ -107,7 +108,27 @@ class _RecipePageState extends State<RecipePage> {
                       ),
                     ),
                   ),
-
+                  RotatedBox(
+                    //TODO: Allow settings and adding new recipes only in user cooking books
+                    quarterTurns: -1,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 15.0, 0.0),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.settings,
+                          color: Colors.white,
+                          size: size.width * 0.1,
+                        ),
+                        tooltip: 'Neues Rezept erstellen',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CookBookSettings()));
+                        },
+                      ),
+                    ),
+                  ),
                   RotatedBox(
                     quarterTurns: -1,
                     child: Padding(
@@ -123,13 +144,12 @@ class _RecipePageState extends State<RecipePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      CreateNewRecipe_1(cookbook: widget.cookBook)));
+                                  builder: (context) => CreateNewRecipe_1(
+                                      cookbook: widget.cookBook)));
                         },
                       ),
                     ),
                   ),
-
                   const Spacer(),
                   buildMenuItem("Vorspeisen", 0),
                   buildMenuItem("Hauptgerichte", 1),
