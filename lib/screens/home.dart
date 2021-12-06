@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
   int recipeCount = 0;
   int cookBookCount = 0;
   List<Recipe> plantFoodFactory = [];
-  List<Cookbook> realCookbooks = [];
+  List<Cookbook> userCookbooks = [];
 
   void getAllRecipes() async {
     plantFoodFactory = await RecipeDbObject()
@@ -40,16 +40,15 @@ class _HomeState extends State<Home> {
 
   void getCookBooks()async{
       RecipeDbObject recipeDbObject = RecipeDbObject();
-      realCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
+      userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
       setState(() {
-
       });
   }
 
   @override
   void initState() {
-    getAllRecipes();
     getCookBooks();
+    getAllRecipes();
     sleep(const Duration(milliseconds: 500));
     super.initState();
   }
@@ -146,7 +145,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           GestureDetector(
-              onTap: () => _openDestinationPage(context),
+              onTap: () => _openDestinationPage(context,plantFoodFactory),
               child: _buildFeaturedItem(
                   image:
                       "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
@@ -155,14 +154,14 @@ class _HomeState extends State<Home> {
           ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              itemCount: realCookbooks.length,
+              itemCount: userCookbooks.length,
               physics: BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 return GestureDetector(
-                    onTap: () => _openDestinationPage(context),
+                    onTap: () => _openDestinationPage(context,userCookbooks.elementAt(index).recipes),
                     child: _buildFeaturedItem(
-                        image: realCookbooks.elementAt(index).image,
-                        title: realCookbooks.elementAt(index).name,
+                        image: userCookbooks.elementAt(index).image,
+                        title: userCookbooks.elementAt(index).name,
                         subtitle: ""));
               }),
         ],
@@ -234,12 +233,12 @@ class _HomeState extends State<Home> {
     );
   }
 
-  _openDestinationPage(BuildContext context) {
+  _openDestinationPage(BuildContext context, List<Recipe> recipes) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (_) => RecipePage(
-                  plantFoodFactory: plantFoodFactory,
+                  recipes: recipes,
                   cookBookCount: cookBookCount,
                   recipeCount: recipeCount,
                 )));

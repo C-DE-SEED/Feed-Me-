@@ -7,14 +7,25 @@ import '../../model/recipe_object.dart';
 import 'detail_page.dart';
 
 class DessertDishesPage extends StatefulWidget {
-  final List<Recipe> plant_food_factory;
-  const DessertDishesPage({Key key,this.plant_food_factory}) : super(key: key);
+  final List<Recipe> recipes;
+  const DessertDishesPage({Key key,this.recipes}) : super(key: key);
 
   @override
   State<DessertDishesPage> createState() => _DessertDishesPageState();
 }
 
 class _DessertDishesPageState extends State<DessertDishesPage> {
+
+  List<String> reciptSteps = [];
+  List<String> ingredients = [];
+
+  void filterSteps(Recipe recipe) {
+    reciptSteps = recipe.description.split("/");
+  }
+
+  void filterIngredients(Recipe recipe) {
+    ingredients = recipe.ingredientsAndAmount.split("/");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +37,7 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
         children: [
           SizedBox(height: size.height * 0.08),
           const Center(
-            child: Text('Hauptgerichte', style: TextStyle(color: Colors.grey,
+            child: Text('Desserts', style: TextStyle(color: Colors.grey,
                 fontSize: 22, fontFamily: openSansFontFamily)),
           ),
           SizedBox(height: size.height * 0.02),
@@ -48,15 +59,19 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
               )),
           Expanded(
             child: ListView.builder(
-              itemCount: widget.plant_food_factory.length,
+              itemCount: widget.recipes.length,
               itemBuilder: (_, index) {
                 return GestureDetector(
                   onTap: () {
+                    filterSteps(widget.recipes[index]);
+                    filterIngredients(widget.recipes[index]);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (_) => DetailPage(
-                          recipe: widget.plant_food_factory[index],
+                          recipe: widget.recipes[index],
+                          reciptSteps: reciptSteps,
+                          ingredients: ingredients,
                         ),
                       ),
                     );
@@ -65,9 +80,9 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Hero(
-                        tag: widget.plant_food_factory[index].name,
+                        tag: widget.recipes[index].name,
                         child: CachedNetworkImage(
-                          imageUrl: widget.plant_food_factory[index].image,
+                          imageUrl: widget.recipes[index].image,
                           placeholder: (context, url) => const CircularProgressIndicator(
                             color: basicColor,
                           ),
@@ -75,7 +90,7 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        widget.plant_food_factory[index].name,
+                        widget.recipes[index].name,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -84,7 +99,7 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        widget.plant_food_factory[index].shortDescription,
+                        widget.recipes[index].shortDescription,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,

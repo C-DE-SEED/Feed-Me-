@@ -14,13 +14,13 @@ import 'dessert_dishes_page.dart';
 import 'starter_dishes_page.dart';
 
 class RecipePage extends StatefulWidget {
-  final List<Recipe> plantFoodFactory;
+  final List<Recipe> recipes;
   final int recipeCount;
   final int cookBookCount;
 
   const RecipePage(
       {Key key,
-      @required this.plantFoodFactory,
+      @required this.recipes,
       @required this.recipeCount,
       @required this.cookBookCount})
       : super(key: key);
@@ -30,7 +30,7 @@ class RecipePage extends StatefulWidget {
 }
 
 class _RecipePageState extends State<RecipePage> {
-  List<Recipe> plantFoodFactory;
+  List<Recipe> recipes;
   List<Recipe> fast = [];
   List<Recipe> main = [];
   List<Recipe> dessert = [];
@@ -44,8 +44,8 @@ class _RecipePageState extends State<RecipePage> {
         main.add(element);
       } else if (element.category == "starter") {
         main.add(element);
-      } else if (element.category == "dessert") {
-        main.add(element);
+      } else if (element.category == "Dessert") {
+        dessert.add(element);
       } else if (element.category == "fast") {
         main.add(element);
       }
@@ -54,17 +54,17 @@ class _RecipePageState extends State<RecipePage> {
 
   @override
   void initState() {
-    filterRecipes(widget.plantFoodFactory);
+    filterRecipes(widget.recipes);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [
-      StarterDishesPage(plant_food_factory: starter),
-      MainDishesPage(plant_food_factory: main),
-      DessertDishesPage(plant_food_factory: dessert),
-      FastDishesPage(plant_food_factory: starter),
+      StarterDishesPage(recipes: starter),
+      MainDishesPage(recipes: main),
+      DessertDishesPage(recipes: dessert),
+      FastDishesPage(recipes: starter),
     ];
 
     Size size = MediaQuery.of(context).size;
@@ -97,8 +97,7 @@ class _RecipePageState extends State<RecipePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const Home()));
+                                  builder: (context) => const Home()));
                         },
                       ),
                     ),
