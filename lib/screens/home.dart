@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
@@ -20,12 +22,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  RecipeDbObject recipeDbObject = RecipeDbObject();
   int selectedIndex = 0;
   AuthService authService = AuthService();
   int recipeCount = 0;
   int cookBookCount = 0;
   List<Recipe> plantFoodFactory = [];
-  List<String> cookBooks = [];
   List<Cookbook> realCookbooks = [];
 
   void getAllRecipes() async {
@@ -36,16 +38,19 @@ class _HomeState extends State<Home> {
     cookBookCount = 1;
   }
 
-  void getCookBooks() async {
-    /* RecipeDbObject().getCookingBooks().then((value) => setState(() {
-          cookBooks = value;
-        }));*/
+  void getCookBooks()async{
+      RecipeDbObject recipeDbObject = RecipeDbObject();
+      realCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
+      setState(() {
+
+      });
   }
 
   @override
   void initState() {
     getAllRecipes();
     getCookBooks();
+    sleep(const Duration(milliseconds: 500));
     super.initState();
   }
 
@@ -150,14 +155,14 @@ class _HomeState extends State<Home> {
           ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              itemCount: cookBooks.length,
+              itemCount: realCookbooks.length,
               physics: BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 return GestureDetector(
                     onTap: () => _openDestinationPage(context),
                     child: _buildFeaturedItem(
-                        image: cookBooks.elementAt(index),
-                        title: cookBooks.elementAt(index),
+                        image: realCookbooks.elementAt(index).image,
+                        title: realCookbooks.elementAt(index).name,
                         subtitle: ""));
               }),
         ],
@@ -171,10 +176,6 @@ class _HomeState extends State<Home> {
           color: basicColor,
         ),
         onPressed: () async {
-          RecipeDbObject recipeDbObject = RecipeDbObject();
-          realCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
-          // print('realCookbooks $realCookbooks');
-
           Navigator.push(
               context,
               MaterialPageRoute(
