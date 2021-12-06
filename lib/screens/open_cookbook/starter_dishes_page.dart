@@ -7,17 +7,25 @@ import '../../model/recipe_object.dart';
 import 'detail_page.dart';
 
 class StarterDishesPage extends StatefulWidget {
-  List<Recipe> plant_food_factory;
+  List<Recipe> recipes;
 
-  StarterDishesPage({Key key, this.plant_food_factory})
-      : super(key: key);
+  StarterDishesPage({Key key, this.recipes}) : super(key: key);
 
   @override
   State<StarterDishesPage> createState() => _StarterDishesPageState();
 }
 
 class _StarterDishesPageState extends State<StarterDishesPage> {
+  List<String> reciptSteps = [];
+  List<String> ingredients = [];
 
+  void filterSteps(Recipe recipe) {
+    reciptSteps = recipe.description.split("/");
+  }
+
+  void filterIngredients(Recipe recipe) {
+    ingredients = recipe.ingredientsAndAmount.split("/");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +51,7 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
               showCursor: true,
               decoration: InputDecoration(
                 hintText: "Nach Gerichten suchen",
-                prefixIcon:
-                const Icon(Icons.search, color: Colors.black54),
+                prefixIcon: const Icon(Icons.search, color: Colors.black54),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
                     color: Colors.white,
@@ -54,16 +61,20 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
               )),
           Expanded(
             child: ListView.builder(
-              itemCount: widget.plant_food_factory.length,
+              itemCount: widget.recipes.length,
               itemBuilder: (_, index) {
                 return GestureDetector(
                   onTap: () {
+                    filterSteps(widget.recipes[index]);
+                    filterIngredients(widget.recipes[index]);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (_) => DetailPage(
                           //TODO change Plants with recipes
-                          recipe: widget.plant_food_factory[index],
+                          recipe: widget.recipes[index],
+                          reciptSteps: reciptSteps,
+                          ingredients: ingredients,
                         ),
                       ),
                     );
@@ -72,17 +83,18 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Hero(
-                        tag: widget.plant_food_factory[index].name,
+                        tag: widget.recipes[index].name,
                         child: CachedNetworkImage(
-                          imageUrl: widget.plant_food_factory[index].image,
-                          placeholder: (context, url) => const CircularProgressIndicator(
+                          imageUrl: widget.recipes[index].image,
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(
                             color: basicColor,
                           ),
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        widget.plant_food_factory[index].name,
+                        widget.recipes[index].name,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -91,7 +103,7 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        widget.plant_food_factory[index].shortDescription,
+                        widget.recipes[index].shortDescription,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,

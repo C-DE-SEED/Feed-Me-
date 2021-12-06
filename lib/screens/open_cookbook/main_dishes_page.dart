@@ -7,14 +7,25 @@ import '../../model/recipe_object.dart';
 import 'detail_page.dart';
 
 class MainDishesPage extends StatefulWidget {
-  List<Recipe> plant_food_factory;
-  MainDishesPage({Key key,this.plant_food_factory}) : super(key: key);
+  List<Recipe> recipes;
+
+  MainDishesPage({Key key, this.recipes}) : super(key: key);
 
   @override
   State<MainDishesPage> createState() => _MainDishesPageState();
 }
 
 class _MainDishesPageState extends State<MainDishesPage> {
+  List<String> reciptSteps = [];
+  List<String> ingredients = [];
+
+  void filterSteps(Recipe recipe) {
+    reciptSteps = recipe.description.split("/");
+  }
+
+  void filterIngredients(Recipe recipe) {
+    ingredients = recipe.ingredientsAndAmount.split("/");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +51,7 @@ class _MainDishesPageState extends State<MainDishesPage> {
               showCursor: true,
               decoration: InputDecoration(
                 hintText: "Nach Gerichten suchen",
-                prefixIcon:
-                const Icon(Icons.search, color: Colors.black54),
+                prefixIcon: const Icon(Icons.search, color: Colors.black54),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
                     color: Colors.white,
@@ -51,15 +61,19 @@ class _MainDishesPageState extends State<MainDishesPage> {
               )),
           Expanded(
             child: ListView.builder(
-              itemCount: widget.plant_food_factory.length,
+              itemCount: widget.recipes.length,
               itemBuilder: (_, index) {
                 return GestureDetector(
                   onTap: () {
+                    filterSteps(widget.recipes[index]);
+                    filterIngredients(widget.recipes[index]);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (_) => DetailPage(
-                          recipe: widget.plant_food_factory[index],
+                          recipe: widget.recipes[index],
+                          ingredients: ingredients,
+                          reciptSteps: reciptSteps,
                         ),
                       ),
                     );
@@ -68,33 +82,31 @@ class _MainDishesPageState extends State<MainDishesPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Hero(
-                        tag: widget.plant_food_factory[index].name,
+                        tag: widget.recipes[index].name,
                         child: CachedNetworkImage(
-                               imageUrl:
-                            widget.plant_food_factory[index].image,
-                            placeholder: (context, url) => const CircularProgressIndicator(
-                              color: basicColor,
-                            ),
+                          imageUrl: widget.recipes[index].image,
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(
+                            color: basicColor,
+                          ),
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        widget.plant_food_factory[index].name,
+                        widget.recipes[index].name,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           fontFamily: openSansFontFamily,
-
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
-                        widget.plant_food_factory[index].shortDescription,
+                        widget.recipes[index].shortDescription,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
                           fontFamily: openSansFontFamily,
-
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),
