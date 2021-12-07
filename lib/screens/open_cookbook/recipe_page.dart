@@ -43,15 +43,15 @@ class _RecipePageState extends State<RecipePage> {
   AuthService authService = AuthService();
   int currentIndex = 0;
 
-  void filterRecipes(List<Recipe> recipts) {
-    recipts.forEach((element) {
+  void filterRecipes(List<Recipe> recipes) {
+    recipes.forEach((element) {
       if (element.category == "Hauptgericht") {
         main.add(element);
-      } else if (element.category == "starter") {
+      } else if (element.category == "Vorspeise") {
         main.add(element);
       } else if (element.category == "Dessert") {
         dessert.add(element);
-      } else if (element.category == "fast") {
+      } else if (element.category == "Schnell") {
         main.add(element);
       }
     });
