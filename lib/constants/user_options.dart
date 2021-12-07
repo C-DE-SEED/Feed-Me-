@@ -39,6 +39,7 @@ const List<String> categoryList = [
   "Vorspeise",
   "Hauptgang",
   "Dessert",
+  'Schnell'
 ];
 
 const List<String> unitList = ["Gramm", "kg", "Liter","ml" ,"TL", "EL", "Daumen", "Zehe"];
