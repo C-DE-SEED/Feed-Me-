@@ -56,6 +56,23 @@ class RecipeDbObject {
         .set({'name': documentName, 'image': cookBookHeaderImage});
   }
 
+  void removeCookbook(String name) async {
+    //remove collection of recipes first
+    await FirebaseFirestore.instance
+        .collection(auth.getUser().uid)
+        .doc(name)
+        .collection('recipes')
+        .get()
+        .then((value) => value.docs.forEach((element) {
+              element.reference.delete();
+            }));
+    //remove fields of cookbook
+    await FirebaseFirestore.instance
+        .collection(auth.getUser().uid)
+        .doc(name)
+        .delete();
+  }
+
 //  Recipt list from snapshot for plantFoodFactory cooking book
 
   List<Recipe> _recipeListFromSnapshot(QuerySnapshot snapshot) {

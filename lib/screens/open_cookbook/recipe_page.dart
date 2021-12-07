@@ -124,7 +124,7 @@ class _RecipePageState extends State<RecipePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CookBookSettings()));
+                                  builder: (context) => CookBookSettings(cookbook: widget.cookBook)));
                         },
                       ),
                     ),
