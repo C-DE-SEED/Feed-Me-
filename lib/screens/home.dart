@@ -50,6 +50,9 @@ class _HomeState extends State<Home> {
     getCookBooks();
     getAllRecipes();
     sleep(const Duration(milliseconds: 500));
+    setState(() {
+
+    });
     super.initState();
   }
 
@@ -167,7 +170,7 @@ class _HomeState extends State<Home> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        tooltip: ' Kochbuch\nhinzufügen',
+        tooltip: 'Kochbuch\nhinzufügen',
         backgroundColor: Colors.white,
         child: Icon(
           Icons.add,
