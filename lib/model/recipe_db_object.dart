@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/model/recipe_object.dart';
-import 'package:flutter/material.dart';
 
 import 'cookbook.dart';
 
@@ -74,7 +73,6 @@ class RecipeDbObject {
   }
 
 //  Recipt list from snapshot for plantFoodFactory cooking book
-
   List<Recipe> _recipeListFromSnapshot(QuerySnapshot snapshot) {
     var list = snapshot.docs.map((doc) {
       return Recipe.withAttributes(
