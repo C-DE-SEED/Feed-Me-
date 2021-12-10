@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:feed_me/constants/alerts/custom_alert.dart';
 import 'package:feed_me/constants/alerts/custom_alert_password_reset.dart';
+import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/styles/orange_box_decoration.dart';
 import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
@@ -97,18 +98,16 @@ class _SignInState extends State<SignIn> {
                             if (result == null) {
                               setState(() {
                                 loading = false;
+
                                 showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return const CustomAlert(
-                                        title: "Ihre Eingaben stimmen nicht "
-                                            "mit den hinterlegten Daten "
-                                            "überein!",
-                                        descriptions:
-                                            "Bitte überprüfen Sie ihre Eingaben.",
-                                        text: "OK",
-                                      );
-                                    });
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return RoundedAlert(
+                                      title: "Achtung",
+                                      text: "Deine Eingaben stimmen nicht mit den hinterlegten Daten überein!",
+                                    );
+                                  },
+                                );
                               });
                             } else {
                               Navigator.push(
@@ -125,16 +124,14 @@ class _SignInState extends State<SignIn> {
                           text: "Passwort zurücksetzen",
                           onPressed: () {
                             showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return const CustomAlertPWReset(
-                                    title: "Ihnen wird eine E-Mail zum "
-                                        "zurücksetzen "
-                                        "Ihres Passwortes geschickt. Bitte "
-                                        "geben Sie Ihre E-Mail Adresse ein.",
-                                    text: "Paswort zurücksetzen",
-                                  );
-                                });
+                              context: context,
+                              builder: (BuildContext context) {
+                                return RoundedAlert(
+                                  title: "Passwort zurücksetzen?",
+                                  text: "Willst du dein Passwort wirklich zurücksetzten? Es wird dir eine E-Mail zum zurücksetzen gesendet werden. Bitte gebe deineE-Mail Adresse ein.",
+                                );
+                              },
+                            );
                           }),
                       SizedBox(height: size.height * 0.01),
                       const SizedBox(
@@ -180,14 +177,15 @@ class _SignInState extends State<SignIn> {
       return true;
     } else {
       showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const CustomAlert(
-              title: "Ihre Eingaben sind noch nicht vollständig!",
-              descriptions: "Bitte überprüfen Sie ihre Eingaben.",
-              text: "OK",
-            );
-          });
+        context: context,
+        builder: (BuildContext context) {
+          return RoundedAlert(
+            title: "Deine Eingaben sind noch nicht vollständig!",
+            text: "Bitte überprüfe deine Eingaben.",
+          );
+        },
+      );
+
       return false;
     }
   }
