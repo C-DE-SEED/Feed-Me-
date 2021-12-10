@@ -41,176 +41,196 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
         child: Stack(
           children: [
             SingleChildScrollView(
-              child: Column(
-                children: [
-                  ShowSteps(
-                      colors: step2,
-                      step: "2.Schritt: Zutaten und Mengen eingeben"),
-                  SizedBox(height: size.height * 0.01),
-                  AnimatedList(
-                    scrollDirection: Axis.vertical,
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    key: listKey,
-                    initialItemCount: items.length,
-                    itemBuilder: (context, index, anim) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                                begin: const Offset(1, 0), end: Offset.zero)
-                            .animate(anim),
-                        child: ListTile(
-                          title: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.5),
-                                borderRadius: BorderRadius.circular(20)),
-                            height: size.height * 0.15,
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  obscureText: false,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: fontSize,
-                                  ),
-                                  decoration: const InputDecoration(
-                                    hintText: 'Zutat eingeben',
-                                    hintStyle: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: fontSize),
-                                    focusedBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.white)),
-                                    enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.white)),
-                                  ),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      ingredients.elementAt(index).title =
-                                          value;
-                                    });
-                                  },
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+              child: Center(
+                child: SizedBox(
+                  width: size.width * 0.9,
+                  height: size.height*0.9,
+                  child: Column(
+                    children: [
+                      ShowSteps(
+                          colors: step2,
+                          step: "2.Schritt: Zutaten und Mengen eingeben"),
+                      SizedBox(height: size.height * 0.01),
+                      AnimatedList(
+                        scrollDirection: Axis.vertical,
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        key: listKey,
+                        initialItemCount: items.length,
+                        itemBuilder: (context, index, anim) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                                    begin: const Offset(1, 0), end: Offset.zero)
+                                .animate(anim),
+                            child: ListTile(
+                              title: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(20)),
+                                height: size.height * 0.15,
+                                child: Column(
                                   children: [
-                                    SizedBox(
-                                      width: size.width * 0.3,
-                                      child: TextFormField(
-                                        keyboardType: TextInputType.number,
-                                        obscureText: false,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: fontSize,
-                                        ),
-                                        decoration: const InputDecoration(
-                                          hintText: 'Menge',
-                                          hintStyle: TextStyle(
+                                    TextFormField(
+                                      obscureText: false,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: fontSize,
+                                      ),
+                                      decoration: const InputDecoration(
+                                        hintText: 'Zutat eingeben',
+                                        hintStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: fontSize),
+                                        focusedBorder: UnderlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.white)),
+                                        enabledBorder: UnderlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.white)),
+                                      ),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          ingredients.elementAt(index).title =
+                                              value;
+                                        });
+                                      },
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: size.width * 0.2,
+                                          child: TextFormField(
+                                            keyboardType: TextInputType.number,
+                                            obscureText: false,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
                                               color: Colors.white,
-                                              fontSize: fontSize),
-                                          focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.white)),
-                                          enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.white)),
-                                        ),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            ingredients
-                                                .elementAt(index)
-                                                .amount = value;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: size.width * 0.1,
-                                    ),
-                                    Container(
-                                        decoration: const BoxDecoration(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                                    width: 1,
-                                                    color: Colors.white))),
-                                        width: size.width * 0.3,
-                                        height: size.height * 0.058,
-                                        child: TextButton(
-                                            onPressed: () {
-                                              showUnits(context, size, index);
+                                              fontSize: fontSize,
+                                            ),
+                                            decoration: const InputDecoration(
+                                              hintText: 'Menge',
+                                              hintStyle: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: fontSize),
+                                              focusedBorder: UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.white)),
+                                              enabledBorder: UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.white)),
+                                            ),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                ingredients
+                                                    .elementAt(index)
+                                                    .amount = value;
+                                              });
                                             },
-                                            child: Center(
-                                                child: Text(
-                                              ingredients.elementAt(index).unit,
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: fontSize,
-                                              ),
-                                            )))),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              items.remove(items.elementAt(index));
-                              listKey.currentState.removeItem(
-                                index,
-                                (context, animation) {
-                                  return SizeTransition(
-                                    sizeFactor: animation,
-                                    axis: Axis.vertical,
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(
-                                        vertical: 4.0,
-                                        horizontal: 8.0,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        border: Border.all(
-                                          width: 1,
-                                          style: BorderStyle.solid,
-                                          color: Colors.transparent,
+                                          ),
                                         ),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(40)),
-                                      ),
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0.0, 0.0, 0.0, 0.0),
-                                    ),
+                                        SizedBox(
+                                          width: size.width * 0.1,
+                                        ),
+                                        Container(
+                                            decoration: const BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        width: 1,
+                                                        color: Colors.white))),
+                                            width: size.width * 0.2,
+                                            height: size.height * 0.058,
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  showUnits(context, size, index);
+                                                },
+                                                child: Center(
+                                                    child: Text(
+                                                  ingredients.elementAt(index).unit,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: fontSize,
+                                                  ),
+                                                )))),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  items.remove(items.elementAt(index));
+                                  listKey.currentState.removeItem(
+                                    index,
+                                    (context, animation) {
+                                      return SizeTransition(
+                                        sizeFactor: animation,
+                                        axis: Axis.vertical,
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(
+                                            vertical: 4.0,
+                                            horizontal: 8.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.transparent,
+                                            border: Border.all(
+                                              width: 1,
+                                              style: BorderStyle.solid,
+                                              color: Colors.transparent,
+                                            ),
+                                            borderRadius: const BorderRadius.all(
+                                                Radius.circular(40)),
+                                          ),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                        ),
+                                      );
+                                    },
                                   );
+                                  setState(() {});
                                 },
-                              );
-                              setState(() {});
-                            },
-                          ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: size.height * 0.01),
+                      addAnotherIngredientButton(size),
+                      const Spacer(),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ButtonRow(
+                          onPressed: () {
+                            widget.recipe.ingredientsAndAmount =
+                                ingredientsAndAmountToString();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CreateNewRecipe_3(recipe: widget.recipe, cookbook: widget.cookbook,)));
+                          },
                         ),
-                      );
-                    },
+                      )
+                    ],
                   ),
-                  SizedBox(height: size.height * 0.01),
-                  addAnotherIngredientButton(size),
-                  SizedBox(height: size.height * 0.2)
-                ],
+                ),
               ),
             ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: ButtonRow(
-                  onPressed: () {
-                    widget.recipe.ingredientsAndAmount =
-                        ingredientsAndAmountToString();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CreateNewRecipe_3(recipe: widget.recipe, cookbook: widget.cookbook,)));
-                  },
-                ))
+            // Align(
+            //     alignment: Alignment.bottomCenter,
+            //     child: ButtonRow(
+            //       onPressed: () {
+            //         widget.recipe.ingredientsAndAmount =
+            //             ingredientsAndAmountToString();
+            //         Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //                 builder: (context) =>
+            //                     CreateNewRecipe_3(recipe: widget.recipe, cookbook: widget.cookbook,)));
+            //       },
+            //     ))
           ],
         ),
       ),
@@ -229,7 +249,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
       children: [
         Container(
           height: size.height * 0.05,
-          width: size.width * 0.7,
+          width: size.width * 0.65,
           decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(color: deepOrange),

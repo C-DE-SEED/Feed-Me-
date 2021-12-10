@@ -35,33 +35,34 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
         child: Stack(
           children: [
             SingleChildScrollView(
-              child: Column(
-                children: [
-                  ShowSteps(
-                      colors: step4,
-                      step: "4.Schritt: Schritte der Zubereitung"),
-                  SizedBox(height: size.height * 0.01),
-                  AnimatedList(
-                    scrollDirection: Axis.vertical,
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    key: listKey,
-                    initialItemCount: items.length,
-                    itemBuilder: (context, index, anim) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                                begin: const Offset(1, 0), end: Offset.zero)
-                            .animate(anim),
-                        child: ListTile(
-                          title: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.5),
-                                borderRadius: BorderRadius.circular(20)),
-                            height: size.height * 0.1,
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+              child: Center(
+                child: SizedBox(
+                  width:size.width*0.9,
+                  height:size.height*0.9,
+                  child: Column(
+                    children: [
+                      ShowSteps(
+                          colors: step4,
+                          step: "4.Schritt: Schritte der Zubereitung"),
+                      SizedBox(height: size.height * 0.01),
+                      AnimatedList(
+                        scrollDirection: Axis.vertical,
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        key: listKey,
+                        initialItemCount: items.length,
+                        itemBuilder: (context, index, anim) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                                    begin: const Offset(1, 0), end: Offset.zero)
+                                .animate(anim),
+                            child: ListTile(
+                              title: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(20)),
+                                height: size.height * 0.1,
+                                child: Column(
                                   children: [
                                     SizedBox(
                                         width: size.width * 0.2,
@@ -72,12 +73,10 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                                                 color: deepOrange,
                                                 fontSize: fontSize,
                                                 fontFamily:
-                                                    openSansFontFamily))),
+                                                openSansFontFamily))),
+
                                     SizedBox(
-                                      width: size.width * 0.1,
-                                    ),
-                                    SizedBox(
-                                      width: size.width * 0.4,
+                                      width: size.width * 0.6,
                                       child: TextFormField(
                                         obscureText: false,
                                         textAlign: TextAlign.center,
@@ -103,67 +102,65 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                                       ),
                                     ),
                                   ],
-                                )
-                              ],
-                            ),
-                          ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              items.remove(items.elementAt(index));
-                              listKey.currentState.removeItem(
-                                index,
-                                (context, animation) {
-                                  return SizeTransition(
-                                    sizeFactor: animation,
-                                    axis: Axis.vertical,
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(
-                                        vertical: 4.0,
-                                        horizontal: 8.0,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        border: Border.all(
-                                          width: 1,
-                                          style: BorderStyle.solid,
-                                          color: Colors.transparent,
+                                ),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  items.remove(items.elementAt(index));
+                                  listKey.currentState.removeItem(
+                                    index,
+                                    (context, animation) {
+                                      return SizeTransition(
+                                        sizeFactor: animation,
+                                        axis: Axis.vertical,
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(
+                                            vertical: 4.0,
+                                            horizontal: 8.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.transparent,
+                                            border: Border.all(
+                                              width: 1,
+                                              style: BorderStyle.solid,
+                                              color: Colors.transparent,
+                                            ),
+                                            borderRadius: const BorderRadius.all(
+                                                Radius.circular(40)),
+                                          ),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0.0, 0.0, 0.0, 0.0),
                                         ),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(40)),
-                                      ),
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0.0, 0.0, 0.0, 0.0),
-                                    ),
+                                      );
+                                    },
                                   );
+                                  setState(() {});
                                 },
-                              );
-                              setState(() {});
-                            },
-                          ),
-                        ),
-                      );
-                    },
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: size.height * 0.01),
+                      addNewStep(size),
+                      const Spacer(),
+                      ButtonRow(
+                        onPressed: () async {
+                          widget.recipe.description = buildDescription();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreateNewRecipe_5(
+                                      recipe: widget.recipe,
+                                      cookbook: widget.cookbook)));
+                        },
+                      )
+                    ],
                   ),
-                  SizedBox(height: size.height * 0.01),
-                  addNewStep(size),
-                  SizedBox(height: size.height * 0.2)
-                ],
+                ),
               ),
             ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: ButtonRow(
-                  onPressed: () async {
-                    widget.recipe.description = buildDescription();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateNewRecipe_5(
-                                recipe: widget.recipe,
-                                cookbook: widget.cookbook)));
-                  },
-                ))
           ],
         ),
       ),
@@ -190,7 +187,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
       children: [
         Container(
           height: size.height * 0.05,
-          width: size.width * 0.7,
+          width: size.width * 0.65,
           decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(color: deepOrange),
