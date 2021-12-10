@@ -118,10 +118,10 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                 fit: BoxFit.cover,
               ),
               color: Colors.white.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(20))
+              borderRadius: BorderRadius.circular(15))
           : BoxDecoration(
               color: Colors.white.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(15)),
       child: TextButton(
         onPressed: () {
           chooseFile();

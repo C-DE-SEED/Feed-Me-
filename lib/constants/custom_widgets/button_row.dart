@@ -18,7 +18,7 @@ class ButtonRow extends StatelessWidget {
           decoration: BoxDecoration(
               border: Border.all(color: deepOrange),
               color: basicColor,
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(15)),
           child: TextButton(
             onPressed: () {
               Navigator.pop(context);
@@ -39,7 +39,7 @@ class ButtonRow extends StatelessWidget {
           height: size.height * 0.08,
           width: size.width * 0.4,
           decoration: BoxDecoration(
-              color: deepOrange, borderRadius: BorderRadius.circular(20)),
+              color: deepOrange, borderRadius: BorderRadius.circular(15)),
           child: TextButton(
             onPressed: onPressed,
             child: Row(

@@ -60,7 +60,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                               title: Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(20)),
+                                    borderRadius: BorderRadius.circular(15)),
                                 height: size.height * 0.1,
                                 child: Column(
                                   children: [
@@ -193,7 +193,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
           decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(color: deepOrange),
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(15)),
           child: TextButton(
               onPressed: () {
                 setState(() {

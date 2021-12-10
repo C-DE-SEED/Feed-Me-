@@ -63,7 +63,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                   height: size.height * 0.2,
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(15),
                       color: Colors.white.withOpacity(0.5)),
                   child: TextFormField(
                     textAlign: TextAlign.center,
@@ -96,7 +96,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                       decoration: BoxDecoration(
                           color: Colors.transparent,
                           border: Border.all(color: deepOrange),
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(15)),
                       child: TextButton(
                         onPressed: () {
                           _showMinutesPicker(context, size);
@@ -128,7 +128,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                       decoration: BoxDecoration(
                           color: Colors.transparent,
                           border: Border.all(color: deepOrange),
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(15)),
                       child: TextButton(
                         onPressed: () {
                           _showPersonsPicker(context, size);
@@ -160,7 +160,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                       decoration: BoxDecoration(
                           color: Colors.transparent,
                           border: Border.all(color: deepOrange),
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(15)),
                       child: TextButton(
                         onPressed: () {
                           _showCategoryPicker(context, size);
@@ -330,7 +330,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
       decoration: BoxDecoration(
           color: isChosen ? color : Colors.transparent,
           border: isChosen ? null : Border.all(color: deepOrange),
-          borderRadius: BorderRadius.circular(10)),
+          borderRadius: BorderRadius.circular(15)),
       child: TextButton(
         onPressed: onPressed,
         child: Center(
