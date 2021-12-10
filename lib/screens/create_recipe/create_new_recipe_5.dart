@@ -13,10 +13,11 @@ import '../home.dart';
 import 'create_new_recipe_4.dart';
 
 class CreateNewRecipe_5 extends StatefulWidget {
-  const CreateNewRecipe_5({Key key, @required this.recipe, @required this.cookbook}) : super(key: key);
+  const CreateNewRecipe_5(
+      {Key key, @required this.recipe, @required this.cookbook})
+      : super(key: key);
   final Recipe recipe;
   final Cookbook cookbook;
-
 
   @override
   _CreateNewRecipe_5State createState() => _CreateNewRecipe_5State();
@@ -30,7 +31,6 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
   bool high = false;
   String type = "Italienisch";
 
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -41,8 +41,7 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
         child: Column(
           children: [
             ShowSteps(
-                colors: step5,
-                step: "5.Schritt: Beschreibung und Herkunft"),
+                colors: step5, step: "5.Schritt: Beschreibung und Herkunft"),
             SizedBox(height: size.height * 0.01),
             const Text("Beschreibung hinzufügen:",
                 style: TextStyle(
@@ -90,7 +89,7 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                     onPressed: () {
                       _showOriginPicker(context, size);
                     },
-                    child: Text(type ,
+                    child: Text(type,
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: fontSize,
@@ -110,7 +109,14 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                spicyButton(size, const Icon(MdiIcons.chiliMild,color: deepOrange,), deepOrange, low, () {
+                spicyButton(
+                    size,
+                    const Icon(
+                      MdiIcons.chiliMild,
+                      color: deepOrange,
+                    ),
+                    deepOrange,
+                    low, () {
                   setState(() {
                     low = !low;
                     if (low == true) {
@@ -121,7 +127,11 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                   });
                 }),
                 SizedBox(width: size.width * 0.025),
-                spicyButton(size, const Icon(MdiIcons.chiliMedium,color: deepOrange), deepOrange, medium, () {
+                spicyButton(
+                    size,
+                    const Icon(MdiIcons.chiliMedium, color: deepOrange),
+                    deepOrange,
+                    medium, () {
                   setState(() {
                     medium = !medium;
                     if (medium == true) {
@@ -132,7 +142,11 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                   });
                 }),
                 SizedBox(width: size.width * 0.025),
-                spicyButton(size, const Icon(MdiIcons.chiliHot,color: deepOrange), deepOrange, high, () {
+                spicyButton(
+                    size,
+                    const Icon(MdiIcons.chiliHot, color: deepOrange),
+                    deepOrange,
+                    high, () {
                   setState(() {
                     high = !high;
                     if (high == true) {
@@ -150,24 +164,9 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                 widget.recipe.origin = type;
                 //TODO: Add spice level to database model
 
-                await RecipeDbObject().updateRecipe(
-                    "1",
-                    widget.recipe.category,
-                    widget.recipe.description,
-                    widget.recipe.difficulty,
-                    widget.recipe.image,
-                    widget.recipe.ingredientsAndAmount,
-                    '',
-                    widget.recipe.name,
-                    widget.recipe.origin,
-                    widget.recipe.persons,
-                    widget.recipe.shortDescription,
-                    '',
-                    widget.recipe.time,
-                    widget.cookbook.name);
+                addToDatabase();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Home()));
-
               },
             )
           ],
@@ -180,27 +179,28 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => SizedBox(
-          width: size.width,
-          height: 250,
-          child: CupertinoPicker(
-            backgroundColor: deepOrange,
-            itemExtent: 30,
-            scrollController: FixedExtentScrollController(initialItem: 1),
-            children: originList
-                .map((item) => Center(
-              child: Text(item,style: const TextStyle(
-                color: Colors.white,
-              )),
-            ))
-                .toList(),
-            onSelectedItemChanged: (value) {
-              setState(() {
-                type = originList.elementAt(value);
-                widget.recipe.origin = type;
-              });
-            },
-          ),
-        ));
+              width: size.width,
+              height: 250,
+              child: CupertinoPicker(
+                backgroundColor: deepOrange,
+                itemExtent: 30,
+                scrollController: FixedExtentScrollController(initialItem: 1),
+                children: originList
+                    .map((item) => Center(
+                          child: Text(item,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              )),
+                        ))
+                    .toList(),
+                onSelectedItemChanged: (value) {
+                  setState(() {
+                    type = originList.elementAt(value);
+                    widget.recipe.origin = type;
+                  });
+                },
+              ),
+            ));
   }
 
   Widget spicyButton(
@@ -214,9 +214,51 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
           borderRadius: BorderRadius.circular(10)),
       child: TextButton(
         onPressed: onPressed,
-        child:  Center(
-            child: icon),
+        child: Center(child: icon),
       ),
     );
+  }
+
+  void addToDatabase() async {
+    RecipeDbObject dbObject = RecipeDbObject();
+    bool exist = await dbObject.checkIfDocumentExists(widget.cookbook.name);
+    if (exist == true) {
+      String imagePath =
+          await dbObject.getCookBookAttributes(widget.cookbook.name);
+
+      await RecipeDbObject().updateRecipe(
+          "1",
+          widget.recipe.category,
+          widget.recipe.description,
+          widget.recipe.difficulty,
+          widget.recipe.image,
+          widget.recipe.ingredientsAndAmount,
+          '',
+          widget.recipe.name,
+          widget.recipe.origin,
+          widget.recipe.persons,
+          widget.recipe.shortDescription,
+          '',
+          widget.recipe.time,
+          widget.cookbook.name,
+          imagePath);
+    } else {
+      await RecipeDbObject().updateRecipe(
+          "1",
+          widget.recipe.category,
+          widget.recipe.description,
+          widget.recipe.difficulty,
+          widget.recipe.image,
+          widget.recipe.ingredientsAndAmount,
+          '',
+          widget.recipe.name,
+          widget.recipe.origin,
+          widget.recipe.persons,
+          widget.recipe.shortDescription,
+          '',
+          widget.recipe.time,
+          widget.cookbook.name,
+          widget.recipe.image);
+    }
   }
 }

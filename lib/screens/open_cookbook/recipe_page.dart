@@ -2,12 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/orange_box_decoration.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/model/cookbook.dart';
+import 'package:feed_me/screens/create_recipe/create_new_recipe_1.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/screens/user/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../model/recipe_object.dart';
+import 'cookbook_settings.dart';
 import 'fast_dishes_page.dart';
 import 'main_dishes_page.dart';
 import 'dessert_dishes_page.dart';
@@ -17,12 +20,14 @@ class RecipePage extends StatefulWidget {
   final List<Recipe> recipes;
   final int recipeCount;
   final int cookBookCount;
+  final Cookbook cookBook;
 
   const RecipePage(
       {Key key,
       @required this.recipes,
       @required this.recipeCount,
-      @required this.cookBookCount})
+      @required this.cookBookCount,
+      @required this.cookBook})
       : super(key: key);
 
   @override
@@ -69,6 +74,7 @@ class _RecipePageState extends State<RecipePage> {
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,6 +104,48 @@ class _RecipePageState extends State<RecipePage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const Home()));
+                        },
+                      ),
+                    ),
+                  ),
+                  RotatedBox(
+                    //TODO: Allow settings and adding new recipes only in user cooking books
+                    quarterTurns: -1,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 15.0, 0.0),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.settings,
+                          color: Colors.white,
+                          size: size.width * 0.1,
+                        ),
+                        tooltip: 'Neues Rezept erstellen',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CookBookSettings(cookbook: widget.cookBook,oldName: widget.cookBook.name,oldImage: widget.cookBook.image)));
+                        },
+                      ),
+                    ),
+                  ),
+                  RotatedBox(
+                    quarterTurns: -1,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 15.0, 0.0),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: size.width * 0.1,
+                        ),
+                        tooltip: 'Neues Rezept erstellen',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreateNewRecipe_1(
+                                      cookbook: widget.cookBook)));
                         },
                       ),
                     ),
