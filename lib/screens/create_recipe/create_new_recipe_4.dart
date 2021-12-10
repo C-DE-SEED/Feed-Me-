@@ -41,9 +41,11 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                   height: size.height * 0.9,
                   child: Column(
                     children: [
-                      ShowSteps(
-                          colors: step4,
-                          step: "4.Schritt: Schritte der Zubereitung"),
+                      Hero(
+                        tag: 'steps',
+                        child: ShowSteps(
+                            colors: step4),
+                      ),
                       SizedBox(height: size.height * 0.01),
                       AnimatedList(
                         scrollDirection: Axis.vertical,
@@ -147,16 +149,19 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                       SizedBox(height: size.height * 0.01),
                       addNewStep(size),
                       const Spacer(),
-                      ButtonRow(
-                        onPressed: () async {
-                          widget.recipe.description = buildDescription();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CreateNewRecipe_5(
-                                      recipe: widget.recipe,
-                                      cookbook: widget.cookbook)));
-                        },
+                      Hero(
+                        tag: 'buttonRow',
+                        child: ButtonRow(
+                          onPressed: () async {
+                            widget.recipe.description = buildDescription();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CreateNewRecipe_5(
+                                        recipe: widget.recipe,
+                                        cookbook: widget.cookbook)));
+                          },
+                        ),
                       )
                     ],
                   ),

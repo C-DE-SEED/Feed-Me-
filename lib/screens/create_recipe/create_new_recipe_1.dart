@@ -44,10 +44,11 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  ShowSteps(
-                      colors: step1,
-                      step:
-                          "1.Schritt: Rezeptnamen und  Bild des fertigen Gerichtes festlegen"),
+                  Hero(
+                    tag: 'steps',
+                    child: ShowSteps(
+                        colors: step1),
+                  ),
                   SizedBox(height: size.height * 0.05),
                   Center(
                     child: SizedBox(
@@ -87,16 +88,19 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                   SizedBox(height: size.height * 0.02),
                   photoContainer(size),
                   const Spacer(),
-                  ButtonRow(
-                    onPressed: () {
-                      recipe.name = recipeName;
-                      uploadFile(image, _authService);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateNewRecipe_2(
-                                  recipe: recipe, cookbook: widget.cookbook)));
-                    },
+                  Hero(
+                    tag: 'buttonRow',
+                    child: ButtonRow(
+                      onPressed: () {
+                        recipe.name = recipeName;
+                        uploadFile(image, _authService);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateNewRecipe_2(
+                                    recipe: recipe, cookbook: widget.cookbook)));
+                      },
+                    ),
                   )
                 ],
               ),

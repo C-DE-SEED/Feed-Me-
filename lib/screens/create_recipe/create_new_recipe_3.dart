@@ -47,9 +47,11 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ShowSteps(
-                    colors: step3,
-                    step: "3.Schritt: Beschreibung und Schwierigkeit festlegen"),
+                Hero(
+                  tag: 'steps',
+                  child: ShowSteps(
+                      colors: step3),
+                ),
                 SizedBox(height: size.height * 0.01),
                 const Center(
                   child: Text("Kurzbeschreibung hinzufügen:",
@@ -221,17 +223,20 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                   ],
                 ),
                 const Spacer(),
-                ButtonRow(
-                  onPressed: () {
-                    // widget.recipe.shortDescription = shortDescription;
-                    // widget.recipe.time = time;
-                    // widget.recipe.persons = persons;
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CreateNewRecipe_4(recipe: widget.recipe, cookbook: widget.cookbook)));
-                  },
+                Hero(
+                  tag: 'buttonRow',
+                  child: ButtonRow(
+                    onPressed: () {
+                      // widget.recipe.shortDescription = shortDescription;
+                      // widget.recipe.time = time;
+                      // widget.recipe.persons = persons;
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  CreateNewRecipe_4(recipe: widget.recipe, cookbook: widget.cookbook)));
+                    },
+                  ),
                 )
               ],
             ),

@@ -47,9 +47,11 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                   height: size.height * 0.9,
                   child: Column(
                     children: [
-                      ShowSteps(
-                          colors: step2,
-                          step: "2.Schritt: Zutaten und Mengen eingeben"),
+                      Hero(
+                        tag: 'steps',
+                        child: ShowSteps(
+                            colors: step2),
+                      ),
                       SizedBox(height: size.height * 0.01),
                       AnimatedList(
                         scrollDirection: Axis.vertical,
@@ -208,18 +210,21 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                       const Spacer(),
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: ButtonRow(
-                          onPressed: () {
-                            widget.recipe.ingredientsAndAmount =
-                                ingredientsAndAmountToString();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CreateNewRecipe_3(
-                                          recipe: widget.recipe,
-                                          cookbook: widget.cookbook,
-                                        )));
-                          },
+                        child: Hero(
+                          tag: 'buttonRow',
+                          child: ButtonRow(
+                            onPressed: () {
+                              widget.recipe.ingredientsAndAmount =
+                                  ingredientsAndAmountToString();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateNewRecipe_3(
+                                            recipe: widget.recipe,
+                                            cookbook: widget.cookbook,
+                                          )));
+                            },
+                          ),
                         ),
                       )
                     ],

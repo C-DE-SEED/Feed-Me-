@@ -45,9 +45,11 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ShowSteps(
-                    colors: step5,
-                    step: "5.Schritt: Beschreibung und Herkunft"),
+                Hero(
+                  tag: 'steps',
+                  child: ShowSteps(
+                      colors: step5),
+                ),
                 SizedBox(height: size.height * 0.01),
                 const Center(
                   child: Text("Beschreibung hinzufügen:",
@@ -162,15 +164,18 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                   ],
                 ),
                 const Spacer(),
-                ButtonRow(
-                  onPressed: () async {
-                    widget.recipe.origin = type;
-                    //TODO: Add spice level to database model
+                Hero(
+                  tag: 'buttonRow',
+                  child: ButtonRow(
+                    onPressed: () async {
+                      widget.recipe.origin = type;
+                      //TODO: Add spice level to database model
 
-                    addToDatabase();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Home()));
-                  },
+                      addToDatabase();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const Home()));
+                    },
+                  ),
                 )
               ],
             ),
