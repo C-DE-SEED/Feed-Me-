@@ -36,24 +36,32 @@ class _CookBookSettingsState extends State<CookBookSettings> {
         backgroundColor: basicColor,
         elevation: 0,
         actions: [
-          IconButton(
-            onPressed: () {
-              deleteCookbook(widget.cookbook.name);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Home()));
-            },
-            icon: const Icon(
-              Icons.delete,
-              size: 40,
+          SizedBox(
+            width: size.width * 0.9,
+            child: Row(
+              children: [
+                const Spacer(),
+                IconButton(
+                  onPressed: () {
+                    deleteCookbook(widget.cookbook.name);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const Home()));
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    size: 40,
+                  ),
+                  color: deepOrange,
+                ),
+              ],
             ),
-            color: deepOrange,
           )
         ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
-            child: Container(
+            child: SizedBox(
               width: size.width * 0.9,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -145,8 +153,9 @@ class _CookBookSettingsState extends State<CookBookSettings> {
     if (hasImage == true) {
       await uploadFile(image, _authService);
     }
-    print(widget.cookbook.name);
-    if (widget.cookbook.name == null || widget.cookbook.name == '' || widget.cookbook.name.isEmpty == true) {
+    if (widget.cookbook.name == null ||
+        widget.cookbook.name == '' ||
+        widget.cookbook.name.isEmpty == true) {
       setState(() {
         widget.cookbook.name = widget.oldName;
       });
