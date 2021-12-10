@@ -44,7 +44,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
               child: Center(
                 child: SizedBox(
                   width: size.width * 0.9,
-                  height: size.height*0.9,
+                  height: size.height * 0.9,
                   child: Column(
                     children: [
                       ShowSteps(
@@ -83,11 +83,11 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                                             color: Colors.white,
                                             fontSize: fontSize),
                                         focusedBorder: UnderlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.white)),
+                                            borderSide: BorderSide(
+                                                color: Colors.white)),
                                         enabledBorder: UnderlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.white)),
+                                            borderSide: BorderSide(
+                                                color: Colors.white)),
                                       ),
                                       onChanged: (value) {
                                         setState(() {
@@ -97,7 +97,8 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                                       },
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: size.width * 0.2,
@@ -114,12 +115,14 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                                               hintStyle: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: fontSize),
-                                              focusedBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.white)),
-                                              enabledBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.white)),
+                                              focusedBorder:
+                                                  UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white)),
+                                              enabledBorder:
+                                                  UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white)),
                                             ),
                                             onChanged: (value) {
                                               setState(() {
@@ -143,11 +146,14 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                                             height: size.height * 0.058,
                                             child: TextButton(
                                                 onPressed: () {
-                                                  showUnits(context, size, index);
+                                                  showUnits(
+                                                      context, size, index);
                                                 },
                                                 child: Center(
                                                     child: Text(
-                                                  ingredients.elementAt(index).unit,
+                                                  ingredients
+                                                      .elementAt(index)
+                                                      .unit,
                                                   style: const TextStyle(
                                                     color: Colors.white,
                                                     fontSize: fontSize,
@@ -180,8 +186,9 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                                               style: BorderStyle.solid,
                                               color: Colors.transparent,
                                             ),
-                                            borderRadius: const BorderRadius.all(
-                                                Radius.circular(40)),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(40)),
                                           ),
                                           padding: const EdgeInsets.fromLTRB(
                                               0.0, 0.0, 0.0, 0.0),
@@ -208,8 +215,10 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        CreateNewRecipe_3(recipe: widget.recipe, cookbook: widget.cookbook,)));
+                                    builder: (context) => CreateNewRecipe_3(
+                                          recipe: widget.recipe,
+                                          cookbook: widget.cookbook,
+                                        )));
                           },
                         ),
                       )
@@ -218,19 +227,6 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                 ),
               ),
             ),
-            // Align(
-            //     alignment: Alignment.bottomCenter,
-            //     child: ButtonRow(
-            //       onPressed: () {
-            //         widget.recipe.ingredientsAndAmount =
-            //             ingredientsAndAmountToString();
-            //         Navigator.push(
-            //             context,
-            //             MaterialPageRoute(
-            //                 builder: (context) =>
-            //                     CreateNewRecipe_3(recipe: widget.recipe, cookbook: widget.cookbook,)));
-            //       },
-            //     ))
           ],
         ),
       ),
@@ -308,8 +304,14 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
   String ingredientsAndAmountToString() {
     String joiner = '';
     for (var element in ingredients) {
-      joiner = joiner + element.amount + element.unit + element.title + '/';
+      joiner = joiner +
+          element.amount +
+          ' ' +
+          element.unit +
+          ' ' +
+          element.title +
+          '/';
     }
-    return joiner;
+    return joiner.substring(0, joiner.length - 1);
   }
 }

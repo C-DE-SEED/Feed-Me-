@@ -22,7 +22,7 @@ class CreateNewRecipe_4 extends StatefulWidget {
 class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   AuthService auth = AuthService();
   int counter = 1;
-  List<String> items = [""];
+  List<String> steps = [""];
   List<TextEditingController> controller = [];
   GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 
@@ -37,8 +37,8 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
             SingleChildScrollView(
               child: Center(
                 child: SizedBox(
-                  width:size.width*0.9,
-                  height:size.height*0.9,
+                  width: size.width * 0.9,
+                  height: size.height * 0.9,
                   child: Column(
                     children: [
                       ShowSteps(
@@ -50,7 +50,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
                         key: listKey,
-                        initialItemCount: items.length,
+                        initialItemCount: steps.length,
                         itemBuilder: (context, index, anim) {
                           return SlideTransition(
                             position: Tween<Offset>(
@@ -73,8 +73,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                                                 color: deepOrange,
                                                 fontSize: fontSize,
                                                 fontFamily:
-                                                openSansFontFamily))),
-
+                                                    openSansFontFamily))),
                                     SizedBox(
                                       width: size.width * 0.6,
                                       child: TextFormField(
@@ -97,7 +96,9 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                                                   color: Colors.white)),
                                         ),
                                         onChanged: (value) {
-                                          setState(() {});
+                                          setState(() {
+                                            steps[index] = value;
+                                          });
                                         },
                                       ),
                                     ),
@@ -107,7 +108,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                               trailing: IconButton(
                                 icon: const Icon(Icons.clear),
                                 onPressed: () {
-                                  items.remove(items.elementAt(index));
+                                  steps.remove(steps.elementAt(index));
                                   listKey.currentState.removeItem(
                                     index,
                                     (context, animation) {
@@ -126,8 +127,9 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                                               style: BorderStyle.solid,
                                               color: Colors.transparent,
                                             ),
-                                            borderRadius: const BorderRadius.all(
-                                                Radius.circular(40)),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(40)),
                                           ),
                                           padding: const EdgeInsets.fromLTRB(
                                               0.0, 0.0, 0.0, 0.0),
@@ -168,17 +170,17 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   }
 
   void insertItem(int index, String item) {
-    items.insert(index, item);
+    steps.insert(index, item);
     listKey.currentState.insertItem(index);
   }
 
   String buildDescription() {
     String description = '';
-    items.forEach((element) {
+    steps.forEach((element) {
       description = description + element;
       description = description + '/';
     });
-    return description;
+    return description.substring(0, description.length - 1);
   }
 
   Widget addNewStep(Size size) {
@@ -195,7 +197,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
           child: TextButton(
               onPressed: () {
                 setState(() {
-                  insertItem(items.length, counter.toString());
+                  insertItem(steps.length, counter.toString());
                 });
               },
               child: Row(
