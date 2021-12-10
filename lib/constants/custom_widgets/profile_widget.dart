@@ -27,8 +27,11 @@ class _ProfileWidget extends State<ProfileWidget> {
     return Center(
       child: Stack(
         children: [
-          ClipOval(
-            child: getImage(_authService, size),
+          Hero(
+            tag:'image',
+            child: ClipOval(
+              child: getImage(_authService, size),
+            ),
           ),
           Positioned(
             bottom: 0,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/recipe_object.dart';
@@ -53,7 +54,14 @@ class DetailPage extends StatelessWidget {
                 children: [
                   Hero(
                     tag: recipe.name,
-                    child: Image.network(recipe.image),
+                    // child: Image.network(recipe.image),
+                    child: CachedNetworkImage(
+                      imageUrl: recipe.image,
+                      placeholder: (context, url) =>
+                      const CircularProgressIndicator(
+                        color: basicColor,
+                      ),
+                    ),
                   ),
                   SizedBox(height: size.height * 0.01),
                   Container(

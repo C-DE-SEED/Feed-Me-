@@ -208,11 +208,11 @@ class _HomeState extends State<Home> {
           left: 16.0, top: 8.0, right: 16.0, bottom: 16.0),
       child: Material(
         elevation: 5.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         child: Stack(
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.circular(5.0),
+              borderRadius: BorderRadius.circular(15.0),
               child: CachedNetworkImage(
                 imageUrl: image,
                 placeholder: (context, url) => const CircularProgressIndicator(

@@ -15,9 +15,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key key, @required this.recipeCount, @required this.cookBookCount}) :
-super(key:
-key);
+  const ProfilePage(
+      {Key key, @required this.recipeCount, @required this.cookBookCount})
+      : super(key: key);
   final int recipeCount;
   final int cookBookCount;
 
@@ -42,20 +42,27 @@ class _ProfilePageState extends State<ProfilePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>  SetProfilePage
-                            (recipeCount: widget.recipeCount, cookBookCount:
-                          widget.cookBookCount,)));
+                          builder: (context) => SetProfilePage(
+                                recipeCount: widget.recipeCount,
+                                cookBookCount: widget.cookBookCount,
+                              )));
                 },
                 icon: Icon(MdiIcons.accountEdit, size: size.width * 0.11))),
         backgroundColor: basicColor,
         body: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-            ProfileWidget(isProfileRoot: false,isLoadingState: false,),
+            ProfileWidget(
+              isProfileRoot: false,
+              isLoadingState: false,
+            ),
             SizedBox(height: size.height * 0.015),
             buildName(),
             SizedBox(height: size.height * 0.01),
-            NumbersWidget(recipeCount: widget.recipeCount, cookBookCount: 0,),
+            NumbersWidget(
+              recipeCount: widget.recipeCount,
+              cookBookCount: 0,
+            ),
             SizedBox(height: size.height * 0.01),
             buildAbout(auth),
             SizedBox(height: size.height * 0.01),
@@ -114,6 +121,4 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       );
-
-
 }
