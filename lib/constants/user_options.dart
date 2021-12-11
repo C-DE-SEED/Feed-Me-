@@ -11,6 +11,17 @@ const List<String> timeList = [
   "50",
   "55",
   "60",
+  "65",
+  "70",
+  "75",
+  "80",
+  "85",
+  "90",
+  "95",
+  "100",
+  "105",
+  "110",
+  "115",
 ];
 const List<String> personList = [
   "1",
@@ -19,6 +30,11 @@ const List<String> personList = [
   "4",
   "5",
   "6",
+  "7",
+  "8",
+  "9",
+  "10",
+
 ];
 const List<String> originList = [
   'Italienisch',
@@ -49,6 +65,4 @@ const List<String> unitList = [
   "ml",
   "TL",
   "EL",
-  "Daumen",
-  "Zehe"
 ];

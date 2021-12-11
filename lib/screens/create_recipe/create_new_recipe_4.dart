@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
@@ -43,8 +44,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                     children: [
                       Hero(
                         tag: 'steps',
-                        child: ShowSteps(
-                            colors: step4),
+                        child: ShowSteps(colors: step4),
                       ),
                       SizedBox(height: size.height * 0.01),
                       AnimatedList(
@@ -153,13 +153,26 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                         tag: 'buttonRow',
                         child: ButtonRow(
                           onPressed: () async {
-                            widget.recipe.description = buildDescription();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CreateNewRecipe_5(
-                                        recipe: widget.recipe,
-                                        cookbook: widget.cookbook)));
+                            if (steps.elementAt(0) == '') {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return RoundedAlert(
+                                    title: "❗️Achtung❗",
+                                    text:
+                                        "Gib bitte die Bearbeitungsschritte an ☺️",
+                                  );
+                                },
+                              );
+                            } else {
+                              widget.recipe.description = buildDescription();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateNewRecipe_5(
+                                          recipe: widget.recipe,
+                                          cookbook: widget.cookbook)));
+                            }
                           },
                         ),
                       )

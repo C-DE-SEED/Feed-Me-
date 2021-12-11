@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
@@ -24,12 +25,12 @@ class CreateNewRecipe_5 extends StatefulWidget {
 }
 
 class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
-  String description;
+  String description='';
   List<String> items = [];
   bool low = false;
   bool medium = false;
   bool high = false;
-  String type = "Italienisch";
+  String type = "Auswählen";
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +42,13 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
         child: Center(
           child: SizedBox(
             width: size.width * 0.9,
-            height: size.height*0.9,
+            height: size.height * 0.9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Hero(
                   tag: 'steps',
-                  child: ShowSteps(
-                      colors: step5),
+                  child: ShowSteps(colors: step5),
                 ),
                 SizedBox(height: size.height * 0.01),
                 const Center(
@@ -71,7 +71,7 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                     maxLines: 10,
                     onChanged: (value) {},
                     decoration: const InputDecoration.collapsed(
-                      hintText: 'Dieses Rote Thai Curry ist ...',
+                      hintText: 'z.B. Dieses Rote Thai Curry ist ...',
                       border: InputBorder.none,
                     ),
                   ),
@@ -168,12 +168,47 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                   tag: 'buttonRow',
                   child: ButtonRow(
                     onPressed: () async {
-                      widget.recipe.origin = type;
-                      //TODO: Add spice level to database model
-
-                      addToDatabase();
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const Home()));
+                      if (description == '') {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return RoundedAlert(
+                              title: "❗️Achtung❗",
+                              text:
+                                  "Gib bitte eine Beschreibung deines Gerichtes an ☺️",
+                            );
+                          },
+                        );
+                      } else if (type == 'Auswählen') {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return RoundedAlert(
+                              title: "❗️Achtung❗",
+                              text: "Gib die Art deines Gerichtes an ☺️",
+                            );
+                          },
+                        );
+                      } else if (!low && !medium && !high) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return RoundedAlert(
+                              title: "❗️Achtung❗",
+                              text:
+                                  "Gib bitte den Schärfegrad deines Gerichtes an ☺️",
+                            );
+                          },
+                        );
+                      } else {
+                        widget.recipe.origin = type;
+                        //TODO: Add spice level to database model
+                        addToDatabase();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()));
+                      }
                     },
                   ),
                 )
