@@ -58,7 +58,7 @@ class DetailPage extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: recipe.image,
                       placeholder: (context, url) =>
-                      const CircularProgressIndicator(
+                          const CircularProgressIndicator(
                         color: basicColor,
                       ),
                     ),
@@ -169,6 +169,9 @@ class DetailPage extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(
+              height: size.height * 0.05,
+            )
           ],
         ),
       ),
@@ -219,20 +222,20 @@ class DetailPage extends StatelessWidget {
                         color: deepOrange, shape: BoxShape.circle),
                     child: Center(
                         child: Text(
-                          (index + 1).toString(),
-                          style: const TextStyle(color: Colors.white),
-                        )),
+                      (index + 1).toString(),
+                      style: const TextStyle(color: Colors.white),
+                    )),
                   ),
                   const SizedBox(width: 20),
                   Flexible(
                       child: Text(
-                        reciptSteps.elementAt(index),
-                        style: const TextStyle(
-                          fontFamily: openSansFontFamily,
-                          color: Colors.black,
-                          fontSize: 15.0,
-                        ),
-                      ))
+                    reciptSteps.elementAt(index),
+                    style: const TextStyle(
+                      fontFamily: openSansFontFamily,
+                      color: Colors.black,
+                      fontSize: 15.0,
+                    ),
+                  ))
                 ],
               ),
               const SizedBox(height: 20)
@@ -261,13 +264,13 @@ class DetailPage extends StatelessWidget {
                   const SizedBox(width: 10),
                   Flexible(
                       child: Text(
-                        ingredients.elementAt(index),
-                        style: const TextStyle(
-                          fontFamily: openSansFontFamily,
-                          color: Colors.black,
-                          fontSize: 15.0,
-                        ),
-                      ))
+                    ingredients.elementAt(index),
+                    style: const TextStyle(
+                      fontFamily: openSansFontFamily,
+                      color: Colors.black,
+                      fontSize: 15.0,
+                    ),
+                  ))
                 ],
               ),
               const SizedBox(height: 10)

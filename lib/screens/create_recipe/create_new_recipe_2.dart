@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
@@ -49,8 +50,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                     children: [
                       Hero(
                         tag: 'steps',
-                        child: ShowSteps(
-                            colors: step2),
+                        child: ShowSteps(colors: step2),
                       ),
                       SizedBox(height: size.height * 0.01),
                       AnimatedList(
@@ -214,15 +214,27 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                           tag: 'buttonRow',
                           child: ButtonRow(
                             onPressed: () {
-                              widget.recipe.ingredientsAndAmount =
-                                  ingredientsAndAmountToString();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CreateNewRecipe_3(
-                                            recipe: widget.recipe,
-                                            cookbook: widget.cookbook,
-                                          )));
+                              if (ingredients.elementAt(0).amount == '') {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return RoundedAlert(
+                                      title: "❗️Achtung❗",
+                                      text: "Gib bitte deine Zutaten an ☺️",
+                                    );
+                                  },
+                                );
+                              } else {
+                                widget.recipe.ingredientsAndAmount =
+                                    ingredientsAndAmountToString();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CreateNewRecipe_3(
+                                              recipe: widget.recipe,
+                                              cookbook: widget.cookbook,
+                                            )));
+                              }
                             },
                           ),
                         ),
@@ -240,7 +252,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
 
   void insertItem(int index, String item) {
     items.insert(index, item);
-    ingredients.add(Ingredient('', '', ''));
+    ingredients.add(Ingredient('', '', 'Einheit'));
     listKey.currentState.insertItem(index);
   }
 

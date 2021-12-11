@@ -44,19 +44,19 @@ class ButtonRow extends StatelessWidget {
             onPressed: onPressed,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
+              children: const [
+                Text(
                   "Weiter",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
                   ),
                 ),
-                SizedBox(width: size.width * 0.01),
+                /*SizedBox(width: size.width * 0.01),
                 const Icon(
                   Icons.arrow_forward_outlined,
                   color: Colors.white,
-                )
+                )*/
               ],
             ),
           ),

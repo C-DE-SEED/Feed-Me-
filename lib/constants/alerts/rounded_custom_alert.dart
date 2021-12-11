@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class RoundedAlert extends StatelessWidget {
-
   String title;
   String text;
 
-
-  RoundedAlert({Key key, this.title,this.text}) : super(key: key);
+  RoundedAlert({Key key, this.title, this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +18,14 @@ class RoundedAlert extends StatelessWidget {
         backgroundColor: Colors.transparent,
         child: Container(
           padding: const EdgeInsets.only(right: 16.0),
-          width: size.width*0.9,
-          height: size.height*0.2,
-          decoration:  BoxDecoration(
+          width: size.width * 0.9,
+          height: size.height * 0.2,
+          decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.8),
               borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(75),
-                  bottomLeft: Radius.circular(75),
+                // war vorher auf 75
+                  topLeft: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
                   topRight: Radius.circular(15),
                   bottomRight: Radius.circular(15))),
           child: Row(
@@ -39,20 +38,19 @@ class RoundedAlert extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                     Text(
-                      title,style: const TextStyle(
-                         color: Colors.black,
-                         fontSize: 14.0,
-                         fontWeight: FontWeight.bold,
-                         fontFamily: openSansFontFamily)
-                    ),
+                    Text(title,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: openSansFontFamily)),
                     const SizedBox(height: 10.0),
-                     Flexible(
-                      child: Text(
-                          text,style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 12.0,
-                          fontFamily: openSansFontFamily)),
+                    Flexible(
+                      child: Text(text,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14.0,
+                              fontFamily: openSansFontFamily)),
                     ),
                     const SizedBox(height: 10.0),
                     Container(
@@ -63,10 +61,12 @@ class RoundedAlert extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
                       child: TextButton(
-                        child: const Text("OK",style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12.0,
-                            fontFamily: openSansFontFamily)),
+                        child: const Text("OK",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0,
+                                fontFamily: openSansFontFamily)),
                         onPressed: () {
                           Navigator.pop(context);
                         },

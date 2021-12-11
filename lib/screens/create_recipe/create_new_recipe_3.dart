@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
@@ -11,10 +12,11 @@ import 'dart:io';
 import 'create_new_recipe_4.dart';
 
 class CreateNewRecipe_3 extends StatefulWidget {
-  const CreateNewRecipe_3({Key key, @required this.recipe, @required this.cookbook}) : super(key: key);
+  const CreateNewRecipe_3(
+      {Key key, @required this.recipe, @required this.cookbook})
+      : super(key: key);
   final Recipe recipe;
   final Cookbook cookbook;
-
 
   @override
   _CreateNewRecipe_3State createState() => _CreateNewRecipe_3State();
@@ -25,9 +27,10 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
   bool easy = false;
   bool medium = false;
   bool hard = false;
-  String time = "0";
-  String persons = "1";
-  String category = 'Vorspeise';
+  String time = "Auswählen";
+  String persons = "Auswählen";
+  String category = 'Auswählen';
+  String shortDescription = '';
 
   final List<String> keys = [];
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
@@ -41,16 +44,15 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
       body: SafeArea(
         child: Center(
           child: SizedBox(
-            width:size.width*0.9,
-            height:size.height*0.9,
+            width: size.width * 0.9,
+            height: size.height * 0.9,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Hero(
                   tag: 'steps',
-                  child: ShowSteps(
-                      colors: step3),
+                  child: ShowSteps(colors: step3),
                 ),
                 SizedBox(height: size.height * 0.01),
                 const Center(
@@ -72,10 +74,10 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                     keyboardType: TextInputType.text,
                     maxLines: 10,
                     onChanged: (value) {
-                      widget.recipe.shortDescription = value;
+                      shortDescription = value;
                     },
                     decoration: const InputDecoration.collapsed(
-                      hintText: 'Sehr leckeres Rote Thai Curry...',
+                      hintText: 'z.B. leckeres rotes Thai Curry...',
                       border: InputBorder.none,
                     ),
                   ),
@@ -86,7 +88,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                   children: [
                     SizedBox(
                       width: size.width * 0.4,
-                      child: const Text("Zubereitungszeit: ",
+                      child: const Text("Zubereitungsdauer in Minuten: ",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: fontSize,
@@ -103,7 +105,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                         onPressed: () {
                           _showMinutesPicker(context, size);
                         },
-                        child: Text(time + " Minuten",
+                        child: Text(time,
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: fontSize,
@@ -135,7 +137,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                         onPressed: () {
                           _showPersonsPicker(context, size);
                         },
-                        child: Text(persons + " Personen",
+                        child: Text(persons,
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: fontSize,
@@ -227,14 +229,72 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                   tag: 'buttonRow',
                   child: ButtonRow(
                     onPressed: () {
+                      if (easy == false && medium == false && hard == false) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return RoundedAlert(
+                              title: "❗️Achtung❗",
+                              text:
+                                  "Gib bitte die Schwierigkeit deines Rezeptes an ☺️",
+                            );
+                          },
+                        );
+                      } else if (time == 'Auswählen') {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return RoundedAlert(
+                              title: "❗️Achtung❗",
+                              text:
+                                  "Gib bitte die Zubereitungsdauer deines Rezeptes an ☺️",
+                            );
+                          },
+                        );
+                      } else if (persons == 'Auswählen') {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return RoundedAlert(
+                              title: "❗️Achtung❗",
+                              text: "Gib bitte die Anzahl der Personen an ☺️",
+                            );
+                          },
+                        );
+                      } else if (category == 'Auswählen') {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return RoundedAlert(
+                              title: "❗️Achtung❗",
+                              text: "Gib bitte die Art deines Gerichtes an ☺️",
+                            );
+                          },
+                        );
+                      }
+                      else if (shortDescription =='') {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return RoundedAlert(
+                              title: "❗️Achtung❗",
+                              text: "Gib bitte eine kurze Beschreibung deines Gerichtes an ☺️",
+                            );
+                          },
+                        );
+                      }
+                      else {
+                        widget.recipe.shortDescription = shortDescription;
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateNewRecipe_4(
+                                    recipe: widget.recipe,
+                                    cookbook: widget.cookbook)));
+                      }
                       // widget.recipe.shortDescription = shortDescription;
                       // widget.recipe.time = time;
                       // widget.recipe.persons = persons;
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CreateNewRecipe_4(recipe: widget.recipe, cookbook: widget.cookbook)));
                     },
                   ),
                 )
@@ -258,9 +318,10 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                 scrollController: FixedExtentScrollController(initialItem: 1),
                 children: timeList
                     .map((item) => Center(
-                          child: Text(item,style: const TextStyle(
-                            color: Colors.white,
-                          )),
+                          child: Text(item,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              )),
                         ))
                     .toList(),
                 onSelectedItemChanged: (value) {
@@ -285,9 +346,10 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                 scrollController: FixedExtentScrollController(initialItem: 1),
                 children: categoryList
                     .map((item) => Center(
-                          child: Text(item,style: const TextStyle(
-                            color: Colors.white,
-                          )),
+                          child: Text(item,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              )),
                         ))
                     .toList(),
                 onSelectedItemChanged: (value) {
@@ -312,9 +374,10 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                 scrollController: FixedExtentScrollController(initialItem: 1),
                 children: personList
                     .map((item) => Center(
-                          child: Text(item,style: const TextStyle(
-                              color: Colors.white,
-                             )),
+                          child: Text(item,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              )),
                         ))
                     .toList(),
                 onSelectedItemChanged: (value) {
