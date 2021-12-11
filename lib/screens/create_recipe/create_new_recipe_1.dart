@@ -38,61 +38,74 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
       backgroundColor: Colors.orangeAccent,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ShowSteps(
-                  colors: step1,
-                  step:
-                      "1.Schritt: Rezeptnamen und  Bild des fertigen Gerichtes festlegen"),
-              SizedBox(height: size.height * 0.05),
-              Center(
-                child: SizedBox(
-                  width: size.width * 0.9,
-                  child: TextFormField(
-                    obscureText: false,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: fontSize,
-                    ),
-                    decoration: const InputDecoration(
-                      hintText: 'Rezeptname eingeben',
-                      hintStyle: TextStyle(color: Colors.white, fontSize: fontSize),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        recipeName = value;
-                      });
-                    },
+          child: Center(
+            child: SizedBox(
+              height: size.height*0.9,
+              width: size.width * 0.9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Hero(
+                    tag: 'steps',
+                    child: ShowSteps(
+                        colors: step1),
                   ),
-                ),
+                  SizedBox(height: size.height * 0.05),
+                  Center(
+                    child: SizedBox(
+                      width: size.width * 0.9,
+                      child: TextFormField(
+                        obscureText: false,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
+                        ),
+                        decoration: const InputDecoration(
+                          hintText: 'Rezeptname eingeben',
+                          hintStyle: TextStyle(
+                              color: Colors.white, fontSize: fontSize),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            recipeName = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.1),
+                  const Center(
+                    child: Text("Titelbild für das Rezept festlegen:",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: fontSize,
+                            fontFamily: openSansFontFamily)),
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                  photoContainer(size),
+                  const Spacer(),
+                  Hero(
+                    tag: 'buttonRow',
+                    child: ButtonRow(
+                      onPressed: () {
+                        recipe.name = recipeName;
+                        uploadFile(image, _authService);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateNewRecipe_2(
+                                    recipe: recipe, cookbook: widget.cookbook)));
+                      },
+                    ),
+                  )
+                ],
               ),
-              SizedBox(height: size.height * 0.1),
-              const Text("Titelbild für das Rezept festlegen:",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: fontSize,
-                      fontFamily: openSansFontFamily)),
-              SizedBox(height: size.height * 0.02),
-              photoContainer(size),
-              SizedBox(height: size.height * 0.1),
-              ButtonRow(
-                onPressed: () {
-                  recipe.name = recipeName;
-                  uploadFile(image, _authService);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              CreateNewRecipe_2(recipe: recipe, cookbook: widget.cookbook)));
-                },
-              )
-            ],
+            ),
           ),
         ),
       ),
@@ -110,10 +123,10 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                 fit: BoxFit.cover,
               ),
               color: Colors.white.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(20))
+              borderRadius: BorderRadius.circular(15))
           : BoxDecoration(
               color: Colors.white.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(15)),
       child: TextButton(
         onPressed: () {
           const CustomAlert();

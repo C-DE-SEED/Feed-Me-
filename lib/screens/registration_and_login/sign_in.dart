@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:feed_me/constants/alerts/custom_alert.dart';
 import 'package:feed_me/constants/alerts/custom_alert_password_reset.dart';
+import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/styles/orange_box_decoration.dart';
 import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
@@ -31,9 +32,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>();
   bool loading = false;
-
   String email = "";
   String password = "";
   String error = "";
@@ -45,134 +44,128 @@ class _SignInState extends State<SignIn> {
         ? const Loading()
         : Scaffold(
             backgroundColor: Colors.transparent,
-            body: Container(
-              decoration: orangeBoxDecoration,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: size.height * 0.05),
-                    SizedBox(
-                      height: size.height * 0.4,
-                      width: size.width * 1,
-                      child: Center(
-                          child: FeedMeCircleAvatar(
-                        radius: size.height * 0.5,
-                      )),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.095,
-                    ),
-                    StandardTextFormField(
-                      hintText: "Bitte geben Sie Ihre E-Mail ein",
-                      onChange: (value) {
-                        setState(() {
-                          email = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    PasswordTextFormField(
-                      hintText: "Bitte geben Sie Ihr Passwort ein",
-                      onChange: (value) {
-                        setState(() {
-                          password = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    StandardButton(
-                      color: Colors.white,
-                      text: "Login",
-                      onPressed: () async {
-                        if (isUserInformationComplete()) {
+            body: SingleChildScrollView(
+              child: Container(
+                decoration: orangeBoxDecoration,
+                child: SafeArea(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: size.height * 0.01),
+                      SizedBox(
+                        height: size.height * 0.4,
+                        width: size.width * 1,
+                        child: Center(
+                            child: FeedMeCircleAvatar(
+                          radius: size.height * 0.5,
+                        )),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.05,
+                      ),
+                      StandardTextFormField(
+                        hintText: "Bitte geben Sie Ihre E-Mail ein",
+                        onChange: (value) {
                           setState(() {
-                            loading = true;
+                            email = value;
                           });
-                          dynamic result = await _auth
-                              .loginWithEmailAndPassword(email, password);
-                          if (result == null) {
+                        },
+                      ),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      PasswordTextFormField(
+                        hintText: "Bitte geben Sie Ihr Passwort ein",
+                        onChange: (value) {
+                          setState(() {
+                            password = value;
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      StandardButton(
+                        color: Colors.white,
+                        text: "Login",
+                        onPressed: () async {
+                          if (isUserInformationComplete()) {
                             setState(() {
-                              loading = false;
-                              showDialog(
+                              loading = true;
+                            });
+                            dynamic result = await _auth
+                                .loginWithEmailAndPassword(email, password);
+                            if (result == null) {
+                              setState(() {
+                                loading = false;
+
+                                showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return const CustomAlert(
-                                      title: "Ihre Eingaben stimmen nicht "
-                                          "mit den hinterlegten Daten "
-                                          "überein!",
-                                      descriptions:
-                                          "Bitte überprüfen Sie ihre Eingaben.",
-                                      text: "OK",
+                                    return RoundedAlert(
+                                      title: "Achtung",
+                                      text: "Deine Eingaben stimmen nicht mit den hinterlegten Daten überein!",
                                     );
-                                  });
-                            });
-                          } else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const Home()));
-                          }
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const GoogleSignInButton(),
-                    StandardButton(
-                        color: Colors.white,
-                        text: "Passwort zurücksetzen",
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const CustomAlertPWReset(
-                                  title: "Ihnen wird eine E-Mail zum "
-                                      "zurücksetzen "
-                                      "Ihres Passwortes geschickt. Bitte "
-                                      "geben Sie Ihre E-Mail Adresse ein.",
-                                  text: "Paswort zurücksetzen",
+                                  },
                                 );
                               });
-                        }),
-                    SizedBox(height: size.height * 0.01),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Noch nicht registriert?",
-                          style: TextStyle(
-                            fontFamily: openSansFontFamily,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        TextButton(
+                            } else {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Home()));
+                            }
+                          }
+                        },
+                      ),
+                      const GoogleSignInButton(),
+                      StandardButton(
+                          color: Colors.white,
+                          text: "Passwort zurücksetzen",
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const Registration()));
-                          },
-                          child: const Text("Hier klicken",
-                              style: TextStyle(
-                                color: Color(0xFFFDFAF6),
-                                fontFamily: openSansFontFamily,
-                                fontWeight: FontWeight.w500,
-                              )),
-                        ),
-                      ],
-                    )
-                  ],
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return RoundedAlert(
+                                  title: "Passwort zurücksetzen?",
+                                  text: "Willst du dein Passwort wirklich zurücksetzten? Es wird dir eine E-Mail zum zurücksetzen gesendet werden. Bitte gebe deineE-Mail Adresse ein.",
+                                );
+                              },
+                            );
+                          }),
+                      SizedBox(height: size.height * 0.01),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Noch nicht registriert?",
+                            style: TextStyle(
+                              fontFamily: openSansFontFamily,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Registration()));
+                            },
+                            child: const Text("Hier klicken",
+                                style: TextStyle(
+                                  color: Color(0xFFFDFAF6),
+                                  fontFamily: openSansFontFamily,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -184,14 +177,15 @@ class _SignInState extends State<SignIn> {
       return true;
     } else {
       showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const CustomAlert(
-              title: "Ihre Eingaben sind noch nicht vollständig!",
-              descriptions: "Bitte überprüfen Sie ihre Eingaben.",
-              text: "OK",
-            );
-          });
+        context: context,
+        builder: (BuildContext context) {
+          return RoundedAlert(
+            title: "Deine Eingaben sind noch nicht vollständig!",
+            text: "Bitte überprüfe deine Eingaben.",
+          );
+        },
+      );
+
       return false;
     }
   }

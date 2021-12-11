@@ -35,6 +35,7 @@ class _RegistrationState extends State<Registration> {
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
+          height: size.height,
           decoration: orangeBoxDecoration,
           child: SingleChildScrollView(
             child: Column(

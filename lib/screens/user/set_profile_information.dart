@@ -15,11 +15,12 @@ import 'package:provider/provider.dart';
 import '../../model/recipe_db_object.dart';
 
 class SetProfilePage extends StatefulWidget {
-  const SetProfilePage({Key key,@required this.recipeCount, @required this.cookBookCount}) :
-super(key:
-  key);
+  const SetProfilePage(
+      {Key key, @required this.recipeCount, @required this.cookBookCount})
+      : super(key: key);
   final int recipeCount;
   final int cookBookCount;
+
   @override
   _SetProfilePageState createState() => _SetProfilePageState();
 }
@@ -51,7 +52,9 @@ class _SetProfilePageState extends State<SetProfilePage> {
           SizedBox(height: size.height * 0.015),
           buildName(auth),
           SizedBox(height: size.height * 0.01),
-          NumbersWidget(recipeCount: widget.recipeCount,),
+          NumbersWidget(
+            recipeCount: widget.recipeCount,
+          ),
           SizedBox(height: size.height * 0.01),
           buildAbout(size, auth),
           SizedBox(height: size.height * 0.0025),
@@ -59,10 +62,8 @@ class _SetProfilePageState extends State<SetProfilePage> {
               color: Colors.white,
               text: "Eingaben speichern",
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const Home()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Home()));
               }),
         ],
       ),

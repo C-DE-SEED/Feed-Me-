@@ -22,7 +22,7 @@ class CreateNewRecipe_4 extends StatefulWidget {
 class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   AuthService auth = AuthService();
   int counter = 1;
-  List<String> items = [""];
+  List<String> steps = [""];
   List<TextEditingController> controller = [];
   GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 
@@ -35,33 +35,36 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
         child: Stack(
           children: [
             SingleChildScrollView(
-              child: Column(
-                children: [
-                  ShowSteps(
-                      colors: step4,
-                      step: "4.Schritt: Schritte der Zubereitung"),
-                  SizedBox(height: size.height * 0.01),
-                  AnimatedList(
-                    scrollDirection: Axis.vertical,
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    key: listKey,
-                    initialItemCount: items.length,
-                    itemBuilder: (context, index, anim) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                                begin: const Offset(1, 0), end: Offset.zero)
-                            .animate(anim),
-                        child: ListTile(
-                          title: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.5),
-                                borderRadius: BorderRadius.circular(20)),
-                            height: size.height * 0.1,
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+              child: Center(
+                child: SizedBox(
+                  width: size.width * 0.9,
+                  height: size.height * 0.9,
+                  child: Column(
+                    children: [
+                      Hero(
+                        tag: 'steps',
+                        child: ShowSteps(
+                            colors: step4),
+                      ),
+                      SizedBox(height: size.height * 0.01),
+                      AnimatedList(
+                        scrollDirection: Axis.vertical,
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        key: listKey,
+                        initialItemCount: steps.length,
+                        itemBuilder: (context, index, anim) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                                    begin: const Offset(1, 0), end: Offset.zero)
+                                .animate(anim),
+                            child: ListTile(
+                              title: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(15)),
+                                height: size.height * 0.1,
+                                child: Column(
                                   children: [
                                     SizedBox(
                                         width: size.width * 0.2,
@@ -74,10 +77,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                                                 fontFamily:
                                                     openSansFontFamily))),
                                     SizedBox(
-                                      width: size.width * 0.1,
-                                    ),
-                                    SizedBox(
-                                      width: size.width * 0.4,
+                                      width: size.width * 0.6,
                                       child: TextFormField(
                                         obscureText: false,
                                         textAlign: TextAlign.center,
@@ -98,72 +98,76 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                                                   color: Colors.white)),
                                         ),
                                         onChanged: (value) {
-                                          setState(() {});
+                                          setState(() {
+                                            steps[index] = value;
+                                          });
                                         },
                                       ),
                                     ),
                                   ],
-                                )
-                              ],
-                            ),
-                          ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              items.remove(items.elementAt(index));
-                              listKey.currentState.removeItem(
-                                index,
-                                (context, animation) {
-                                  return SizeTransition(
-                                    sizeFactor: animation,
-                                    axis: Axis.vertical,
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(
-                                        vertical: 4.0,
-                                        horizontal: 8.0,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        border: Border.all(
-                                          width: 1,
-                                          style: BorderStyle.solid,
-                                          color: Colors.transparent,
+                                ),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  steps.remove(steps.elementAt(index));
+                                  listKey.currentState.removeItem(
+                                    index,
+                                    (context, animation) {
+                                      return SizeTransition(
+                                        sizeFactor: animation,
+                                        axis: Axis.vertical,
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(
+                                            vertical: 4.0,
+                                            horizontal: 8.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.transparent,
+                                            border: Border.all(
+                                              width: 1,
+                                              style: BorderStyle.solid,
+                                              color: Colors.transparent,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(40)),
+                                          ),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0.0, 0.0, 0.0, 0.0),
                                         ),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(40)),
-                                      ),
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0.0, 0.0, 0.0, 0.0),
-                                    ),
+                                      );
+                                    },
                                   );
+                                  setState(() {});
                                 },
-                              );
-                              setState(() {});
-                            },
-                          ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: size.height * 0.01),
+                      addNewStep(size),
+                      const Spacer(),
+                      Hero(
+                        tag: 'buttonRow',
+                        child: ButtonRow(
+                          onPressed: () async {
+                            widget.recipe.description = buildDescription();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CreateNewRecipe_5(
+                                        recipe: widget.recipe,
+                                        cookbook: widget.cookbook)));
+                          },
                         ),
-                      );
-                    },
+                      )
+                    ],
                   ),
-                  SizedBox(height: size.height * 0.01),
-                  addNewStep(size),
-                  SizedBox(height: size.height * 0.2)
-                ],
+                ),
               ),
             ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: ButtonRow(
-                  onPressed: () async {
-                    widget.recipe.description = buildDescription();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateNewRecipe_5(
-                                recipe: widget.recipe,
-                                cookbook: widget.cookbook)));
-                  },
-                ))
           ],
         ),
       ),
@@ -171,17 +175,17 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   }
 
   void insertItem(int index, String item) {
-    items.insert(index, item);
+    steps.insert(index, item);
     listKey.currentState.insertItem(index);
   }
 
   String buildDescription() {
     String description = '';
-    items.forEach((element) {
+    steps.forEach((element) {
       description = description + element;
       description = description + '/';
     });
-    return description;
+    return description.substring(0, description.length - 1);
   }
 
   Widget addNewStep(Size size) {
@@ -190,15 +194,15 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
       children: [
         Container(
           height: size.height * 0.05,
-          width: size.width * 0.7,
+          width: size.width * 0.65,
           decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(color: deepOrange),
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(15)),
           child: TextButton(
               onPressed: () {
                 setState(() {
-                  insertItem(items.length, counter.toString());
+                  insertItem(steps.length, counter.toString());
                 });
               },
               child: Row(

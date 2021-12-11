@@ -37,9 +37,18 @@ const List<String> originList = [
 ];
 const List<String> categoryList = [
   "Vorspeise",
-  "Hauptgang",
+  "Hauptgericht",
   "Dessert",
   'Schnell'
 ];
 
-const List<String> unitList = ["Gramm", "kg", "Liter","ml" ,"TL", "EL", "Daumen", "Zehe"];
+const List<String> unitList = [
+  "Gramm",
+  "kg",
+  "Liter",
+  "ml",
+  "TL",
+  "EL",
+  "Daumen",
+  "Zehe"
+];

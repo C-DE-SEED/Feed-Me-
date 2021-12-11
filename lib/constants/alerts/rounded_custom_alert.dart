@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:flutter/material.dart';
@@ -13,28 +14,25 @@ class RoundedAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Center(
       child: Dialog(
-        elevation: 0,
         backgroundColor: Colors.transparent,
         child: Container(
           padding: const EdgeInsets.only(right: 16.0),
-          height: 150,
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
+          width: size.width*0.9,
+          height: size.height*0.2,
+          decoration:  BoxDecoration(
+              color: Colors.white.withOpacity(0.8),
+              borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(75),
                   bottomLeft: Radius.circular(75),
-                  topRight: Radius.circular(10),
-                  bottomRight: Radius.circular(10))),
+                  topRight: Radius.circular(15),
+                  bottomRight: Radius.circular(15))),
           child: Row(
             children: <Widget>[
               const SizedBox(width: 20.0),
-              CircleAvatar(
-                radius: 55,
-                backgroundColor: Colors.grey.shade200,
-                child: const Icon(MdiIcons.exclamationThick,color:deepOrange,size: 60,),
-                ),
+              const FeedMeCircleAvatar(radius: 55),
               const SizedBox(width: 20.0),
               Expanded(
                 child: Column(
