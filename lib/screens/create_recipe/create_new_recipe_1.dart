@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/alerts/custom_alert.dart';
 import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
@@ -29,7 +30,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   String recipeName = '';
   final AuthService _authService = AuthService();
-
+  ImageSource userImageSource;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -115,7 +116,8 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
               borderRadius: BorderRadius.circular(20)),
       child: TextButton(
         onPressed: () {
-          chooseFile();
+          const CustomAlert();
+          //chooseFile();
         },
         child: hasImage
             ? null
@@ -129,9 +131,9 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
     );
   }
 
-  Future chooseFile() async {
+  Future chooseFile(ImageSource imageSource) async {
     await ImagePicker.platform
-        .pickImage(source: ImageSource.gallery, imageQuality: 10)
+        .pickImage(source: imageSource, imageQuality: 10)
         .then((file) {
       setState(() {
         image = File(file.path);
