@@ -26,6 +26,7 @@ class _HomeState extends State<Home> {
   int selectedIndex = 0;
   AuthService authService = AuthService();
   int recipeCount = 0;
+  int cookbookCount = 0;
   List<Recipe> plantFoodFactory = [];
   List<Cookbook> userCookbooks = [];
   var refreshKey = GlobalKey<RefreshIndicatorState>();
@@ -41,6 +42,10 @@ class _HomeState extends State<Home> {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
     setState(() {});
+    cookbookCount = 1 + userCookbooks.length;
+    for (var cookbook in userCookbooks) {
+      recipeCount = recipeCount + cookbook.recipes.length;
+    }
     sleep(const Duration(seconds: 1));
     setState(() {});
   }
@@ -119,7 +124,8 @@ class _HomeState extends State<Home> {
                                   MaterialPageRoute(
                                       builder: (context) => ProfilePage(
                                             recipeCount: recipeCount,
-                                            cookBookCount: userCookbooks.length,
+                                            cookBookCount:
+                                                userCookbooks.length + 1,
                                           )));
                             },
                             child: null,
@@ -150,13 +156,14 @@ class _HomeState extends State<Home> {
           ),
           GestureDetector(
               onTap: () => _openDestinationPage(
-                  context,
-                  plantFoodFactory,
-                  Cookbook(
-                      'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
-                      'Plant Food Factory',
-                      plantFoodFactory),
-                  0),
+                    context,
+                    plantFoodFactory,
+                    Cookbook(
+                        'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
+                        'Plant Food Factory',
+                        plantFoodFactory),
+                    cookbookCount,
+                  ),
               child: _buildFeaturedItem(
                   image:
                       "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
