@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
         .getRecipesFromPlantFoodFactory("plant_food_factory")
         .elementAt(0);
     recipeCount = plantFoodFactory.length;
-    cookBookCount = 1;
+    cookBookCount = userCookbooks.length;
   }
 
   Future<void> getCookBooks() async {
@@ -164,13 +164,13 @@ class _HomeState extends State<Home> {
               child: _buildFeaturedItem(
                   image:
                       "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
-                  title: "Plant Food Factory's Kochbuch",
+                  title: "Feed Me's Kochbuch",
                   subtitle: 'Gesund & Lecker')),
           FutureBuilder <List<Cookbook>>(
             future: getUpdates(),
             builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
               if (snap.data == null) {
-                return  Center(child: new CircularProgressIndicator());
+                return  const Center(child: CircularProgressIndicator(color: basicColor,));
               }
 
               return ListView.builder(

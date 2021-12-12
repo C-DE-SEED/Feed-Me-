@@ -18,6 +18,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 50,
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       color: Colors.transparent,
       child: TextFormField(
