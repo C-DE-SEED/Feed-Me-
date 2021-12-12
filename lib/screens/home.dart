@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
   int selectedIndex = 0;
   AuthService authService = AuthService();
   int recipeCount = 0;
-  int cookBookCount = 0;
+  int cookbookCount = 0;
   List<Recipe> plantFoodFactory = [];
   List<Cookbook> userCookbooks = [];
   var refreshKey = GlobalKey<RefreshIndicatorState>();
@@ -36,13 +36,16 @@ class _HomeState extends State<Home> {
         .getRecipesFromPlantFoodFactory("plant_food_factory")
         .elementAt(0);
     recipeCount = plantFoodFactory.length;
-    cookBookCount = 1;
   }
 
   Future<void> getCookBooks() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
     setState(() {});
+    cookbookCount = userCookbooks.length;
+    for (var cookbook in userCookbooks) {
+      recipeCount = recipeCount + cookbook.recipes.length;
+    }
     sleep(const Duration(seconds: 1));
     setState(() {});
   }
@@ -87,10 +90,7 @@ class _HomeState extends State<Home> {
                           children: <Widget>[
                             Text(
                               "Hallo, " +
-                                  authService
-                                      .getUser()
-                                      .displayName
-                                      .toString(),
+                                  authService.getUser().displayName.toString(),
                               // .displayName,
                               style: const TextStyle(
                                   fontSize: 18.0,
@@ -124,7 +124,8 @@ class _HomeState extends State<Home> {
                                   MaterialPageRoute(
                                       builder: (context) => ProfilePage(
                                             recipeCount: recipeCount,
-                                            cookBookCount: cookBookCount,
+                                            cookBookCount:
+                                                userCookbooks.length + 1,
                                           )));
                             },
                             child: null,
@@ -155,22 +156,27 @@ class _HomeState extends State<Home> {
           ),
           GestureDetector(
               onTap: () => _openDestinationPage(
-                  context,
-                  plantFoodFactory,
-                  Cookbook(
-                      'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
-                      'Plant Food Facotry',
-                      plantFoodFactory)),
+                    context,
+                    plantFoodFactory,
+                    Cookbook(
+                        'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
+                        'Plant Food Factory',
+                        plantFoodFactory),
+                    cookbookCount,
+                  ),
               child: _buildFeaturedItem(
                   image:
                       "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
-                  title: "Plant Food Factory's Kochbuch",
+                  title: "Feed Me's Kochbuch",
                   subtitle: 'Gesund & Lecker')),
-          FutureBuilder <List<Cookbook>>(
+          FutureBuilder<List<Cookbook>>(
             future: getUpdates(),
             builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
               if (snap.data == null) {
-                return  Center(child: new CircularProgressIndicator());
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: basicColor,
+                ));
               }
 
               return ListView.builder(
@@ -183,7 +189,8 @@ class _HomeState extends State<Home> {
                         onTap: () => _openDestinationPage(
                             context,
                             snap.data.elementAt(index).recipes,
-                            snap.data.elementAt(index)),
+                            snap.data.elementAt(index),
+                            snap.data.length + 1),
                         child: _buildFeaturedItem(
                             image: snap.data.elementAt(index).image,
                             title: snap.data.elementAt(index).name,
@@ -198,7 +205,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.white,
         child: Icon(
           Icons.add,
-          size: size.width * 0.11,
+          size: size.width * 0.1,
           color: basicColor,
         ),
         onPressed: () async {
@@ -261,8 +268,12 @@ class _HomeState extends State<Home> {
     );
   }
 
-  _openDestinationPage(
-      BuildContext context, List<Recipe> recipes, Cookbook cookbook) {
+  _openDestinationPage(BuildContext context, List<Recipe> recipes,
+      Cookbook cookbook, int cookBookCount) {
+    bool isFeedMeCookbook = true;
+    if (cookbook.name == 'Plant Food Factory') {
+      isFeedMeCookbook = false;
+    }
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -271,6 +282,7 @@ class _HomeState extends State<Home> {
                   cookBookCount: cookBookCount,
                   recipeCount: recipeCount,
                   cookBook: cookbook,
+                  isFeedMeCookbook: isFeedMeCookbook,
                 )));
   }
 }

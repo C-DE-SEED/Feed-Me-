@@ -61,14 +61,14 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(height: size.height * 0.01),
             NumbersWidget(
               recipeCount: widget.recipeCount,
-              cookBookCount: 0,
+              cookBookCount: widget.cookBookCount,
             ),
             SizedBox(height: size.height * 0.01),
             buildAbout(auth),
             SizedBox(height: size.height * 0.01),
             StandardButton(
                 color: Colors.white,
-                text: "Log out",
+                text: "Abmelden",
                 onPressed: () {
                   auth.signOut();
                   AuthenticationGoogle.signOut(context: context);

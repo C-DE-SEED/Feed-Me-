@@ -11,7 +11,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../home.dart';
-import 'create_new_recipe_4.dart';
 
 class CreateNewRecipe_5 extends StatefulWidget {
   const CreateNewRecipe_5(
@@ -129,7 +128,7 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                         if (low == true) {
                           medium = false;
                           high = false;
-                          widget.recipe.difficulty = 'Nicht Scharf';
+                          //widget.recipe.difficulty = 'Nicht Scharf';
                         }
                       });
                     }),
@@ -144,7 +143,7 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                         if (medium == true) {
                           low = false;
                           high = false;
-                          widget.recipe.difficulty = 'Mittelscharf';
+                          //widget.recipe.difficulty = 'Mittelscharf';
                         }
                       });
                     }),
@@ -159,7 +158,7 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                         if (high == true) {
                           medium = false;
                           low = false;
-                          widget.recipe.difficulty = 'Scharf';
+                          //widget.recipe.difficulty = 'Scharf';
                         }
                       });
                     }),

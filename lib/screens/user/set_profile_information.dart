@@ -53,7 +53,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
           buildName(auth),
           SizedBox(height: size.height * 0.01),
           NumbersWidget(
-            recipeCount: widget.recipeCount,
+            recipeCount: widget.recipeCount, cookBookCount: widget.cookBookCount,
           ),
           SizedBox(height: size.height * 0.01),
           buildAbout(size, auth),

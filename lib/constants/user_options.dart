@@ -65,4 +65,5 @@ const List<String> unitList = [
   "ml",
   "TL",
   "EL",
+  'Stück',
 ];

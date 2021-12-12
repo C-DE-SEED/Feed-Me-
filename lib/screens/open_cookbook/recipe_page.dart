@@ -21,13 +21,15 @@ class RecipePage extends StatefulWidget {
   final int recipeCount;
   final int cookBookCount;
   final Cookbook cookBook;
+  bool isFeedMeCookbook;
 
-  const RecipePage(
+  RecipePage(
       {Key key,
       @required this.recipes,
       @required this.recipeCount,
       @required this.cookBookCount,
-      @required this.cookBook})
+      @required this.cookBook,
+      @required this.isFeedMeCookbook})
       : super(key: key);
 
   @override
@@ -113,20 +115,25 @@ class _RecipePageState extends State<RecipePage> {
                     quarterTurns: -1,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 15.0, 0.0),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.settings,
-                          color: Colors.white,
-                          size: size.width * 0.1,
-                        ),
-                        tooltip: 'Neues Rezept erstellen',
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CookBookSettings(cookbook: widget.cookBook,oldName: widget.cookBook.name,oldImage: widget.cookBook.image)));
-                        },
-                      ),
+                      child: widget.isFeedMeCookbook
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.settings,
+                                color: Colors.white,
+                                size: size.width * 0.1,
+                              ),
+                              tooltip: 'Neues Rezept erstellen',
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CookBookSettings(
+                                            cookbook: widget.cookBook,
+                                            oldName: widget.cookBook.name,
+                                            oldImage: widget.cookBook.image)));
+                              },
+                            )
+                          : null,
                     ),
                   ),
                   RotatedBox(
