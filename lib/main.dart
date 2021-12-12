@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/custom_widgets/dismiss_keyboard_widget.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/screens/registration_and_login/sign_in.dart';
 import 'package:feed_me/model/user_local.dart';
@@ -24,11 +25,13 @@ class MyApp extends StatelessWidget {
     return StreamProvider<UserLocal>.value(
       value: AuthService().getUserLocal(),
       initialData: null,
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: [GlobalMaterialLocalizations.delegate],
-        supportedLocales: [Locale('en'), Locale('de')],
-        home: Welcome(),
+      child: const DismissKeyboard(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+          supportedLocales: [Locale('en'), Locale('de')],
+          home: Welcome(),
+        ),
       ),
     );
 // TODO insert UserObject with additional data (use Firebase User object as
@@ -39,20 +42,6 @@ class MyApp extends StatelessWidget {
     //TODO: Radien anpassen
     //TODO: buttonRow anpassen (Höhe)
 
-
-    // List<Recipt> plant_food_factory = [];
-    //
-    // void getAllRecipes() async {
-    //   plant_food_factory =
-    //   await ReciptDbObject().getReciptObject("plant_food_factory").elementAt(0);
-    // }
-    //
-    // @override
-    // void initState() {
-    //   getAllRecipes();
-    //   super.initState();
-    //
-    // }
     /*
      ----------------------------------------------
     |             _____             _____          |

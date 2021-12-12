@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
     setState(() {});
-    cookbookCount = 1 + userCookbooks.length;
+    cookbookCount = userCookbooks.length;
     for (var cookbook in userCookbooks) {
       recipeCount = recipeCount + cookbook.recipes.length;
     }
@@ -205,7 +205,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.white,
         child: Icon(
           Icons.add,
-          size: size.width * 0.11,
+          size: size.width * 0.1,
           color: basicColor,
         ),
         onPressed: () async {

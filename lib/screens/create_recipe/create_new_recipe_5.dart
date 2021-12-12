@@ -128,7 +128,7 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                         if (low == true) {
                           medium = false;
                           high = false;
-                          widget.recipe.difficulty = 'Nicht Scharf';
+                          //widget.recipe.difficulty = 'Nicht Scharf';
                         }
                       });
                     }),
@@ -143,7 +143,7 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                         if (medium == true) {
                           low = false;
                           high = false;
-                          widget.recipe.difficulty = 'Mittelscharf';
+                          //widget.recipe.difficulty = 'Mittelscharf';
                         }
                       });
                     }),
@@ -158,7 +158,7 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                         if (high == true) {
                           medium = false;
                           low = false;
-                          widget.recipe.difficulty = 'Scharf';
+                          //widget.recipe.difficulty = 'Scharf';
                         }
                       });
                     }),
