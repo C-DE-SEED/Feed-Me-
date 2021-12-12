@@ -85,10 +85,7 @@ class _HomeState extends State<Home> {
                           children: <Widget>[
                             Text(
                               "Hallo, " +
-                                  authService
-                                      .getUser()
-                                      .displayName
-                                      .toString(),
+                                  authService.getUser().displayName.toString(),
                               // .displayName,
                               style: const TextStyle(
                                   fontSize: 18.0,
@@ -157,19 +154,22 @@ class _HomeState extends State<Home> {
                   plantFoodFactory,
                   Cookbook(
                       'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
-                      'Plant Food Facotry',
+                      'Plant Food Factory',
                       plantFoodFactory),
-              0),
+                  0),
               child: _buildFeaturedItem(
                   image:
                       "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
                   title: "Feed Me's Kochbuch",
                   subtitle: 'Gesund & Lecker')),
-          FutureBuilder <List<Cookbook>>(
+          FutureBuilder<List<Cookbook>>(
             future: getUpdates(),
             builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
               if (snap.data == null) {
-                return  const Center(child: CircularProgressIndicator(color: basicColor,));
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: basicColor,
+                ));
               }
 
               return ListView.builder(
@@ -183,7 +183,7 @@ class _HomeState extends State<Home> {
                             context,
                             snap.data.elementAt(index).recipes,
                             snap.data.elementAt(index),
-                        snap.data.length),
+                            snap.data.length + 1),
                         child: _buildFeaturedItem(
                             image: snap.data.elementAt(index).image,
                             title: snap.data.elementAt(index).name,
@@ -261,8 +261,12 @@ class _HomeState extends State<Home> {
     );
   }
 
-  _openDestinationPage(
-      BuildContext context, List<Recipe> recipes, Cookbook cookbook, int cookBookCount) {
+  _openDestinationPage(BuildContext context, List<Recipe> recipes,
+      Cookbook cookbook, int cookBookCount) {
+    bool isFeedMeCookbook = true;
+    if (cookbook.name == 'Plant Food Factory') {
+      isFeedMeCookbook = false;
+    }
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -271,6 +275,7 @@ class _HomeState extends State<Home> {
                   cookBookCount: cookBookCount,
                   recipeCount: recipeCount,
                   cookBook: cookbook,
+                  isFeedMeCookbook: isFeedMeCookbook,
                 )));
   }
 }
