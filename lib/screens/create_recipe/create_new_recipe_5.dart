@@ -69,7 +69,9 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.text,
                     maxLines: 10,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      description = value;
+                    },
                     decoration: const InputDecoration.collapsed(
                       hintText: 'z.B. Dieses Rote Thai Curry ist ...',
                       border: InputBorder.none,
