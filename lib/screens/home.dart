@@ -26,7 +26,6 @@ class _HomeState extends State<Home> {
   int selectedIndex = 0;
   AuthService authService = AuthService();
   int recipeCount = 0;
-  int cookBookCount = 0;
   List<Recipe> plantFoodFactory = [];
   List<Cookbook> userCookbooks = [];
   var refreshKey = GlobalKey<RefreshIndicatorState>();
@@ -36,7 +35,6 @@ class _HomeState extends State<Home> {
         .getRecipesFromPlantFoodFactory("plant_food_factory")
         .elementAt(0);
     recipeCount = plantFoodFactory.length;
-    cookBookCount = userCookbooks.length;
   }
 
   Future<void> getCookBooks() async {
@@ -124,7 +122,7 @@ class _HomeState extends State<Home> {
                                   MaterialPageRoute(
                                       builder: (context) => ProfilePage(
                                             recipeCount: recipeCount,
-                                            cookBookCount: cookBookCount,
+                                            cookBookCount: userCookbooks.length,
                                           )));
                             },
                             child: null,
@@ -160,7 +158,8 @@ class _HomeState extends State<Home> {
                   Cookbook(
                       'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
                       'Plant Food Facotry',
-                      plantFoodFactory)),
+                      plantFoodFactory),
+              0),
               child: _buildFeaturedItem(
                   image:
                       "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
@@ -183,7 +182,8 @@ class _HomeState extends State<Home> {
                         onTap: () => _openDestinationPage(
                             context,
                             snap.data.elementAt(index).recipes,
-                            snap.data.elementAt(index)),
+                            snap.data.elementAt(index),
+                        snap.data.length),
                         child: _buildFeaturedItem(
                             image: snap.data.elementAt(index).image,
                             title: snap.data.elementAt(index).name,
@@ -262,7 +262,7 @@ class _HomeState extends State<Home> {
   }
 
   _openDestinationPage(
-      BuildContext context, List<Recipe> recipes, Cookbook cookbook) {
+      BuildContext context, List<Recipe> recipes, Cookbook cookbook, int cookBookCount) {
     Navigator.push(
         context,
         MaterialPageRoute(
