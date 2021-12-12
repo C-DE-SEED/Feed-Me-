@@ -6,6 +6,7 @@ import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../home.dart';
@@ -42,16 +43,98 @@ class _CookBookSettingsState extends State<CookBookSettings> {
               children: [
                 const Spacer(),
                 IconButton(
-                  onPressed: () {
-                    deleteCookbook(widget.cookbook.name);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Home()));
+                  icon: const Icon(Icons.delete, color: Colors.deepOrange, size: 40),
+                  onPressed: () async {
+                    Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.only(
+                                left: 20, top: 20.0 + 20, right: 20, bottom: 20),
+                            margin: const EdgeInsets.only(top: 20),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0, 10),
+                                      blurRadius: 10),
+                                ]),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                const Text(
+                                  'Bild auswählen:',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: openSansFontFamily,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w600,
+                                      color: basicColor),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text(
+                                            'Zurück',
+                                            style: TextStyle(
+                                                fontFamily: openSansFontFamily,
+                                                fontSize: 18,
+                                                color: basicColor),
+                                          )),
+                                      TextButton(
+                                          onPressed: () {
+                                            deleteCookbook(widget.cookbook.name);
+                                            Navigator.push(context,
+                                                MaterialPageRoute(builder: (context) => const Home()));
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text(
+                                            '🗑 Kochbuch löschen',
+                                            style: TextStyle(
+                                                fontFamily: openSansFontFamily,
+                                                fontSize: 18,
+                                                color: basicColor),
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            left: 20,
+                            right: 20,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              radius: 20,
+                              child: ClipRRect(
+                                  borderRadius:
+                                  const BorderRadius.all(Radius.circular(20)),
+                                  child: Image.asset("assets/logoHellOrange.png")),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   },
-                  icon: const Icon(
-                    Icons.delete,
-                    size: 40,
-                  ),
-                  color: deepOrange,
                 ),
               ],
             ),
@@ -160,7 +243,6 @@ class _CookBookSettingsState extends State<CookBookSettings> {
         widget.cookbook.name = widget.oldName;
       });
     }
-    RecipeDbObject db = RecipeDbObject();
     await deleteCookbook(widget.oldName);
     for (var recipe in widget.cookbook.recipes) {
       await RecipeDbObject().updateRecipe(

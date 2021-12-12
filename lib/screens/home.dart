@@ -40,8 +40,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> getCookBooks() async {
-    RecipeDbObject recipeDbObject = RecipeDbObject();
-    userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
+    userCookbooks = await await RecipeDbObject().getAllCookBooksFromUser();
     setState(() {});
     sleep(const Duration(seconds: 1));
     setState(() {});
@@ -49,7 +48,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    getCookBooks().then((value) => {setState(() {})});
+    getCookBooks();
     getAllRecipes();
     super.initState();
   }
@@ -60,6 +59,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: basicColor,
       body: RefreshIndicator(
+        color: basicColor,
         key: refreshKey,
         onRefresh: getCookBooks,
         child: ListView(
@@ -137,7 +137,7 @@ class _HomeState extends State<Home> {
                         },
                         showCursor: true,
                         decoration: InputDecoration(
-                          hintText: "Nach Rezept suchen",
+                          hintText: "Nach Gericht suchen 🍽",
                           prefixIcon:
                               const Icon(Icons.search, color: Colors.black54),
                           enabledBorder: OutlineInputBorder(
@@ -208,7 +208,8 @@ class _HomeState extends State<Home> {
           left: 16.0, top: 8.0, right: 16.0, bottom: 16.0),
       child: Material(
         elevation: 5.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         child: Stack(
           children: <Widget>[
             ClipRRect(

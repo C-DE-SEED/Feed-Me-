@@ -11,7 +11,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../home.dart';
-import 'create_new_recipe_4.dart';
 
 class CreateNewRecipe_5 extends StatefulWidget {
   const CreateNewRecipe_5(
@@ -69,7 +68,9 @@ class _CreateNewRecipe_5State extends State<CreateNewRecipe_5> {
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.text,
                     maxLines: 10,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      description = value;
+                    },
                     decoration: const InputDecoration.collapsed(
                       hintText: 'z.B. Dieses Rote Thai Curry ist ...',
                       border: InputBorder.none,

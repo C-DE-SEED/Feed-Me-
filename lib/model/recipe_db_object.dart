@@ -70,6 +70,7 @@ class RecipeDbObject {
         .collection(auth.getUser().uid)
         .doc(name)
         .delete();
+
   }
 
 //  Recipt list from snapshot for plantFoodFactory cooking book
