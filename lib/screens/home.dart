@@ -40,15 +40,21 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> getCookBooks() async {
-    userCookbooks = await await RecipeDbObject().getAllCookBooksFromUser();
+    RecipeDbObject recipeDbObject = RecipeDbObject();
+    userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
     setState(() {});
     sleep(const Duration(seconds: 1));
     setState(() {});
   }
 
+  Future<List<Cookbook>> getUpdates() async {
+    RecipeDbObject recipeDbObject = RecipeDbObject();
+    return await await recipeDbObject.getAllCookBooksFromUser();
+  }
+
   @override
   void initState() {
-    getCookBooks();
+    getCookBooks().then((value) => {setState(() {})});
     getAllRecipes();
     super.initState();
   }
@@ -58,130 +64,134 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: basicColor,
-      body: RefreshIndicator(
-        color: basicColor,
-        key: refreshKey,
-        onRefresh: getCookBooks,
-        child: ListView(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 15.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.white),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(15.0),
-                    )),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Hallo, " +
-                                    authService
-                                        .getUser()
-                                        .displayName
-                                        .toString(),
-                                // .displayName,
-                                style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: openSansFontFamily),
-                              ),
-                              const SizedBox(
-                                height: 5.0,
-                              ),
-                              Text(
-                                "Was möchtest du heute kochen?",
-                                style: TextStyle(
-                                    color: Colors.grey.shade700,
-                                    fontFamily: openSansFontFamily),
-                              )
-                            ],
+      body: ListView(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 15.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.white),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(15.0),
+                  )),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Hallo, " +
+                                  authService
+                                      .getUser()
+                                      .displayName
+                                      .toString(),
+                              // .displayName,
+                              style: const TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: openSansFontFamily),
+                            ),
+                            const SizedBox(
+                              height: 5.0,
+                            ),
+                            Text(
+                              "Was möchtest du heute kochen?",
+                              style: TextStyle(
+                                  color: Colors.grey.shade700,
+                                  fontFamily: openSansFontFamily),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
+                        child: CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(
+                            authService.getUser().photoURL,
+                          ),
+                          radius: size.width * 0.09,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProfilePage(
+                                            recipeCount: recipeCount,
+                                            cookBookCount: cookBookCount,
+                                          )));
+                            },
+                            child: null,
                           ),
                         ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
-                          child: CircleAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                              authService.getUser().photoURL,
-                            ),
-                            radius: size.width * 0.09,
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProfilePage(
-                                              recipeCount: recipeCount,
-                                              cookBookCount: cookBookCount,
-                                            )));
-                              },
-                              child: null,
-                            ),
+                      )
+                    ],
+                  ),
+                  TextField(
+                      onChanged: (value) {
+                        //TODO insert filtered value
+                      },
+                      showCursor: true,
+                      decoration: InputDecoration(
+                        hintText: "Nach Rezept suchen",
+                        prefixIcon:
+                            const Icon(Icons.search, color: Colors.black54),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Colors.white,
                           ),
-                        )
-                      ],
-                    ),
-                    TextField(
-                        onChanged: (value) {
-                          //TODO insert filtered value
-                        },
-                        showCursor: true,
-                        decoration: InputDecoration(
-                          hintText: "Nach Gericht suchen 🍽",
-                          prefixIcon:
-                              const Icon(Icons.search, color: Colors.black54),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                            ),
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                        )),
-                  ],
-                ),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      )),
+                ],
               ),
             ),
-            GestureDetector(
-                onTap: () => _openDestinationPage(
-                    context,
-                    plantFoodFactory,
-                    Cookbook(
-                        'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
-                        'Plant Food Facotry',
-                        plantFoodFactory)),
-                child: _buildFeaturedItem(
-                    image:
-                        "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
-                    title: "Plant Food Factory's Kochbuch",
-                    subtitle: 'Gesund & Lecker')),
-            ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: userCookbooks.length,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                      onTap: () => _openDestinationPage(
-                          context,
-                          userCookbooks.elementAt(index).recipes,
-                          userCookbooks.elementAt(index)),
-                      child: _buildFeaturedItem(
-                          image: userCookbooks.elementAt(index).image,
-                          title: userCookbooks.elementAt(index).name,
-                          subtitle: ""));
-                }),
-          ],
-        ),
+          ),
+          GestureDetector(
+              onTap: () => _openDestinationPage(
+                  context,
+                  plantFoodFactory,
+                  Cookbook(
+                      'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
+                      'Plant Food Facotry',
+                      plantFoodFactory)),
+              child: _buildFeaturedItem(
+                  image:
+                      "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
+                  title: "Plant Food Factory's Kochbuch",
+                  subtitle: 'Gesund & Lecker')),
+          FutureBuilder <List<Cookbook>>(
+            future: getUpdates(),
+            builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
+              if (snap.data == null) {
+                return  Center(child: new CircularProgressIndicator());
+              }
+
+              return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snap.data.length,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                        onTap: () => _openDestinationPage(
+                            context,
+                            snap.data.elementAt(index).recipes,
+                            snap.data.elementAt(index)),
+                        child: _buildFeaturedItem(
+                            image: snap.data.elementAt(index).image,
+                            title: snap.data.elementAt(index).name,
+                            subtitle: ""));
+                  });
+            },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Kochbuch\nhinzufügen',
