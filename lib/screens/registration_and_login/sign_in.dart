@@ -118,7 +118,7 @@ class _SignInState extends State<SignIn> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const SetProfilePage(
-                                      cookBookCount: 1,
+                                      cookBookCount: 0,
                                       recipeCount: 0,
                                     )));
                           }
