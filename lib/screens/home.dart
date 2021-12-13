@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
     setState(() {});
-    cookbookCount = userCookbooks.length+1;
+    cookbookCount = userCookbooks.length + 1;
     for (var cookbook in userCookbooks) {
       recipeCount = recipeCount + cookbook.recipes.length;
     }
@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
                       ),
                       Padding(
                         padding:
-                        const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
+                            const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
                         child: CircleAvatar(
                           backgroundImage: CachedNetworkImageProvider(
                             authService.getUser().photoURL,
@@ -122,10 +122,9 @@ class _HomeState extends State<Home> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ProfilePage(
-                                        recipeCount: recipeCount,
-                                        cookBookCount:
-                                        userCookbooks.length,
-                                      )));
+                                            recipeCount: recipeCount,
+                                            cookBookCount: userCookbooks.length,
+                                          )));
                             },
                             child: null,
                           ),
@@ -141,7 +140,7 @@ class _HomeState extends State<Home> {
                       decoration: InputDecoration(
                         hintText: "Nach Rezept suchen",
                         prefixIcon:
-                        const Icon(Icons.search, color: Colors.black54),
+                            const Icon(Icons.search, color: Colors.black54),
                         enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
                             color: Colors.white,
@@ -153,29 +152,61 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
+          Container(
+              margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Column(
+                children: const [
+                  Text("Öffentliche Kochbücher:",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
+                          fontFamily: openSansFontFamily)),
+                  Divider(
+                    color: deepOrange,
+                    height: 20,
+                    thickness: 3,
+                  ),
+                ],
+              )),
           GestureDetector(
               onTap: () => _openDestinationPage(
-                context,
-                plantFoodFactory,
-                Cookbook(
-                    'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
-                    'Plant Food Factory',
-                    plantFoodFactory),
-                cookbookCount,
-              ),
+                    context,
+                    plantFoodFactory,
+                    Cookbook(
+                        'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
+                        'Plant Food Factory',
+                        plantFoodFactory),
+                    cookbookCount,
+                  ),
               child: _buildFeaturedItem(
                   image:
-                  "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
+                      "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
                   title: "Feed Me's Kochbuch",
                   subtitle: 'Gesund & Lecker')),
+          Container(
+              margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Column(
+                children: const [
+                  Text("Meine Kochbücher:",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
+                          fontFamily: openSansFontFamily)),
+                  Divider(
+                    color: deepOrange,
+                    height: 20,
+                    thickness: 3,
+                  ),
+                ],
+              )),
           FutureBuilder<List<Cookbook>>(
             future: getUpdates(),
             builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
               if (snap.data == null) {
                 return const Center(
                     child: CircularProgressIndicator(
-                      color: basicColor,
-                    ));
+                  color: basicColor,
+                ));
               }
 
               return ListView.builder(
@@ -225,7 +256,7 @@ class _HomeState extends State<Home> {
       child: Material(
         elevation: 5.0,
         shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         child: Stack(
           children: <Widget>[
             ClipRRect(
@@ -241,7 +272,7 @@ class _HomeState extends State<Home> {
               bottom: 20.0,
               child: Container(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 color: Colors.black.withOpacity(0.7),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,11 +308,11 @@ class _HomeState extends State<Home> {
         context,
         MaterialPageRoute(
             builder: (_) => RecipePage(
-              recipes: recipes,
-              cookBookCount: cookBookCount,
-              recipeCount: recipeCount,
-              cookBook: cookbook,
-              isFeedMeCookbook: isFeedMeCookbook,
-            )));
+                  recipes: recipes,
+                  cookBookCount: cookBookCount,
+                  recipeCount: recipeCount,
+                  cookBook: cookbook,
+                  isFeedMeCookbook: isFeedMeCookbook,
+                )));
   }
 }
