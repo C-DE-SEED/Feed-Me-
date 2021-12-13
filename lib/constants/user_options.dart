@@ -34,7 +34,6 @@ const List<String> personList = [
   "8",
   "9",
   "10",
-
 ];
 const List<String> originList = [
   'Italienisch',
@@ -67,3 +66,7 @@ const List<String> unitList = [
   "EL",
   'Stück',
 ];
+
+const List<String> difficultyList = ["Einfach", "Mittel", "Schwer"];
+
+const List<String> spicyList = ["Nicht Scharf", "Mittelscharf", "Scharf"];
