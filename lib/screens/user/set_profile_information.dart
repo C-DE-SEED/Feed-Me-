@@ -1,3 +1,4 @@
+import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/services/auth_service.dart';
@@ -16,10 +17,14 @@ import '../../model/recipe_db_object.dart';
 
 class SetProfilePage extends StatefulWidget {
   const SetProfilePage(
-      {Key key, @required this.recipeCount, @required this.cookBookCount})
+      {Key key,
+      @required this.recipeCount,
+      @required this.cookBookCount,
+      @required this.fromRegistration})
       : super(key: key);
   final int recipeCount;
   final int cookBookCount;
+  final bool fromRegistration;
 
   @override
   _SetProfilePageState createState() => _SetProfilePageState();
@@ -48,12 +53,16 @@ class _SetProfilePageState extends State<SetProfilePage> {
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          ProfileWidget(isProfileRoot: true, isLoadingState: false, ),
+          ProfileWidget(
+            isProfileRoot: true,
+            isLoadingState: false,
+          ),
           SizedBox(height: size.height * 0.015),
           buildName(auth),
           SizedBox(height: size.height * 0.01),
           NumbersWidget(
-            recipeCount: widget.recipeCount, cookBookCount: widget.cookBookCount,
+            recipeCount: widget.recipeCount,
+            cookBookCount: widget.cookBookCount,
           ),
           SizedBox(height: size.height * 0.01),
           buildAbout(size, auth),
@@ -62,8 +71,33 @@ class _SetProfilePageState extends State<SetProfilePage> {
               color: Colors.white,
               text: "Eingaben speichern",
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Home()));
+                var user = auth.getUser();
+                print(user.displayName);
+                print(user.email);
+                if (user.displayName == null) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return RoundedAlert(
+                        title: "❗️Achtung❗",
+                        text: "Gib bitte deine Benutzernamen an ☺️",
+                      );
+                    },
+                  );
+                } else if (user.photoURL == null) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return RoundedAlert(
+                        title: "❗️Achtung❗",
+                        text: "Gib bitte ein Profilbild an ☺️",
+                      );
+                    },
+                  );
+                } else {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Home()));
+                }
               }),
         ],
       ),
@@ -96,10 +130,9 @@ class _SetProfilePageState extends State<SetProfilePage> {
                   hintText:
                       auth.getUser().displayName ?? 'Benutzername eingeben'),
               onChanged: (value) {
-                String name = value;
-                //TODO remove enter from string
-                name.replaceAll('\n', ' ');
-                auth.getUser().updateDisplayName(name);
+               String displayName = value;
+               displayName.replaceAll('\n', ' ');
+                auth.getUser().updateDisplayName(displayName);
               },
             ),
           ),

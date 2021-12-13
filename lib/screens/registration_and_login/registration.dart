@@ -115,7 +115,7 @@ class _RegistrationState extends State<Registration> {
                                 actions: <Widget>[
                                   CupertinoDialogAction(
                                       child: const Text(
-                                        'OK',
+                                        'Zum Login',
                                         style: TextStyle(
                                             fontFamily: openSansFontFamily,
                                             color: basicColor,
@@ -133,7 +133,7 @@ class _RegistrationState extends State<Registration> {
                                       })
                                 ]));
                     if (newUser != null) {
-                      newUser.user.sendEmailVerification();
+                      await newUser.user.sendEmailVerification();
                     }
                   } else {
                     error = "Bitte geben Sie eine valide E-Mail ein!";

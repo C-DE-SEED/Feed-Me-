@@ -91,43 +91,57 @@ class _SignInState extends State<SignIn> {
                       color: Colors.white,
                       text: "Login",
                       onPressed: () async {
-                        if (isUserInformationComplete()) {
-                          setState(() {
-                            loading = true;
-                          });
-                          dynamic result = await _auth
-                              .loginWithEmailAndPassword(email, password);
-                          if (result == null) {
+                       await _auth.getUser().reload();
+                        if(_auth.getUser().emailVerified){
+                          if (isUserInformationComplete()) {
                             setState(() {
-                              loading = false;
-
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return RoundedAlert(
-                                    title: "Achtung",
-                                    text:
-                                        "Deine Eingaben stimmen nicht mit den hinterlegten Daten überein!",
-                                  );
-                                },
-                              );
+                              loading = true;
                             });
-                          } else if (widget.fromRegistration)
-                          {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SetProfilePage(
-                                      cookBookCount: 0,
-                                      recipeCount: 0,
-                                    )));
+                            dynamic result = await _auth
+                                .loginWithEmailAndPassword(email, password);
+                            if (result == null) {
+                              setState(() {
+                                loading = false;
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return RoundedAlert(
+                                      title: "Achtung",
+                                      text:
+                                      "Deine Eingaben stimmen nicht mit den hinterlegten Daten überein!",
+                                    );
+                                  },
+                                );
+                              });
+                            } else if (widget.fromRegistration)
+                            {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SetProfilePage(
+                                        cookBookCount: 0,
+                                        recipeCount: 0,
+                                        fromRegistration: widget.fromRegistration,
+                                      )));
+                            }
+                            else {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Home()));
+                            }
                           }
-                          else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Home()));
-                          }
+                        } else{
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              _auth.getUser().reload();
+                              return RoundedAlert(
+                                title: "❗️Achtung❗",
+                                text: "Bestätige bitte zuerst deine E-Mail um dich anzumelden ☺️",
+                              );
+                            },
+                          );
                         }
                       },
                     ),
