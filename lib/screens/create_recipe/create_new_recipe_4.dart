@@ -4,10 +4,13 @@ import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
+import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/screens/create_recipe/create_new_recipe_5.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:flutter/material.dart';
+
+import '../home.dart';
 
 class CreateNewRecipe_4 extends StatefulWidget {
   const CreateNewRecipe_4(
@@ -42,6 +45,14 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                   height: size.height * 0.9,
                   child: Column(
                     children: [
+                      const Center(
+                          child: Text(
+                              '4. Schritt: Wie bereitet man das Rezept zu?',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontFamily: openSansFontFamily))),
+                      SizedBox(height: size.height * 0.01),
                       Hero(
                         tag: 'steps',
                         child: ShowSteps(colors: step4),
@@ -166,12 +177,11 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                               );
                             } else {
                               widget.recipe.description = buildDescription();
+                              addToDatabase();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CreateNewRecipe_5(
-                                          recipe: widget.recipe,
-                                          cookbook: widget.cookbook)));
+                                      builder: (context) => const Home()));
                             }
                           },
                         ),
@@ -235,5 +245,48 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
         )
       ],
     );
+  }
+
+  void addToDatabase() async {
+    RecipeDbObject dbObject = RecipeDbObject();
+    bool exist = await dbObject.checkIfDocumentExists(widget.cookbook.name);
+    if (exist == true) {
+      String imagePath =
+          await dbObject.getCookBookAttributes(widget.cookbook.name);
+
+      await RecipeDbObject().updateRecipe(
+          "1",
+          widget.recipe.category,
+          widget.recipe.description,
+          widget.recipe.difficulty,
+          widget.recipe.image,
+          widget.recipe.ingredientsAndAmount,
+          '',
+          widget.recipe.name,
+          widget.recipe.origin,
+          widget.recipe.persons,
+          widget.recipe.shortDescription,
+          '',
+          widget.recipe.time,
+          widget.cookbook.name,
+          imagePath);
+    } else {
+      await RecipeDbObject().updateRecipe(
+          "1",
+          widget.recipe.category,
+          widget.recipe.description,
+          widget.recipe.difficulty,
+          widget.recipe.image,
+          widget.recipe.ingredientsAndAmount,
+          '',
+          widget.recipe.name,
+          widget.recipe.origin,
+          widget.recipe.persons,
+          widget.recipe.shortDescription,
+          '',
+          widget.recipe.time,
+          widget.cookbook.name,
+          widget.recipe.image);
+    }
   }
 }

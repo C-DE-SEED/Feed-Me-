@@ -22,6 +22,18 @@ const List<String> timeList = [
   "105",
   "110",
   "115",
+  "120",
+  "125",
+  "130",
+  "135",
+  "140",
+  "145",
+  "150",
+  "155",
+  "165",
+  "170",
+  "175",
+  "180",
 ];
 const List<String> personList = [
   "1",
@@ -34,7 +46,6 @@ const List<String> personList = [
   "8",
   "9",
   "10",
-
 ];
 const List<String> originList = [
   'Italienisch',
@@ -42,6 +53,7 @@ const List<String> originList = [
   'Mexikanisch',
   'Spanisch',
   'Burger',
+  'Französisch',
   'Koreanisch',
   'Deutsch',
   'Vietnamesich',
@@ -59,11 +71,16 @@ const List<String> categoryList = [
 ];
 
 const List<String> unitList = [
-  "Gramm",
+  "gramm",
   "kg",
   "Liter",
   "ml",
   "TL",
   "EL",
   'Stück',
+  'Zehen'
 ];
+
+const List<String> difficultyList = ["Einfach", "Mittel", "Schwer"];
+
+const List<String> spicyList = ["Nicht Scharf", "Mittelscharf", "Scharf"];

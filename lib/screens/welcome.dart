@@ -48,7 +48,7 @@ class _Welcome extends State<Welcome> {
               MaterialPageRoute(builder: (context) => const Home()));
         } else {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => const SignIn()));
+              context, MaterialPageRoute(builder: (context) => const SignIn(fromRegistration: false,)));
         }
       },
     );

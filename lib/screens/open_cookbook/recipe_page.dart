@@ -140,27 +140,29 @@ class _RecipePageState extends State<RecipePage> {
                     quarterTurns: -1,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 15.0, 0.0),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: size.width * 0.1,
-                        ),
-                        tooltip: 'Neues Rezept erstellen',
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CreateNewRecipe_1(
-                                      cookbook: widget.cookBook)));
-                        },
-                      ),
+                      child: widget.isFeedMeCookbook
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: size.width * 0.1,
+                              ),
+                              tooltip: 'Neues Rezept erstellen',
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CreateNewRecipe_1(
+                                            cookbook: widget.cookBook)));
+                              },
+                            )
+                          : null,
                     ),
                   ),
                   const Spacer(),
                   buildMenuItem("Vorspeisen", 0),
                   buildMenuItem("Hauptgerichte", 1),
-                  buildMenuItem("Nachspeisen", 2),
+                  buildMenuItem("Desserts", 2),
                   buildMenuItem("Schnell", 3),
                   const Spacer(),
                   RotatedBox(

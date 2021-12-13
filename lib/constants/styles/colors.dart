@@ -10,13 +10,11 @@ List<Color> step1 = [
   Colors.white.withOpacity(0.5),
   Colors.white.withOpacity(0.5),
   Colors.white.withOpacity(0.5),
-  Colors.white.withOpacity(0.5),
 ];
 
 List<Color> step2 = [
   deepOrange,
   deepOrange,
-  Colors.white.withOpacity(0.5),
   Colors.white.withOpacity(0.5),
   Colors.white.withOpacity(0.5),
 ];
@@ -26,19 +24,9 @@ List<Color> step3 = [
   deepOrange,
   deepOrange,
   Colors.white.withOpacity(0.5),
-  Colors.white.withOpacity(0.5),
 ];
 
 List<Color> step4 = [
-  deepOrange,
-  deepOrange,
-  deepOrange,
-  deepOrange,
-  Colors.white.withOpacity(0.5),
-];
-
-List<Color> step5 = [
-  deepOrange,
   deepOrange,
   deepOrange,
   deepOrange,

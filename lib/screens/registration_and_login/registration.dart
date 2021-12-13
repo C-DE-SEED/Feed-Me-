@@ -9,6 +9,7 @@ import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/screens/registration_and_login/sign_in.dart';
 import 'package:feed_me/screens/user/set_profile_information.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Registration extends StatefulWidget {
@@ -93,14 +94,47 @@ class _RegistrationState extends State<Registration> {
                 text: "Registrieren",
                 onPressed: () async {
                   if (checkIfPasswordsMatching() == true) {
-                    await _auth.registerWithEmailAndPassword(email, password);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SetProfilePage(
-                                  cookBookCount: 1,
-                                  recipeCount: 0,
-                                )));
+                    var newUser = await _auth.createUserWithEmailAndPassword(
+                        email, password);
+                    showDialog(
+                        context: context,
+                        builder: (_) => CupertinoAlertDialog(
+                                title: const Text(
+                                  'Registrierung erfolgreich ✅',
+                                  style: TextStyle(
+                                      fontFamily: openSansFontFamily,
+                                      color: Colors.black,
+                                      fontSize: 20),
+                                ),
+                                content: const Text(
+                                    'Eine Bestätigung an ihre E-Mail wurde versendet 💌',
+                                    style: TextStyle(
+                                        fontFamily: openSansFontFamily,
+                                        color: Colors.black,
+                                        fontSize: 18)),
+                                actions: <Widget>[
+                                  CupertinoDialogAction(
+                                      child: const Text(
+                                        'Zum Login',
+                                        style: TextStyle(
+                                            fontFamily: openSansFontFamily,
+                                            color: basicColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SignIn(
+                                                      fromRegistration: true,
+                                                    )));
+                                      })
+                                ]));
+                    if (newUser != null) {
+                      await newUser.user.sendEmailVerification();
+                    }
                   } else {
                     error = "Bitte geben Sie eine valide E-Mail ein!";
                     loading = false;
@@ -108,7 +142,7 @@ class _RegistrationState extends State<Registration> {
                 },
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, size.height * 0.02, 0.0,0.0 ),
+                padding: EdgeInsets.fromLTRB(0.0, size.height * 0.02, 0.0, 0.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -124,7 +158,9 @@ class _RegistrationState extends State<Registration> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SignIn()));
+                                builder: (context) => const SignIn(
+                                      fromRegistration: false,
+                                    )));
                       },
                       child: const Text("Hier klicken",
                           style: TextStyle(
@@ -143,8 +179,21 @@ class _RegistrationState extends State<Registration> {
 
   bool checkIfPasswordsMatching() {
     if (password1 == password2) {
-      password = password1;
-      return true;
+      if (password1.characters.length < 6 || password2.characters.length < 6) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomAlert(
+                title:
+                    "Ihre eingegebnen Passwörter müssen mindestens 6 Zeichen lang sein!",
+                descriptions: "Bitte überprüfen Sie ihre Eingaben.",
+                text: "OK",
+              );
+            });
+      } else {
+        password = password1;
+        return true;
+      }
     } else {
       showDialog(
           context: context,

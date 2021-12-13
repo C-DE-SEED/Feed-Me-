@@ -35,14 +35,13 @@ class _HomeState extends State<Home> {
     plantFoodFactory = await RecipeDbObject()
         .getRecipesFromPlantFoodFactory("plant_food_factory")
         .elementAt(0);
-    recipeCount = plantFoodFactory.length;
   }
 
   Future<void> getCookBooks() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
     setState(() {});
-    cookbookCount = userCookbooks.length;
+    cookbookCount = userCookbooks.length + 1;
     for (var cookbook in userCookbooks) {
       recipeCount = recipeCount + cookbook.recipes.length;
     }
@@ -124,8 +123,7 @@ class _HomeState extends State<Home> {
                                   MaterialPageRoute(
                                       builder: (context) => ProfilePage(
                                             recipeCount: recipeCount,
-                                            cookBookCount:
-                                                userCookbooks.length + 1,
+                                            cookBookCount: userCookbooks.length,
                                           )));
                             },
                             child: null,
@@ -154,6 +152,22 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
+          Container(
+              margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Column(
+                children: const [
+                  Text("Öffentliche Kochbücher:",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
+                          fontFamily: openSansFontFamily)),
+                  Divider(
+                    color: deepOrange,
+                    height: 20,
+                    thickness: 3,
+                  ),
+                ],
+              )),
           GestureDetector(
               onTap: () => _openDestinationPage(
                     context,
@@ -169,6 +183,22 @@ class _HomeState extends State<Home> {
                       "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
                   title: "Feed Me's Kochbuch",
                   subtitle: 'Gesund & Lecker')),
+          Container(
+              margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Column(
+                children: const [
+                  Text("Meine Kochbücher:",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
+                          fontFamily: openSansFontFamily)),
+                  Divider(
+                    color: deepOrange,
+                    height: 20,
+                    thickness: 3,
+                  ),
+                ],
+              )),
           FutureBuilder<List<Cookbook>>(
             future: getUpdates(),
             builder: (context, AsyncSnapshot<List<Cookbook>> snap) {

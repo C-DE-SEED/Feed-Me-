@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
+import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _ProfileWidget extends State<ProfileWidget> {
       child: Stack(
         children: [
           Hero(
-            tag:'image',
+            tag: 'image',
             child: ClipOval(
               child: getImage(_authService, size),
             ),
@@ -55,7 +56,124 @@ class _ProfileWidget extends State<ProfileWidget> {
                         ),
                         onPressed: () async {
                           if (!widget.isProfileRoot == false) {
-                            chooseFile(_image, _authService, size);
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    elevation: 0,
+                                    backgroundColor: Colors.transparent,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 20,
+                                              top: 20.0 + 20,
+                                              right: 20,
+                                              bottom: 20),
+                                          margin:
+                                              const EdgeInsets.only(top: 20),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                    color: Colors.black,
+                                                    offset: Offset(0, 10),
+                                                    blurRadius: 10),
+                                              ]),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              const Text(
+                                                'Bild auswählen:',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        openSansFontFamily,
+                                                    fontSize: 24,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: basicColor),
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          chooseFile(
+                                                              _image,
+                                                              _authService,
+                                                              size,
+                                                              ImageSource
+                                                                  .gallery);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: const Text(
+                                                          '💾 Gallerie',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  openSansFontFamily,
+                                                              fontSize: 18,
+                                                              color:
+                                                                  basicColor),
+                                                        )),
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          chooseFile(
+                                                              _image,
+                                                              _authService,
+                                                              size,
+                                                              ImageSource
+                                                                  .camera);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: const Text(
+                                                          '📸 Kamera',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  openSansFontFamily,
+                                                              fontSize: 18,
+                                                              color:
+                                                                  basicColor),
+                                                        )),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: 20,
+                                          right: 20,
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            radius: 20,
+                                            child: ClipRRect(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(20)),
+                                                child: Image.asset(
+                                                    "assets/logoHellOrange.png")),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                });
                           }
                         }),
               ),
@@ -95,9 +213,10 @@ class _ProfileWidget extends State<ProfileWidget> {
     }
   }
 
-  Future chooseFile(File _image, AuthService auth, Size size) async {
+  Future chooseFile(
+      File _image, AuthService auth, Size size, ImageSource imageSource) async {
     await ImagePicker.platform
-        .pickImage(source: ImageSource.gallery,imageQuality:  10)
+        .pickImage(source: imageSource, imageQuality: 10)
         .then((image) {
       setState(() {
         widget.isLoadingState = true;
