@@ -289,17 +289,6 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                   tag: 'buttonRow',
                   child: ButtonRow(
                     onPressed: () {
-                      // if (easy == false && medium == false && hard == false) {
-                      //   showDialog(
-                      //     context: context,
-                      //     builder: (BuildContext context) {
-                      //       return RoundedAlert(
-                      //         title: "❗️Achtung❗",
-                      //         text:
-                      //             "Gib bitte die Schwierigkeit deines Rezeptes an ☺️",
-                      //       );
-                      //     },
-                      //   );
                      if (time == 'Auswählen') {
                         showDialog(
                           context: context,

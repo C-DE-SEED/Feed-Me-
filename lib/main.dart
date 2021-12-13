@@ -28,8 +28,10 @@ class MyApp extends StatelessWidget {
       child: const DismissKeyboard(
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          localizationsDelegates: [GlobalMaterialLocalizations.delegate],
-          supportedLocales: [Locale('en'), Locale('de')],
+          localizationsDelegates: [   GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,],
+          supportedLocales: [Locale('de')],
           home: Welcome(),
         ),
       ),
@@ -41,7 +43,7 @@ class MyApp extends StatelessWidget {
     // TODO: insert chilis as spice integrator
     //TODO: Radien anpassen
     //TODO: buttonRow anpassen (Höhe)
-
+    //TODO: insert full screen dialog in navigators
     /*
      ----------------------------------------------
     |             _____             _____          |
