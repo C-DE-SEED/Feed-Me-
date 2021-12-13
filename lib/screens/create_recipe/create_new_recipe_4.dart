@@ -268,6 +268,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
           widget.recipe.shortDescription,
           '',
           widget.recipe.time,
+          widget.recipe.userNotes,
           widget.cookbook.name,
           imagePath);
     } else {
@@ -285,6 +286,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
           widget.recipe.shortDescription,
           '',
           widget.recipe.time,
+          widget.recipe.userNotes,
           widget.cookbook.name,
           widget.recipe.image);
     }

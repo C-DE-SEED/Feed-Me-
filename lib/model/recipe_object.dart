@@ -11,14 +11,8 @@ class Recipe {
   String _persons;
   String _shortDescription;
   String _spices;
-
-  String get id => _id;
-
-  set id(String value) {
-    _id = value;
-  }
-
   String _time;
+  String _userNotes;
 
   Recipe();
 
@@ -35,71 +29,24 @@ class Recipe {
       this._persons,
       this._shortDescription,
       this._spices,
-      this._time);
+      this._time,
+      this._userNotes);
 
   @override
   String toString() {
-    return 'Recipe{id: $id, category: $category, description: $description, difficulty: $difficulty, image: $image, ingredientsAndAmount: $ingredientsAndAmount, kitchenStuff: $kitchenStuff, name: $name, origin: $origin, persons: $persons, shortDescription: $shortDescription, spices: $spices, time: $time}';
+    return 'Recipe{_id: $_id, _category: $_category, _description: $_description, _difficulty: $_difficulty, _image: $_image, _ingredientsAndAmount: $_ingredientsAndAmount, _kitchenStuff: $_kitchenStuff, _name: $_name, _origin: $_origin, _persons: $_persons, _shortDescription: $_shortDescription, _spices: $_spices, _time: $_time, _userNotes: $_userNotes}';
   }
 
-  String get category => _category;
+  String get userNotes => _userNotes;
 
-  set category(String value) {
-    _category = value;
+  set userNotes(String value) {
+    _userNotes = value;
   }
 
-  String get description => _description;
+  String get time => _time;
 
-  set description(String value) {
-    _description = value;
-  }
-
-  String get difficulty => _difficulty;
-
-  set difficulty(String value) {
-    _difficulty = value;
-  }
-
-  String get image => _image;
-
-  set image(String value) {
-    _image = value;
-  }
-
-  String get ingredientsAndAmount => _ingredientsAndAmount;
-
-  set ingredientsAndAmount(String value) {
-    _ingredientsAndAmount = value;
-  }
-
-  String get kitchenStuff => _kitchenStuff;
-
-  set kitchenStuff(String value) {
-    _kitchenStuff = value;
-  }
-
-  String get name => _name;
-
-  set name(String value) {
-    _name = value;
-  }
-
-  String get origin => _origin;
-
-  set origin(String value) {
-    _origin = value;
-  }
-
-  String get persons => _persons;
-
-  set persons(String value) {
-    _persons = value;
-  }
-
-  String get shortDescription => _shortDescription;
-
-  set shortDescription(String value) {
-    _shortDescription = value;
+  set time(String value) {
+    _time = value;
   }
 
   String get spices => _spices;
@@ -108,9 +55,69 @@ class Recipe {
     _spices = value;
   }
 
-  String get time => _time;
+  String get shortDescription => _shortDescription;
 
-  set time(String value) {
-    _time = value;
+  set shortDescription(String value) {
+    _shortDescription = value;
+  }
+
+  String get persons => _persons;
+
+  set persons(String value) {
+    _persons = value;
+  }
+
+  String get origin => _origin;
+
+  set origin(String value) {
+    _origin = value;
+  }
+
+  String get name => _name;
+
+  set name(String value) {
+    _name = value;
+  }
+
+  String get kitchenStuff => _kitchenStuff;
+
+  set kitchenStuff(String value) {
+    _kitchenStuff = value;
+  }
+
+  String get ingredientsAndAmount => _ingredientsAndAmount;
+
+  set ingredientsAndAmount(String value) {
+    _ingredientsAndAmount = value;
+  }
+
+  String get image => _image;
+
+  set image(String value) {
+    _image = value;
+  }
+
+  String get difficulty => _difficulty;
+
+  set difficulty(String value) {
+    _difficulty = value;
+  }
+
+  String get description => _description;
+
+  set description(String value) {
+    _description = value;
+  }
+
+  String get category => _category;
+
+  set category(String value) {
+    _category = value;
+  }
+
+  String get id => _id;
+
+  set id(String value) {
+    _id = value;
   }
 }
