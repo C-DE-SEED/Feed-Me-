@@ -82,12 +82,14 @@ class _DetailPageState extends State<DetailPage> {
                                 return Dialog(
                                   child: TextFormField(
                                     focusNode: userNotes,
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: 'Platz für notzien',
+                                    decoration:  InputDecoration(
+                                      border: const OutlineInputBorder(),
+                                      hintText: widget.recipe.userNotes ?? 'Hier hast du Platz für Notizen 📙',
                                     ),
-                                    maxLines: 10,
+                                    maxLines: 15,
                                     onChanged: (userNotes){
+                                      String notes = userNotes;
+                                      widget.recipe.userNotes = notes;
                                       //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
                                     },
                                   ),

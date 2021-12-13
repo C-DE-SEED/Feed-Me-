@@ -3,17 +3,19 @@ import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/model/cookbook.dart';
+import 'package:feed_me/screens/create_new_cook_book_2.dart';
 import 'package:flutter/material.dart';
 import 'create_recipe/create_new_recipe_1.dart';
+import 'home.dart';
 
-class CreateNewCookingBook extends StatefulWidget {
-  const CreateNewCookingBook({Key key}) : super(key: key);
+class CreateNewCookbook1 extends StatefulWidget {
+  const CreateNewCookbook1({Key key}) : super(key: key);
 
   @override
-  _CreateNewCookingBookState createState() => _CreateNewCookingBookState();
+  _CreateNewCookbook1State createState() => _CreateNewCookbook1State();
 }
 
-class _CreateNewCookingBookState extends State<CreateNewCookingBook> {
+class _CreateNewCookbook1State extends State<CreateNewCookbook1> {
   String cookbookName = "";
   Cookbook cookbook = Cookbook('', '', []);
 
@@ -81,7 +83,7 @@ class _CreateNewCookingBookState extends State<CreateNewCookingBook> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              CreateNewRecipe_1(cookbook: cookbook)));
+                               CreateNewCookbook_2(cookbook: cookbook)));
                 }
               }),
         ],

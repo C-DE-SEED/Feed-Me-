@@ -49,7 +49,7 @@ class RecipeDbObject {
       'short_discription': shortDescription,
       'spices': spices,
       'time': time,
-      'userNotes' : userNotes
+      'user_notes' : userNotes
     });
     // Important: Code beneath is needed. If there is no field in the document, firebase will not recognize it as document
     await collectionReference
@@ -92,7 +92,7 @@ class RecipeDbObject {
           doc['short_discription'] ?? '',
           doc['spices'] ?? '',
           doc['time'] ?? '',
-          doc['userNotes'] ?? ''
+          doc['user_notes'] ?? '',
       );
     }).toList();
     return list;
