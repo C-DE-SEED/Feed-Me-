@@ -10,6 +10,7 @@ import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/text_fields/standard_text_form_field.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/screens/user/set_profile_information.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/services/google_services/google_sign_in_button.dart';
 import 'package:feed_me/services/loading.dart';
@@ -21,11 +22,13 @@ import '../home.dart';
 class SignIn extends StatefulWidget {
   const SignIn({
     Key key,
-    this.toggleView,
+    this.toggleView,this.fromRegistration
   }) : super(key: key);
 
 //TODO insert google log in option
   final Function toggleView;
+  final bool fromRegistration;
+
 
   @override
   _SignInState createState() => _SignInState();
@@ -109,7 +112,17 @@ class _SignInState extends State<SignIn> {
                                 },
                               );
                             });
-                          } else {
+                          } else if (widget.fromRegistration)
+                          {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SetProfilePage(
+                                      cookBookCount: 1,
+                                      recipeCount: 0,
+                                    )));
+                          }
+                          else {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

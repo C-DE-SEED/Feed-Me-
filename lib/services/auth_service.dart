@@ -8,7 +8,9 @@ class AuthService {
 
 // Create User Object based on Firebase User
   UserLocal _userFromFireBaseUser(User user) {
-    return user != null ? UserLocal(uid: user.uid ,description: "", books:0, recipes:0) : null;
+    return user != null
+        ? UserLocal(uid: user.uid, description: "", books: 0, recipes: 0)
+        : null;
   }
 
 // auth change user stream
@@ -22,7 +24,6 @@ class AuthService {
   User getUser() {
     return _auth.currentUser;
   }
-
 
 // Sign in anonymize
   Future signInAnonymize() async {
@@ -70,7 +71,13 @@ class AuthService {
     }
   }
 
-   Future<void> sendPasswordResetEmail(String email) async {
+  Future<UserCredential> createUserWithEmailAndPassword(
+      String email, String password) async {
+    return _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
     return _auth.sendPasswordResetEmail(email: email);
   }
 }

@@ -9,6 +9,7 @@ class UserLocal {
 
   UserLocal({this.uid, this.description, this.books, this.recipes});
 
+
   User getFireBaseUser() {
     return _auth.currentUser;
   }

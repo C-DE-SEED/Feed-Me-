@@ -73,7 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   auth.signOut();
                   AuthenticationGoogle.signOut(context: context);
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const SignIn()));
+                      MaterialPageRoute(builder: (context) => const SignIn(fromRegistration: false,)));
                 }),
           ],
         ),
