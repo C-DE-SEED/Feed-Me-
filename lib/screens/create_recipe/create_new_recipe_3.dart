@@ -50,6 +50,11 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const Center(child: Text('3. Schritt: Beschreibung des Gerichtes',style:TextStyle(
+                    color: Colors.white,
+                    fontSize: fontSize,
+                    fontFamily: openSansFontFamily))),
+                SizedBox(height: size.height*0.01),
                 Hero(
                   tag: 'steps',
                   child: ShowSteps(colors: step3),

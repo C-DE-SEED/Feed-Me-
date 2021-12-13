@@ -47,6 +47,11 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const Center(child: Text('1. Schritt: Titelbild und Namen erstellen',style:TextStyle(
+                      color: Colors.white,
+                      fontSize: fontSize,
+                      fontFamily: openSansFontFamily))),
+                  SizedBox(height: size.height*0.01),
                   Hero(
                     tag: 'steps',
                     child: ShowSteps(colors: step1),

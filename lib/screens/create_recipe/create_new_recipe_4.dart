@@ -42,6 +42,11 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                   height: size.height * 0.9,
                   child: Column(
                     children: [
+                      const Center(child: Text('4. Schritt: Wie bereitet man das Rezept zu?',style:TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
+                          fontFamily: openSansFontFamily))),
+                      SizedBox(height: size.height*0.01),
                       Hero(
                         tag: 'steps',
                         child: ShowSteps(colors: step4),
