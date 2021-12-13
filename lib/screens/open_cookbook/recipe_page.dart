@@ -162,7 +162,7 @@ class _RecipePageState extends State<RecipePage> {
                   const Spacer(),
                   buildMenuItem("Vorspeisen", 0),
                   buildMenuItem("Hauptgerichte", 1),
-                  buildMenuItem("Nachspeisen", 2),
+                  buildMenuItem("Desserts", 2),
                   buildMenuItem("Schnell", 3),
                   const Spacer(),
                   RotatedBox(
