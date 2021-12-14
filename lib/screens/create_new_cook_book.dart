@@ -2,7 +2,7 @@ import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
-import 'package:feed_me/model/recipe_db_object.dart';
+import 'package:feed_me/model/cookbook_db_object.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +23,7 @@ class CreateNewCookbook extends StatefulWidget {
 class _CreateNewCookbookState extends State<CreateNewCookbook> {
   File image;
   bool hasImage = false;
-  String cookbookName = '';
-  String imagePath = '';
+  Cookbook cookbook = Cookbook('','',[]);
   final List<String> keys = [];
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   final AuthService _authService = AuthService();
@@ -66,7 +65,8 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            cookbookName = value;
+                            String name = value;
+                            cookbook.name = name;
                           });
                         },
                       ),
@@ -85,9 +85,9 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                   const Spacer(),
                   StandardButton(
                     color: Colors.white,
-                    text: "Eingabe speichern",
+                    text: "Kochbuch anlegen",
                     onPressed: () async {
-                      if (cookbookName == "") {
+                      if (cookbook.name == "") {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -109,7 +109,6 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                           },
                         );
                       } else {
-                        await addCookbookToDatabase();
                         uploadFile(image, _authService);
                         Navigator.push(
                             context,
@@ -127,12 +126,14 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
     );
   }
 
-  Future<void> addCookbookToDatabase() async {
-    Cookbook cookbook = Cookbook.fromDatabase(imagePath, cookbookName);
-    bool exist =
-        await cookbook.checkIfDocumentExists(cookbookName);
-    if (exist == true) {
-      cookbook.addCookbookToDb(cookbookName,imagePath);
+  void addCookbookToDatabase(Cookbook cookbook) async {
+    print('********************');
+    print(cookbook);
+    CookbookDbObject cookbookDbObject = CookbookDbObject(cookbook.name);
+    bool exist = await cookbookDbObject.checkIfDocumentExists(cookbook.name);
+    if (exist == false) {
+      await cookbookDbObject.updateCookbook(
+          cookbook.name, cookbook.image, cookbook.recipes);
     } else {
       showDialog(
         context: context,
@@ -283,7 +284,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
   void uploadFile(File img, AuthService auth) async {
     var user = auth.getUser();
     String refChildPath = '';
-    String filePath = user.uid + cookbookName;
+    String filePath = user.uid + cookbook.name;
     refChildPath = 'cookbook_title_pictures/' + filePath;
     String downloadUrl = '';
     Reference ref = FirebaseStorage.instance.ref();
@@ -291,7 +292,8 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
     if (uploadFile.state == TaskState.success) {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
-      imagePath = downloadUrl;
+      cookbook.image = downloadUrl;
+      addCookbookToDatabase(cookbook);
     }
   }
 }

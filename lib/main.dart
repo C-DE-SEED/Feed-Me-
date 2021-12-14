@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
     //TODO: Radien anpassen
     //TODO: buttonRow anpassen (Höhe)
     //TODO: insert full screen dialog in navigators
+    //FIXME: neue gerichte werden anscheinend immer unter hauptgerichte abgelegt
     /*
      ----------------------------------------------
     |             _____             _____          |
