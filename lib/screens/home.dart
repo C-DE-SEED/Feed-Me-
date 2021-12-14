@@ -10,7 +10,7 @@ import 'package:feed_me/screens/user/profile_page.dart';
 import 'package:flutter/material.dart';
 import '../model/recipe_db_object.dart';
 import '../model/recipe_object.dart';
-import 'create_new_cook_book_1.dart';
+import 'create_new_cook_book.dart';
 import 'open_cookbook/detail_page.dart';
 
 class Home extends StatefulWidget {
@@ -312,7 +312,7 @@ class _HomeState extends State<Home> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const CreateNewCookbook1()));
+                  builder: (context) =>  CreateNewCookbook()));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
