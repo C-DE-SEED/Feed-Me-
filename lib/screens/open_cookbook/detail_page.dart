@@ -18,6 +18,8 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  //TODO has to be repleaced with recipe.isFavorite
+  bool iconOnPressed = true;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class _DetailPageState extends State<DetailPage> {
                 size: 40,
               ),
               onPressed: () {
+                //TODO insert share export
                 print(widget.reciptSteps);
                 print(widget.ingredients);
               },
@@ -71,32 +74,49 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsets.fromLTRB(size.width - 60.0, size.height * 0.28, 0.0, 0.0),
-                      child: IconButton(
-                          icon:
-                              const Icon(Icons.info, size: 40, color: Colors.white),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Dialog(
-                                  child: TextFormField(
-                                    focusNode: userNotes,
-                                    decoration:  InputDecoration(
-                                      border: const OutlineInputBorder(),
-                                      hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
-                                    ),
-                                    maxLines: 15,
-                                    onChanged: (userNotes){
-                                      String notes = userNotes;
-                                      //widget.recipe.userNotes = notes;
-                                      //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
-                                    },
-                                  ),
+                      padding: EdgeInsets.fromLTRB(0.0, size.height * 0.27, 0.0, 0.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                              icon: const Icon(Icons.info_outlined,
+                                  size: 40, color: Colors.white),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      child: TextFormField(
+                                        focusNode: userNotes,
+                                        decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
+                                        ),
+                                        maxLines: 15,
+                                        onChanged: (userNotes) {
+                                          String notes = userNotes;
+                                          //widget.recipe.userNotes = notes;
+                                          //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
+                                        },
+                                      ),
+                                    );
+                                  },
                                 );
-                              },
-                            );
-                          }),
+                              }),
+                          IconButton(
+                              icon: iconOnPressed
+                                  ? const Icon(Icons.favorite_border,
+                                  size: 40, color: Colors.white)
+                                  : const Icon(Icons.favorite,
+                                  size: 40, color: Colors.white),
+                              onPressed: () {
+                                //TODO set Favorite Recipe true
+                                setState(() {
+                                  iconOnPressed = !iconOnPressed;
+                                });
+                              }),
+                        ],
+                      ),
                     )
                   ]),
                   SizedBox(height: size.height * 0.01),
@@ -197,7 +217,8 @@ class _DetailPageState extends State<DetailPage> {
                     buildCard("Schwierigkeit", Icons.settings,
                         widget.recipe.difficulty, size),
                     SizedBox(width: size.width * 0.05),
-                    buildCard("Dauer", Icons.alarm, widget.recipe.time + ' min', size),
+                    buildCard("Dauer", Icons.alarm, widget.recipe.time + ' min',
+                        size),
                     SizedBox(width: size.width * 0.05),
                     buildCard("Kalorien", Icons.align_vertical_bottom_outlined,
                         "100 kcal", size),

@@ -220,7 +220,7 @@ class _HomeState extends State<Home> {
                             context,
                             snap.data.elementAt(index).recipes,
                             snap.data.elementAt(index),
-                            snap.data.length + 1),
+                            snap.data.length),
                         child: _buildFeaturedItem(
                             image: snap.data.elementAt(index).image,
                             title: snap.data.elementAt(index).name,
@@ -309,7 +309,7 @@ class _HomeState extends State<Home> {
         MaterialPageRoute(
             builder: (_) => RecipePage(
                   recipes: recipes,
-                  cookBookCount: cookBookCount,
+                  cookBookCount: cookBookCount-1,
                   recipeCount: recipeCount,
                   cookBook: cookbook,
                   isFeedMeCookbook: isFeedMeCookbook,
