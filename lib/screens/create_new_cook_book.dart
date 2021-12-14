@@ -109,8 +109,8 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                           },
                         );
                       } else {
-                        uploadFile(image, _authService);
                         await addCookbookToDatabase();
+                        uploadFile(image, _authService);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
