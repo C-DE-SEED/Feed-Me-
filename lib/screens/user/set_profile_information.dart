@@ -128,8 +128,8 @@ class _SetProfilePageState extends State<SetProfilePage> {
                   hintText:
                       auth.getUser().displayName ?? 'Benutzername eingeben'),
               onChanged: (value) {
-               String displayName = value;
-               displayName.replaceAll('\n', ' ');
+                String displayName = value;
+                displayName.replaceAll('\n', ' ');
                 auth.getUser().updateDisplayName(displayName);
               },
             ),

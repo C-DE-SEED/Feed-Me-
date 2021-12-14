@@ -6,7 +6,6 @@ import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/model/recipe_object.dart';
-import 'package:feed_me/screens/create_recipe/create_new_recipe_5.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:flutter/material.dart';
 

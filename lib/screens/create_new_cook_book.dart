@@ -127,8 +127,6 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
   }
 
   void addCookbookToDatabase(Cookbook cookbook) async {
-    print('********************');
-    print(cookbook);
     CookbookDbObject cookbookDbObject = CookbookDbObject(cookbook.name);
     bool exist = await cookbookDbObject.checkIfDocumentExists(cookbook.name);
     if (exist == false) {
