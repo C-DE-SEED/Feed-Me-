@@ -72,8 +72,6 @@ class _SetProfilePageState extends State<SetProfilePage> {
               text: "Eingaben speichern",
               onPressed: () {
                 var user = auth.getUser();
-                print(user.displayName);
-                print(user.email);
                 if (user.displayName == null) {
                   showDialog(
                     context: context,

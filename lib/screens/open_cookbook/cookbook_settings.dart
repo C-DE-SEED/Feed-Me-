@@ -263,6 +263,7 @@ class _CookBookSettingsState extends State<CookBookSettings> {
           recipe.shortDescription,
           '',
           recipe.time,
+          //recipe.userNotes,
           widget.cookbook.name,
           hasImage ? widget.cookbook.image : widget.oldImage);
     }

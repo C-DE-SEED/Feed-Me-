@@ -5,7 +5,7 @@ import 'package:feed_me/model/recipe_object.dart';
 import 'package:flutter/material.dart';
 import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final Recipe recipe;
   final List<String> reciptSteps;
   final List<String> ingredients;
@@ -14,9 +14,15 @@ class DetailPage extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    var userNotes = FocusNode();
     return Scaffold(
       backgroundColor: basicColor,
       appBar: AppBar(
@@ -29,11 +35,11 @@ class DetailPage extends StatelessWidget {
             child: IconButton(
               icon: const Icon(
                 EvilIcons.share_apple,
-                size: 35,
+                size: 40,
               ),
               onPressed: () {
-                print(reciptSteps);
-                print(ingredients);
+                print(widget.reciptSteps);
+                print(widget.ingredients);
               },
             ),
           ),
@@ -52,17 +58,47 @@ class DetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Hero(
-                    tag: recipe.name,
-                    // child: Image.network(recipe.image),
-                    child: CachedNetworkImage(
-                      imageUrl: recipe.image,
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(
-                        color: basicColor,
+                  Stack(children: [
+                    Hero(
+                      tag: widget.recipe.name,
+                      // child: Image.network(recipe.image),
+                      child: CachedNetworkImage(
+                        imageUrl: widget.recipe.image,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(
+                          color: basicColor,
+                        ),
                       ),
                     ),
-                  ),
+                    Padding(
+                      padding:  EdgeInsets.fromLTRB(size.width - 60.0, size.height * 0.28, 0.0, 0.0),
+                      child: IconButton(
+                          icon:
+                              const Icon(Icons.info, size: 40, color: Colors.white),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  child: TextFormField(
+                                    focusNode: userNotes,
+                                    decoration:  InputDecoration(
+                                      border: const OutlineInputBorder(),
+                                      hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
+                                    ),
+                                    maxLines: 15,
+                                    onChanged: (userNotes){
+                                      String notes = userNotes;
+                                      //widget.recipe.userNotes = notes;
+                                      //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          }),
+                    )
+                  ]),
                   SizedBox(height: size.height * 0.01),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 70),
@@ -71,7 +107,7 @@ class DetailPage extends StatelessWidget {
                       children: [
                         SizedBox(height: size.height * 0.005),
                         Text(
-                          recipe.name,
+                          widget.recipe.name,
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -80,7 +116,7 @@ class DetailPage extends StatelessWidget {
                         ),
                         SizedBox(height: size.height * 0.01),
                         Text(
-                          recipe.shortDescription,
+                          widget.recipe.shortDescription,
                           style: const TextStyle(
                             fontFamily: openSansFontFamily,
                             color: Colors.black,
@@ -107,12 +143,12 @@ class DetailPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: size.height * 0.01),
-                        getStepWidget(reciptSteps),
+                        getStepWidget(widget.reciptSteps),
                         SizedBox(height: size.height * 0.05),
                         Row(
                           children: [
                             Text(
-                              'Für ' + recipe.persons + ' Personen',
+                              'Für ' + widget.recipe.persons + ' Personen',
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -159,9 +195,9 @@ class DetailPage extends StatelessWidget {
                   children: [
                     //TODO insert additonal data
                     buildCard("Schwierigkeit", Icons.settings,
-                        recipe.difficulty, size),
+                        widget.recipe.difficulty, size),
                     SizedBox(width: size.width * 0.05),
-                    buildCard("Dauer", Icons.alarm, recipe.time + ' min', size),
+                    buildCard("Dauer", Icons.alarm, widget.recipe.time + ' min', size),
                     SizedBox(width: size.width * 0.05),
                     buildCard("Kalorien", Icons.align_vertical_bottom_outlined,
                         "100 kcal", size),
@@ -248,7 +284,7 @@ class DetailPage extends StatelessWidget {
     return ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
-        itemCount: ingredients.length,
+        itemCount: widget.ingredients.length,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
           return Column(
@@ -264,7 +300,7 @@ class DetailPage extends StatelessWidget {
                   const SizedBox(width: 10),
                   Flexible(
                       child: Text(
-                    ingredients.elementAt(index),
+                    widget.ingredients.elementAt(index),
                     style: const TextStyle(
                       fontFamily: openSansFontFamily,
                       color: Colors.black,

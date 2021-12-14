@@ -54,7 +54,7 @@ class _MainDishesPageState extends State<MainDishesPage> {
                 prefixIcon: const Icon(Icons.search, color: Colors.black54),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.white,
+                    color: basicColor,
                   ),
                   borderRadius: BorderRadius.circular(15.0),
                 ),
