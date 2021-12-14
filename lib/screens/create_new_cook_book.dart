@@ -132,7 +132,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
     bool exist =
         await cookbook.checkIfDocumentExists(cookbookName);
     if (exist == true) {
-      cookbook.addCookbookToDb(imagePath,cookbookName);
+      cookbook.addCookbookToDb(cookbookName,imagePath);
     } else {
       showDialog(
         context: context,
