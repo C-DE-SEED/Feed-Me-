@@ -20,15 +20,12 @@ import 'package:flutter/material.dart';
 import '../home.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({
-    Key key,
-    this.toggleView,this.fromRegistration
-  }) : super(key: key);
+  const SignIn({Key key, this.toggleView, this.fromRegistration})
+      : super(key: key);
 
 //TODO insert google log in option
   final Function toggleView;
   final bool fromRegistration;
-
 
   @override
   _SignInState createState() => _SignInState();
@@ -58,12 +55,10 @@ class _SignInState extends State<SignIn> {
                       height: size.height * 0.4,
                       width: size.width * 1,
                       child: Center(
-                          child: FeedMeCircleAvatar(
-                        radius: size.height * 0.5,
+                          child: Image.asset(
+                        "assets/feedMeOrange.gif",
+                        height: size.height * 1.0,
                       )),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.05,
                     ),
                     StandardTextFormField(
                       hintText: "Bitte geben Sie Ihre E-Mail ein",
@@ -91,8 +86,61 @@ class _SignInState extends State<SignIn> {
                       color: Colors.white,
                       text: "Login",
                       onPressed: () async {
-                       await _auth.getUser().reload();
-                        if(_auth.getUser().emailVerified){
+                        if (widget.fromRegistration ) {
+                          await _auth.getUser().reload();
+                          if(_auth.getUser().emailVerified){
+                            if (isUserInformationComplete()) {
+                              setState(() {
+                                loading = true;
+                              });
+                              dynamic result = await _auth
+                                  .loginWithEmailAndPassword(email, password);
+                              if (result == null) {
+                                setState(() {
+                                  loading = false;
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return RoundedAlert(
+                                        title: "Achtung",
+                                        text:
+                                        "Deine Eingaben stimmen nicht mit den hinterlegten Daten überein!",
+                                      );
+                                    },
+                                  );
+                                });
+                              } else if (widget.fromRegistration) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SetProfilePage(
+                                          cookBookCount: 0,
+                                          recipeCount: 0,
+                                          fromRegistration:
+                                          widget.fromRegistration,
+                                        )));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const Home()));
+                              }
+                            }
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                _auth.getUser().reload();
+                                return RoundedAlert(
+                                  title: "❗️Achtung❗",
+                                  text:
+                                  "Bestätige bitte zuerst deine E-Mail um dich anzumelden ☺️",
+                                );
+                              },
+                            );
+                          }
+
+                        } else {
                           if (isUserInformationComplete()) {
                             setState(() {
                               loading = true;
@@ -113,35 +161,13 @@ class _SignInState extends State<SignIn> {
                                   },
                                 );
                               });
-                            } else if (widget.fromRegistration)
-                            {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SetProfilePage(
-                                        cookBookCount: 0,
-                                        recipeCount: 0,
-                                        fromRegistration: widget.fromRegistration,
-                                      )));
-                            }
-                            else {
+                            } else {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => const Home()));
                             }
                           }
-                        } else{
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              _auth.getUser().reload();
-                              return RoundedAlert(
-                                title: "❗️Achtung❗",
-                                text: "Bestätige bitte zuerst deine E-Mail um dich anzumelden ☺️",
-                              );
-                            },
-                          );
                         }
                       },
                     ),
@@ -163,7 +189,7 @@ class _SignInState extends State<SignIn> {
                         }),
                     Padding(
                       padding: EdgeInsets.fromLTRB(
-                          0.0, size.height * 0.02, 0.0, 0.0),
+                          0.0, size.height * 0.06, 0.0, 0.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

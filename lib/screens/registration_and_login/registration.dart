@@ -45,12 +45,11 @@ class _RegistrationState extends State<Registration> {
                 height: size.height * 0.4,
                 width: size.width * 1,
                 child: Center(
-                    child: FeedMeCircleAvatar(
-                  radius: size.height * 0.5,
-                )),
-              ),
-              SizedBox(
-                height: size.height * 0.05,
+                  child: Image.asset(
+                    "assets/feedMeOrange.gif",
+                    height: size.height * 1.0,
+                  ),
+                ),
               ),
               StandardTextFormField(
                 hintText: "Bitte geben Sie Ihre E-Mail ein",
@@ -142,7 +141,8 @@ class _RegistrationState extends State<Registration> {
                 },
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, size.height * 0.02, 0.0, 0.0),
+                padding:
+                    EdgeInsets.fromLTRB(0.0, size.height * 0.084, 0.0, 0.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

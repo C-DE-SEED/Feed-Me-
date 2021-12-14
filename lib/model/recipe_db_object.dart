@@ -75,7 +75,7 @@ class RecipeDbObject {
 
   }
 
-//  Recipt list from snapshot for plantFoodFactory cooking book
+//  Recipe list from snapshot for plantFoodFactory cooking book
   List<Recipe> _recipeListFromSnapshot(QuerySnapshot snapshot) {
     var list = snapshot.docs.map((doc) {
       return Recipe.withAttributes(

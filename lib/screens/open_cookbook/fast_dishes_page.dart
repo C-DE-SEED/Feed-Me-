@@ -55,7 +55,7 @@ class _FastDishesPageState extends State<FastDishesPage> {
                 prefixIcon: const Icon(Icons.search, color: Colors.black54),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.white,
+                    color: basicColor,
                   ),
                   borderRadius: BorderRadius.circular(15.0),
                 ),

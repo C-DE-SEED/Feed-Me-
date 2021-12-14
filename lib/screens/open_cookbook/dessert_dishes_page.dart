@@ -52,7 +52,7 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                 const Icon(Icons.search, color: Colors.black54),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.white,
+                    color: basicColor,
                   ),
                   borderRadius: BorderRadius.circular(15.0),
                 ),
