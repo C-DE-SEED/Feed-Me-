@@ -33,56 +33,6 @@ class _HomeState extends State<Home> {
   List<Recipe> favoriteRecipes = [];
   var refreshKey = GlobalKey<RefreshIndicatorState>();
 
-  void getAllPlantFoodFactoryRecipes() async {
-    plantFoodFactory = await RecipeDbObject()
-        .getRecipesFromPlantFoodFactory("plant_food_factory")
-        .elementAt(0);
-
-    addFavoriteRecipes();
-  }
-
-  List<String> filterSteps(Recipe recipe) {
-    List<String> x = [];
-    x = recipe.description.split("/");
-    return x;
-  }
-
-  List<String> filterIngredients(Recipe recipe) {
-    List<String> x = [];
-    x = recipe.ingredientsAndAmount.split("/");
-    return x;
-  }
-
-  Future<void> getCookBooks() async {
-    RecipeDbObject recipeDbObject = RecipeDbObject();
-    userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
-    setState(() {});
-    cookbookCount = userCookbooks.length + 1;
-    for (var cookbook in userCookbooks) {
-      recipeCount = recipeCount + cookbook.recipes.length;
-    }
-    sleep(const Duration(seconds: 1));
-    setState(() {});
-  }
-
-  Future<List<Cookbook>> getUpdates() async {
-    RecipeDbObject recipeDbObject = RecipeDbObject();
-    return await await recipeDbObject.getAllCookBooksFromUser();
-  }
-
-  void addFavoriteRecipes() {
-    userCookbooks.forEach((element) {
-      element.recipes.forEach((element) {
-        //TODO getIsFavorite Element from db and add element.isFavorite
-        favoriteRecipes.add(element);
-      });
-    });
-    plantFoodFactory.forEach((element) {
-      //TODO getIsFavorite Element from db and add element.isFavorite
-      favoriteRecipes.add(element);
-    });
-  }
-
   @override
   void initState() {
     getCookBooks().then((value) => {setState(() {})});
@@ -309,10 +259,8 @@ class _HomeState extends State<Home> {
           color: basicColor,
         ),
         onPressed: () async {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>  CreateNewCookbook()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CreateNewCookbook()));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -398,5 +346,58 @@ class _HomeState extends State<Home> {
                   cookBook: cookbook,
                   isFeedMeCookbook: isFeedMeCookbook,
                 )));
+  }
+
+  void getAllPlantFoodFactoryRecipes() async {
+    plantFoodFactory = await RecipeDbObject()
+        .getRecipesFromPlantFoodFactory("plant_food_factory")
+        .elementAt(0);
+
+    addFavoriteRecipes();
+  }
+
+  List<String> filterSteps(Recipe recipe) {
+    List<String> x = [];
+    x = recipe.description.split("/");
+    return x;
+  }
+
+  List<String> filterIngredients(Recipe recipe) {
+    List<String> x = [];
+    x = recipe.ingredientsAndAmount.split("/");
+    return x;
+  }
+
+  Future<void> getCookBooks() async {
+    RecipeDbObject recipeDbObject = RecipeDbObject();
+    userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
+    setState(() {});
+    cookbookCount = userCookbooks.length + 1;
+    for (var cookbook in userCookbooks) {
+      recipeCount = recipeCount + cookbook.recipes.length;
+    }
+    sleep(const Duration(seconds: 1));
+    setState(() {});
+  }
+
+  Future<List<Cookbook>> getUpdates() async {
+    RecipeDbObject recipeDbObject = RecipeDbObject();
+    setState(() {
+
+    });
+    return await await recipeDbObject.getAllCookBooksFromUser();
+  }
+
+  void addFavoriteRecipes() {
+    userCookbooks.forEach((element) {
+      element.recipes.forEach((element) {
+        //TODO getIsFavorite Element from db and add element.isFavorite
+        favoriteRecipes.add(element);
+      });
+    });
+    plantFoodFactory.forEach((element) {
+      //TODO getIsFavorite Element from db and add element.isFavorite
+      favoriteRecipes.add(element);
+    });
   }
 }

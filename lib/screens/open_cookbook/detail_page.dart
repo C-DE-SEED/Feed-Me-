@@ -61,65 +61,71 @@ class _DetailPageState extends State<DetailPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Stack(children: [
-                    Hero(
-                      tag: widget.recipe.name,
-                      // child: Image.network(recipe.image),
-                      child: CachedNetworkImage(
-                        imageUrl: widget.recipe.image,
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(
-                          color: basicColor,
+                  Hero(
+                    tag: widget.recipe.name,
+                    // child: Image.network(recipe.image),
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.345,
+                          width: size.width,
+                          child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: widget.recipe.image,
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(
+                            color: basicColor,
+                          ),
+                      ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, size.height * 0.27, 0.0, 0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                              icon: const Icon(Icons.info_outlined,
-                                  size: 40, color: Colors.white),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Dialog(
-                                      child: TextFormField(
-                                        focusNode: userNotes,
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
-                                        ),
-                                        maxLines: 15,
-                                        onChanged: (userNotes) {
-                                          String notes = userNotes;
-                                          //widget.recipe.userNotes = notes;
-                                          //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
-                                        },
-                                      ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, size.height * 0.27, 0.0, 0.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                  icon: const Icon(Icons.info_outlined,
+                                      size: 40, color: Colors.white),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          child: TextFormField(
+                                            focusNode: userNotes,
+                                            decoration: const InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
+                                            ),
+                                            maxLines: 15,
+                                            onChanged: (userNotes) {
+                                              String notes = userNotes;
+                                              //widget.recipe.userNotes = notes;
+                                              //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
+                                            },
+                                          ),
+                                        );
+                                      },
                                     );
-                                  },
-                                );
-                              }),
-                          IconButton(
-                              icon: iconOnPressed
-                                  ? const Icon(Icons.favorite_border,
-                                  size: 40, color: Colors.white)
-                                  : const Icon(Icons.favorite,
-                                  size: 40, color: Colors.white),
-                              onPressed: () {
-                                //TODO set Favorite Recipe true
-                                setState(() {
-                                  iconOnPressed = !iconOnPressed;
-                                });
-                              }),
-                        ],
-                      ),
-                    )
-                  ]),
-                  SizedBox(height: size.height * 0.01),
+                                  }),
+                              IconButton(
+                                  icon: iconOnPressed
+                                      ? const Icon(Icons.favorite_border,
+                                      size: 40, color: Colors.white)
+                                      : const Icon(Icons.favorite,
+                                      size: 40, color: Colors.white),
+                                  onPressed: () {
+                                    //TODO set Favorite Recipe true
+                                    setState(() {
+                                      iconOnPressed = !iconOnPressed;
+                                    });
+                                  }),
+                            ],
+                          ),
+                        )
+                      ]
+                    ),
+                  ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 70),
                     child: Column(
