@@ -1,34 +1,31 @@
-import 'package:feed_me/constants/alerts/custom_alert.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
-import 'package:feed_me/constants/custom_widgets/button_row.dart';
-import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
+import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
+import 'package:feed_me/model/cookbook_db_object.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:feed_me/constants/styles/colors.dart';
-import '../../model/recipe_object.dart';
 import 'home.dart';
 
-class CreateNewCookbook_2 extends StatefulWidget {
-  Cookbook cookbook;
-
-  CreateNewCookbook_2({Key key, this.cookbook}) : super(key: key);
+class CreateNewCookbook extends StatefulWidget {
+  CreateNewCookbook({
+    Key key,
+  }) : super(key: key);
 
   @override
-  _CreateNewCookbook_2State createState() => _CreateNewCookbook_2State();
+  _CreateNewCookbookState createState() => _CreateNewCookbookState();
 }
 
-class _CreateNewCookbook_2State extends State<CreateNewCookbook_2> {
+class _CreateNewCookbookState extends State<CreateNewCookbook> {
   File image;
-  String inputText;
   bool hasImage = false;
+  Cookbook cookbook = Cookbook('','',[]);
   final List<String> keys = [];
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
-  String recipeName = '';
   final AuthService _authService = AuthService();
   ImageSource userImageSource;
 
@@ -46,15 +43,6 @@ class _CreateNewCookbook_2State extends State<CreateNewCookbook_2> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Center(child: Text('1. Schritt: Titelbild erstellen',style:TextStyle(
-                      color: Colors.white,
-                      fontSize: fontSize,
-                      fontFamily: openSansFontFamily))),
-                  SizedBox(height: size.height*0.01),
-                  Hero(
-                    tag: 'steps',
-                    child: ShowSteps(colors: step1),
-                  ),
                   SizedBox(height: size.height * 0.05),
                   Center(
                     child: SizedBox(
@@ -67,7 +55,7 @@ class _CreateNewCookbook_2State extends State<CreateNewCookbook_2> {
                           fontSize: fontSize,
                         ),
                         decoration: const InputDecoration(
-                          hintText: 'Rezeptname eingeben',
+                          hintText: 'Gib deinem Kochbuch einen Namen:',
                           hintStyle: TextStyle(
                               color: Colors.white, fontSize: fontSize),
                           focusedBorder: UnderlineInputBorder(
@@ -77,7 +65,8 @@ class _CreateNewCookbook_2State extends State<CreateNewCookbook_2> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            recipeName = value;
+                            String name = value;
+                            cookbook.name = name;
                           });
                         },
                       ),
@@ -85,7 +74,7 @@ class _CreateNewCookbook_2State extends State<CreateNewCookbook_2> {
                   ),
                   SizedBox(height: size.height * 0.1),
                   const Center(
-                    child: Text("Titelbild für das Rezept festlegen:",
+                    child: Text("Lege ein Titelbild für dein Kochbuch fest:",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: fontSize,
@@ -94,41 +83,40 @@ class _CreateNewCookbook_2State extends State<CreateNewCookbook_2> {
                   SizedBox(height: size.height * 0.02),
                   photoContainer(size),
                   const Spacer(),
-                  Hero(
-                    tag: 'buttonRow',
-                    child: ButtonRow(
-                      onPressed: () {
-                        if (recipeName == "") {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return RoundedAlert(
-                                title: "❗️Achtung❗",
-                                text: "Benne dein Rezept bitte ☺️",
-                              );
-                            },
-                          );
-                        } else if(!hasImage){
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return RoundedAlert(
-                                title: "❗️Achtung❗",
-                                text: "Vergiss nicht dein Rezept mit einem Bild zu unterstützen ☺️",
-                              );
-                            },
-                          );
-                        }
-                        else {
-                          uploadFile(image, _authService);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Home()));
-                        }
-                      },
-                    ),
-                  )
+                  StandardButton(
+                    color: Colors.white,
+                    text: "Kochbuch anlegen",
+                    onPressed: () async {
+                      if (cookbook.name == "") {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return RoundedAlert(
+                              title: "❗️Achtung❗",
+                              text: "Benne dein Kochbuch bitte ☺️",
+                            );
+                          },
+                        );
+                      } else if (!hasImage) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return RoundedAlert(
+                              title: "❗️Achtung❗",
+                              text:
+                                  "Vergiss nicht dein Kochbuch mit einem Bild zu unterstützen ☺️",
+                            );
+                          },
+                        );
+                      } else {
+                        uploadFile(image, _authService);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()));
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
@@ -136,6 +124,25 @@ class _CreateNewCookbook_2State extends State<CreateNewCookbook_2> {
         ),
       ),
     );
+  }
+
+  void addCookbookToDatabase(Cookbook cookbook) async {
+    CookbookDbObject cookbookDbObject = CookbookDbObject(cookbook.name);
+    bool exist = await cookbookDbObject.checkIfDocumentExists(cookbook.name);
+    if (exist == false) {
+      await cookbookDbObject.updateCookbook(
+          cookbook.name, cookbook.image, cookbook.recipes);
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return RoundedAlert(
+            title: "❗️Achtung❗",
+            text: "Der Name für dein Kochbuch existiert schon ☺️",
+          );
+        },
+      );
+    }
   }
 
   Widget photoContainer(Size size) {
@@ -247,7 +254,6 @@ class _CreateNewCookbook_2State extends State<CreateNewCookbook_2> {
                   ),
                 );
               });
-
           //chooseFile();
         },
         child: hasImage
@@ -276,7 +282,7 @@ class _CreateNewCookbook_2State extends State<CreateNewCookbook_2> {
   void uploadFile(File img, AuthService auth) async {
     var user = auth.getUser();
     String refChildPath = '';
-    String filePath = user.uid + widget.cookbook.name;
+    String filePath = user.uid + cookbook.name;
     refChildPath = 'cookbook_title_pictures/' + filePath;
     String downloadUrl = '';
     Reference ref = FirebaseStorage.instance.ref();
@@ -284,7 +290,8 @@ class _CreateNewCookbook_2State extends State<CreateNewCookbook_2> {
     if (uploadFile.state == TaskState.success) {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
-      widget.cookbook.image = downloadUrl;
+      cookbook.image = downloadUrl;
+      addCookbookToDatabase(cookbook);
     }
   }
 }

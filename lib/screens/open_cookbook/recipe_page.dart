@@ -111,7 +111,6 @@ class _RecipePageState extends State<RecipePage> {
                     ),
                   ),
                   RotatedBox(
-                    //TODO: Allow settings and adding new recipes only in user cooking books
                     quarterTurns: -1,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 15.0, 0.0),

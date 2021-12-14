@@ -12,26 +12,27 @@ class Recipe {
   String _shortDescription;
   String _spices;
   String _time;
+
   //String _userNotes;
 
   Recipe();
 
   Recipe.withAttributes(
-      this._id,
-      this._category,
-      this._description,
-      this._difficulty,
-      this._image,
-      this._ingredientsAndAmount,
-      this._kitchenStuff,
-      this._name,
-      this._origin,
-      this._persons,
-      this._shortDescription,
-      this._spices,
-      this._time,
-      //this._userNotes
-      );
+    this._id,
+    this._category,
+    this._description,
+    this._difficulty,
+    this._image,
+    this._ingredientsAndAmount,
+    this._kitchenStuff,
+    this._name,
+    this._origin,
+    this._persons,
+    this._shortDescription,
+    this._spices,
+    this._time,
+    //this._userNotes
+  );
 
   @override
   String toString() {

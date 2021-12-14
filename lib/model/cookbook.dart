@@ -5,13 +5,12 @@ class Cookbook {
   String _name;
   List<Recipe> _recipes;
 
-
   Cookbook(this._image, this._name, this._recipes);
 
   Cookbook.fromDatabase(
-      this._image,
-      this._name,
-      );
+    this._image,
+    this._name,
+  );
 
   String get image => _image;
 
