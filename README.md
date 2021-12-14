@@ -1,1 +1,1 @@
-Our first project as Code Seed. It's an minimalist and stylish Cooking book. You can save and share your favourite recipes in the simpliest way. It provides also a bunch of yummy vegan and vegetarian recipes.
+Our first project as Code Seed. It's an minimalist and stylish Cookbook. You can save and share your favourite recipes in the simpliest way. It provides also a bunch of yummy vegan and vegetarian recipes.
