@@ -84,12 +84,12 @@ class _DetailPageState extends State<DetailPage> {
                                     focusNode: userNotes,
                                     decoration:  InputDecoration(
                                       border: const OutlineInputBorder(),
-                                      hintText: widget.recipe.userNotes ?? 'Hier hast du Platz für Notizen 📙',
+                                      hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
                                     ),
                                     maxLines: 15,
                                     onChanged: (userNotes){
                                       String notes = userNotes;
-                                      widget.recipe.userNotes = notes;
+                                      //widget.recipe.userNotes = notes;
                                       //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
                                     },
                                   ),

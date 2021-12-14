@@ -12,7 +12,7 @@ class Recipe {
   String _shortDescription;
   String _spices;
   String _time;
-  String _userNotes;
+  //String _userNotes;
 
   Recipe();
 
@@ -30,18 +30,19 @@ class Recipe {
       this._shortDescription,
       this._spices,
       this._time,
-      this._userNotes);
+      //this._userNotes
+      );
 
   @override
   String toString() {
-    return 'Recipe{_id: $_id, _category: $_category, _description: $_description, _difficulty: $_difficulty, _image: $_image, _ingredientsAndAmount: $_ingredientsAndAmount, _kitchenStuff: $_kitchenStuff, _name: $_name, _origin: $_origin, _persons: $_persons, _shortDescription: $_shortDescription, _spices: $_spices, _time: $_time, _userNotes: $_userNotes}';
+    return 'Recipe{_id: $_id, _category: $_category, _description: $_description, _difficulty: $_difficulty, _image: $_image, _ingredientsAndAmount: $_ingredientsAndAmount, _kitchenStuff: $_kitchenStuff, _name: $_name, _origin: $_origin, _persons: $_persons, _shortDescription: $_shortDescription, _spices: $_spices, _time: $_time}';
   }
 
-  String get userNotes => _userNotes;
-
-  set userNotes(String value) {
-    _userNotes = value;
-  }
+  //String get userNotes => _userNotes;
+//
+  //set userNotes(String value) {
+  //  _userNotes = value;
+  //}
 
   String get time => _time;
 
