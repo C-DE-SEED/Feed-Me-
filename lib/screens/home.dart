@@ -95,15 +95,13 @@ class _HomeState extends State<Home> {
                           radius: size.width * 0.09,
                           child: TextButton(
                             onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => TextfieldWithSuggestion()));
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => ProfilePage(
-                              //               recipeCount: recipeCount,
-                              //               cookBookCount: userCookbooks.length,
-                              //             )));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProfilePage(
+                                            recipeCount: recipeCount,
+                                            cookBookCount: userCookbooks.length,
+                                          )));
                             },
                             child: null,
                           ),
