@@ -120,7 +120,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                             builder: (BuildContext context) {
                               return RoundedAlert(
                                 title: "❗️Achtung❗",
-                                text: "Benne dein Rezept bitte ☺️",
+                                text: "Gib deinem Rezept einen Namen☺️",
                               );
                             },
                           );
