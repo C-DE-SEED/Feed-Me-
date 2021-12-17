@@ -108,7 +108,7 @@ class RecipeDbObject {
 
     for (int i = 0; i < books.length; i++) {
       var recipesFromUserCookbook =
-          getRecipesFromUserCookbook(books.elementAt(i).name);
+      getRecipesFromUserCookbook(books.elementAt(i).name);
       recipesFromCookbook = await recipesFromUserCookbook.first;
       books.elementAt(i).recipes = recipesFromCookbook;
     }
@@ -124,7 +124,7 @@ class RecipeDbObject {
 
   Stream<List<Recipe>> getRecipesFromUserCookbook(String docName) {
     CollectionReference recipesCollection =
-        FirebaseFirestore.instance.collection(auth.getUser().uid);
+    FirebaseFirestore.instance.collection(auth.getUser().uid);
     return recipesCollection
         .doc(docName)
         .collection('recipes')
@@ -140,6 +140,7 @@ class RecipeDbObject {
 
     return cookbooks.first;
   }
+
 
   Future<bool> checkIfDocumentExists(String cookbookName) async {
     bool exists;

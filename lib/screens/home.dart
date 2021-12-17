@@ -31,7 +31,6 @@ class _HomeState extends State<Home> {
   List<Recipe> plantFoodFactory = [];
   List<Cookbook> userCookbooks = [];
   List<Recipe> favoriteRecipes = [];
-  var refreshKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -214,6 +213,7 @@ class _HomeState extends State<Home> {
                   color: basicColor,
                 ));
               }
+
               return ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
@@ -225,13 +225,12 @@ class _HomeState extends State<Home> {
                             context,
                             snap.data.elementAt(index).recipes,
                             snap.data.elementAt(index),
-                            snap.data.length),
+                            snap.data.length + 1),
                         child: _buildFeaturedItem(
-                          image: snap.data.elementAt(index).image,
-                          title: snap.data.elementAt(index).name,
-                          subtitle: "",
-                          isFavoriteView: false,
-                        ));
+                            image: snap.data.elementAt(index).image,
+                            title: snap.data.elementAt(index).name,
+                            subtitle: "",
+                            isFavoriteView: false));
                   });
             },
           ),
@@ -401,19 +400,19 @@ class _HomeState extends State<Home> {
   Future<void> getCookBooks() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
-    setState(() {});
     cookbookCount = userCookbooks.length + 1;
     for (var cookbook in userCookbooks) {
       recipeCount = recipeCount + cookbook.recipes.length;
     }
-    sleep(const Duration(seconds: 1));
     setState(() {});
   }
 
   Future<List<Cookbook>> getUpdates() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
+    List<Cookbook> recipes =
+        await await recipeDbObject.getAllCookBooksFromUser();
     setState(() {});
-    return await await recipeDbObject.getAllCookBooksFromUser();
+    return recipes;
   }
 
   void addFavoriteRecipes() {
