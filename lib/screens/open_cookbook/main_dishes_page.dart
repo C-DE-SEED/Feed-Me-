@@ -60,63 +60,73 @@ class _MainDishesPageState extends State<MainDishesPage> {
                 ),
               )),
           Expanded(
-            child: ListView.builder(
-              itemCount: widget.recipes.length,
-              itemBuilder: (_, index) {
-                return GestureDetector(
-                  onTap: () {
-                    filterSteps(widget.recipes[index]);
-                    filterIngredients(widget.recipes[index]);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => DetailPage(
-                          recipe: widget.recipes[index],
-                          ingredients: ingredients,
-                          reciptSteps: reciptSteps,
+            child: widget.recipes.isEmpty
+                ? const Center(
+                    child: Text(
+                    "Dieser Abschnitt ist leer",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 20,
+                      fontFamily: openSansFontFamily,
+                    ),
+                  ))
+                : ListView.builder(
+                    itemCount: widget.recipes.length,
+                    itemBuilder: (_, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          filterSteps(widget.recipes[index]);
+                          filterIngredients(widget.recipes[index]);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => DetailPage(
+                                recipe: widget.recipes[index],
+                                ingredients: ingredients,
+                                reciptSteps: reciptSteps,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Hero(
+                              tag: widget.recipes[index].name,
+                              child: CachedNetworkImage(
+                                imageUrl: widget.recipes[index].image,
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(
+                                  color: basicColor,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.01),
+                            Text(
+                              widget.recipes[index].name,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.01),
+                            Text(
+                              widget.recipes[index].shortDescription,
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.01),
+                            const SizedBox(height: 30),
+                            const Divider(),
+                          ],
                         ),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Hero(
-                        tag: widget.recipes[index].name,
-                        child: CachedNetworkImage(
-                          imageUrl: widget.recipes[index].image,
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(
-                            color: basicColor,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: size.height * 0.01),
-                      Text(
-                        widget.recipes[index].name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: openSansFontFamily,
-                        ),
-                      ),
-                      SizedBox(height: size.height * 0.01),
-                      Text(
-                        widget.recipes[index].shortDescription,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                          fontFamily: openSansFontFamily,
-                        ),
-                      ),
-                      SizedBox(height: size.height * 0.01),
-                      const SizedBox(height: 30),
-                      const Divider(),
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           )
         ],
       ),

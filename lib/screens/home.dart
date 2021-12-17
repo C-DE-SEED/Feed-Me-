@@ -411,6 +411,7 @@ class _HomeState extends State<Home> {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     List<Cookbook> recipes =
         await await recipeDbObject.getAllCookBooksFromUser();
+    //setState is needed here. If we give back the recipes object directly the books will not appear instantly
     setState(() {});
     return recipes;
   }
