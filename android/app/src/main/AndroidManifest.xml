@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="Codeseed.FeedMe">
+    //beneath is needed for video player plugin
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
+
         android:requestLegacyExternalStorage="true"
         android:label="Feed Me!"
         android:icon="@mipmap/ic_launcher">

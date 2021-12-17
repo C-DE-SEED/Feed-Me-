@@ -133,21 +133,31 @@ class _HomeState extends State<Home> {
           ),
           // Favorite Recipes
           Container(
-              margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-              child: Column(
-                children: const [
-                  Text("Lieblinge ❤️",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: fontSize,
-                          fontFamily: openSansFontFamily)),
-                  Divider(
-                    color: deepOrange,
-                    height: 20,
-                    thickness: 3,
-                  ),
-                ],
-              )),
+            margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Row(children: <Widget>[
+              Expanded(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                    child: const Divider(
+                      color: Colors.black,
+                      height: 36,
+                    )),
+              ),
+              const Text("Lieblinge ❤",
+                  style: TextStyle(
+                      fontFamily: openSansFontFamily,
+                      fontSize: 14,
+                      color: Colors.black)),
+              Expanded(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                    child: const Divider(
+                      color: Colors.black,
+                      height: 36,
+                    )),
+              ),
+            ]),
+          ),
           SizedBox(
             height: size.height * 0.2,
             width: size.width,
@@ -170,21 +180,31 @@ class _HomeState extends State<Home> {
           SizedBox(height: size.height * 0.005),
           // User Cookbooks
           Container(
-              margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-              child: Column(
-                children: const [
-                  Text("Kochbücher 🍽",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: fontSize,
-                          fontFamily: openSansFontFamily)),
-                  Divider(
-                    color: deepOrange,
-                    height: 20,
-                    thickness: 3,
-                  ),
-                ],
-              )),
+            margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Row(children: <Widget>[
+              Expanded(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                    child: const Divider(
+                      color: Colors.black,
+                      height: 36,
+                    )),
+              ),
+              const Text("Meine Kochbücher 🍽",
+                  style: TextStyle(
+                      fontFamily: openSansFontFamily,
+                      fontSize: 14,
+                      color: Colors.black)),
+              Expanded(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                    child: const Divider(
+                      color: Colors.black,
+                      height: 36,
+                    )),
+              ),
+            ]),
+          ),
           FutureBuilder<List<Cookbook>>(
             future: getUpdates(),
             builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
@@ -217,21 +237,31 @@ class _HomeState extends State<Home> {
           ),
           // Feed Me Cookbook
           Container(
-              margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-              child: Column(
-                children: const [
-                  Text("Feed Me's Kochbuch 🌿",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: fontSize,
-                          fontFamily: openSansFontFamily)),
-                  Divider(
-                    color: deepOrange,
-                    height: 20,
-                    thickness: 3,
-                  ),
-                ],
-              )),
+            margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Row(children: <Widget>[
+              Expanded(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                    child: const Divider(
+                      color: Colors.black,
+                      height: 36,
+                    )),
+              ),
+              const Text("Feed Me's Kochbuch 🌿",
+                  style: TextStyle(
+                      fontFamily: openSansFontFamily,
+                      fontSize: 14,
+                      color: Colors.black)),
+              Expanded(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                    child: const Divider(
+                      color: Colors.black,
+                      height: 36,
+                    )),
+              ),
+            ]),
+          ),
           GestureDetector(
               onTap: () => _openDestinationPage(
                     context,
@@ -382,9 +412,7 @@ class _HomeState extends State<Home> {
 
   Future<List<Cookbook>> getUpdates() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
-    setState(() {
-
-    });
+    setState(() {});
     return await await recipeDbObject.getAllCookBooksFromUser();
   }
 

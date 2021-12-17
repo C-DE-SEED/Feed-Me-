@@ -19,13 +19,12 @@ class RoundedAlert extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.only(right: 16.0),
           width: size.width * 0.9,
-          height: size.height * 0.2,
+          height: size.height * 0.3,
           decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.8),
               borderRadius: const BorderRadius.only(
-                // war vorher auf 75
-                  topLeft: Radius.circular(15),
-                  bottomLeft: Radius.circular(15),
+                  topLeft: Radius.circular(55),
+                  bottomLeft: Radius.circular(55),
                   topRight: Radius.circular(15),
                   bottomRight: Radius.circular(15))),
           child: Row(
