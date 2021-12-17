@@ -1,11 +1,7 @@
 import 'dart:ui';
 
-import 'package:feed_me/constants/alerts/custom_alert.dart';
-import 'package:feed_me/constants/alerts/custom_alert_password_reset.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
-import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/styles/colors.dart';
-import 'package:feed_me/constants/styles/orange_box_decoration.dart';
 import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/text_fields/standard_text_form_field.dart';

@@ -1,4 +1,5 @@
 import 'package:feed_me/constants/alerts/custom_alert.dart';
+import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/orange_box_decoration.dart';
@@ -6,6 +7,7 @@ import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/text_fields/standard_text_form_field.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/screens/registration_and_login/sign_in.dart';
 import 'package:feed_me/screens/user/set_profile_information.dart';
@@ -51,6 +53,7 @@ class _RegistrationState extends State<Registration> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
         backgroundColor: basicColor,
         body: Stack(
           children: [
@@ -130,14 +133,14 @@ class _RegistrationState extends State<Registration> {
                             context: context,
                             builder: (_) => CupertinoAlertDialog(
                                     title: const Text(
-                                      'Registrierung erfolgreich ✅',
+                                      'Registrierung erfolgreich',
                                       style: TextStyle(
                                           fontFamily: openSansFontFamily,
                                           color: Colors.black,
                                           fontSize: 20),
                                     ),
                                     content: const Text(
-                                        'Eine Bestätigung an ihre E-Mail wurde versendet 💌',
+                                        'Du erhälst eine Bestätigung per Mail von uns 💌',
                                         style: TextStyle(
                                             fontFamily: openSansFontFamily,
                                             color: Colors.black,
@@ -145,7 +148,7 @@ class _RegistrationState extends State<Registration> {
                                     actions: <Widget>[
                                       CupertinoDialogAction(
                                           child: const Text(
-                                            'Zum Login',
+                                            'OK',
                                             style: TextStyle(
                                                 fontFamily: openSansFontFamily,
                                                 color: basicColor,
@@ -157,7 +160,9 @@ class _RegistrationState extends State<Registration> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const SignIn(
+                                                        const SetProfilePage(
+                                                          cookBookCount: 0,
+                                                          recipeCount: 0,
                                                           fromRegistration: true,
                                                         )));
                                           })
@@ -166,7 +171,7 @@ class _RegistrationState extends State<Registration> {
                           await newUser.user.sendEmailVerification();
                         }
                       } else {
-                        error = "Bitte geben Sie eine valide E-Mail ein!";
+                        error = "Bitte gebe eine valide E-Mail ein!";
                         loading = false;
                       }
                     },
@@ -216,11 +221,10 @@ class _RegistrationState extends State<Registration> {
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              return const CustomAlert(
+              return  RoundedAlert(
                 title:
                     "Ihre eingegebnen Passwörter müssen mindestens 6 Zeichen lang sein!",
-                descriptions: "Bitte überprüfen Sie ihre Eingaben.",
-                text: "OK",
+                text: "Bitte überprüfen Sie ihre Eingaben.",
               );
             });
       } else {
@@ -231,10 +235,9 @@ class _RegistrationState extends State<Registration> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return const CustomAlert(
+            return RoundedAlert(
               title: "Ihre eingegebenen Passwörter stimmen nicht überein!",
-              descriptions: "Bitte überprüfen Sie ihre Eingaben.",
-              text: "OK",
+              text: "Bitte überprüfen Sie ihre Eingaben.",
             );
           });
       return false;
