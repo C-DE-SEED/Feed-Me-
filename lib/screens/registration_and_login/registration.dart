@@ -11,6 +11,7 @@ import 'package:feed_me/screens/registration_and_login/sign_in.dart';
 import 'package:feed_me/screens/user/set_profile_information.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key key, this.toggleView}) : super(key: key);
@@ -30,150 +31,182 @@ class _RegistrationState extends State<Registration> {
   String password2 = "";
   String error = "";
   bool loading = false;
+  VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset(
+        'assets/welcome.mp4')
+      ..initialize().then((_) {
+        _controller.play();
+        _controller.setLooping(true);
+        // Ensure the first frame is shown after the video is initialized
+        setState(() {});
+      });
+  }
+
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: basicColor,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: size.height * 0.05),
-              SizedBox(
-                height: size.height * 0.4,
-                width: size.width * 1,
-                child: Center(
-                  child: Image.asset(
-                    "assets/feedMeOrange.gif",
-                    height: size.height * 1.0,
-                  ),
+        body: Stack(
+          children: [
+            SizedBox.expand(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: size.width ,
+                  height: size.height,
+                  child: VideoPlayer(_controller),
                 ),
               ),
-              StandardTextFormField(
-                hintText: "Bitte geben Sie Ihre E-Mail ein",
-                onChange: (value) {
-                  setState(
-                    () {
-                      email = value;
+            ),
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: size.height * 0.05),
+                  SizedBox(
+                    height: size.height * 0.4,
+                    width: size.width * 1,
+                    child:
+                    SizedBox(height: size.height*0.3),
+                    //TODO: Replace SizedBox with Logo as png
+                    // Center(
+                    //   child: Image.asset(
+                    //     "assets/feedMeOrange.gif",
+                    //     height: size.height * 1.0,
+                    //   ),
+                    // ),
+                  ),
+                  StandardTextFormField(
+                    hintText: "Bitte geben Sie Ihre E-Mail ein",
+                    onChange: (value) {
+                      setState(
+                        () {
+                          email = value;
+                        },
+                      );
                     },
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              PasswordTextFormField(
-                hintText: "Bitte geben Sie Ihr Passwort ein",
-                onChange: (value) {
-                  setState(() {
-                    password1 = value;
-                  });
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              PasswordTextFormField(
-                hintText: "Bitte geben Sie Ihr Passwort erneut ein",
-                onChange: (value) {
-                  setState(
-                    () {
-                      password2 = value;
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  PasswordTextFormField(
+                    hintText: "Bitte geben Sie Ihr Passwort ein",
+                    onChange: (value) {
+                      setState(() {
+                        password1 = value;
+                      });
                     },
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 60,
-              ),
-              StandardButton(
-                color: Colors.white,
-                text: "Registrieren",
-                onPressed: () async {
-                  if (checkIfPasswordsMatching() == true) {
-                    var newUser = await _auth.createUserWithEmailAndPassword(
-                        email, password);
-                    showDialog(
-                        context: context,
-                        builder: (_) => CupertinoAlertDialog(
-                                title: const Text(
-                                  'Registrierung erfolgreich ✅',
-                                  style: TextStyle(
-                                      fontFamily: openSansFontFamily,
-                                      color: Colors.black,
-                                      fontSize: 20),
-                                ),
-                                content: const Text(
-                                    'Eine Bestätigung an ihre E-Mail wurde versendet 💌',
-                                    style: TextStyle(
-                                        fontFamily: openSansFontFamily,
-                                        color: Colors.black,
-                                        fontSize: 18)),
-                                actions: <Widget>[
-                                  CupertinoDialogAction(
-                                      child: const Text(
-                                        'Zum Login',
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  PasswordTextFormField(
+                    hintText: "Bitte geben Sie Ihr Passwort erneut ein",
+                    onChange: (value) {
+                      setState(
+                        () {
+                          password2 = value;
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  StandardButton(
+                    color: Colors.white,
+                    text: "Registrieren",
+                    onPressed: () async {
+                      if (checkIfPasswordsMatching() == true) {
+                        var newUser = await _auth.createUserWithEmailAndPassword(
+                            email, password);
+                        showDialog(
+                            context: context,
+                            builder: (_) => CupertinoAlertDialog(
+                                    title: const Text(
+                                      'Registrierung erfolgreich ✅',
+                                      style: TextStyle(
+                                          fontFamily: openSansFontFamily,
+                                          color: Colors.black,
+                                          fontSize: 20),
+                                    ),
+                                    content: const Text(
+                                        'Eine Bestätigung an ihre E-Mail wurde versendet 💌',
                                         style: TextStyle(
                                             fontFamily: openSansFontFamily,
-                                            color: basicColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SignIn(
-                                                      fromRegistration: true,
-                                                    )));
-                                      })
-                                ]));
-                    if (newUser != null) {
-                      await newUser.user.sendEmailVerification();
-                    }
-                  } else {
-                    error = "Bitte geben Sie eine valide E-Mail ein!";
-                    loading = false;
-                  }
-                },
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.fromLTRB(0.0, size.height * 0.084, 0.0, 0.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Zurück zum Login?",
-                      style: TextStyle(
-                        fontFamily: openSansFontFamily,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignIn(
-                                      fromRegistration: false,
-                                    )));
-                      },
-                      child: const Text("Hier klicken",
+                                            color: Colors.black,
+                                            fontSize: 18)),
+                                    actions: <Widget>[
+                                      CupertinoDialogAction(
+                                          child: const Text(
+                                            'Zum Login',
+                                            style: TextStyle(
+                                                fontFamily: openSansFontFamily,
+                                                color: basicColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const SignIn(
+                                                          fromRegistration: true,
+                                                        )));
+                                          })
+                                    ]));
+                        if (newUser != null) {
+                          await newUser.user.sendEmailVerification();
+                        }
+                      } else {
+                        error = "Bitte geben Sie eine valide E-Mail ein!";
+                        loading = false;
+                      }
+                    },
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.fromLTRB(0.0, size.height * 0.084, 0.0, 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Zurück zum Login?",
                           style: TextStyle(
-                            color: Color(0xFFFDFAF6),
                             fontFamily: openSansFontFamily,
                             fontWeight: FontWeight.w500,
-                          )),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignIn(
+                                          fromRegistration: false,
+                                        )));
+                          },
+                          child: const Text("Hier klicken",
+                              style: TextStyle(
+                                color: Color(0xFFFDFAF6),
+                                fontFamily: openSansFontFamily,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  )
+                ],
+              ),
+            ),
+          ],
         ));
   }
 
