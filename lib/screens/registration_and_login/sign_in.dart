@@ -83,13 +83,16 @@ class _SignInState extends State<SignIn> {
                         SizedBox(
                             height: size.height * 0.4,
                             width: size.width * 1,
-                            child: SizedBox(height: size.height * 0.3)
-                            //TODO: Replace SizedBox with Logo as png
-                            // Center(
-                            //     child: Image.asset(
-                            //   "assets/feedMeOrange.gif",
-                            //   height: size.height * 1.0,
-                            // )),
+                            child:
+                            FadeInDown(
+                              from: 100,
+                              duration: const Duration(milliseconds: 1000),
+                              child: Center(
+                                  child: Image.asset(
+                                "assets/FeedMeFreigestellt.png",
+                                height: size.height * 1.0,
+                              )),
+                            ),
                             ),
                         FadeInDown(
                           from: 100,

@@ -3,11 +3,13 @@ import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
-class RoundedAlert extends StatelessWidget {
+class AlertWithFunction extends StatelessWidget {
   String title;
   String text;
+  String buttonText;
+  Function onPressed;
 
-  RoundedAlert({Key key, this.title, this.text}) : super(key: key);
+  AlertWithFunction({Key key, this.title, this.text,this.onPressed,this.buttonText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,15 +61,13 @@ class RoundedAlert extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
                       child: TextButton(
-                        child: const Text("OK",
-                            style: TextStyle(
+                        child:  Text(buttonText,
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12.0,
                                 fontFamily: openSansFontFamily)),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        onPressed:onPressed
                       ),
                     )
                   ],
