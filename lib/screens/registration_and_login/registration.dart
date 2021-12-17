@@ -1,19 +1,17 @@
-import 'package:feed_me/constants/alerts/custom_alert.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
-import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/styles/colors.dart';
-import 'package:feed_me/constants/styles/orange_box_decoration.dart';
 import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/text_fields/standard_text_form_field.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
-import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/screens/registration_and_login/sign_in.dart';
 import 'package:feed_me/screens/user/set_profile_information.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:animate_do/animate_do.dart';
+
 
 class Registration extends StatefulWidget {
   const Registration({Key key, this.toggleView}) : super(key: key);
@@ -48,6 +46,11 @@ class _RegistrationState extends State<Registration> {
       });
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,96 +88,112 @@ class _RegistrationState extends State<Registration> {
                     //   ),
                     // ),
                   ),
-                  StandardTextFormField(
-                    hintText: "Bitte geben Sie Ihre E-Mail ein",
-                    onChange: (value) {
-                      setState(
-                        () {
-                          email = value;
-                        },
-                      );
-                    },
+                  FadeInDown(
+                    from: 100,
+                    duration: const Duration(milliseconds: 1000),
+                    child: StandardTextFormField(
+                      hintText: "Bitte geben Sie Ihre E-Mail ein",
+                      onChange: (value) {
+                        setState(
+                          () {
+                            email = value;
+                          },
+                        );
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  PasswordTextFormField(
-                    hintText: "Bitte geben Sie Ihr Passwort ein",
-                    onChange: (value) {
-                      setState(() {
-                        password1 = value;
-                      });
-                    },
+                  FadeInDown(
+                    from: 100,
+                    duration: const Duration(milliseconds: 1000),
+                    child: PasswordTextFormField(
+                      hintText: "Bitte geben Sie Ihr Passwort ein",
+                      onChange: (value) {
+                        setState(() {
+                          password1 = value;
+                        });
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  PasswordTextFormField(
-                    hintText: "Bitte geben Sie Ihr Passwort erneut ein",
-                    onChange: (value) {
-                      setState(
-                        () {
-                          password2 = value;
-                        },
-                      );
-                    },
+                  FadeInDown(
+                    from: 100,
+                    duration: const Duration(milliseconds: 1000),
+                    child: PasswordTextFormField(
+                      hintText: "Bitte geben Sie Ihr Passwort erneut ein",
+                      onChange: (value) {
+                        setState(
+                          () {
+                            password2 = value;
+                          },
+                        );
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 60,
                   ),
-                  StandardButton(
-                    color: Colors.white,
-                    text: "Registrieren",
-                    onPressed: () async {
-                      if (checkIfPasswordsMatching() == true) {
-                        var newUser = await _auth.createUserWithEmailAndPassword(
-                            email, password);
-                        showDialog(
-                            context: context,
-                            builder: (_) => CupertinoAlertDialog(
-                                    title: const Text(
-                                      'Registrierung erfolgreich',
-                                      style: TextStyle(
-                                          fontFamily: openSansFontFamily,
-                                          color: Colors.black,
-                                          fontSize: 20),
-                                    ),
-                                    content: const Text(
-                                        'Du erhälst eine Bestätigung per Mail von uns 💌',
+                  FadeInUp(
+                    from: 50,
+                    duration: const Duration(milliseconds: 1000),
+                    child: StandardButton(
+                      color: Colors.white,
+                      text: "Registrieren",
+                      onPressed: () async {
+                        if (checkIfPasswordsMatching() == true) {
+                          var newUser = await _auth.createUserWithEmailAndPassword(
+                              email, password);
+                          showDialog(
+                              context: context,
+                              builder: (_) => CupertinoAlertDialog(
+                                      title: const Text(
+                                        'Registrierung erfolgreich',
                                         style: TextStyle(
                                             fontFamily: openSansFontFamily,
                                             color: Colors.black,
-                                            fontSize: 18)),
-                                    actions: <Widget>[
-                                      CupertinoDialogAction(
-                                          child: const Text(
-                                            'OK',
-                                            style: TextStyle(
-                                                fontFamily: openSansFontFamily,
-                                                color: basicColor,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const SetProfilePage(
-                                                          cookBookCount: 0,
-                                                          recipeCount: 0,
-                                                          fromRegistration: true,
-                                                        )));
-                                          })
-                                    ]));
-                        if (newUser != null) {
-                          await newUser.user.sendEmailVerification();
+                                            fontSize: 20),
+                                      ),
+                                      content: const Text(
+                                          'Du erhälst eine Bestätigung per Mail von uns 💌',
+                                          style: TextStyle(
+                                              fontFamily: openSansFontFamily,
+                                              color: Colors.black,
+                                              fontSize: 18)),
+                                      actions: <Widget>[
+                                        CupertinoDialogAction(
+                                            child: const Text(
+                                              'OK',
+                                              style: TextStyle(
+                                                  fontFamily: openSansFontFamily,
+                                                  color: basicColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const SetProfilePage(
+                                                            cookBookCount: 0,
+                                                            recipeCount: 0,
+                                                            fromRegistration: true,
+                                                          )));
+                                            })
+                                      ]));
+                          if (newUser != null) {
+                            await newUser.user.sendEmailVerification();
+                          }
+                        } else {
+                          error = "Bitte gebe eine valide E-Mail ein!";
+                          loading = false;
                         }
-                      } else {
-                        error = "Bitte gebe eine valide E-Mail ein!";
-                        loading = false;
-                      }
-                    },
+                      },
+                    ),
                   ),
                   Padding(
                     padding:

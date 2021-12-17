@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:feed_me/constants/alerts/custom_alert.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/custom_widgets/button_row.dart';
@@ -61,42 +62,53 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                   ),
                   SizedBox(height: size.height * 0.05),
                   Center(
-                    child: SizedBox(
-                      width: size.width * 0.9,
-                      child: TextFormField(
-                        obscureText: false,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: fontSize,
+                    child: FadeInDown(
+                      from: 100,
+                      duration: const Duration(milliseconds: 500),
+                      child: SizedBox(
+                        width: size.width * 0.9,
+                        child: TextFormField(
+                          obscureText: false,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: fontSize,
+                          ),
+                          decoration: const InputDecoration(
+                            hintText: 'Rezeptname eingeben',
+                            hintStyle: TextStyle(
+                                color: Colors.white, fontSize: fontSize),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white)),
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white)),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              recipeName = value;
+                            });
+                          },
                         ),
-                        decoration: const InputDecoration(
-                          hintText: 'Rezeptname eingeben',
-                          hintStyle: TextStyle(
-                              color: Colors.white, fontSize: fontSize),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            recipeName = value;
-                          });
-                        },
                       ),
                     ),
                   ),
                   SizedBox(height: size.height * 0.1),
-                  const Center(
-                    child: Text("Titelbild für das Rezept festlegen:",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: fontSize,
-                            fontFamily: openSansFontFamily)),
+                  FadeInDown(
+                    from: 100,
+                    duration: const Duration(milliseconds: 500),
+                    child: const Center(
+                      child: Text("Titelbild für das Rezept festlegen:",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: fontSize,
+                              fontFamily: openSansFontFamily)),
+                    ),
                   ),
                   SizedBox(height: size.height * 0.02),
-                  photoContainer(size),
+                  FadeInDown(
+                      from: 100,
+                      duration: const Duration(milliseconds: 500),
+                      child: photoContainer(size)),
                   const Spacer(),
                   Hero(
                     tag: 'buttonRow',
@@ -146,134 +158,146 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   }
 
   Widget photoContainer(Size size) {
-    return GestureDetector(
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.only(
-                          left: 20, top: 20.0 + 20, right: 20, bottom: 20),
-                      margin: const EdgeInsets.only(top: 20),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                                color: Colors.black,
-                                offset: Offset(0, 10),
-                                blurRadius: 10),
-                          ]),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Text(
-                            'Bild auswählen:',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: openSansFontFamily,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
-                                color: basicColor),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                TextButton(
-                                    onPressed: () {
-                                      chooseFile(ImageSource.gallery);
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text(
-                                      '💾 Gallerie',
-                                      style: TextStyle(
-                                          fontFamily: openSansFontFamily,
-                                          fontSize: 18,
-                                          color: basicColor),
-                                    )),
-                                TextButton(
-                                    onPressed: () {
-                                      chooseFile(ImageSource.camera);
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text(
-                                      '📸 Kamera',
-                                      style: TextStyle(
-                                          fontFamily: openSansFontFamily,
-                                          fontSize: 18,
-                                          color: basicColor),
-                                    )),
-                              ],
+    return Container(
+      height: size.height * 0.4,
+      width: size.width * 0.9,
+      decoration: hasImage
+          ? BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(image.path),
+            fit: BoxFit.cover,
+          ),
+          color: Colors.white.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(15))
+          : BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(15)),
+      child: TextButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 20, top: 20.0 + 20, right: 20, bottom: 20),
+                        margin: const EdgeInsets.only(top: 20),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: Colors.black,
+                                  offset: Offset(0, 10),
+                                  blurRadius: 10),
+                            ]),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const Text(
+                              'Bild auswählen:',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: openSansFontFamily,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                  color: basicColor),
                             ),
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  TextButton(
+                                      onPressed: () {
+                                        chooseFile(ImageSource.gallery);
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        '💾 Gallerie',
+                                        style: TextStyle(
+                                            fontFamily: openSansFontFamily,
+                                            fontSize: 18,
+                                            color: basicColor),
+                                      )),
+                                  TextButton(
+                                      onPressed: () {
+                                        chooseFile(ImageSource.camera);
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        '📸 Kamera',
+                                        style: TextStyle(
+                                            fontFamily: openSansFontFamily,
+                                            fontSize: 18,
+                                            color: basicColor),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      left: 20,
-                      right: 20,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        radius: 20,
-                        child: ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(20)),
-                            child: Image.asset("assets/logoHellOrange.png")),
+                      Positioned(
+                        left: 20,
+                        right: 20,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: 20,
+                          child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(20)),
+                              child: Image.asset("assets/logoHellOrange.png")),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                );
+              });
+        },
+        child: hasImage ? null :DottedBorder(
+          borderType: BorderType.RRect,
+          radius: const Radius.circular(15),
+          dashPattern: const [10, 4],
+          strokeCap: StrokeCap.round,
+          color: deepOrange,
+          child: Container(
+            width: double.infinity,
+            height: size.height * 0.4,
+            decoration: BoxDecoration(
+                color: Colors.blue.shade50.withOpacity(.3),
+                borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.camera_alt_outlined,
+                    color: deepOrange, size: 80),
+                SizedBox(
+                  height: size.height * 0.01,
                 ),
-              );
-            });
-      },
-      child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: 5.0, vertical: size.height * 0.01),
-          child: DottedBorder(
-            borderType: BorderType.RRect,
-            radius: const Radius.circular(15),
-            dashPattern: const [10, 4],
-            strokeCap: StrokeCap.round,
-            color: deepOrange,
-            child: Container(
-              width: double.infinity,
-              height: size.height * 0.4,
-              decoration: BoxDecoration(
-                  color: Colors.blue.shade50.withOpacity(.3),
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.camera_alt_outlined,
-                      color: deepOrange, size: 80),
-                  SizedBox(
-                    height: size.height * 0.01,
-                  ),
-                  Text(
-                    'Foto auswählen',
-                    style: TextStyle(
-                        fontFamily: openSansFontFamily,
-                        fontSize: 18,
-                        color: deepOrange.withOpacity(0.5)),
-                  ),
-                ],
-              ),
+                Text(
+                  'Foto auswählen',
+                  style: TextStyle(
+                      fontFamily: openSansFontFamily,
+                      fontSize: 18,
+                      color: deepOrange.withOpacity(0.5)),
+                ),
+              ],
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 

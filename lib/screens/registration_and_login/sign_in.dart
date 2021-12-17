@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/text_fields/password_text_form_field.dart';
@@ -49,6 +50,12 @@ class _SignInState extends State<SignIn> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return loading
@@ -84,42 +91,106 @@ class _SignInState extends State<SignIn> {
                             //   height: size.height * 1.0,
                             // )),
                             ),
-                        StandardTextFormField(
-                          hintText: "Bitte geben Sie Ihre E-Mail ein",
-                          onChange: (value) {
-                            setState(() {
-                              email = value;
-                            });
-                          },
+                        FadeInDown(
+                          from: 100,
+                          duration: const Duration(milliseconds: 1000),
+                          child: StandardTextFormField(
+                            hintText: "Bitte geben Sie Ihre E-Mail ein",
+                            onChange: (value) {
+                              setState(() {
+                                email = value;
+                              });
+                            },
+                          ),
                         ),
                         SizedBox(
                           height: size.height * 0.01,
                         ),
-                        PasswordTextFormField(
-                          hintText: "Bitte geben Sie Ihr Passwort ein",
-                          onChange: (value) {
-                            setState(() {
-                              password = value;
-                            });
-                          },
+                        FadeInDown(
+                          from: 100,
+                          duration: const Duration(milliseconds: 1000),
+                          child: PasswordTextFormField(
+                            hintText: "Bitte geben Sie Ihr Passwort ein",
+                            onChange: (value) {
+                              setState(() {
+                                password = value;
+                              });
+                            },
+                          ),
                         ),
                         SizedBox(
                           height: size.height * 0.02,
                         ),
-                        StandardButton(
-                          color: Colors.white,
-                          text: "Login",
-                          onPressed: () async {
-                            if (widget.fromRegistration) {
-                              await _auth.getUser().reload();
-                              if (_auth.getUser().emailVerified) {
+                        FadeInDown(
+                          from: 100,
+                          duration: const Duration(milliseconds: 1000),
+                          child: StandardButton(
+                            color: Colors.white,
+                            text: "Login",
+                            onPressed: () async {
+                              if (widget.fromRegistration) {
+                                await _auth.getUser().reload();
+                                if (_auth.getUser().emailVerified) {
+                                  if (isUserInformationComplete()) {
+                                    setState(() {
+                                      loading = true;
+                                    });
+                                    dynamic result =
+                                        await _auth.loginWithEmailAndPassword(
+                                            email, password);
+                                    if (result == null) {
+                                      setState(() {
+                                        loading = false;
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return RoundedAlert(
+                                              title: "Achtung",
+                                              text:
+                                                  "Deine Eingaben stimmen nicht mit den hinterlegten Daten überein!",
+                                            );
+                                          },
+                                        );
+                                      });
+                                    } else if (widget.fromRegistration) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SetProfilePage(
+                                                    cookBookCount: 0,
+                                                    recipeCount: 0,
+                                                    fromRegistration:
+                                                        widget.fromRegistration,
+                                                  )));
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Home()));
+                                    }
+                                  }
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      _auth.getUser().reload();
+                                      return RoundedAlert(
+                                        title: "❗️Achtung❗",
+                                        text:
+                                            "Bestätige bitte zuerst deine E-Mail um dich anzumelden ☺️",
+                                      );
+                                    },
+                                  );
+                                }
+                              } else {
                                 if (isUserInformationComplete()) {
                                   setState(() {
                                     loading = true;
                                   });
-                                  dynamic result =
-                                      await _auth.loginWithEmailAndPassword(
-                                          email, password);
+                                  dynamic result = await _auth
+                                      .loginWithEmailAndPassword(email, password);
                                   if (result == null) {
                                     setState(() {
                                       loading = false;
@@ -134,85 +205,40 @@ class _SignInState extends State<SignIn> {
                                         },
                                       );
                                     });
-                                  } else if (widget.fromRegistration) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                SetProfilePage(
-                                                  cookBookCount: 0,
-                                                  recipeCount: 0,
-                                                  fromRegistration:
-                                                      widget.fromRegistration,
-                                                )));
                                   } else {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Home()));
+                                            builder: (context) => const Home()));
                                   }
                                 }
-                              } else {
+                              }
+                            },
+                          ),
+                        ),
+                        FadeInUp(
+                            from: 50,
+                            duration: const Duration(milliseconds: 1000),
+                            child: const GoogleSignInButton()),
+                        FadeInUp(
+                          from: 50,
+                          duration: const Duration(milliseconds: 1000),
+                          child: StandardButton(
+                              color: Colors.white,
+                              text: "Passwort zurücksetzen",
+                              onPressed: () {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    _auth.getUser().reload();
                                     return RoundedAlert(
-                                      title: "❗️Achtung❗",
+                                      title: "Passwort zurücksetzen?",
                                       text:
-                                          "Bestätige bitte zuerst deine E-Mail um dich anzumelden ☺️",
+                                          "Willst du dein Passwort wirklich zurücksetzten? Es wird dir eine E-Mail zum zurücksetzen gesendet werden. Bitte gebe deineE-Mail Adresse ein.",
                                     );
                                   },
                                 );
-                              }
-                            } else {
-                              if (isUserInformationComplete()) {
-                                setState(() {
-                                  loading = true;
-                                });
-                                dynamic result = await _auth
-                                    .loginWithEmailAndPassword(email, password);
-                                if (result == null) {
-                                  setState(() {
-                                    loading = false;
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return RoundedAlert(
-                                          title: "Achtung",
-                                          text:
-                                              "Deine Eingaben stimmen nicht mit den hinterlegten Daten überein!",
-                                        );
-                                      },
-                                    );
-                                  });
-                                } else {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const Home()));
-                                }
-                              }
-                            }
-                          },
+                              }),
                         ),
-                        const GoogleSignInButton(),
-                        StandardButton(
-                            color: Colors.white,
-                            text: "Passwort zurücksetzen",
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return RoundedAlert(
-                                    title: "Passwort zurücksetzen?",
-                                    text:
-                                        "Willst du dein Passwort wirklich zurücksetzten? Es wird dir eine E-Mail zum zurücksetzen gesendet werden. Bitte gebe deineE-Mail Adresse ein.",
-                                  );
-                                },
-                              );
-                            }),
                         Padding(
                           padding: EdgeInsets.fromLTRB(
                               0.0, size.height * 0.06, 0.0, 0.0),
