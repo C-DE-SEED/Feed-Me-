@@ -8,8 +8,9 @@ import 'detail_page.dart';
 
 class MainDishesPage extends StatefulWidget {
   List<Recipe> recipes;
+  final List<Recipe> favs;
 
-  MainDishesPage({Key key, this.recipes}) : super(key: key);
+  MainDishesPage({Key key, this.recipes, this.favs}) : super(key: key);
 
   @override
   State<MainDishesPage> createState() => _MainDishesPageState();
@@ -81,10 +82,10 @@ class _MainDishesPageState extends State<MainDishesPage> {
                             context,
                             MaterialPageRoute(
                               builder: (_) => DetailPage(
-                                recipe: widget.recipes[index],
-                                ingredients: ingredients,
-                                reciptSteps: reciptSteps,
-                              ),
+                                  recipe: widget.recipes[index],
+                                  ingredients: ingredients,
+                                  reciptSteps: reciptSteps,
+                                  favs: widget.favs),
                             ),
                           );
                         },

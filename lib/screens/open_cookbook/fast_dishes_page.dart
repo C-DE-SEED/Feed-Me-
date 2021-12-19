@@ -9,8 +9,9 @@ import 'detail_page.dart';
 
 class FastDishesPage extends StatefulWidget {
   List<Recipe> recipes;
+  final List<Recipe> favs;
 
-  FastDishesPage({Key key, this.recipes}) : super(key: key);
+  FastDishesPage({Key key, this.recipes,this.favs}) : super(key: key);
 
   @override
   State<FastDishesPage> createState() => _FastDishesPageState();
