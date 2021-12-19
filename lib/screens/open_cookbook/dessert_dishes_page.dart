@@ -8,8 +8,9 @@ import 'detail_page.dart';
 
 class DessertDishesPage extends StatefulWidget {
   final List<Recipe> recipes;
+  final List<Recipe> favs;
 
-  const DessertDishesPage({Key key, this.recipes}) : super(key: key);
+  const DessertDishesPage({Key key, this.recipes,this.favs}) : super(key: key);
 
   @override
   State<DessertDishesPage> createState() => _DessertDishesPageState();
