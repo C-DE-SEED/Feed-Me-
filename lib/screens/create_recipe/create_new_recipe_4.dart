@@ -33,7 +33,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.orangeAccent,
+      backgroundColor: basicColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -285,7 +285,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
           widget.recipe.shortDescription,
           '',
           widget.recipe.time,
-         // widget.recipe.userNotes,
+          // widget.recipe.userNotes,
           widget.cookbook.name,
           widget.recipe.image);
     }
