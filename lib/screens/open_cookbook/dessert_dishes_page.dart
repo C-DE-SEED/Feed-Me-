@@ -85,6 +85,7 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                                 recipe: widget.recipes[index],
                                 reciptSteps: reciptSteps,
                                 ingredients: ingredients,
+                                fromHome: false,
                               ),
                             ),
                           );

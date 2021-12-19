@@ -44,7 +44,7 @@ class FavsAndShoppingListDbHelper {
       //'user_notes' : userNotes
     });
     // Important: Code beneath is needed. If there is no field in the document, firebase will not recognize it as document
-    await collectionReference.doc('favorites').set({'name': 'users favorites'});
+    await collectionReference.doc('favorites').set({'name': 'users favorites', 'image': 'none'});
   }
 
   Stream<List<Recipe>> getRecipesFromUsersFavsCollection() {

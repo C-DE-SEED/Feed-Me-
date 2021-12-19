@@ -86,6 +86,7 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                                 recipe: widget.recipes[index],
                                 reciptSteps: reciptSteps,
                                 ingredients: ingredients,
+                                fromHome: false,
                               ),
                             ),
                           );
