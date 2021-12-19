@@ -3,6 +3,7 @@ import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_object.dart';
+import 'package:feed_me/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 
@@ -11,9 +12,10 @@ class DetailPage extends StatefulWidget {
   final List<String> reciptSteps;
   final List<String> ingredients;
   List<Recipe> favs;
+  bool fromHome;
 
   DetailPage(
-      {Key key, this.recipe, this.reciptSteps, this.ingredients, this.favs})
+      {Key key, this.recipe, this.reciptSteps, this.ingredients, this.favs,this.fromHome})
       : super(key: key);
 
   @override
@@ -44,7 +46,20 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
       backgroundColor: basicColor,
       appBar: AppBar(
-        leading: const BackButton(),
+        leading:  IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: (){
+            if(widget.fromHome) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Home()));
+            }
+            else{
+              Navigator.pop(context);
+            }
+          },
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [

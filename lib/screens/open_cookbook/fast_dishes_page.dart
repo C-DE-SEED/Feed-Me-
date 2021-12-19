@@ -11,7 +11,7 @@ class FastDishesPage extends StatefulWidget {
   List<Recipe> recipes;
   final List<Recipe> favs;
 
-  FastDishesPage({Key key, this.recipes,this.favs}) : super(key: key);
+  FastDishesPage({Key key, this.recipes, this.favs}) : super(key: key);
 
   @override
   State<FastDishesPage> createState() => _FastDishesPageState();
@@ -86,6 +86,7 @@ class _FastDishesPageState extends State<FastDishesPage> {
                                 recipe: widget.recipes[index],
                                 ingredients: ingredients,
                                 reciptSteps: reciptSteps,
+                                fromHome: false,
                               ),
                             ),
                           );

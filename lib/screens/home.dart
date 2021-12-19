@@ -206,15 +206,14 @@ class _HomeState extends State<Home> {
           ),
           GestureDetector(
               onTap: () => _openDestinationPage(
-                    context,
-                    plantFoodFactory,
-                    Cookbook(
-                        'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
-                        'Plant Food Factory',
-                        plantFoodFactory),
-                    cookbookCount,
-                favs
-                  ),
+                  context,
+                  plantFoodFactory,
+                  Cookbook(
+                      'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161',
+                      'Plant Food Factory',
+                      plantFoodFactory),
+                  cookbookCount,
+                  favs),
               child: _buildFeaturedItem(
                   image:
                       "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
@@ -250,13 +249,8 @@ class _HomeState extends State<Home> {
             ]),
           ),
           GestureDetector(
-              onTap: () => _openDestinationPage(
-                    context,
-                    favs,
-                    Cookbook('', 'favorites', favs),
-                    cookbookCount,
-                favs
-                  ),
+              onTap: () => _openDestinationPage(context, favs,
+                  Cookbook('', 'favorites', favs), cookbookCount, favs),
               child: _buildFavoriteItem(
                   icon:
                       const Icon(Icons.favorite, color: Colors.red, size: 100),
@@ -318,10 +312,13 @@ class _HomeState extends State<Home> {
         context,
         MaterialPageRoute(
             builder: (_) => DetailPage(
-                recipe: plantFoodFactory.elementAt(index),
-                reciptSteps: filterSteps(plantFoodFactory.elementAt(index)),
-                ingredients:
-                    filterIngredients(plantFoodFactory.elementAt(index)))));
+                  recipe: plantFoodFactory.elementAt(index),
+                  reciptSteps: filterSteps(plantFoodFactory.elementAt(index)),
+                  ingredients:
+                      filterIngredients(plantFoodFactory.elementAt(index)),
+                  favs: favs,
+                  fromHome: true,
+                )));
   }
 
   Container _buildFeaturedItem(
@@ -434,13 +431,12 @@ class _HomeState extends State<Home> {
         context,
         MaterialPageRoute(
             builder: (_) => RecipePage(
-                  recipes: recipes,
-                  cookBookCount: cookBookCount - 1,
-                  recipeCount: recipeCount,
-                  cookBook: cookbook,
-                  isFeedMeCookbook: isFeedMeCookbook,
-                  favs: favs
-                )));
+                recipes: recipes,
+                cookBookCount: cookBookCount - 1,
+                recipeCount: recipeCount,
+                cookBook: cookbook,
+                isFeedMeCookbook: isFeedMeCookbook,
+                favs: favs)));
   }
 
   void getAllPlantFoodFactoryRecipes() async {

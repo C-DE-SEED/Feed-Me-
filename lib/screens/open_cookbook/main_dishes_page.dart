@@ -85,7 +85,8 @@ class _MainDishesPageState extends State<MainDishesPage> {
                                   recipe: widget.recipes[index],
                                   ingredients: ingredients,
                                   reciptSteps: reciptSteps,
-                                  favs: widget.favs),
+                                  favs: widget.favs,
+                                  fromHome: false),
                             ),
                           );
                         },
