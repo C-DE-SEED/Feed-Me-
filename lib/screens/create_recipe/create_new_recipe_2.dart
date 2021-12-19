@@ -37,7 +37,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.orangeAccent,
+      backgroundColor: basicColor,
       body: SafeArea(
         child: ListView(children: [
           Center(
