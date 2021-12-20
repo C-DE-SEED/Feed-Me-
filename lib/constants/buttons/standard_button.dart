@@ -18,18 +18,19 @@ class StandardButton extends StatelessWidget {
           height: 50,
           width: size.width * 0.9,
           decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(32.0)),
-              color: color,
-              boxShadow: [
-                BoxShadow(color: Colors.black.withAlpha(100), blurRadius: 5.0),
-              ]),
+            borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+            color: color,
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
             child: Center(
               child: Text(
                 text,
-                style: const TextStyle(fontFamily: openSansFontFamily,fontSize: 14, color:
-                Colors.black,                    fontWeight: FontWeight.w500,
+                style: const TextStyle(
+                  fontFamily: openSansFontFamily,
+                  fontSize: 14,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
                 ),
                 maxLines: 1,
               ),

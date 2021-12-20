@@ -28,6 +28,4 @@ class CookbookDbObject {
     exists = documentSnapshot.exists;
     return exists;
   }
-
-
 }

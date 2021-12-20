@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_object.dart';
+import 'package:feed_me/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 
@@ -9,8 +11,11 @@ class DetailPage extends StatefulWidget {
   final Recipe recipe;
   final List<String> recipeSteps;
   final List<String> ingredients;
+  List<Recipe> favs;
+  bool fromHome;
 
-  const DetailPage({Key key, this.recipe, this.recipeSteps, this.ingredients})
+  DetailPage(
+      {Key key, this.recipe, this.recipeSteps, this.ingredients, this.favs,this.fromHome})
       : super(key: key);
 
   @override
@@ -18,8 +23,21 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-  //TODO has to be repleaced with recipe.isFavorite
-  bool iconOnPressed = true;
+  bool isFav = false;
+  FavsAndShoppingListDbHelper favsAndShopping = FavsAndShoppingListDbHelper();
+
+  @override
+  void initState() {
+    //Set Favorite true when favorite list contains the name of actual recipe
+    widget.favs.forEach((element) {
+      if (element.name == widget.recipe.name) {
+        setState(() {
+          isFav = true;
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +46,20 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
       backgroundColor: basicColor,
       appBar: AppBar(
-        leading: const BackButton(),
+        leading:  IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: (){
+            if(widget.fromHome) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Home()));
+            }
+            else{
+              Navigator.pop(context);
+            }
+          },
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
@@ -64,67 +95,88 @@ class _DetailPageState extends State<DetailPage> {
                   Hero(
                     tag: widget.recipe.name,
                     // child: Image.network(recipe.image),
-                    child: Stack(
-                      children: [
-                        SizedBox(
-                          height: size.height * 0.345,
-                          width: size.width,
-                          child: CachedNetworkImage(
+                    child: Stack(children: [
+                      SizedBox(
+                        height: size.height * 0.345,
+                        width: size.width,
+                        child: CachedNetworkImage(
                           fit: BoxFit.cover,
                           imageUrl: widget.recipe.image,
                           placeholder: (context, url) =>
                               const CircularProgressIndicator(
                             color: basicColor,
                           ),
-                      ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0.0, size.height * 0.27, 0.0, 0.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(
-                                  icon: const Icon(Icons.info_outlined,
-                                      size: 40, color: Colors.white),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          child: TextFormField(
-                                            focusNode: userNotes,
-                                            decoration: const InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
-                                            ),
-                                            maxLines: 15,
-                                            onChanged: (userNotes) {
-                                              String notes = userNotes;
-                                              //widget.recipe.userNotes = notes;
-                                              //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
-                                            },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            0.0, size.height * 0.27, 0.0, 0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                                icon: const Icon(Icons.info_outlined,
+                                    size: 40, color: Colors.white),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Dialog(
+                                        child: TextFormField(
+                                          focusNode: userNotes,
+                                          decoration: const InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
                                           ),
-                                        );
-                                      },
-                                    );
-                                  }),
-                              IconButton(
-                                  icon: iconOnPressed
-                                      ? const Icon(Icons.favorite_border,
-                                      size: 40, color: Colors.white)
-                                      : const Icon(Icons.favorite,
-                                      size: 40, color: Colors.white),
-                                  onPressed: () {
-                                    //TODO set Favorite Recipe true
-                                    setState(() {
-                                      iconOnPressed = !iconOnPressed;
-                                    });
-                                  }),
-                            ],
-                          ),
-                        )
-                      ]
-                    ),
+                                          maxLines: 15,
+                                          onChanged: (userNotes) {
+                                            String notes = userNotes;
+                                            //widget.recipe.userNotes = notes;
+                                            //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }),
+                            IconButton(
+                                icon: !isFav
+                                    ? const Icon(Icons.favorite_border,
+                                        size: 40, color: Colors.white)
+                                    : const Icon(Icons.favorite,
+                                        size: 40, color: Colors.white),
+                                onPressed: () async {
+                                  //if it was fav before -> remove from database
+                                  if (isFav){
+                                    favsAndShopping.removeRecipesFromFavs(widget.recipe.name);
+                                  }
+                                  //if it was no fav before -> add to fav database
+                                  else{
+                                    await favsAndShopping.updateFavs(
+                                        widget.recipe.id,
+                                        widget.recipe.category,
+                                        widget.recipe.description,
+                                        widget.recipe.difficulty,
+                                        widget.recipe.image,
+                                        widget.recipe.ingredientsAndAmount,
+                                        widget.recipe.kitchenStuff,
+                                        widget.recipe.name,
+                                        widget.recipe.origin,
+                                        widget.recipe.persons,
+                                        widget.recipe.shortDescription,
+                                        widget.recipe.spices,
+                                        widget.recipe.time);
+                                  }
+
+                                  setState(() {
+                                    isFav = !isFav;
+                                  });
+
+                                }),
+                          ],
+                        ),
+                      )
+                    ]),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 70),

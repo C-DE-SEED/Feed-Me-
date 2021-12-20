@@ -8,8 +8,9 @@ import 'detail_page.dart';
 
 class StarterDishesPage extends StatefulWidget {
   List<Recipe> recipes;
+  final List<Recipe> favs;
 
-  StarterDishesPage({Key key, this.recipes}) : super(key: key);
+  StarterDishesPage({Key key, this.recipes,this.favs}) : super(key: key);
 
   @override
   State<StarterDishesPage> createState() => _StarterDishesPageState();
@@ -60,64 +61,75 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                 ),
               )),
           Expanded(
-            child: ListView.builder(
-              itemCount: widget.recipes.length,
-              itemBuilder: (_, index) {
-                return GestureDetector(
-                  onTap: () {
-                    filterSteps(widget.recipes[index]);
-                    filterIngredients(widget.recipes[index]);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => DetailPage(
-                          //TODO change Plants with recipes
-                          recipe: widget.recipes[index],
-                          recipeSteps: reciptSteps,
-                          ingredients: ingredients,
+            child: widget.recipes.isEmpty
+                ? const Center(
+                    child: Text(
+                    "Dieser Abschnitt ist leer",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 20,
+                      fontFamily: openSansFontFamily,
+                    ),
+                  ))
+                : ListView.builder(
+                    itemCount: widget.recipes.length,
+                    itemBuilder: (_, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          filterSteps(widget.recipes[index]);
+                          filterIngredients(widget.recipes[index]);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => DetailPage(
+                                //TODO change Plants with recipes
+                                recipe: widget.recipes[index],
+                                recipeSteps: reciptSteps,
+                                ingredients: ingredients,
+                                fromHome: false,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Hero(
+                              tag: widget.recipes[index].name,
+                              child: CachedNetworkImage(
+                                imageUrl: widget.recipes[index].image,
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(
+                                  color: basicColor,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.01),
+                            Text(
+                              widget.recipes[index].name,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.01),
+                            Text(
+                              widget.recipes[index].shortDescription,
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.01),
+                            const SizedBox(height: 30),
+                            const Divider(),
+                          ],
                         ),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Hero(
-                        tag: widget.recipes[index].name,
-                        child: CachedNetworkImage(
-                          imageUrl: widget.recipes[index].image,
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(
-                            color: basicColor,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: size.height * 0.01),
-                      Text(
-                        widget.recipes[index].name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: openSansFontFamily,
-                        ),
-                      ),
-                      SizedBox(height: size.height * 0.01),
-                      Text(
-                        widget.recipes[index].shortDescription,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                          fontFamily: openSansFontFamily,
-                        ),
-                      ),
-                      SizedBox(height: size.height * 0.01),
-                      const SizedBox(height: 30),
-                      const Divider(),
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           )
         ],
       ),

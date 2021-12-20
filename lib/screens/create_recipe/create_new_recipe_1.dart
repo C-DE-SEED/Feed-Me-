@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:feed_me/constants/alerts/custom_alert.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/custom_widgets/button_row.dart';
@@ -12,6 +13,7 @@ import 'dart:io';
 import 'package:feed_me/constants/styles/colors.dart';
 import '../../model/recipe_object.dart';
 import 'create_new_recipe_2.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 class CreateNewRecipe_1 extends StatefulWidget {
   Cookbook cookbook;
@@ -37,7 +39,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.orangeAccent,
+      backgroundColor: basicColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -47,53 +49,66 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Center(child: Text('1. Schritt: Titelbild und Namen erstellen',style:TextStyle(
-                      color: Colors.white,
-                      fontSize: fontSize,
-                      fontFamily: openSansFontFamily))),
-                  SizedBox(height: size.height*0.01),
+                  const Center(
+                      child: Text('1. Schritt: Titelbild und Namen erstellen',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: fontSize,
+                              fontFamily: openSansFontFamily))),
+                  SizedBox(height: size.height * 0.01),
                   Hero(
                     tag: 'steps',
                     child: ShowSteps(colors: step1),
                   ),
                   SizedBox(height: size.height * 0.05),
                   Center(
-                    child: SizedBox(
-                      width: size.width * 0.9,
-                      child: TextFormField(
-                        obscureText: false,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: fontSize,
+                    child: FadeInDown(
+                      from: 100,
+                      duration: const Duration(milliseconds: 500),
+                      child: SizedBox(
+                        width: size.width * 0.9,
+                        child: TextFormField(
+                          obscureText: false,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: fontSize,
+                          ),
+                          decoration: const InputDecoration(
+                            hintText: 'Rezeptname eingeben',
+                            hintStyle: TextStyle(
+                                color: Colors.white, fontSize: fontSize),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white)),
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white)),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              recipeName = value;
+                            });
+                          },
                         ),
-                        decoration: const InputDecoration(
-                          hintText: 'Rezeptname eingeben',
-                          hintStyle: TextStyle(
-                              color: Colors.white, fontSize: fontSize),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            recipeName = value;
-                          });
-                        },
                       ),
                     ),
                   ),
                   SizedBox(height: size.height * 0.1),
-                  const Center(
-                    child: Text("Titelbild für das Rezept festlegen:",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: fontSize,
-                            fontFamily: openSansFontFamily)),
+                  FadeInDown(
+                    from: 100,
+                    duration: const Duration(milliseconds: 500),
+                    child: const Center(
+                      child: Text("Titelbild für das Rezept festlegen:",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: fontSize,
+                              fontFamily: openSansFontFamily)),
+                    ),
                   ),
                   SizedBox(height: size.height * 0.02),
-                  photoContainer(size),
+                  FadeInDown(
+                      from: 100,
+                      duration: const Duration(milliseconds: 500),
+                      child: photoContainer(size)),
                   const Spacer(),
                   Hero(
                     tag: 'buttonRow',
@@ -105,22 +120,22 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                             builder: (BuildContext context) {
                               return RoundedAlert(
                                 title: "❗️Achtung❗",
-                                text: "Benne dein Rezept bitte ☺️",
+                                text: "Gib deinem Rezept einen Namen☺️",
                               );
                             },
                           );
-                        } else if(!hasImage){
+                        } else if (!hasImage) {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return RoundedAlert(
                                 title: "❗️Achtung❗",
-                                text: "Vergiss nicht dein Rezept mit einem Bild zu unterstützen ☺️",
+                                text:
+                                    "Vergiss nicht dein Rezept mit einem Bild zu unterstützen ☺️",
                               );
                             },
                           );
-                        }
-                        else {
+                        } else {
                           recipe.name = recipeName;
                           uploadFile(image, _authService);
                           Navigator.push(
@@ -148,15 +163,15 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
       width: size.width * 0.9,
       decoration: hasImage
           ? BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(image.path),
-                fit: BoxFit.cover,
-              ),
-              color: Colors.white.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(15))
+          image: DecorationImage(
+            image: AssetImage(image.path),
+            fit: BoxFit.cover,
+          ),
+          color: Colors.white.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(15))
           : BoxDecoration(
-              color: Colors.white.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(15)),
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(15)),
       child: TextButton(
         onPressed: () {
           showDialog(
@@ -202,8 +217,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   TextButton(
                                       onPressed: () {
@@ -251,17 +265,38 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                   ),
                 );
               });
-
-          //chooseFile();
         },
-        child: hasImage
-            ? null
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.camera_alt_outlined, color: deepOrange, size: 100)
-                ],
-              ),
+        child: hasImage ? null :DottedBorder(
+          borderType: BorderType.RRect,
+          radius: const Radius.circular(15),
+          dashPattern: const [10, 4],
+          strokeCap: StrokeCap.round,
+          color: deepOrange,
+          child: Container(
+            width: double.infinity,
+            height: size.height * 0.4,
+            decoration: BoxDecoration(
+                color: Colors.blue.shade50.withOpacity(.3),
+                borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.camera_alt_outlined,
+                    color: deepOrange, size: 80),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Text(
+                  'Foto auswählen',
+                  style: TextStyle(
+                      fontFamily: openSansFontFamily,
+                      fontSize: 18,
+                      color: deepOrange.withOpacity(0.5)),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -17,6 +17,7 @@ import 'dessert_dishes_page.dart';
 import 'starter_dishes_page.dart';
 
 class RecipePage extends StatefulWidget {
+  final List<Recipe> favs;
   final List<Recipe> recipes;
   final int recipeCount;
   final int cookBookCount;
@@ -29,7 +30,8 @@ class RecipePage extends StatefulWidget {
       @required this.recipeCount,
       @required this.cookBookCount,
       @required this.cookBook,
-      @required this.isFeedMeCookbook})
+      @required this.isFeedMeCookbook,
+  @required this.favs})
       : super(key: key);
 
   @override
@@ -68,10 +70,10 @@ class _RecipePageState extends State<RecipePage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [
-      StarterDishesPage(recipes: starter),
-      MainDishesPage(recipes: main),
-      DessertDishesPage(recipes: dessert),
-      FastDishesPage(recipes: starter),
+      StarterDishesPage(recipes: starter, favs: widget.favs),
+      MainDishesPage(recipes: main,favs: widget.favs),
+      DessertDishesPage(recipes: dessert,favs: widget.favs),
+      FastDishesPage(recipes: starter,favs: widget.favs),
     ];
 
     Size size = MediaQuery.of(context).size;

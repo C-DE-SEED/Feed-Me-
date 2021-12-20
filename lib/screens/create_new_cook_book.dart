@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
@@ -151,15 +152,15 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
       width: size.width * 0.9,
       decoration: hasImage
           ? BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(image.path),
-                fit: BoxFit.cover,
-              ),
-              color: Colors.white.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(15))
+          image: DecorationImage(
+            image: AssetImage(image.path),
+            fit: BoxFit.cover,
+          ),
+          color: Colors.white.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(15))
           : BoxDecoration(
-              color: Colors.white.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(15)),
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(15)),
       child: TextButton(
         onPressed: () {
           showDialog(
@@ -205,8 +206,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   TextButton(
                                       onPressed: () {
@@ -246,7 +246,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                           radius: 20,
                           child: ClipRRect(
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(20)),
+                              const BorderRadius.all(Radius.circular(20)),
                               child: Image.asset("assets/logoHellOrange.png")),
                         ),
                       ),
@@ -254,16 +254,38 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                   ),
                 );
               });
-          //chooseFile();
         },
-        child: hasImage
-            ? null
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.camera_alt_outlined, color: deepOrange, size: 100)
-                ],
-              ),
+        child: hasImage ? null :DottedBorder(
+          borderType: BorderType.RRect,
+          radius: const Radius.circular(15),
+          dashPattern: const [10, 4],
+          strokeCap: StrokeCap.round,
+          color: deepOrange,
+          child: Container(
+            width: double.infinity,
+            height: size.height * 0.4,
+            decoration: BoxDecoration(
+                color: Colors.blue.shade50.withOpacity(.3),
+                borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.camera_alt_outlined,
+                    color: deepOrange, size: 80),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Text(
+                  'Foto auswählen',
+                  style: TextStyle(
+                      fontFamily: openSansFontFamily,
+                      fontSize: 18,
+                      color: deepOrange.withOpacity(0.5)),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

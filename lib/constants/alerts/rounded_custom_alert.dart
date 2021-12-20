@@ -2,7 +2,6 @@ import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class RoundedAlert extends StatelessWidget {
   String title;
@@ -19,13 +18,12 @@ class RoundedAlert extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.only(right: 16.0),
           width: size.width * 0.9,
-          height: size.height * 0.2,
+          height: size.height * 0.3,
           decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.8),
               borderRadius: const BorderRadius.only(
-                // war vorher auf 75
-                  topLeft: Radius.circular(15),
-                  bottomLeft: Radius.circular(15),
+                  topLeft: Radius.circular(55),
+                  bottomLeft: Radius.circular(55),
                   topRight: Radius.circular(15),
                   bottomRight: Radius.circular(15))),
           child: Row(

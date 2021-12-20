@@ -41,7 +41,7 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.orangeAccent,
+      backgroundColor: basicColor,
       body: SafeArea(
         child: Center(
           child: SizedBox(

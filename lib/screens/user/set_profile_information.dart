@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/styles/colors.dart';
@@ -42,78 +43,95 @@ class _SetProfilePageState extends State<SetProfilePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        leading: const BackButton(),
+    return Container(
+      height: size.height,
+      width: size.width,
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [basicColor, deepOrange])),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: const BackButton(),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: const [],
+        ),
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: const [],
-      ),
-      backgroundColor: basicColor,
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          ProfileWidget(
-            isProfileRoot: true,
-            isLoadingState: false,
-          ),
-          SizedBox(height: size.height * 0.015),
-          buildName(auth),
-          SizedBox(height: size.height * 0.01),
-          NumbersWidget(
-            recipeCount: widget.recipeCount,
-            cookBookCount: widget.cookBookCount,
-          ),
-          SizedBox(height: size.height * 0.01),
-          buildAbout(size, auth),
-          SizedBox(height: size.height * 0.0025),
-          StandardButton(
-              color: Colors.white,
-              text: "Eingaben speichern",
-              onPressed: () {
-                var user = auth.getUser();
-                if (user.displayName == null) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return RoundedAlert(
-                        title: "❗️Achtung❗",
-                        text: "Gib bitte deine Benutzernamen an ☺️",
+        body: Column(
+          children: [
+            FadeInDown(
+              from: 100,
+              duration: const Duration(milliseconds: 500),
+              child: ProfileWidget(
+                isProfileRoot: true,
+                isLoadingState: false,
+              ),
+            ),
+            SizedBox(height: size.height * 0.015),
+            FadeInDown(
+                from: 100,
+                duration: const Duration(milliseconds: 500),
+                child: buildName(auth,size)),
+            SizedBox(height: size.height * 0.01),
+            FadeInDown(
+              from: 100,
+              duration: const Duration(milliseconds: 500),
+              child: NumbersWidget(
+                recipeCount: widget.recipeCount,
+                cookBookCount: widget.cookBookCount,
+              ),
+            ),
+            SizedBox(height: size.height * 0.35),
+            FadeInUp(
+              from: 100,
+              duration: const Duration(milliseconds: 500),
+              child: StandardButton(
+                  color: Colors.white,
+                  text: "Eingaben speichern",
+                  onPressed: () {
+                    var user = auth.getUser();
+                    if (user.displayName == null) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return RoundedAlert(
+                            title: "❗️Achtung❗",
+                            text: "Gib bitte deine Benutzernamen an ☺️",
+                          );
+                        },
                       );
-                    },
-                  );
-                } else if (user.photoURL == null) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return RoundedAlert(
-                        title: "❗️Achtung❗",
-                        text: "Gib bitte ein Profilbild an ☺️",
+                    } else if (user.photoURL == null) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return RoundedAlert(
+                            title: "❗️Achtung❗",
+                            text: "Gib bitte ein Profilbild an ☺️",
+                          );
+                        },
                       );
-                    },
-                  );
-                } else {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Home()));
-                }
-              }),
-        ],
+                    } else {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const Home()));
+                    }
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildName(AuthService auth) => Column(
+  Widget buildName(AuthService auth, Size size) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            decoration: BoxDecoration(
+            width: size.width*0.9,
+            decoration: const BoxDecoration(
               color: Colors.white54,
-              border: Border.all(
-                width: 15,
-                color: basicColor,
-                style: BorderStyle.solid,
-              ),
-              borderRadius: const BorderRadius.all(Radius.circular(40)),
+              borderRadius: BorderRadius.all(Radius.circular(40)),
             ),
             child: TextFormField(
               textAlign: TextAlign.center,
