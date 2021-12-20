@@ -7,10 +7,10 @@ import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 
 class DetailPage extends StatefulWidget {
   final Recipe recipe;
-  final List<String> reciptSteps;
+  final List<String> recipeSteps;
   final List<String> ingredients;
 
-  const DetailPage({Key key, this.recipe, this.reciptSteps, this.ingredients})
+  const DetailPage({Key key, this.recipe, this.recipeSteps, this.ingredients})
       : super(key: key);
 
   @override
@@ -41,7 +41,7 @@ class _DetailPageState extends State<DetailPage> {
               ),
               onPressed: () {
                 //TODO insert share export
-                print(widget.reciptSteps);
+                print(widget.recipeSteps);
                 print(widget.ingredients);
               },
             ),
@@ -169,7 +169,7 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                         SizedBox(height: size.height * 0.01),
-                        getStepWidget(widget.reciptSteps),
+                        getStepWidget(widget.recipeSteps),
                         SizedBox(height: size.height * 0.05),
                         Row(
                           children: [

@@ -73,7 +73,7 @@ class _MainDishesPageState extends State<MainDishesPage> {
                         builder: (_) => DetailPage(
                           recipe: widget.recipes[index],
                           ingredients: ingredients,
-                          reciptSteps: reciptSteps,
+                          recipeSteps: reciptSteps,
                         ),
                       ),
                     );

@@ -74,7 +74,7 @@ class _FastDishesPageState extends State<FastDishesPage> {
                         builder: (_) => DetailPage(
                           recipe: widget.recipes[index],
                           ingredients: ingredients,
-                          reciptSteps: reciptSteps,
+                          recipeSteps: reciptSteps,
                         ),
                       ),
                     );

@@ -273,7 +273,7 @@ class _HomeState extends State<Home> {
         MaterialPageRoute(
             builder: (_) => DetailPage(
                 recipe: favoriteRecipes.elementAt(index),
-                reciptSteps: filterSteps(favoriteRecipes.elementAt(index)),
+                recipeSteps: filterSteps(favoriteRecipes.elementAt(index)),
                 ingredients:
                     filterIngredients(favoriteRecipes.elementAt(index)))));
   }
