@@ -92,13 +92,12 @@ class _DetailPageState extends State<DetailPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Hero(
-                    tag: widget.recipe.name,
-                    // child: Image.network(recipe.image),
-                    child: Stack(children: [
-                      SizedBox(
-                        height: size.height * 0.345,
-                        width: size.width,
+                  Stack(children: [
+                    SizedBox(
+                      height: size.height * 0.345,
+                      width: size.width,
+                      child: Hero(
+                        tag: widget.recipe.name,
                         child: CachedNetworkImage(
                           fit: BoxFit.cover,
                           imageUrl: widget.recipe.image,
@@ -108,76 +107,76 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            0.0, size.height * 0.27, 0.0, 0.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                                icon: const Icon(Icons.info_outlined,
-                                    size: 40, color: Colors.white),
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        child: TextFormField(
-                                          focusNode: userNotes,
-                                          decoration: const InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
-                                          ),
-                                          maxLines: 15,
-                                          onChanged: (userNotes) {
-                                            String notes = userNotes;
-                                            //widget.recipe.userNotes = notes;
-                                            //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
-                                          },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          0.0, size.height * 0.27, 0.0, 0.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                              icon: const Icon(Icons.info_outlined,
+                                  size: 40, color: Colors.white),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      child: TextFormField(
+                                        focusNode: userNotes,
+                                        decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
                                         ),
-                                      );
-                                    },
-                                  );
-                                }),
-                            IconButton(
-                                icon: !isFav
-                                    ? const Icon(Icons.favorite_border,
-                                        size: 40, color: Colors.white)
-                                    : const Icon(Icons.favorite,
-                                        size: 40, color: Colors.white),
-                                onPressed: () async {
-                                  //if it was fav before -> remove from database
-                                  if (isFav){
-                                    favsAndShopping.removeRecipesFromFavs(widget.recipe.name);
-                                  }
-                                  //if it was no fav before -> add to fav database
-                                  else{
-                                    await favsAndShopping.updateFavs(
-                                        widget.recipe.id,
-                                        widget.recipe.category,
-                                        widget.recipe.description,
-                                        widget.recipe.difficulty,
-                                        widget.recipe.image,
-                                        widget.recipe.ingredientsAndAmount,
-                                        widget.recipe.kitchenStuff,
-                                        widget.recipe.name,
-                                        widget.recipe.origin,
-                                        widget.recipe.persons,
-                                        widget.recipe.shortDescription,
-                                        widget.recipe.spices,
-                                        widget.recipe.time);
-                                  }
+                                        maxLines: 15,
+                                        onChanged: (userNotes) {
+                                          String notes = userNotes;
+                                          //widget.recipe.userNotes = notes;
+                                          //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
+                                        },
+                                      ),
+                                    );
+                                  },
+                                );
+                              }),
+                          IconButton(
+                              icon: !isFav
+                                  ? const Icon(Icons.favorite_border,
+                                      size: 40, color: Colors.white)
+                                  : const Icon(Icons.favorite,
+                                      size: 40, color: Colors.white),
+                              onPressed: () async {
+                                //if it was fav before -> remove from database
+                                if (isFav){
+                                  favsAndShopping.removeRecipesFromFavs(widget.recipe.name);
+                                }
+                                //if it was no fav before -> add to fav database
+                                else{
+                                  await favsAndShopping.updateFavs(
+                                      widget.recipe.id,
+                                      widget.recipe.category,
+                                      widget.recipe.description,
+                                      widget.recipe.difficulty,
+                                      widget.recipe.image,
+                                      widget.recipe.ingredientsAndAmount,
+                                      widget.recipe.kitchenStuff,
+                                      widget.recipe.name,
+                                      widget.recipe.origin,
+                                      widget.recipe.persons,
+                                      widget.recipe.shortDescription,
+                                      widget.recipe.spices,
+                                      widget.recipe.time);
+                                }
 
-                                  setState(() {
-                                    isFav = !isFav;
-                                  });
+                                setState(() {
+                                  isFav = !isFav;
+                                });
 
-                                }),
-                          ],
-                        ),
-                      )
-                    ]),
-                  ),
+                              }),
+                        ],
+                      ),
+                    )
+                  ]),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 70),
                     child: Column(
@@ -271,7 +270,6 @@ class _DetailPageState extends State<DetailPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    //TODO insert additonal data
                     buildCard("Schwierigkeit", Icons.settings,
                         widget.recipe.difficulty, size),
                     SizedBox(width: size.width * 0.05),

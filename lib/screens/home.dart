@@ -77,7 +77,10 @@ class _HomeState extends State<Home> {
                             children: <Widget>[
                               Text(
                                 "Hallo, " +
-                                    authService.getUser().displayName.toString(),
+                                    authService
+                                        .getUser()
+                                        .displayName
+                                        .toString(),
                                 // .displayName,
                                 style: const TextStyle(
                                     fontSize: 18.0,
@@ -111,7 +114,8 @@ class _HomeState extends State<Home> {
                                     MaterialPageRoute(
                                         builder: (context) => ProfilePage(
                                               recipeCount: recipeCount,
-                                              cookBookCount: userCookbooks.length,
+                                              cookBookCount:
+                                                  userCookbooks.length,
                                             )));
                               },
                               child: null,
@@ -260,8 +264,8 @@ class _HomeState extends State<Home> {
                 onTap: () => _openDestinationPage(context, favs,
                     Cookbook('', 'favorites', favs), cookbookCount, favs),
                 child: _buildFavoriteItem(
-                    icon:
-                        const Icon(Icons.favorite, color: Colors.red, size: 100),
+                    icon: const Icon(Icons.favorite,
+                        color: Colors.red, size: 100),
                     title: "Meine Favoriten",
                     subtitle: '',
                     size: size)),

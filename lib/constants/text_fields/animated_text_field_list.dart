@@ -64,7 +64,6 @@ class _AnimatedListOnePageState extends State<AnimatedListOnePage> {
                     // authService.getUser().updateDisplayName(value);
                     items.add(input);
                   },
-                  //TODO find away to add external User data
                 ),
                 trailing: IconButton(
                   icon: const Icon(Icons.clear),
