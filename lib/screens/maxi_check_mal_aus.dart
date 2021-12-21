@@ -34,9 +34,6 @@ class TextfieldWithSuggestion extends StatelessWidget {
                 onSuggestionSelected: (suggestion) {
                   this._typeAheadController.text = suggestion;
                 })
-
-
-
         ),
       ),
     );
