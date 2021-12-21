@@ -1,7 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Impressum extends StatelessWidget {

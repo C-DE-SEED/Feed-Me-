@@ -21,7 +21,6 @@ class SignIn extends StatefulWidget {
   const SignIn({Key key, this.toggleView, this.fromRegistration})
       : super(key: key);
 
-//TODO insert google log in option
   final Function toggleView;
   final bool fromRegistration;
 

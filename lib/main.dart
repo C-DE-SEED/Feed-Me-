@@ -26,23 +26,27 @@ class MyApp extends StatelessWidget {
       child: const DismissKeyboard(
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          localizationsDelegates: [   GlobalMaterialLocalizations.delegate,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,],
+            GlobalCupertinoLocalizations.delegate,
+          ],
           supportedLocales: [Locale('de')],
           home: Welcome(),
         ),
       ),
     );
-// TODO insert UserObject with additional data (use Firebase User object as
-//  root)
+    // TODO insert UserObject with additional data (use Firebase User object as
+    //  root)
     // TODO show dish of the day instead of feed me logo
-    // TODO: Decription from user
-    // TODO: insert chilis as spice integrator
-    //TODO: Radien anpassen
-    //TODO: buttonRow anpassen (Höhe)
-    //TODO: insert full screen dialog in navigators
-    //FIXME: neue gerichte werden anscheinend immer unter hauptgerichte abgelegt
+    // TODO: insert full screen dialog in navigators
+    // FIXME: neue gerichte werden anscheinend immer unter hauptgerichte abgelegt
+    // TODO crop Images before upload
+    // TODO default profile pictures
+    // TODO insert Focus Node in TextFields
+    // TODO einkaufsliste
+    // TODO detail page überarbeiten
+
     /*
      ----------------------------------------------
     |             _____             _____          |

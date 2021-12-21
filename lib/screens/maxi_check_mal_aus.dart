@@ -12,16 +12,25 @@ class TextfieldWithSuggestion extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
-            padding: EdgeInsets.all(16),
-            child:
-
-            TypeAheadField(
+            padding: const EdgeInsets.all(16),
+            child: TypeAheadField(
                 textFieldConfiguration: TextFieldConfiguration(
-                  decoration: InputDecoration(labelText: 'State'),
-                  controller: this._typeAheadController,
+                  decoration: const InputDecoration(
+                  hintText: 'Zutat eingeben',
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide:
+                      BorderSide(color: Colors.white)),
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide:
+                      BorderSide(color: Colors.white)),
                 ),
-                suggestionsCallback: (pattern) async {
-                  return await IngredientsService.getSuggestions(pattern);
+                  controller: _typeAheadController,
+                ),
+                suggestionsCallback: (pattern) {
+                  return IngredientsService.getSuggestions(pattern);
                 },
                 transitionBuilder: (context, suggestionsBox, controller) {
                   return suggestionsBox;
@@ -32,7 +41,7 @@ class TextfieldWithSuggestion extends StatelessWidget {
                   );
                 },
                 onSuggestionSelected: (suggestion) {
-                  this._typeAheadController.text = suggestion;
+                  _typeAheadController.text = suggestion;
                 })
         ),
       ),
@@ -53,10 +62,10 @@ class IngredientsService {
     'Mandelmilch'
   ];
 
-  static List<String> getSuggestions(String query) {
+  static List<String> getSuggestions(String pattern) {
     List<String> matches = [];
     matches.addAll(states);
-    matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
+    matches.retainWhere((s) => s.toLowerCase().contains(pattern.toLowerCase()));
     return matches;
   }
 }
