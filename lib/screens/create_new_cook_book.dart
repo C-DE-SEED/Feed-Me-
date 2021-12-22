@@ -339,13 +339,15 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
           CropAspectRatioPreset.ratio16x9,
         ],
         androidUiSettings: const AndroidUiSettings(
-            toolbarTitle: 'Bild zuschneiden',
-            initAspectRatio: CropAspectRatioPreset.ratio16x9,
-            lockAspectRatio: true),
+          toolbarTitle: 'Bild zuschneiden',
+          initAspectRatio: CropAspectRatioPreset.ratio16x9,
+          lockAspectRatio: true,
+        ),
         iosUiSettings: const IOSUiSettings(
           title: 'Bild zuschneiden',
           aspectRatioLockEnabled: true,
           resetAspectRatioEnabled: false,
+          aspectRatioLockDimensionSwapEnabled: true,
         ));
     if (croppedFile != null) {
       image = croppedFile;

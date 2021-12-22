@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
     // TODO show dish of the day instead of feed me logo
     // TODO: insert full screen dialog in navigators
     // FIXME: neue gerichte werden anscheinend immer unter hauptgerichte abgelegt
-    // TODO crop Images before upload
     // TODO default profile pictures
     // TODO insert Focus Node in TextFields
     // TODO einkaufsliste
