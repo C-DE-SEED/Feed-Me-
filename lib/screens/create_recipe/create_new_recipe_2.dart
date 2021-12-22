@@ -77,8 +77,8 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                             child: Column(
                               children: [
                                 // TODO größe anpassen vom textfeld
-                                Expanded(child: TextfieldWithSuggestion()),
-                               /* TextFormField(
+                               // Expanded(child: TextfieldWithSuggestion()),
+                                TextFormField(
                                   obscureText: false,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
@@ -103,7 +103,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                                           value;
                                     });
                                   },
-                                ),*/
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

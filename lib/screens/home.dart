@@ -183,7 +183,7 @@ class _HomeState extends State<Home> {
                       onTap: () => _openRecipeDetailPage(context, index),
                       child: _buildFeaturedItem(
                           image: plantFoodFactory.elementAt(index).image,
-                          title: '',
+                          title: plantFoodFactory.elementAt(index).name,
                           subtitle: '',
                           isSuggestion: true));
                 },
@@ -378,7 +378,26 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     )
-                  : Container(),
+                  : Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0, vertical: 4.0),
+                color: Colors.black.withOpacity(0.7),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text(title,
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.fade,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: openSansFontFamily,)),
+                  ],
+                ),
+              ),
             ),
           ],
         ),

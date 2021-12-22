@@ -46,6 +46,9 @@ class MyApp extends StatelessWidget {
     // TODO insert Focus Node in TextFields
     // TODO einkaufsliste
     // TODO detail page überarbeiten
+    // TODO buy me a coffee einfügen
+    // TODO vorschläge bilder auch in heros packen
+
 
     /*
      ----------------------------------------------
