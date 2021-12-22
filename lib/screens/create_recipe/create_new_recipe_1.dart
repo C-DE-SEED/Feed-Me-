@@ -8,6 +8,7 @@ import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:feed_me/constants/styles/colors.dart';
@@ -163,15 +164,15 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
       width: size.width * 0.9,
       decoration: hasImage
           ? BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(image.path),
-            fit: BoxFit.cover,
-          ),
-          color: Colors.white.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(15))
+              image: DecorationImage(
+                image: AssetImage(image.path),
+                fit: BoxFit.cover,
+              ),
+              color: Colors.white.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(15))
           : BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(15)),
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(15)),
       child: TextButton(
         onPressed: () {
           showDialog(
@@ -217,7 +218,8 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   TextButton(
                                       onPressed: () {
@@ -266,37 +268,39 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                 );
               });
         },
-        child: hasImage ? null :DottedBorder(
-          borderType: BorderType.RRect,
-          radius: const Radius.circular(15),
-          dashPattern: const [10, 4],
-          strokeCap: StrokeCap.round,
-          color: deepOrange,
-          child: Container(
-            width: double.infinity,
-            height: size.height * 0.4,
-            decoration: BoxDecoration(
-                color: Colors.blue.shade50.withOpacity(.3),
-                borderRadius: BorderRadius.circular(10)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.camera_alt_outlined,
-                    color: deepOrange, size: 80),
-                SizedBox(
-                  height: size.height * 0.01,
+        child: hasImage
+            ? null
+            : DottedBorder(
+                borderType: BorderType.RRect,
+                radius: const Radius.circular(15),
+                dashPattern: const [10, 4],
+                strokeCap: StrokeCap.round,
+                color: deepOrange,
+                child: Container(
+                  width: double.infinity,
+                  height: size.height * 0.4,
+                  decoration: BoxDecoration(
+                      color: Colors.blue.shade50.withOpacity(.3),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.camera_alt_outlined,
+                          color: deepOrange, size: 80),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      Text(
+                        'Foto auswählen',
+                        style: TextStyle(
+                            fontFamily: openSansFontFamily,
+                            fontSize: 18,
+                            color: deepOrange.withOpacity(0.5)),
+                      ),
+                    ],
+                  ),
                 ),
-                Text(
-                  'Foto auswählen',
-                  style: TextStyle(
-                      fontFamily: openSansFontFamily,
-                      fontSize: 18,
-                      color: deepOrange.withOpacity(0.5)),
-                ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }
@@ -306,6 +310,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
         .pickImage(source: imageSource, imageQuality: 10)
         .then((file) {
       setState(() {
+        _cropImage(file.path);
         image = File(file.path);
         hasImage = true;
       });
@@ -324,6 +329,36 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
       recipe.image = downloadUrl;
+    }
+  }
+
+  Future<void> _cropImage(String sourcePath) async {
+    File croppedFile = await ImageCropper.cropImage(
+        sourcePath: sourcePath,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+                // pre set einstellung für das format der bildauswahl
+                //CropAspectRatioPreset.square,
+                //CropAspectRatioPreset.ratio3x2,
+                //CropAspectRatioPreset.original,
+                //CropAspectRatioPreset.ratio4x3,
+                //CropAspectRatioPreset.ratio16x9
+                CropAspectRatioPreset.ratio16x9,
+              ]
+            : [
+                CropAspectRatioPreset.ratio16x9,
+              ],
+        androidUiSettings: const AndroidUiSettings(
+            toolbarTitle: 'Bild zuschneiden',
+            initAspectRatio: CropAspectRatioPreset.ratio16x9,
+            lockAspectRatio: true),
+        iosUiSettings: const IOSUiSettings(
+          title: 'Bild zuschneiden',
+          aspectRatioLockEnabled: true,
+          resetAspectRatioEnabled: false,
+        ));
+    if (croppedFile != null) {
+      image = croppedFile;
     }
   }
 }
