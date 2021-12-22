@@ -53,4 +53,9 @@ class _Welcome extends State<Welcome> {
       },
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 }
