@@ -223,7 +223,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                                 children: [
                                   TextButton(
                                       onPressed: () {
-                                        chooseFile(ImageSource.gallery);
+                                        chooseFile(ImageSource.gallery, size);
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text(
@@ -235,7 +235,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                                       )),
                                   TextButton(
                                       onPressed: () {
-                                        chooseFile(ImageSource.camera);
+                                        chooseFile(ImageSource.camera, size);
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text(
@@ -305,12 +305,12 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
     );
   }
 
-  Future chooseFile(ImageSource imageSource) async {
+  Future chooseFile(ImageSource imageSource, Size size) async {
     await ImagePicker.platform
         .pickImage(source: imageSource, imageQuality: 10)
         .then((file) {
       setState(() {
-        _cropImage(file.path);
+        _cropImage(file.path, size);
         image = File(file.path);
         hasImage = true;
       });
@@ -332,30 +332,31 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
     }
   }
 
-  Future<void> _cropImage(String sourcePath) async {
+  Future<void> _cropImage(String sourcePath, Size size) async {
     File croppedFile = await ImageCropper.cropImage(
         sourcePath: sourcePath,
+        maxHeight: (size.height * 0.3).toInt(),
         aspectRatioPresets: Platform.isAndroid
             ? [
-                // pre set einstellung für das format der bildauswahl
-                //CropAspectRatioPreset.square,
-                //CropAspectRatioPreset.ratio3x2,
-                //CropAspectRatioPreset.original,
-                //CropAspectRatioPreset.ratio4x3,
-                //CropAspectRatioPreset.ratio16x9
-                CropAspectRatioPreset.ratio16x9,
-              ]
+          // pre set einstellung für das format der bildauswahl
+          //CropAspectRatioPreset.square,
+          //CropAspectRatioPreset.ratio3x2,
+          //CropAspectRatioPreset.original,
+          //CropAspectRatioPreset.ratio4x3,
+          //CropAspectRatioPreset.ratio16x9
+          CropAspectRatioPreset.ratio16x9,
+        ]
             : [
-                CropAspectRatioPreset.ratio16x9,
-              ],
+          CropAspectRatioPreset.ratio16x9,
+        ],
         androidUiSettings: const AndroidUiSettings(
           toolbarTitle: 'Bild zuschneiden',
           initAspectRatio: CropAspectRatioPreset.ratio16x9,
-          lockAspectRatio: true,
+          lockAspectRatio: false,
         ),
         iosUiSettings: const IOSUiSettings(
           title: 'Bild zuschneiden',
-          aspectRatioLockEnabled: true,
+          aspectRatioLockEnabled: false,
           resetAspectRatioEnabled: false,
           aspectRatioLockDimensionSwapEnabled: true,
         ));

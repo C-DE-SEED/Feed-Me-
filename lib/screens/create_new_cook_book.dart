@@ -212,7 +212,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                                 children: [
                                   TextButton(
                                       onPressed: () {
-                                        chooseFile(ImageSource.gallery);
+                                        chooseFile(ImageSource.gallery, size);
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text(
@@ -224,7 +224,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                                       )),
                                   TextButton(
                                       onPressed: () {
-                                        chooseFile(ImageSource.camera);
+                                        chooseFile(ImageSource.camera, size);
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text(
@@ -294,11 +294,11 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
     );
   }
 
-  Future chooseFile(ImageSource imageSource) async {
+  Future chooseFile(ImageSource imageSource, Size size) async {
     await ImagePicker.platform
         .pickImage(source: imageSource, imageQuality: 10)
         .then((file) {
-      _cropImage(file.path);
+      _cropImage(file.path, size);
       setState(() {
         image = File(file.path);
         hasImage = true;
@@ -322,9 +322,10 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
     }
   }
 
-  Future<void> _cropImage(String sourcePath) async {
+  Future<void> _cropImage(String sourcePath, Size size) async {
     File croppedFile = await ImageCropper.cropImage(
         sourcePath: sourcePath,
+        maxHeight: (size.height * 0.3).toInt(),
         aspectRatioPresets: Platform.isAndroid
             ? [
           // pre set einstellung für das format der bildauswahl
@@ -341,11 +342,11 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
         androidUiSettings: const AndroidUiSettings(
           toolbarTitle: 'Bild zuschneiden',
           initAspectRatio: CropAspectRatioPreset.ratio16x9,
-          lockAspectRatio: true,
+          lockAspectRatio: false,
         ),
         iosUiSettings: const IOSUiSettings(
           title: 'Bild zuschneiden',
-          aspectRatioLockEnabled: true,
+          aspectRatioLockEnabled: false,
           resetAspectRatioEnabled: false,
           aspectRatioLockDimensionSwapEnabled: true,
         ));
