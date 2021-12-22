@@ -7,6 +7,7 @@ import 'package:feed_me/model/cookbook_db_object.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:feed_me/constants/styles/colors.dart';
@@ -24,7 +25,7 @@ class CreateNewCookbook extends StatefulWidget {
 class _CreateNewCookbookState extends State<CreateNewCookbook> {
   File image;
   bool hasImage = false;
-  Cookbook cookbook = Cookbook('','',[]);
+  Cookbook cookbook = Cookbook('', '', []);
   final List<String> keys = [];
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   final AuthService _authService = AuthService();
@@ -152,15 +153,15 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
       width: size.width * 0.9,
       decoration: hasImage
           ? BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(image.path),
-            fit: BoxFit.cover,
-          ),
-          color: Colors.white.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(15))
+              image: DecorationImage(
+                image: AssetImage(image.path),
+                fit: BoxFit.cover,
+              ),
+              color: Colors.white.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(15))
           : BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(15)),
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(15)),
       child: TextButton(
         onPressed: () {
           showDialog(
@@ -206,7 +207,8 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   TextButton(
                                       onPressed: () {
@@ -246,7 +248,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                           radius: 20,
                           child: ClipRRect(
                               borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
+                                  const BorderRadius.all(Radius.circular(20)),
                               child: Image.asset("assets/logoHellOrange.png")),
                         ),
                       ),
@@ -255,37 +257,39 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                 );
               });
         },
-        child: hasImage ? null :DottedBorder(
-          borderType: BorderType.RRect,
-          radius: const Radius.circular(15),
-          dashPattern: const [10, 4],
-          strokeCap: StrokeCap.round,
-          color: deepOrange,
-          child: Container(
-            width: double.infinity,
-            height: size.height * 0.4,
-            decoration: BoxDecoration(
-                color: Colors.blue.shade50.withOpacity(.3),
-                borderRadius: BorderRadius.circular(10)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.camera_alt_outlined,
-                    color: deepOrange, size: 80),
-                SizedBox(
-                  height: size.height * 0.01,
+        child: hasImage
+            ? null
+            : DottedBorder(
+                borderType: BorderType.RRect,
+                radius: const Radius.circular(15),
+                dashPattern: const [10, 4],
+                strokeCap: StrokeCap.round,
+                color: deepOrange,
+                child: Container(
+                  width: double.infinity,
+                  height: size.height * 0.4,
+                  decoration: BoxDecoration(
+                      color: Colors.blue.shade50.withOpacity(.3),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.camera_alt_outlined,
+                          color: deepOrange, size: 80),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      Text(
+                        'Foto auswählen',
+                        style: TextStyle(
+                            fontFamily: openSansFontFamily,
+                            fontSize: 18,
+                            color: deepOrange.withOpacity(0.5)),
+                      ),
+                    ],
+                  ),
                 ),
-                Text(
-                  'Foto auswählen',
-                  style: TextStyle(
-                      fontFamily: openSansFontFamily,
-                      fontSize: 18,
-                      color: deepOrange.withOpacity(0.5)),
-                ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }
@@ -294,6 +298,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
     await ImagePicker.platform
         .pickImage(source: imageSource, imageQuality: 10)
         .then((file) {
+      _cropImage(file.path);
       setState(() {
         image = File(file.path);
         hasImage = true;
@@ -314,6 +319,36 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
       downloadUrl = await refStorage.getDownloadURL();
       cookbook.image = downloadUrl;
       addCookbookToDatabase(cookbook);
+    }
+  }
+
+  Future<void> _cropImage(String sourcePath) async {
+    File croppedFile = await ImageCropper.cropImage(
+        sourcePath: sourcePath,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+          // pre set einstellung für das format der bildauswahl
+          //CropAspectRatioPreset.square,
+          //CropAspectRatioPreset.ratio3x2,
+          //CropAspectRatioPreset.original,
+          //CropAspectRatioPreset.ratio4x3,
+          //CropAspectRatioPreset.ratio16x9
+          CropAspectRatioPreset.ratio16x9,
+        ]
+            : [
+          CropAspectRatioPreset.ratio16x9,
+        ],
+        androidUiSettings: const AndroidUiSettings(
+            toolbarTitle: 'Bild zuschneiden',
+            initAspectRatio: CropAspectRatioPreset.ratio16x9,
+            lockAspectRatio: true),
+        iosUiSettings: const IOSUiSettings(
+          title: 'Bild zuschneiden',
+          aspectRatioLockEnabled: true,
+          resetAspectRatioEnabled: false,
+        ));
+    if (croppedFile != null) {
+      image = croppedFile;
     }
   }
 }

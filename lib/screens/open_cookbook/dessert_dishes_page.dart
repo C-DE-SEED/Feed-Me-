@@ -83,7 +83,7 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                             MaterialPageRoute(
                               builder: (_) => DetailPage(
                                 recipe: widget.recipes[index],
-                                reciptSteps: reciptSteps,
+                                recipeSteps: reciptSteps,
                                 ingredients: ingredients,
                                 fromHome: false,
                               ),

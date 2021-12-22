@@ -1,11 +1,9 @@
 import 'package:feed_me/constants/custom_widgets/dismiss_keyboard_widget.dart';
 import 'package:feed_me/services/auth_service.dart';
-import 'package:feed_me/screens/registration_and_login/sign_in.dart';
 import 'package:feed_me/model/user_local.dart';
 import 'package:feed_me/screens/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -28,23 +26,30 @@ class MyApp extends StatelessWidget {
       child: const DismissKeyboard(
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          localizationsDelegates: [   GlobalMaterialLocalizations.delegate,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,],
+            GlobalCupertinoLocalizations.delegate,
+          ],
           supportedLocales: [Locale('de')],
           home: Welcome(),
         ),
       ),
     );
-// TODO insert UserObject with additional data (use Firebase User object as
-//  root)
+    // TODO insert UserObject with additional data (use Firebase User object as
+    //  root)
     // TODO show dish of the day instead of feed me logo
-    // TODO: Decription from user
-    // TODO: insert chilis as spice integrator
-    //TODO: Radien anpassen
-    //TODO: buttonRow anpassen (Höhe)
-    //TODO: insert full screen dialog in navigators
-    //FIXME: neue gerichte werden anscheinend immer unter hauptgerichte abgelegt
+    // TODO: insert full screen dialog in navigators
+    // FIXME: neue gerichte werden anscheinend immer unter hauptgerichte abgelegt
+    // TODO crop Images before upload
+    // TODO default profile pictures
+    // TODO insert Focus Node in TextFields
+    // TODO einkaufsliste
+    // TODO detail page überarbeiten
+    // TODO buy me a coffee einfügen
+    // TODO vorschläge bilder auch in heros packen
+
+
     /*
      ----------------------------------------------
     |             _____             _____          |

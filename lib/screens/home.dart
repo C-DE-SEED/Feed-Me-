@@ -77,7 +77,10 @@ class _HomeState extends State<Home> {
                             children: <Widget>[
                               Text(
                                 "Hallo, " +
-                                    authService.getUser().displayName.toString(),
+                                    authService
+                                        .getUser()
+                                        .displayName
+                                        .toString(),
                                 // .displayName,
                                 style: const TextStyle(
                                     fontSize: 18.0,
@@ -111,7 +114,8 @@ class _HomeState extends State<Home> {
                                     MaterialPageRoute(
                                         builder: (context) => ProfilePage(
                                               recipeCount: recipeCount,
-                                              cookBookCount: userCookbooks.length,
+                                              cookBookCount:
+                                                  userCookbooks.length,
                                             )));
                               },
                               child: null,
@@ -179,7 +183,7 @@ class _HomeState extends State<Home> {
                       onTap: () => _openRecipeDetailPage(context, index),
                       child: _buildFeaturedItem(
                           image: plantFoodFactory.elementAt(index).image,
-                          title: '',
+                          title: plantFoodFactory.elementAt(index).name,
                           subtitle: '',
                           isSuggestion: true));
                 },
@@ -260,8 +264,8 @@ class _HomeState extends State<Home> {
                 onTap: () => _openDestinationPage(context, favs,
                     Cookbook('', 'favorites', favs), cookbookCount, favs),
                 child: _buildFavoriteItem(
-                    icon:
-                        const Icon(Icons.favorite, color: Colors.red, size: 100),
+                    icon: const Icon(Icons.favorite,
+                        color: Colors.red, size: 100),
                     title: "Meine Favoriten",
                     subtitle: '',
                     size: size)),
@@ -322,7 +326,7 @@ class _HomeState extends State<Home> {
         MaterialPageRoute(
             builder: (_) => DetailPage(
                   recipe: plantFoodFactory.elementAt(index),
-                  reciptSteps: filterSteps(plantFoodFactory.elementAt(index)),
+                  recipeSteps: filterSteps(plantFoodFactory.elementAt(index)),
                   ingredients:
                       filterIngredients(plantFoodFactory.elementAt(index)),
                   favs: favs,
@@ -374,7 +378,27 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     )
-                  : Container(),
+                  : Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 4.0),
+                      color: Colors.black.withOpacity(0.7),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Text(title,
+                              maxLines: 1,
+                              softWrap: false,
+                              overflow: TextOverflow.fade,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: openSansFontFamily,
+                              )),
+                        ],
+                      ),
+                    ),
             ),
           ],
         ),
@@ -475,10 +499,10 @@ class _HomeState extends State<Home> {
   Future<void> getCookBooks() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
-    cookbookCount = userCookbooks.length + 1;
-    for (var cookbook in userCookbooks) {
-      recipeCount = recipeCount + cookbook.recipes.length;
-    }
+    cookbookCount = userCookbooks.length;
+    userCookbooks.forEach((element) {
+      recipeCount = recipeCount + element.recipes.length;
+    });
     setState(() {});
   }
 

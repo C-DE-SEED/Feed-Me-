@@ -9,6 +9,7 @@ import 'package:feed_me/model/ingredient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../model/recipe_object.dart';
+import '../maxi_check_mal_aus.dart';
 import 'create_new_recipe_3.dart';
 
 class CreateNewRecipe_2 extends StatefulWidget {
@@ -75,6 +76,8 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                             height: size.height * 0.15,
                             child: Column(
                               children: [
+                                // TODO größe anpassen vom textfeld
+                               // Expanded(child: TextfieldWithSuggestion()),
                                 TextFormField(
                                   obscureText: false,
                                   textAlign: TextAlign.center,

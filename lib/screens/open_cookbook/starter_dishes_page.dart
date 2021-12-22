@@ -82,9 +82,8 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                             context,
                             MaterialPageRoute(
                               builder: (_) => DetailPage(
-                                //TODO change Plants with recipes
                                 recipe: widget.recipes[index],
-                                reciptSteps: reciptSteps,
+                                recipeSteps: reciptSteps,
                                 ingredients: ingredients,
                                 fromHome: false,
                               ),

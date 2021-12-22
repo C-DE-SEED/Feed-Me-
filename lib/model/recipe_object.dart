@@ -13,6 +13,7 @@ class Recipe {
   String _spices;
   String _time;
 
+  //FIXME unserNotes
   //String _userNotes;
 
   Recipe();
