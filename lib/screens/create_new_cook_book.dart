@@ -50,6 +50,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                     child: SizedBox(
                       width: size.width * 0.9,
                       child: TextFormField(
+                        autofocus: true,
                         obscureText: false,
                         textAlign: TextAlign.center,
                         style: const TextStyle(

@@ -69,6 +69,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                       child: SizedBox(
                         width: size.width * 0.9,
                         child: TextFormField(
+                          autofocus: true,
                           obscureText: false,
                           textAlign: TextAlign.center,
                           style: const TextStyle(

@@ -34,6 +34,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -47,11 +48,13 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
               height: size.height * 0.9,
               child: Column(
                 children: [
-                  const Center(child: Text('2. Schritt: Zutaten und Gewürze angeben',style:TextStyle(
-                      color: Colors.white,
-                      fontSize: fontSize,
-                      fontFamily: openSansFontFamily))),
-                  SizedBox(height: size.height*0.01),
+                  const Center(
+                      child: Text('2. Schritt: Zutaten und Gewürze angeben',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: fontSize,
+                              fontFamily: openSansFontFamily))),
+                  SizedBox(height: size.height * 0.01),
                   Hero(
                     tag: 'steps',
                     child: ShowSteps(colors: step2),
@@ -77,7 +80,7 @@ class _CreateNewRecipe_2State extends State<CreateNewRecipe_2> {
                             child: Column(
                               children: [
                                 // TODO größe anpassen vom textfeld
-                               // Expanded(child: TextfieldWithSuggestion()),
+                                // Expanded(child: TextfieldWithSuggestion()),
                                 TextFormField(
                                   obscureText: false,
                                   textAlign: TextAlign.center,
