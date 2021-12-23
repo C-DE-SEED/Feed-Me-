@@ -4,9 +4,13 @@ import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/screens/home.dart';
+import 'package:feed_me/screens/open_cookbook/detail_page/recipe_steps_view.dart';
 import 'package:feed_me/screens/open_cookbook/recipe_page.dart';
 import 'package:flutter/material.dart';
 import 'package:evil_icons_flutter/evil_icons_flutter.dart';
+
+import 'detail_page/ingredients_view.dart';
+
 
 class DetailPage extends StatefulWidget {
   final Recipe recipe;
@@ -17,24 +21,33 @@ class DetailPage extends StatefulWidget {
 
   DetailPage(
       {Key key,
-      this.recipe,
-      this.recipeSteps,
-      this.ingredients,
-      this.favs,
-      this.fromHome})
+        this.recipe,
+        this.recipeSteps,
+        this.ingredients,
+        this.favs,
+        this.fromHome})
       : super(key: key);
 
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _DetailPageState extends State<DetailPage>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  ScrollController _scrollController;
+  FocusNode userNotes;
   bool isFav = false;
   FavsAndShoppingListDbHelper favsAndShopping = FavsAndShoppingListDbHelper();
 
   @override
   void initState() {
-    //Set Favorite true when favorite list contains the name of actual recipe
+    userNotes = FocusNode();
+    filterSteps(widget.recipe);
+    filterIngredients(widget.recipe);
+    _tabController = TabController(vsync: this, length: 2);
+    _scrollController = ScrollController();
+    // Set Favorite true when favorite list contains the name of actual recipe
     widget.favs.forEach((element) {
       if (element.name == widget.recipe.name) {
         setState(() {
@@ -46,12 +59,21 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   @override
+  void dispose() {
+    // "Unmount" the controllers:
+    _tabController.dispose();
+    _scrollController.dispose();
+    userNotes.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var userNotes = FocusNode();
     return Scaffold(
-      backgroundColor: basicColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        foregroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
@@ -63,7 +85,7 @@ class _DetailPageState extends State<DetailPage> {
             }
           },
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: basicColor,
         elevation: 0,
         actions: [
           Padding(
@@ -82,72 +104,44 @@ class _DetailPageState extends State<DetailPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(200),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(children: [
-                    SizedBox(
-                      height: size.height * 0.345,
-                      width: size.width,
-                      child: Hero(
-                        tag: widget.recipe.name,
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          imageUrl: widget.recipe.image,
-                          placeholder: (context, url) =>
+      body: NestedScrollView(
+        controller: _scrollController,
+        headerSliverBuilder: (BuildContext context, bool innerViewIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              backgroundColor: basicColor,
+              flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.pin,
+                background: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Stack(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.345,
+                          width: size.width,
+                          child: Hero(
+                            tag: widget.recipe.name,
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: widget.recipe.image,
+                              placeholder: (context, url) =>
                               const CircularProgressIndicator(
-                            color: basicColor,
+                                color: basicColor,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          0.0, size.height * 0.27, 0.0, 0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                              icon: const Icon(Icons.info_outlined,
-                                  size: 40, color: Colors.white),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Dialog(
-                                      child: TextFormField(
-                                        focusNode: userNotes,
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
-                                        ),
-                                        maxLines: 15,
-                                        onChanged: (userNotes) {
-                                          String notes = userNotes;
-                                          //widget.recipe.userNotes = notes;
-                                          //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
-                                        },
-                                      ),
-                                    );
-                                  },
-                                );
-                              }),
-                          IconButton(
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(
+                              size.width * 0.82, size.height * 0.27, 0.0, 0.0),
+                          child: IconButton(
                               icon: !isFav
                                   ? const Icon(Icons.favorite_border,
-                                      size: 40, color: Colors.white)
+                                  size: 45, color: Colors.white)
                                   : const Icon(Icons.favorite,
-                                      size: 40, color: Colors.white),
+                                  size: 45, color: Colors.white),
                               onPressed: () async {
                                 //if it was fav before -> remove from database
                                 if (isFav) {
@@ -175,222 +169,89 @@ class _DetailPageState extends State<DetailPage> {
                                   isFav = !isFav;
                                 });
                               }),
-                        ],
-                      ),
-                    )
-                  ]),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 70),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: size.height * 0.005),
-                        Text(
-                          widget.recipe.name,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: openSansFontFamily,
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.01),
-                        Text(
-                          widget.recipe.shortDescription,
-                          style: const TextStyle(
-                            fontFamily: openSansFontFamily,
-                            color: Colors.black,
-                            fontSize: 15.0,
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.05),
-                        const Text(
-                          "Zutaten:",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: openSansFontFamily,
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.01),
-                        getIngredientsWidget(),
-                        const Text(
-                          "Schritte:",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: openSansFontFamily,
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.01),
-                        getStepWidget(widget.recipeSteps),
-                        SizedBox(height: size.height * 0.05),
-                        Row(
-                          children: [
-                            Text(
-                              'Für ' + widget.recipe.persons + ' Personen',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: openSansFontFamily,
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                IconButton(
-                                    icon: const Icon(
-                                      Icons.add,
-                                      size: 22,
-                                    ),
-                                    onPressed: () {
-                                      // TODO insert person counter
-                                      setState() {}
-                                    }),
-                                IconButton(
-                                    icon: const Icon(
-                                      Icons.remove,
-                                      size: 22,
-                                    ),
-                                    onPressed: () {
-                                      // TODO insert person counter
-                                      setState() {}
-                                    }),
-                              ],
-                            ),
-                          ],
-                        ),
+                        )
                       ],
                     ),
-                  ),
-                  SizedBox(height: size.height * 0.05),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    buildCard("Schwierigkeit", Icons.settings,
-                        widget.recipe.difficulty, size),
-                    SizedBox(width: size.width * 0.05),
-                    buildCard("Dauer", Icons.alarm, widget.recipe.time + ' min',
-                        size),
-                    SizedBox(width: size.width * 0.05),
-                    buildCard("Kalorien", Icons.align_vertical_bottom_outlined,
-                        "100 kcal", size),
                   ],
                 ),
               ),
+              expandedHeight: size.height * 0.407,
+              pinned: true,
+              floating: true,
+              elevation: 2.0,
+              forceElevated: innerViewIsScrolled,
+              bottom: TabBar(
+                labelColor: Colors.deepOrange,
+                indicatorColor: Colors.deepOrange,
+                labelStyle: const TextStyle(
+                    fontFamily: openSansFontFamily,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600),
+                unselectedLabelColor: Colors.white,
+                unselectedLabelStyle: const TextStyle(
+                  fontFamily: openSansFontFamily,
+                  fontSize: 16.0,
+                ),
+                tabs: const <Widget>[
+                  Tab(text: "Zutaten"),
+                  Tab(text: "Zubereitung"),
+                ],
+                controller: _tabController,
+              ),
             ),
-            SizedBox(
-              height: size.height * 0.05,
-            )
+          ];
+        },
+        body: TabBarView(
+          children: <Widget>[
+            IngredientsView(
+                ingredients: widget.ingredients,
+                recipeTime: widget.recipe.time,
+                recipeDifficulty: widget.recipe.difficulty),
+            RecipeSteps(widget.recipeSteps)
           ],
+          controller: _tabController,
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Dialog(
+                child: TextFormField(
+                  focusNode: userNotes,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
+                  ),
+                  maxLines: 15,
+                  onChanged: (userNotes) {
+                    String notes = userNotes;
+                    //widget.recipe.userNotes = notes;
+                    //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
+                  },
+                ),
+              );
+            },
+          );
+        },
+        child:
+        const Icon(Icons.note_add_outlined, size: 40, color: Colors.white),
+        elevation: 10.0,
+        backgroundColor: basicColor,
       ),
     );
   }
 
-  Widget buildCard(String title, IconData icon, String data, Size size) {
-    return Column(
-      children: [
-        Icon(icon, color: Colors.white, size: 25),
-        SizedBox(height: size.height * 0.01),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 20,
-            color: Colors.white,
-            fontFamily: openSansFontFamily,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        SizedBox(height: size.height * 0.01),
-        Text(
-          data,
-          style: const TextStyle(
-            color: Colors.white,
-            fontFamily: openSansFontFamily,
-          ),
-        )
-      ],
-    );
+  List<String> filterSteps(Recipe recipe) {
+    List<String> x = [];
+    x = recipe.description.split("/");
+    return x;
   }
 
-  Widget getStepWidget(List<String> reciptSteps) {
-    return ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount: reciptSteps.length,
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    height: 20,
-                    width: 20,
-                    decoration: const BoxDecoration(
-                        color: deepOrange, shape: BoxShape.circle),
-                    child: Center(
-                        child: Text(
-                      (index + 1).toString(),
-                      style: const TextStyle(color: Colors.white),
-                    )),
-                  ),
-                  const SizedBox(width: 20),
-                  Flexible(
-                      child: Text(
-                    reciptSteps.elementAt(index),
-                    style: const TextStyle(
-                      fontFamily: openSansFontFamily,
-                      color: Colors.black,
-                      fontSize: 15.0,
-                    ),
-                  ))
-                ],
-              ),
-              const SizedBox(height: 20)
-            ],
-          );
-        });
-  }
-
-  Widget getIngredientsWidget() {
-    return ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount: widget.ingredients.length,
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    height: 10,
-                    width: 10,
-                    decoration: const BoxDecoration(
-                        color: deepOrange, shape: BoxShape.circle),
-                  ),
-                  const SizedBox(width: 10),
-                  Flexible(
-                      child: Text(
-                    widget.ingredients.elementAt(index),
-                    style: const TextStyle(
-                      fontFamily: openSansFontFamily,
-                      color: Colors.black,
-                      fontSize: 15.0,
-                    ),
-                  ))
-                ],
-              ),
-              const SizedBox(height: 10)
-            ],
-          );
-        });
+  List<String> filterIngredients(Recipe recipe) {
+    List<String> x = [];
+    x = recipe.ingredientsAndAmount.split("/");
+    return x;
   }
 }
