@@ -4,6 +4,7 @@ import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/screens/home.dart';
+import 'package:feed_me/screens/open_cookbook/recipe_page.dart';
 import 'package:flutter/material.dart';
 import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 
