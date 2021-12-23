@@ -347,7 +347,8 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
-              child: CachedNetworkImage(
+              child:
+              CachedNetworkImage(
                 imageUrl: image,
                 placeholder: (context, url) => const CircularProgressIndicator(
                   color: basicColor,

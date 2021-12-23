@@ -4,6 +4,7 @@ import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/screens/home.dart';
+import 'package:feed_me/screens/open_cookbook/recipe_page.dart';
 import 'package:flutter/material.dart';
 import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 
@@ -15,7 +16,12 @@ class DetailPage extends StatefulWidget {
   bool fromHome;
 
   DetailPage(
-      {Key key, this.recipe, this.recipeSteps, this.ingredients, this.favs,this.fromHome})
+      {Key key,
+      this.recipe,
+      this.recipeSteps,
+      this.ingredients,
+      this.favs,
+      this.fromHome})
       : super(key: key);
 
   @override
@@ -46,16 +52,13 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
       backgroundColor: basicColor,
       appBar: AppBar(
-        leading:  IconButton(
+        leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: (){
-            if(widget.fromHome) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const Home()));
-            }
-            else{
+          onPressed: () {
+            if (widget.fromHome) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Home()));
+            } else {
               Navigator.pop(context);
             }
           },
@@ -147,11 +150,12 @@ class _DetailPageState extends State<DetailPage> {
                                       size: 40, color: Colors.white),
                               onPressed: () async {
                                 //if it was fav before -> remove from database
-                                if (isFav){
-                                  favsAndShopping.removeRecipesFromFavs(widget.recipe.name);
+                                if (isFav) {
+                                  favsAndShopping.removeRecipesFromFavs(
+                                      widget.recipe.name);
                                 }
                                 //if it was no fav before -> add to fav database
-                                else{
+                                else {
                                   await favsAndShopping.updateFavs(
                                       widget.recipe.id,
                                       widget.recipe.category,
@@ -167,11 +171,9 @@ class _DetailPageState extends State<DetailPage> {
                                       widget.recipe.spices,
                                       widget.recipe.time);
                                 }
-
                                 setState(() {
                                   isFav = !isFav;
                                 });
-
                               }),
                         ],
                       ),
