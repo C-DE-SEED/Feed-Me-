@@ -84,6 +84,7 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                               builder: (_) => DetailPage(
                                 recipe: widget.recipes[index],
                                 recipeSteps: reciptSteps,
+                                favs: widget.favs,
                                 ingredients: ingredients,
                                 fromHome: false,
                               ),
