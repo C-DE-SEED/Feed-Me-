@@ -3,7 +3,6 @@ import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
-import 'package:feed_me/screens/open_cookbook/detail_page/was_abgespacetes.dart';
 import 'package:feed_me/screens/open_cookbook/recipe_page.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/screens/user/profile_page.dart';
@@ -325,7 +324,7 @@ class _HomeState extends State<Home> {
     return Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => NewDetailPage(
+            builder: (_) => DetailPage(
                   recipe: plantFoodFactory.elementAt(index),
                   recipeSteps: filterSteps(plantFoodFactory.elementAt(index)),
                   ingredients:
