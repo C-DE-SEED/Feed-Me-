@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
     // TODO detail page überarbeiten
     // TODO buy me a coffee einfügen
     // TODO vorschläge bilder auch in heros packen
+    // FIXME: Find out why app crashes and fix it
 
 
     /*

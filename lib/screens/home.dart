@@ -302,7 +302,7 @@ class _HomeState extends State<Home> {
                               snap.data.length + 1,
                               favs),
                           child: _buildFeaturedItem(
-                              image: snap.data.elementAt(index).image,
+                              image: snap.data.elementAt(index).image == '' ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3' : snap.data.elementAt(index).image,
                               title: snap.data.elementAt(index).name,
                               subtitle: "",
                               isSuggestion: false));
@@ -541,7 +541,6 @@ class _HomeState extends State<Home> {
     }
 
     suggestions.forEach((element) {
-      print(element);
       suggestionRecipes.add(plantFoodFactory.elementAt(element));
     });
     setState(() {
