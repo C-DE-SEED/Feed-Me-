@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
@@ -30,6 +32,7 @@ class _HomeState extends State<Home> {
   int recipeCount = 0;
   int cookbookCount = 0;
   List<Recipe> plantFoodFactory = [];
+  List<Recipe> suggestionRecipes = [];
   List<Cookbook> userCookbooks = [];
   List<Recipe> favs = [];
 
@@ -39,6 +42,12 @@ class _HomeState extends State<Home> {
     getAllPlantFoodFactoryRecipes();
     getUserFavs();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    PaintingBinding.instance.imageCache.clear();
+    super.dispose();
   }
 
   @override
@@ -176,14 +185,14 @@ class _HomeState extends State<Home> {
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: plantFoodFactory.length,
+                itemCount: suggestionRecipes.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                       onTap: () => _openRecipeDetailPage(context, index),
                       child: _buildFeaturedItem(
-                          image: plantFoodFactory.elementAt(index).image,
-                          title: plantFoodFactory.elementAt(index).name,
+                          image: suggestionRecipes.elementAt(index).image,
+                          title: suggestionRecipes.elementAt(index).name,
                           subtitle: '',
                           isSuggestion: true));
                 },
@@ -477,6 +486,10 @@ class _HomeState extends State<Home> {
     plantFoodFactory = await RecipeDbObject()
         .getRecipesFromPlantFoodFactory("plant_food_factory")
         .elementAt(0);
+    getSuggestions();
+    setState(() {
+
+    });
   }
 
   void getUserFavs() async {
@@ -515,5 +528,24 @@ class _HomeState extends State<Home> {
     //setState is needed here. If we give back the recipes object directly the books will not appear instantly
     setState(() {});
     return recipes;
+  }
+
+  void getSuggestions(){
+    List<int> suggestions= [];
+    var random = Random();
+    while(suggestions.length < 5 ){
+      int randomNumber = random.nextInt(plantFoodFactory.length);
+      if(!suggestions.contains(randomNumber)){
+        suggestions.add(randomNumber);
+      }
+    }
+
+    suggestions.forEach((element) {
+      print(element);
+      suggestionRecipes.add(plantFoodFactory.elementAt(element));
+    });
+    setState(() {
+
+    });
   }
 }

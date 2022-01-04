@@ -285,15 +285,13 @@ class _CookBookSettingsState extends State<CookBookSettings> {
           recipe.difficulty,
           recipe.image,
           recipe.ingredientsAndAmount,
-          '',
           recipe.name,
           recipe.origin,
           recipe.persons,
           recipe.shortDescription,
-          '',
           recipe.time,
-          //recipe.userNotes,
           widget.cookbook.name,
+          //recipe.userNotes,
           hasImage ? widget.cookbook.image : widget.oldImage);
     }
   }

@@ -51,12 +51,13 @@ class _RecipePageState extends State<RecipePage> {
     recipes.forEach((element) {
       if (element.category == "Hauptgericht") {
         main.add(element);
+        if(int.parse(element.time)<=30){
+          fast.add(element);
+        }
       } else if (element.category == "Vorspeise") {
-        main.add(element);
+        starter.add(element);
       } else if (element.category == "Dessert") {
         dessert.add(element);
-      } else if (element.category == "Schnell") {
-        main.add(element);
       }
     });
   }
@@ -65,6 +66,12 @@ class _RecipePageState extends State<RecipePage> {
   void initState() {
     filterRecipes(widget.recipes);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    PaintingBinding.instance.imageCache.clear();
+    super.dispose();
   }
 
   @override
