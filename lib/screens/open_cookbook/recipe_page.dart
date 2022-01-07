@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/orange_box_decoration.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
@@ -22,7 +21,7 @@ class RecipePage extends StatefulWidget {
   final int recipeCount;
   final int cookBookCount;
   final Cookbook cookBook;
-  bool isFeedMeCookbook;
+  bool isUserCookbook;
 
   RecipePage(
       {Key key,
@@ -30,8 +29,8 @@ class RecipePage extends StatefulWidget {
       @required this.recipeCount,
       @required this.cookBookCount,
       @required this.cookBook,
-      @required this.isFeedMeCookbook,
-  @required this.favs})
+      @required this.isUserCookbook,
+      @required this.favs})
       : super(key: key);
 
   @override
@@ -51,12 +50,13 @@ class _RecipePageState extends State<RecipePage> {
     recipes.forEach((element) {
       if (element.category == "Hauptgericht") {
         main.add(element);
+        if (int.parse(element.time) <= 30) {
+          fast.add(element);
+        }
       } else if (element.category == "Vorspeise") {
-        main.add(element);
+        starter.add(element);
       } else if (element.category == "Dessert") {
         dessert.add(element);
-      } else if (element.category == "Schnell") {
-        main.add(element);
       }
     });
   }
@@ -68,12 +68,28 @@ class _RecipePageState extends State<RecipePage> {
   }
 
   @override
+  void dispose() {
+    PaintingBinding.instance.imageCache.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [
-      StarterDishesPage(recipes: starter, favs: widget.favs),
-      MainDishesPage(recipes: main,favs: widget.favs),
-      DessertDishesPage(recipes: dessert,favs: widget.favs),
-      FastDishesPage(recipes: starter,favs: widget.favs),
+      StarterDishesPage(
+          recipes: starter,
+          favs: widget.favs,
+          isUserBook: widget.isUserCookbook),
+      MainDishesPage(
+          recipes: main, favs: widget.favs, isUserBook: widget.isUserCookbook),
+      DessertDishesPage(
+          recipes: dessert,
+          favs: widget.favs,
+          isUserBook: widget.isUserCookbook),
+      FastDishesPage(
+          recipes: starter,
+          favs: widget.favs,
+          isUserBook: widget.isUserCookbook),
     ];
 
     Size size = MediaQuery.of(context).size;
@@ -116,7 +132,7 @@ class _RecipePageState extends State<RecipePage> {
                     quarterTurns: -1,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 15.0, 0.0),
-                      child: widget.isFeedMeCookbook
+                      child: widget.isUserCookbook
                           ? IconButton(
                               icon: Icon(
                                 Icons.settings,
@@ -141,7 +157,7 @@ class _RecipePageState extends State<RecipePage> {
                     quarterTurns: -1,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 15.0, 0.0),
-                      child: widget.isFeedMeCookbook
+                      child: widget.isUserCookbook
                           ? IconButton(
                               icon: Icon(
                                 Icons.add,

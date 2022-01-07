@@ -5,27 +5,27 @@ import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/screens/open_cookbook/detail_page/recipe_steps_view.dart';
-import 'package:feed_me/screens/open_cookbook/recipe_page.dart';
 import 'package:flutter/material.dart';
 import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 
 import 'detail_page/ingredients_view.dart';
-
 
 class DetailPage extends StatefulWidget {
   final Recipe recipe;
   final List<String> recipeSteps;
   final List<String> ingredients;
   List<Recipe> favs;
-  bool fromHome;
+  final bool fromHome;
+  final bool isUserBook;
 
   DetailPage(
       {Key key,
-        this.recipe,
-        this.recipeSteps,
-        this.ingredients,
-        this.favs,
-        this.fromHome})
+      this.recipe,
+      this.recipeSteps,
+      this.ingredients,
+      this.favs,
+      this.fromHome,
+      @required this.isUserBook})
       : super(key: key);
 
   @override
@@ -127,48 +127,69 @@ class _DetailPageState extends State<DetailPage>
                               fit: BoxFit.cover,
                               imageUrl: widget.recipe.image,
                               placeholder: (context, url) =>
-                              const CircularProgressIndicator(
+                                  const CircularProgressIndicator(
                                 color: basicColor,
                               ),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              size.width * 0.82, size.height * 0.27, 0.0, 0.0),
-                          child: IconButton(
-                              icon: !isFav
-                                  ? const Icon(Icons.favorite_border,
-                                  size: 45, color: Colors.white)
-                                  : const Icon(Icons.favorite,
-                                  size: 45, color: Colors.white),
-                              onPressed: () async {
-                                //if it was fav before -> remove from database
-                                if (isFav) {
-                                  favsAndShopping.removeRecipesFromFavs(
-                                      widget.recipe.name);
-                                }
-                                //if it was no fav before -> add to fav database
-                                else {
-                                  await favsAndShopping.updateFavs(
-                                      widget.recipe.id,
-                                      widget.recipe.category,
-                                      widget.recipe.description,
-                                      widget.recipe.difficulty,
-                                      widget.recipe.image,
-                                      widget.recipe.ingredientsAndAmount,
-                                      widget.recipe.kitchenStuff,
-                                      widget.recipe.name,
-                                      widget.recipe.origin,
-                                      widget.recipe.persons,
-                                      widget.recipe.shortDescription,
-                                      widget.recipe.spices,
-                                      widget.recipe.time);
-                                }
-                                setState(() {
-                                  isFav = !isFav;
-                                });
-                              }),
+                          padding:
+                              EdgeInsets.fromLTRB(0, size.height * 0.27, 0, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(width: size.width * 0.02),
+                              widget.isUserBook
+                                  ? IconButton(
+                                      icon: const Icon(
+                                        Icons.create,
+                                        color: Colors.white,
+                                        size: 45,
+                                      ),
+                                      onPressed: () {
+                                        //TODO: Add option to change image and name of recipe
+                                      })
+                                  :
+                                  //    SizedBox is needed because null value is not allowed in NestedScrollView
+                                  const SizedBox(height: 5),
+                              const Spacer(),
+                              IconButton(
+                                  icon: !isFav
+                                      ? const Icon(Icons.favorite_border,
+                                          size: 45, color: Colors.white)
+                                      : const Icon(Icons.favorite,
+                                          size: 45, color: Colors.white),
+                                  onPressed: () async {
+                                    //if it was fav before -> remove from database
+                                    if (isFav) {
+                                      favsAndShopping.removeRecipesFromFavs(
+                                          widget.recipe.name);
+                                    }
+                                    //if it was no fav before -> add to fav database
+                                    else {
+                                      await favsAndShopping.updateFavs(
+                                          widget.recipe.id,
+                                          widget.recipe.category,
+                                          widget.recipe.description,
+                                          widget.recipe.difficulty,
+                                          widget.recipe.image,
+                                          widget.recipe.ingredientsAndAmount,
+                                          widget.recipe.kitchenStuff,
+                                          widget.recipe.name,
+                                          widget.recipe.origin,
+                                          widget.recipe.persons,
+                                          widget.recipe.shortDescription,
+                                          widget.recipe.spices,
+                                          widget.recipe.time);
+                                    }
+                                    setState(() {
+                                      isFav = !isFav;
+                                    });
+                                  }),
+                              SizedBox(width: size.width * 0.02),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -236,7 +257,7 @@ class _DetailPageState extends State<DetailPage>
           );
         },
         child:
-        const Icon(Icons.note_add_outlined, size: 40, color: Colors.white),
+            const Icon(Icons.note_add_outlined, size: 40, color: Colors.white),
         elevation: 10.0,
         backgroundColor: basicColor,
       ),

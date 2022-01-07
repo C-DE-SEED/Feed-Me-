@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
@@ -30,6 +32,7 @@ class _HomeState extends State<Home> {
   int recipeCount = 0;
   int cookbookCount = 0;
   List<Recipe> plantFoodFactory = [];
+  List<Recipe> suggestionRecipes = [];
   List<Cookbook> userCookbooks = [];
   List<Recipe> favs = [];
 
@@ -39,6 +42,11 @@ class _HomeState extends State<Home> {
     getAllPlantFoodFactoryRecipes();
     getUserFavs();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -103,9 +111,12 @@ class _HomeState extends State<Home> {
                           padding:
                               const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
                           child: CircleAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
+                            backgroundImage:
+                            authService.getUser().photoURL == null || authService.getUser().photoURL == '' ? const AssetImage('assets/profilePNG.png') :
+                            CachedNetworkImageProvider(
                               authService.getUser().photoURL,
                             ),
+                            backgroundColor: Colors.white,
                             radius: size.width * 0.09,
                             child: TextButton(
                               onPressed: () {
@@ -176,14 +187,14 @@ class _HomeState extends State<Home> {
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: plantFoodFactory.length,
+                itemCount: suggestionRecipes.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                       onTap: () => _openRecipeDetailPage(context, index),
                       child: _buildFeaturedItem(
-                          image: plantFoodFactory.elementAt(index).image,
-                          title: plantFoodFactory.elementAt(index).name,
+                          image: suggestionRecipes.elementAt(index).image,
+                          title: suggestionRecipes.elementAt(index).name,
                           subtitle: '',
                           isSuggestion: true));
                 },
@@ -293,7 +304,7 @@ class _HomeState extends State<Home> {
                               snap.data.length + 1,
                               favs),
                           child: _buildFeaturedItem(
-                              image: snap.data.elementAt(index).image,
+                              image: snap.data.elementAt(index).image == '' ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3' : snap.data.elementAt(index).image,
                               title: snap.data.elementAt(index).name,
                               subtitle: "",
                               isSuggestion: false));
@@ -331,6 +342,7 @@ class _HomeState extends State<Home> {
                       filterIngredients(plantFoodFactory.elementAt(index)),
                   favs: favs,
                   fromHome: true,
+                  isUserBook:false
                 )));
   }
 
@@ -457,9 +469,9 @@ class _HomeState extends State<Home> {
 
   _openDestinationPage(BuildContext context, List<Recipe> recipes,
       Cookbook cookbook, int cookBookCount, List<Recipe> favs) {
-    bool isFeedMeCookbook = true;
-    if (cookbook.name == 'Plant Food Factory') {
-      isFeedMeCookbook = false;
+    bool isUserCookbook = true;
+    if (cookbook.name == 'Plant Food Factory' || cookbook.name == 'favorites') {
+      isUserCookbook = false;
     }
     Navigator.push(
         context,
@@ -469,7 +481,7 @@ class _HomeState extends State<Home> {
                 cookBookCount: cookBookCount - 1,
                 recipeCount: recipeCount,
                 cookBook: cookbook,
-                isFeedMeCookbook: isFeedMeCookbook,
+                isUserCookbook: isUserCookbook,
                 favs: favs)));
   }
 
@@ -477,6 +489,10 @@ class _HomeState extends State<Home> {
     plantFoodFactory = await RecipeDbObject()
         .getRecipesFromPlantFoodFactory("plant_food_factory")
         .elementAt(0);
+    getSuggestions();
+    setState(() {
+
+    });
   }
 
   void getUserFavs() async {
@@ -515,5 +531,23 @@ class _HomeState extends State<Home> {
     //setState is needed here. If we give back the recipes object directly the books will not appear instantly
     setState(() {});
     return recipes;
+  }
+
+  void getSuggestions(){
+    List<int> suggestions= [];
+    var random = Random();
+    while(suggestions.length < 5 ){
+      int randomNumber = random.nextInt(plantFoodFactory.length);
+      if(!suggestions.contains(randomNumber)){
+        suggestions.add(randomNumber);
+      }
+    }
+
+    suggestions.forEach((element) {
+      suggestionRecipes.add(plantFoodFactory.elementAt(element));
+    });
+    setState(() {
+
+    });
   }
 }

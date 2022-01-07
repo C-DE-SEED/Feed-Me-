@@ -52,6 +52,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
               end: Alignment.bottomCenter,
               colors: [basicColor, deepOrange])),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: const BackButton(),
           backgroundColor: Colors.transparent,
@@ -98,21 +99,23 @@ class _SetProfilePageState extends State<SetProfilePage> {
                         builder: (BuildContext context) {
                           return RoundedAlert(
                             title: "❗️Achtung❗",
-                            text: "Gib bitte deine Benutzernamen an ☺️",
+                            text: "Bitte gib deinen Namen an ☺️",
                           );
                         },
                       );
-                    } else if (user.photoURL == null) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return RoundedAlert(
-                            title: "❗️Achtung❗",
-                            text: "Gib bitte ein Profilbild an ☺️",
-                          );
-                        },
-                      );
-                    } else {
+                    }
+                    // else if (user.photoURL == null) {
+                    //   showDialog(
+                    //     context: context,
+                    //     builder: (BuildContext context) {
+                    //       return RoundedAlert(
+                    //         title: "❗️Achtung❗",
+                    //         text: "Gib bitte ein Profilbild an ☺️",
+                    //       );
+                    //     },
+                    //   );
+                    // }
+                    else {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => const Home()));
                     }

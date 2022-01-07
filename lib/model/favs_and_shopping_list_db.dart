@@ -34,12 +34,10 @@ class FavsAndShoppingListDbHelper {
       'difficulty': difficulty,
       'image': image,
       'ingredients_and_amount': ingredientsAndAmount,
-      'kitchen_utensils': kitchenUtensils,
       'name': name,
       'origin': origin,
       'persons': persons,
       'short_discription': shortDescription,
-      'spices': spices,
       'time': time,
       //'user_notes' : userNotes
     });
@@ -66,12 +64,10 @@ class FavsAndShoppingListDbHelper {
         doc['difficulty'] ?? '',
         doc['image'] ?? '',
         doc['ingredients_and_amount'] ?? '',
-        doc['kitchen_utensils'] ?? '',
         doc['name'] ?? '',
         doc['origin'] ?? '',
         doc['persons'] ?? '',
         doc['short_discription'] ?? '',
-        doc['spices'] ?? '',
         doc['time'] ?? '',
         // doc['user_notes'] ?? '',
       );

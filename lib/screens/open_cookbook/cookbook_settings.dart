@@ -67,106 +67,6 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                         );
                       },
                     );
-
-                    // showDialog(
-                    //     context: context,
-                    //     builder: (context) {
-                    //       return Dialog(
-                    //         shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(20.0),
-                    //         ),
-                    //         elevation: 0,
-                    //         backgroundColor: Colors.transparent,
-                    //         child: Stack(
-                    //           children: <Widget>[
-                    //             Container(
-                    //               padding: const EdgeInsets.only(
-                    //                   left: 20,
-                    //                   top: 20.0 + 20,
-                    //                   right: 20,
-                    //                   bottom: 20),
-                    //               margin: const EdgeInsets.only(top: 20),
-                    //               decoration: BoxDecoration(
-                    //                   shape: BoxShape.rectangle,
-                    //                   color: Colors.white,
-                    //                   borderRadius: BorderRadius.circular(20),
-                    //                   boxShadow: const [
-                    //                     BoxShadow(
-                    //                         color: Colors.black,
-                    //                         offset: Offset(0, 10),
-                    //                         blurRadius: 10),
-                    //                   ]),
-                    //               child: Column(
-                    //                 mainAxisSize: MainAxisSize.min,
-                    //                 children: <Widget>[
-                    //                   const Text(
-                    //                     'Willst du dein Kochbuch wirklich löschen?',
-                    //                     textAlign: TextAlign.center,
-                    //                     style: TextStyle(
-                    //                         fontFamily: openSansFontFamily,
-                    //                         fontSize: 22,
-                    //                         fontWeight: FontWeight.w600,
-                    //                         color: basicColor),
-                    //                   ),
-                    //                   const SizedBox(
-                    //                     height: 15,
-                    //                   ),
-                    //                   Align(
-                    //                     alignment: Alignment.bottomCenter,
-                    //                     child: Row(
-                    //                       mainAxisAlignment:
-                    //                           MainAxisAlignment.spaceEvenly,
-                    //                       children: [
-                    //                         TextButton(
-                    //                             onPressed: () {
-                    //                               deleteCookbook(
-                    //                                   widget.cookbook.name);
-                    //                               Navigator.push(
-                    //                                   context,
-                    //                                   MaterialPageRoute(
-                    //                                       builder: (context) =>
-                    //                                           const Home()));
-                    //                             },
-                    //                             child: const Text(
-                    //                               '🗑 Kochbuch löschen',
-                    //                               style: TextStyle(
-                    //                                   fontFamily:
-                    //                                       openSansFontFamily,
-                    //                                   fontSize: 18,
-                    //                                   fontWeight:
-                    //                                       FontWeight.bold,
-                    //                                   color: basicColor),
-                    //                             )),
-                    //                       ],
-                    //                     ),
-                    //                   ),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //             Positioned(
-                    //               left: 20,
-                    //               right: 20,
-                    //               child: CircleAvatar(
-                    //                 backgroundColor: Colors.transparent,
-                    //                 radius: 20,
-                    //                 child: ClipRRect(
-                    //                     borderRadius: const BorderRadius.all(
-                    //                         Radius.circular(20)),
-                    //                     child: Image.asset(
-                    //                         "assets/logoHellOrange.png")),
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       );
-
-
-
-
-
-
-
-                        // });
                   },
                 ),
               ],
@@ -285,16 +185,15 @@ class _CookBookSettingsState extends State<CookBookSettings> {
           recipe.difficulty,
           recipe.image,
           recipe.ingredientsAndAmount,
-          '',
           recipe.name,
           recipe.origin,
           recipe.persons,
           recipe.shortDescription,
-          '',
           recipe.time,
-          //recipe.userNotes,
           widget.cookbook.name,
-          hasImage ? widget.cookbook.image : widget.oldImage);
+          //recipe.userNotes,
+          hasImage ? widget.cookbook.image : widget.oldImage
+      );
     }
   }
 

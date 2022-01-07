@@ -100,17 +100,13 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                             );
                           },
                         );
-                      } else if (!hasImage) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return RoundedAlert(
-                              title: "❗️Achtung❗",
-                              text:
-                                  "Vergiss nicht dein Kochbuch mit einem Bild zu unterstützen ☺️",
-                            );
-                          },
-                        );
+                      }
+                      else if (!hasImage) {
+                        addCookbookToDatabase(cookbook);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()));
                       } else {
                         uploadFile(image, _authService);
                         Navigator.push(

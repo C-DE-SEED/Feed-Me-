@@ -167,7 +167,7 @@ class _ProfileWidget extends State<ProfileWidget> {
                                                     const BorderRadius.all(
                                                         Radius.circular(20)),
                                                 child: Image.asset(
-                                                    "assets/logoHellOrange.png")),
+                                                    "assets/profilePNG.png")),
                                           ),
                                         ),
                                       ],
@@ -188,7 +188,7 @@ class _ProfileWidget extends State<ProfileWidget> {
     if (auth.getUser().photoURL == null) {
       var cachedNetworkImage = CachedNetworkImage(
         imageUrl:
-            'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2FFeed%20Me!%20Logo%20Kopie.png?alt=media&token=e012a4ee-6f75-4630-81bb-e65b939f6647',
+            'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2FprofilePNG.png?alt=media&token=4a9cdbd9-c380-48dc-a3c4-5133a39a9cb4',
         placeholder: (context, url) => const CircularProgressIndicator(
           color: basicColor,
         ),
