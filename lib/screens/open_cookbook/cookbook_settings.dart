@@ -276,7 +276,7 @@ class _CookBookSettingsState extends State<CookBookSettings> {
         widget.cookbook.name = widget.oldName;
       });
     }
-    await deleteCookbook(widget.oldName);
+    // await deleteCookbook(widget.oldName);
     for (var recipe in widget.cookbook.recipes) {
       await RecipeDbObject().updateRecipe(
           "1",
@@ -292,7 +292,8 @@ class _CookBookSettingsState extends State<CookBookSettings> {
           recipe.time,
           widget.cookbook.name,
           //recipe.userNotes,
-          hasImage ? widget.cookbook.image : widget.oldImage);
+          hasImage ? widget.cookbook.image : widget.oldImage
+      );
     }
   }
 

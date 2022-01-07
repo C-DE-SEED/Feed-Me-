@@ -112,9 +112,12 @@ class _HomeState extends State<Home> {
                           padding:
                               const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
                           child: CircleAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
+                            backgroundImage:
+                            authService.getUser().photoURL == null || authService.getUser().photoURL == '' ? const AssetImage('assets/profilePNG.png') :
+                            CachedNetworkImageProvider(
                               authService.getUser().photoURL,
                             ),
+                            backgroundColor: Colors.white,
                             radius: size.width * 0.09,
                             child: TextButton(
                               onPressed: () {
