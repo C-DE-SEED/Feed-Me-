@@ -46,7 +46,6 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-    PaintingBinding.instance.imageCache.clear();
     super.dispose();
   }
 
@@ -343,6 +342,7 @@ class _HomeState extends State<Home> {
                       filterIngredients(plantFoodFactory.elementAt(index)),
                   favs: favs,
                   fromHome: true,
+                  isUserBook:false
                 )));
   }
 
@@ -469,9 +469,9 @@ class _HomeState extends State<Home> {
 
   _openDestinationPage(BuildContext context, List<Recipe> recipes,
       Cookbook cookbook, int cookBookCount, List<Recipe> favs) {
-    bool isFeedMeCookbook = true;
-    if (cookbook.name == 'Plant Food Factory') {
-      isFeedMeCookbook = false;
+    bool isUserCookbook = true;
+    if (cookbook.name == 'Plant Food Factory' || cookbook.name == 'favorites') {
+      isUserCookbook = false;
     }
     Navigator.push(
         context,
@@ -481,7 +481,7 @@ class _HomeState extends State<Home> {
                 cookBookCount: cookBookCount - 1,
                 recipeCount: recipeCount,
                 cookBook: cookbook,
-                isFeedMeCookbook: isFeedMeCookbook,
+                isUserCookbook: isUserCookbook,
                 favs: favs)));
   }
 
