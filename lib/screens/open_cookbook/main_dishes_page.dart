@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
-import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:flutter/material.dart';
 import '../../model/recipe_object.dart';
@@ -9,8 +8,9 @@ import 'detail_page.dart';
 class MainDishesPage extends StatefulWidget {
   List<Recipe> recipes;
   final List<Recipe> favs;
+  bool isUserBook;
 
-  MainDishesPage({Key key, this.recipes, this.favs}) : super(key: key);
+  MainDishesPage({Key key, this.recipes, this.favs,this.isUserBook}) : super(key: key);
 
   @override
   State<MainDishesPage> createState() => _MainDishesPageState();
@@ -86,7 +86,9 @@ class _MainDishesPageState extends State<MainDishesPage> {
                                   ingredients: ingredients,
                                   recipeSteps: reciptSteps,
                                   favs: widget.favs,
-                                  fromHome: false),
+                                  fromHome: false,
+                                isUserBook: widget.isUserBook,
+                              ),
                             ),
                           );
                         },

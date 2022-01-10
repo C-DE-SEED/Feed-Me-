@@ -9,8 +9,10 @@ import 'detail_page.dart';
 class DessertDishesPage extends StatefulWidget {
   final List<Recipe> recipes;
   final List<Recipe> favs;
+  final bool isUserBook;
 
-  const DessertDishesPage({Key key, this.recipes,this.favs}) : super(key: key);
+
+  const DessertDishesPage({Key key, this.recipes,this.favs,this.isUserBook}) : super(key: key);
 
   @override
   State<DessertDishesPage> createState() => _DessertDishesPageState();
@@ -87,6 +89,7 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                                 favs: widget.favs,
                                 ingredients: ingredients,
                                 fromHome: false,
+                                isUserBook: widget.isUserBook,
                               ),
                             ),
                           );

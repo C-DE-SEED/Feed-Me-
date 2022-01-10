@@ -10,8 +10,9 @@ import 'detail_page.dart';
 class FastDishesPage extends StatefulWidget {
   List<Recipe> recipes;
   final List<Recipe> favs;
+  bool isUserBook;
 
-  FastDishesPage({Key key, this.recipes, this.favs}) : super(key: key);
+  FastDishesPage({Key key, this.recipes, this.favs,this.isUserBook}) : super(key: key);
 
   @override
   State<FastDishesPage> createState() => _FastDishesPageState();
@@ -87,6 +88,8 @@ class _FastDishesPageState extends State<FastDishesPage> {
                                 ingredients: ingredients,
                                 recipeSteps: reciptSteps,
                                 fromHome: false,
+                                favs:widget.favs,
+                                isUserBook: widget.isUserBook,
                               ),
                             ),
                           );
