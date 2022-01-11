@@ -38,15 +38,13 @@ class MyApp extends StatelessWidget {
     );
     // TODO insert UserObject with additional data (use Firebase User object as
     //  root)
-    // TODO show dish of the day instead of feed me logo
     // TODO: insert full screen dialog in navigators
-    // FIXME: neue gerichte werden anscheinend immer unter hauptgerichte abgelegt
     // TODO default profile pictures
     // TODO insert Focus Node in TextFields
     // TODO einkaufsliste
-    // TODO detail page überarbeiten
     // TODO buy me a coffee einfügen
     // FIXME: Find out why app crashes and fix it
+    //TODO: Change login video with own
 
 
     /*
