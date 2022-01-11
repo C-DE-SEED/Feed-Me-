@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
@@ -5,6 +7,7 @@ import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/screens/open_cookbook/detail_page/recipe_steps_view.dart';
+import 'package:feed_me/screens/open_cookbook/pdf/pdf_api.dart';
 import 'package:flutter/material.dart';
 import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 
@@ -95,10 +98,19 @@ class _DetailPageState extends State<DetailPage>
                 EvilIcons.share_apple,
                 size: 40,
               ),
-              onPressed: () {
-                //TODO insert share export
-                print(widget.recipeSteps);
-                print(widget.ingredients);
+              onPressed: () async {
+                final pdfFile = await PdfApi.generateRecipePdfView(
+                    widget.recipe.category,
+                    widget.recipe.description,
+                    widget.recipe.difficulty,
+                    widget.recipe.image,
+                    widget.recipe.ingredientsAndAmount,
+                    widget.recipe.name,
+                    widget.recipe.origin,
+                    widget.recipe.persons,
+                    widget.recipe.shortDescription,
+                    widget.recipe.time);
+                PdfApi.openFile(pdfFile);
               },
             ),
           ),
