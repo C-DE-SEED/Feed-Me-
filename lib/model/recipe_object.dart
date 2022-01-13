@@ -12,8 +12,6 @@ class Recipe {
   String _shortDescription;
   String _spices;
   String _time;
-
-  //FIXME unserNotes
   String _userNotes;
 
   Recipe();
