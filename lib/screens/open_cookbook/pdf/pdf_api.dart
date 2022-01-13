@@ -40,30 +40,35 @@ class PdfApi {
     pdf.addPage(pw.MultiPage(
         pageTheme: pageTheme,
         build: (context) => [
+              //Page 1
               pw.Center(
                   child: pw.ListView(children: [
                 pw.Text(name,
                     style: pw.TextStyle(
-                        fontWeight: pw.FontWeight.bold, fontSize: 25)),
+                        fontWeight: pw.FontWeight.bold, fontSize: 50)),
                 pw.SizedBox(height: 20),
-                pw.Text(shortDescription, style: const pw.TextStyle(fontSize: 15)),
-                pw.SizedBox(height: 20),
-                pw.Image(rawImage, width: 600, height: 400),
+                pw.Text(shortDescription,
+                    style: const pw.TextStyle(fontSize: 35)),
+                pw.SizedBox(height: 30),
+                pw.Image(rawImage, width: 900, height: 800),
                 pw.SizedBox(height: 20),
                 pw.Row(children: [
                   // pw.Icon(Icons.access_time),
                   pw.Spacer(),
                   pw.Text('Zubereitungszeit: ',
                       style: pw.TextStyle(
-                          fontSize: 15, fontWeight: pw.FontWeight.bold)),
-                  pw.Text(time, style: const pw.TextStyle(fontSize: 15)),
+                          fontSize: 25, fontWeight: pw.FontWeight.bold)),
+                  pw.Text(time + ' Minuten',
+                      style: const pw.TextStyle(fontSize: 25)),
                   pw.Spacer(),
                   pw.Text('Schwierigkeit: ',
                       style: pw.TextStyle(
-                          fontSize: 15, fontWeight: pw.FontWeight.bold)),
-                  pw.Text(difficulty, style: const pw.TextStyle(fontSize: 15)),
+                          fontSize: 25, fontWeight: pw.FontWeight.bold)),
+                  pw.Text(difficulty, style: const pw.TextStyle(fontSize: 25)),
                   pw.Spacer(),
                 ]),
+
+                //Page 2
                 pw.SizedBox(height: 20),
                 pw.Column(
                     mainAxisAlignment: pw.MainAxisAlignment.center,
@@ -71,18 +76,22 @@ class PdfApi {
                     children: [
                       pw.Text('Zutaten: ',
                           style: pw.TextStyle(
-                              fontSize: 15, fontWeight: pw.FontWeight.bold)),
+                              fontSize: 25, fontWeight: pw.FontWeight.bold)),
                       pw.Builder(
                           builder: (context) => pw.Table.fromTextArray(
+                              headerStyle: const pw.TextStyle(fontSize: 25),
+                              cellStyle: const pw.TextStyle(fontSize: 25),
                               cellAlignment: pw.Alignment.center,
                               border: null,
                               data: ingredientsData)),
                       pw.SizedBox(height: 20),
                       pw.Text('Zubereitungsschritte: ',
                           style: pw.TextStyle(
-                              fontSize: 15, fontWeight: pw.FontWeight.bold)),
+                              fontSize: 25, fontWeight: pw.FontWeight.bold)),
                       pw.Builder(
                           builder: (context) => pw.Table.fromTextArray(
+                              headerStyle: const pw.TextStyle(fontSize: 25),
+                              cellStyle: const pw.TextStyle(fontSize: 25),
                               cellAlignment: pw.Alignment.center,
                               border: null,
                               data: stepsData)),

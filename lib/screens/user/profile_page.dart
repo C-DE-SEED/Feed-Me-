@@ -1,9 +1,6 @@
-import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/buttons/standard_button_with_icon.dart';
 import 'package:feed_me/constants/styles/colors.dart';
-import 'package:feed_me/constants/alerts/custom_alert.dart';
-import 'package:feed_me/constants/styles/orange_box_decoration.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/screens/user/about_us.dart';
 import 'package:feed_me/screens/user/impressum.dart';
@@ -15,7 +12,6 @@ import 'package:feed_me/constants/custom_widgets/numbers_widget.dart';
 import 'package:feed_me/constants/custom_widgets/profile_widget.dart';
 import 'package:feed_me/services/google_services/google_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ProfilePage extends StatefulWidget {

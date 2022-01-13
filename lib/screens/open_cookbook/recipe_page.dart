@@ -79,17 +79,23 @@ class _RecipePageState extends State<RecipePage> {
       StarterDishesPage(
           recipes: starter,
           favs: widget.favs,
-          isUserBook: widget.isUserCookbook),
+          isUserBook: widget.isUserCookbook,
+          cookbook: widget.cookBook),
       MainDishesPage(
-          recipes: main, favs: widget.favs, isUserBook: widget.isUserCookbook),
+          recipes: main,
+          favs: widget.favs,
+          isUserBook: widget.isUserCookbook,
+          cookbook: widget.cookBook),
       DessertDishesPage(
           recipes: dessert,
           favs: widget.favs,
-          isUserBook: widget.isUserCookbook),
+          isUserBook: widget.isUserCookbook,
+          cookbook: widget.cookBook),
       FastDishesPage(
           recipes: starter,
           favs: widget.favs,
-          isUserBook: widget.isUserCookbook),
+          isUserBook: widget.isUserCookbook,
+          cookbook: widget.cookBook),
     ];
 
     Size size = MediaQuery.of(context).size;
@@ -186,10 +192,11 @@ class _RecipePageState extends State<RecipePage> {
                     quarterTurns: -1,
                     child: CircleAvatar(
                       backgroundImage: CachedNetworkImageProvider(
-                        authService.getUser().photoURL,
+                        authService.getUser().photoURL ??
+                            'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2FprofilePNG.png?alt=media&token=4a9cdbd9-c380-48dc-a3c4-5133a39a9cb4',
                       ),
                       radius: size.width * 0.065,
-                      backgroundColor: Colors.black,
+                      backgroundColor: Colors.transparent,
                       child: TextButton(
                         onPressed: () {
                           Navigator.push(

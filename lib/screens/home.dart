@@ -332,17 +332,19 @@ class _HomeState extends State<Home> {
   }
 
   _openRecipeDetailPage(BuildContext context, int index) {
+    Cookbook cookBook = Cookbook('', 'plant_food_factory', []);
     return Navigator.push(
         context,
         MaterialPageRoute(
             builder: (_) => DetailPage(
-                  recipe: plantFoodFactory.elementAt(index),
-                  recipeSteps: filterSteps(plantFoodFactory.elementAt(index)),
+                  recipe: suggestionRecipes.elementAt(index),
+                  recipeSteps: filterSteps(suggestionRecipes.elementAt(index)),
                   ingredients:
-                      filterIngredients(plantFoodFactory.elementAt(index)),
+                      filterIngredients(suggestionRecipes.elementAt(index)),
                   favs: favs,
                   fromHome: true,
-                  isUserBook:false
+                  isUserBook:false,
+                  cookbook: cookBook,
                 )));
   }
 
