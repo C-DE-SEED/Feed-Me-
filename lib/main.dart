@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     // TODO default profile pictures
     // TODO insert Focus Node in TextFields
     // TODO einkaufsliste
-    // TODO buy me a coffee einfügen
+    // TODO insert flutter inapp_purchase at user recipe amount of 30
     // FIXME: Find out why app crashes and fix it
     //TODO: Change login video with own
 
