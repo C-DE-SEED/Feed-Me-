@@ -337,10 +337,10 @@ class _HomeState extends State<Home> {
         context,
         MaterialPageRoute(
             builder: (_) => DetailPage(
-                  recipe: plantFoodFactory.elementAt(index),
-                  recipeSteps: filterSteps(plantFoodFactory.elementAt(index)),
+                  recipe: suggestionRecipes.elementAt(index),
+                  recipeSteps: filterSteps(suggestionRecipes.elementAt(index)),
                   ingredients:
-                      filterIngredients(plantFoodFactory.elementAt(index)),
+                      filterIngredients(suggestionRecipes.elementAt(index)),
                   favs: favs,
                   fromHome: true,
                   isUserBook:false,
