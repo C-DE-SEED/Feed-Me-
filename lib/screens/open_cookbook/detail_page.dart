@@ -1,9 +1,9 @@
-import 'dart:typed_data';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
+import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/screens/open_cookbook/detail_page/recipe_steps_view.dart';
@@ -20,6 +20,7 @@ class DetailPage extends StatefulWidget {
   List<Recipe> favs;
   final bool fromHome;
   final bool isUserBook;
+  final Cookbook cookbook;
 
   DetailPage(
       {Key key,
@@ -28,7 +29,8 @@ class DetailPage extends StatefulWidget {
       this.ingredients,
       this.favs,
       this.fromHome,
-      @required this.isUserBook})
+      @required this.isUserBook,
+      @required this.cookbook})
       : super(key: key);
 
   @override
@@ -251,21 +253,41 @@ class _DetailPageState extends State<DetailPage>
             context: context,
             builder: (BuildContext context) {
               return Dialog(
-                child: TextFormField(
+                child: widget.isUserBook ?  TextFormField(
                   focusNode: userNotes,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: /*widget.recipe.userNotes ??*/ 'Hier hast du Platz für Notizen 📙',
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: widget.recipe.userNotes.isEmpty ? 'Hier hast du Platz für Notizen 📙' : widget.recipe.userNotes,
                   ),
                   maxLines: 15,
                   onChanged: (userNotes) {
-                    String notes = userNotes;
-                    //widget.recipe.userNotes = notes;
-                    //TODO: save UserNotes per Recipe (recipe db objekt erweitern)
+                    setState(() {
+                      widget.recipe.userNotes = userNotes;
+                    });
                   },
-                ),
+                ): SizedBox(
+                  height: size.height*0.3,
+                    width: size.width*0.5,
+                    child: Center(child: widget.recipe.userNotes == 'none' ? const Text('Zu diesem Gericht haben wir keine speziellen Tipps für dich ☺️') : Text(widget.recipe.userNotes))),
               );
             },
+          ).then((value) async{
+            await RecipeDbObject().updateRecipe(
+                widget.recipe.userNotes,
+                widget.recipe.category,
+                widget.recipe.description,
+                widget.recipe.difficulty,
+                widget.recipe.image,
+                widget.recipe.ingredientsAndAmount,
+                widget.recipe.name,
+                widget.recipe.origin,
+                widget.recipe.persons,
+                widget.recipe.shortDescription,
+                widget.recipe.time,
+                widget.recipe.userNotes,
+                widget.cookbook.name,
+                widget.recipe.image);
+          }
           );
         },
         child:

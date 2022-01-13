@@ -69,7 +69,7 @@ class FavsAndShoppingListDbHelper {
         doc['persons'] ?? '',
         doc['short_discription'] ?? '',
         doc['time'] ?? '',
-        // doc['user_notes'] ?? '',
+        doc['user_notes'] ?? '',
       );
     }).toList();
     return list;

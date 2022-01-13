@@ -24,7 +24,7 @@ class RecipeDbObject {
       String persons,
       String shortDescription,
       String time,
-     // String userNotes,
+      String userNotes,
       String documentName,
       String cookBookHeaderImage) async {
     final CollectionReference collectionReference =
@@ -45,7 +45,7 @@ class RecipeDbObject {
       'persons': persons,
       'short_discription': shortDescription,
       'time': time,
-      //'user_notes' : userNotes
+      'user_notes' : userNotes
     });
     // Important: Code beneath is needed. If there is no field in the document, firebase will not recognize it as document
     await collectionReference
@@ -86,7 +86,7 @@ class RecipeDbObject {
           doc['persons'] ?? '',
           doc['short_discription'] ?? '',
           doc['time'] ?? '',
-         // doc['user_notes'] ?? '',
+          doc['user_notes'] ?? ''
       );
     }).toList();
     return list;
