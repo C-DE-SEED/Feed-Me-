@@ -36,8 +36,6 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
-    // TODO insert UserObject with additional data (use Firebase User object as
-    //  root)
     // TODO: insert full screen dialog in navigators
     // TODO default profile pictures
     // TODO insert Focus Node in TextFields

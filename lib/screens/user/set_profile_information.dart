@@ -157,36 +157,4 @@ class _SetProfilePageState extends State<SetProfilePage> {
           ),
         ],
       );
-
-  Widget buildAbout(Size size, AuthService auth) => Container(
-        height: size.height * 0.27,
-        decoration: BoxDecoration(
-          color: Colors.white54,
-          border: Border.all(
-            width: 15,
-            color: basicColor,
-            style: BorderStyle.solid,
-          ),
-          borderRadius: const BorderRadius.all(Radius.circular(40)),
-        ),
-        child: TextFormField(
-          textAlign: TextAlign.center,
-          decoration: const InputDecoration(
-              border: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              errorBorder: InputBorder.none,
-              disabledBorder: InputBorder.none,
-              contentPadding:
-                  EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-              hintText: 'Schreibe etwas über dich:'
-              //TODO insert UserDescription
-              ),
-          minLines: 6,
-          maxLines: 9,
-          onChanged: (value) {
-            //TODO inser method for user description
-          },
-        ),
-      );
 }
