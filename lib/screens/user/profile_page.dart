@@ -99,12 +99,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: const Icon(Icons.lock, color: Colors.black54),
                   color: Colors.white54,
                   text: "Password ändern",
-                  onPressed: () {}),
+                  onPressed: () {
+                    //TODO insert function to update USer password and show dialog with text fields
+                    //auth.updateUserPassword(newPassword);
+                  }),
               StandardButtonWithIcon(
                   icon: const Icon(Icons.delete, color: deepOrange),
                   color: Colors.white54,
                   text: "Konto löschen",
-                  onPressed: () {}),
+                  onPressed: () {
+                    //auth.deleteUser();
+                    //TODO insert function to delte user account and attached data
+                  }),
               StandardButtonWithIcon(
                   icon: const Icon(Icons.logout, color: Colors.black54),
                   color: Colors.white54,

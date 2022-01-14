@@ -9,6 +9,7 @@ import 'package:feed_me/screens/open_cookbook/recipe_page.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/screens/user/profile_page.dart';
 import 'package:flutter/material.dart';
+import '../constants/alerts/rounded_custom_alert.dart';
 import '../model/recipe_db_object.dart';
 import '../model/recipe_object.dart';
 import 'create_new_cook_book.dart';
@@ -35,6 +36,7 @@ class _HomeState extends State<Home> {
   List<Recipe> suggestionRecipes = [];
   List<Cookbook> userCookbooks = [];
   List<Recipe> favs = [];
+  List<Recipe> allRecipes = [];
 
   @override
   void initState() {
@@ -112,10 +114,12 @@ class _HomeState extends State<Home> {
                               const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
                           child: CircleAvatar(
                             backgroundImage:
-                            authService.getUser().photoURL == null || authService.getUser().photoURL == '' ? const AssetImage('assets/profilePNG.png') :
-                            CachedNetworkImageProvider(
-                              authService.getUser().photoURL,
-                            ),
+                                authService.getUser().photoURL == null ||
+                                        authService.getUser().photoURL == ''
+                                    ? const AssetImage('assets/profilePNG.png')
+                                    : CachedNetworkImageProvider(
+                                        authService.getUser().photoURL,
+                                      ),
                             backgroundColor: Colors.white,
                             radius: size.width * 0.09,
                             child: TextButton(
@@ -136,8 +140,25 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                     TextField(
-                        onChanged: (value) {
-                          //TODO insert filtered value
+                        onSubmitted: (value) {
+                          String recipeName = value;
+                          var recipe = findRecipe(recipeName);
+                          if (recipe != null) {
+                            Cookbook cookbook = Cookbook('', '', []);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => DetailPage(
+                                          recipe: recipe,
+                                          recipeSteps: filterSteps(recipe),
+                                          ingredients:
+                                              filterIngredients(recipe),
+                                          favs: favs,
+                                          fromHome: true,
+                                          isUserBook: false,
+                                          cookbook: cookbook,
+                                        )));
+                          }
                         },
                         showCursor: true,
                         decoration: InputDecoration(
@@ -304,7 +325,9 @@ class _HomeState extends State<Home> {
                               snap.data.length + 1,
                               favs),
                           child: _buildFeaturedItem(
-                              image: snap.data.elementAt(index).image == '' ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3' : snap.data.elementAt(index).image,
+                              image: snap.data.elementAt(index).image == ''
+                                  ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3'
+                                  : snap.data.elementAt(index).image,
                               title: snap.data.elementAt(index).name,
                               subtitle: "",
                               isSuggestion: false));
@@ -343,7 +366,7 @@ class _HomeState extends State<Home> {
                       filterIngredients(suggestionRecipes.elementAt(index)),
                   favs: favs,
                   fromHome: true,
-                  isUserBook:false,
+                  isUserBook: false,
                   cookbook: cookBook,
                 )));
   }
@@ -361,8 +384,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
-              child:
-              CachedNetworkImage(
+              child: CachedNetworkImage(
                 imageUrl: image,
                 placeholder: (context, url) => const CircularProgressIndicator(
                   color: basicColor,
@@ -492,9 +514,7 @@ class _HomeState extends State<Home> {
         .getRecipesFromPlantFoodFactory("plant_food_factory")
         .elementAt(0);
     getSuggestions();
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void getUserFavs() async {
@@ -527,20 +547,20 @@ class _HomeState extends State<Home> {
 
   Future<List<Cookbook>> getUpdates() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
-    List<Cookbook> recipes =
+    List<Cookbook> cookbooks =
         await await recipeDbObject.getAllCookBooksFromUser();
-    recipes.removeWhere((element) => element.image == 'none');
+    cookbooks.removeWhere((element) => element.image == 'none');
     //setState is needed here. If we give back the recipes object directly the books will not appear instantly
     setState(() {});
-    return recipes;
+    return cookbooks;
   }
 
-  void getSuggestions(){
-    List<int> suggestions= [];
+  void getSuggestions() {
+    List<int> suggestions = [];
     var random = Random();
-    while(suggestions.length < 5 ){
+    while (suggestions.length < 5) {
       int randomNumber = random.nextInt(plantFoodFactory.length);
-      if(!suggestions.contains(randomNumber)){
+      if (!suggestions.contains(randomNumber)) {
         suggestions.add(randomNumber);
       }
     }
@@ -548,8 +568,30 @@ class _HomeState extends State<Home> {
     suggestions.forEach((element) {
       suggestionRecipes.add(plantFoodFactory.elementAt(element));
     });
-    setState(() {
+    setState(() {});
+  }
 
+  Recipe findRecipe(String valueFromTextField) {
+    userCookbooks.forEach((cookbook) {
+      allRecipes.addAll(cookbook.recipes);
     });
+    allRecipes.addAll(plantFoodFactory);
+    print('valueFromTextField: $valueFromTextField');
+    
+    final recipe = allRecipes
+        .firstWhere((recipe) => recipe.name.contains(valueFromTextField), orElse: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return RoundedAlert(
+              title: 'Schade 😕',
+              text: 'Leider wurde kein Rezept mit diesem Namen gefunden');
+        },
+      );
+      return null;
+    });
+    print('recipe from search:');
+    print(recipe);
+    return recipe;
   }
 }

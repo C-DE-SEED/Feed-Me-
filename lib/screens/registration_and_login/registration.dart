@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:animate_do/animate_do.dart';
 
-
 class Registration extends StatefulWidget {
   const Registration({Key key, this.toggleView}) : super(key: key);
 
@@ -36,8 +35,7 @@ class _RegistrationState extends State<Registration> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset(
-        'assets/welcome.mp4')
+    _controller = VideoPlayerController.asset('assets/welcome.mp4')
       ..initialize().then((_) {
         _controller.play();
         _controller.setLooping(true);
@@ -56,7 +54,7 @@ class _RegistrationState extends State<Registration> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: true,
         backgroundColor: basicColor,
         body: Stack(
           children: [
@@ -64,7 +62,7 @@ class _RegistrationState extends State<Registration> {
               child: FittedBox(
                 fit: BoxFit.cover,
                 child: SizedBox(
-                  width: size.width ,
+                  width: size.width,
                   height: size.height,
                   child: VideoPlayer(_controller),
                 ),
@@ -78,8 +76,7 @@ class _RegistrationState extends State<Registration> {
                   SizedBox(
                     height: size.height * 0.4,
                     width: size.width * 1,
-                    child:
-                    FadeInDown(
+                    child: FadeInDown(
                       from: 100,
                       duration: const Duration(milliseconds: 1000),
                       child: Center(
@@ -147,8 +144,8 @@ class _RegistrationState extends State<Registration> {
                       text: "Registrieren",
                       onPressed: () async {
                         if (checkIfPasswordsMatching() == true) {
-                          var newUser = await _auth.createUserWithEmailAndPassword(
-                              email, password);
+                          var newUser = await _auth
+                              .createUserWithEmailAndPassword(email, password);
                           showDialog(
                               context: context,
                               builder: (_) => CupertinoAlertDialog(
@@ -170,7 +167,8 @@ class _RegistrationState extends State<Registration> {
                                             child: const Text(
                                               'OK',
                                               style: TextStyle(
-                                                  fontFamily: openSansFontFamily,
+                                                  fontFamily:
+                                                      openSansFontFamily,
                                                   color: basicColor,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),
@@ -180,11 +178,7 @@ class _RegistrationState extends State<Registration> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          const SetProfilePage(
-                                                            cookBookCount: 0,
-                                                            recipeCount: 0,
-                                                            fromRegistration: true,
-                                                          )));
+                                                          const SignIn()));
                                             })
                                       ]));
                           if (newUser != null) {
@@ -242,7 +236,7 @@ class _RegistrationState extends State<Registration> {
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              return  RoundedAlert(
+              return RoundedAlert(
                 title:
                     "Ihre eingegebnen Passwörter müssen mindestens 6 Zeichen lang sein!",
                 text: "Bitte überprüfen Sie ihre Eingaben.",

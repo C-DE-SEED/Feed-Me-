@@ -25,6 +25,14 @@ class AuthService {
     return _auth.currentUser;
   }
 
+  void updateUserPassword(String newPassword){
+    _auth.currentUser.updatePassword(newPassword);
+  }
+
+  void deleteUser(){
+    _auth.currentUser.delete();
+  }
+
 // Sign in anonymize
   Future signInAnonymize() async {
     try {
