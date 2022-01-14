@@ -402,7 +402,7 @@ class _HomeState extends State<Home> {
         ),
         floatingActionButton: FloatingActionButton(
           tooltip: 'Einkaufsliste\nöffnen',
-          backgroundColor: Colors.white,
+          backgroundColor:  Colors.white.withOpacity(0.5),
           child: Icon(
             Icons.shopping_basket_outlined,
             size: size.width * 0.1,
