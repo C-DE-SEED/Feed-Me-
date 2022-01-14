@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
     // FIXME: Find out why app crashes and fix it
     //TODO: Change login video with own
 
-
     /*
      ----------------------------------------------
     |             _____             _____          |

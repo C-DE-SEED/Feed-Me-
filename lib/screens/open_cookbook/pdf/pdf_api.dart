@@ -46,7 +46,8 @@ class PdfApi {
                     style: pw.TextStyle(
                         fontWeight: pw.FontWeight.bold, fontSize: 25)),
                 pw.SizedBox(height: 20),
-                pw.Text(shortDescription, style: const pw.TextStyle(fontSize: 15)),
+                pw.Text(shortDescription,
+                    style: const pw.TextStyle(fontSize: 15)),
                 pw.SizedBox(height: 20),
                 pw.Image(rawImage, width: 600, height: 400),
                 pw.SizedBox(height: 20),
