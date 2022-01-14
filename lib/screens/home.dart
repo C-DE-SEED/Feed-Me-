@@ -295,15 +295,6 @@ class _HomeState extends State<Home> {
                 ),
               ]),
             ),
-            GestureDetector(
-                onTap: () => _openDestinationPage(context, favs,
-                    Cookbook('', 'favorites', favs), cookbookCount, favs),
-                child: _buildFavoriteItem(
-                    icon: const Icon(Icons.favorite,
-                        color: Colors.red, size: 100),
-                    title: "Meine Favoriten",
-                    subtitle: '',
-                    size: size)),
             FutureBuilder<List<Cookbook>>(
               future: getUpdates(),
               builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
@@ -337,6 +328,15 @@ class _HomeState extends State<Home> {
                     });
               },
             ),
+            GestureDetector(
+                onTap: () => _openDestinationPage(context, favs,
+                    Cookbook('', 'favorites', favs), cookbookCount, favs),
+                child: _buildFavoriteItem(
+                    icon: const Icon(Icons.favorite,
+                        color: Colors.red, size: 100),
+                    title: "Meine Favoriten",
+                    subtitle: '',
+                    size: size)),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -553,6 +553,7 @@ class _HomeState extends State<Home> {
     List<Cookbook> cookbooks =
         await await recipeDbObject.getAllCookBooksFromUser();
     cookbooks.removeWhere((element) => element.image == 'none');
+    cookbooks.removeWhere((element) => element.name == 'Plant Food Factory');
     //setState is needed here. If we give back the recipes object directly the books will not appear instantly
     setState(() {});
     return cookbooks;
