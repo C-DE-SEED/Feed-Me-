@@ -295,42 +295,92 @@ class _HomeState extends State<Home> {
                 ),
               ]),
             ),
-            FutureBuilder<List<Cookbook>>(
-              future: getUpdates(),
-              builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
-                if (snap.data == null) {
-                  return const Center(
-                      child: CircularProgressIndicator(
-                    color: basicColor,
-                  ));
-                }
-                return SizedBox(
-                  height: size.height * 0.4,
-                  width: size.width ,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: snap.data.length,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                            onTap: () => _openDestinationPage(
-                                context,
-                                snap.data.elementAt(index).recipes,
-                                snap.data.elementAt(index),
-                                snap.data.length + 1,
-                                favs),
-                            child: _buildFeaturedItem(
-                                image: snap.data.elementAt(index).image == ''
-                                    ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3'
-                                    : snap.data.elementAt(index).image,
-                                title: snap.data.elementAt(index).name,
-                                subtitle: "",
-                                isSuggestion: false));
-                      }),
-                );
-              },
+            SizedBox(
+              height: size.height * 0.4,
+              width: size.width * 0.9,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                physics: const ClampingScrollPhysics(),
+                children: [
+                  FutureBuilder<List<Cookbook>>(
+                    future: getUpdates(),
+                    builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
+                      if (snap.data == null) {
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: basicColor,
+                        ));
+                      }
+                      return Row(
+                        children: [
+                          Container(
+                            height: size.height * 0.4,
+                            width: size.width * 0.9,
+                            padding: const EdgeInsets.only(
+                                left: 16.0,
+                                top: 8.0,
+                                right: 16.0,
+                                bottom: 16.0),
+                            child: Material(
+                              color: Colors.white.withOpacity(0.5),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0)),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.add,
+                                  size: size.width * 0.3,
+                                  color: basicColor,
+                                ),
+                                tooltip: 'Kochbuch\nhinzufügen',
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CreateNewCookbook()));
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.4,
+                            width: size.width * 0.9,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: snap.data.length,
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                      onTap: () => _openDestinationPage(
+                                          context,
+                                          snap.data.elementAt(index).recipes,
+                                          snap.data.elementAt(index),
+                                          snap.data.length + 1,
+                                          favs),
+                                      child: _buildFeaturedItem(
+                                          image: snap.data
+                                                      .elementAt(index)
+                                                      .image ==
+                                                  ''
+                                              ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3'
+                                              : snap.data
+                                                  .elementAt(index)
+                                                  .image,
+                                          title:
+                                              snap.data.elementAt(index).name,
+                                          subtitle: "",
+                                          isSuggestion: false));
+                                }),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
+
             GestureDetector(
                 onTap: () => _openDestinationPage(context, favs,
                     Cookbook('', 'favorites', favs), cookbookCount, favs),
@@ -342,20 +392,6 @@ class _HomeState extends State<Home> {
                     size: size)),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          tooltip: 'Kochbuch\nhinzufügen',
-          backgroundColor: Colors.white,
-          child: Icon(
-            Icons.add,
-            size: size.width * 0.1,
-            color: basicColor,
-          ),
-          onPressed: () async {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CreateNewCookbook()));
-          },
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }

@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
     );
     // TODO: insert full screen dialog in navigators
     // TODO default profile pictures
-    // TODO insert Focus Node in TextFields
     // TODO einkaufsliste
     // TODO insert flutter inapp_purchase at user recipe amount of 30
     // FIXME: Find out why app crashes and fix it
