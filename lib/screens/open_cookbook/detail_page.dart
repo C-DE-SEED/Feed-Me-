@@ -78,6 +78,10 @@ class _DetailPageState extends State<DetailPage>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        title: Text(
+          widget.recipe.name,
+          style: const TextStyle(fontFamily: openSansFontFamily),
+        ),
         foregroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
@@ -253,25 +257,33 @@ class _DetailPageState extends State<DetailPage>
             context: context,
             builder: (BuildContext context) {
               return Dialog(
-                child: widget.isUserBook ?  TextFormField(
-                  focusNode: userNotes,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    hintText: widget.recipe.userNotes.isEmpty ? 'Hier hast du Platz für Notizen 📙' : widget.recipe.userNotes,
-                  ),
-                  maxLines: 15,
-                  onChanged: (userNotes) {
-                    setState(() {
-                      widget.recipe.userNotes = userNotes;
-                    });
-                  },
-                ): SizedBox(
-                  height: size.height*0.3,
-                    width: size.width*0.5,
-                    child: Center(child: widget.recipe.userNotes == 'none' ? const Text('Zu diesem Gericht haben wir keine speziellen Tipps für dich ☺️') : Text(widget.recipe.userNotes))),
+                child: widget.isUserBook
+                    ? TextFormField(
+                        focusNode: userNotes,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          hintText: widget.recipe.userNotes.isEmpty
+                              ? 'Hier hast du Platz für Notizen 📙'
+                              : widget.recipe.userNotes,
+                        ),
+                        maxLines: 15,
+                        onChanged: (userNotes) {
+                          setState(() {
+                            widget.recipe.userNotes = userNotes;
+                          });
+                        },
+                      )
+                    : SizedBox(
+                        height: size.height * 0.3,
+                        width: size.width * 0.5,
+                        child: Center(
+                            child: widget.recipe.userNotes == 'none'
+                                ? const Text(
+                                    'Zu diesem Gericht haben wir keine speziellen Tipps für dich ☺️')
+                                : Text(widget.recipe.userNotes))),
               );
             },
-          ).then((value) async{
+          ).then((value) async {
             await RecipeDbObject().updateRecipe(
                 widget.recipe.userNotes,
                 widget.recipe.category,
@@ -287,8 +299,7 @@ class _DetailPageState extends State<DetailPage>
                 widget.recipe.userNotes,
                 widget.cookbook.name,
                 widget.recipe.image);
-          }
-          );
+          });
         },
         child:
             const Icon(Icons.note_add_outlined, size: 40, color: Colors.white),
