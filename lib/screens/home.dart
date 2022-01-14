@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -14,6 +15,7 @@ import '../model/recipe_db_object.dart';
 import '../model/recipe_object.dart';
 import 'create_new_cook_book.dart';
 import 'open_cookbook/detail_page.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -38,12 +40,18 @@ class _HomeState extends State<Home> {
   List<Recipe> favs = [];
   List<Recipe> allRecipes = [];
   final textFieldController = TextEditingController();
+  String shoppingListFromUser = '';
 
   @override
   void initState() {
     getCookBooks().then((value) => {setState(() {})});
     getAllPlantFoodFactoryRecipes();
     getUserFavs();
+    readShoppingListFromUser();
+    if(shoppingListFromUser.isEmpty){
+      createShoppingListFromUser();
+    }
+    //TODO get shoppingListFromStorage
     super.initState();
   }
 
@@ -392,8 +400,74 @@ class _HomeState extends State<Home> {
                     size: size)),
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          tooltip: 'Einkaufsliste\nöffnen',
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.shopping_basket_outlined,
+            size: size.width * 0.1,
+            color: basicColor,
+          ),
+          onPressed: () async {
+            readShoppingListFromUser();
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                    child: TextField(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: shoppingListFromUser.isEmpty
+                        ? 'Deine Einkaufsliste 📙'
+                        : shoppingListFromUser,
+                  ),
+                  minLines: 5,
+                  maxLines: 15,
+                  onSubmitted: (userNotes) {
+                    String list = userNotes;
+                    writeShoppingList(list);
+                  },
+                ));
+              },
+            );
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       ),
     );
+  }
+
+  Future<String> get _localPath async {
+    final dir = await getApplicationDocumentsDirectory();
+    return dir.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/shoppingListFromFeedMe.txt');
+  }
+
+  Future<File> createShoppingListFromUser() async {
+    final file = await _localFile;
+    // Write the file
+    return file.writeAsString('Meine Einkaufsliste: 📙\n');
+  }
+
+  Future<File> writeShoppingList(String shoppingList) async {
+    final file = await _localFile;
+    // Write the file
+    return file.writeAsString(shoppingList);
+  }
+
+  Future<void> readShoppingListFromUser() async {
+    try {
+      final file = await _localFile;
+      // Read the file
+      shoppingListFromUser = await file.readAsString();
+    } catch (e) {
+      // If there is an error reading, return a default String
+      return 'Die Einkaufsliste wurde nicht gefunden';
+    }
   }
 
   _openRecipeDetailPage(BuildContext context, int index) {

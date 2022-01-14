@@ -51,6 +51,7 @@ dependencies:
   animate_do: ^2.0.0
   flutter_typeahead: ^3.2.4
   image_cropper: ^1.4.1
+  path_provider: ^2.0.8
 
 dev_dependencies:
   flutter_test:
@@ -66,7 +67,6 @@ dev_dependencies:
   unicorndial: ^1.1.5
   pdf: ^3.1.0
   printing: ^5.5.0
-  path_provider: ^2.0.1
   open_file: ^3.1.0
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
