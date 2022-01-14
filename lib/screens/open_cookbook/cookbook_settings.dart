@@ -13,11 +13,11 @@ import 'package:image_picker/image_picker.dart';
 import '../home.dart';
 
 class CookBookSettings extends StatefulWidget {
-  Cookbook cookbook;
-  String oldName;
-  String oldImage;
+  final Cookbook cookbook;
+  final String oldName;
+  final String oldImage;
 
-  CookBookSettings({Key key, this.cookbook, this.oldName, this.oldImage})
+  const CookBookSettings({Key key, this.cookbook, this.oldName, this.oldImage})
       : super(key: key);
 
   @override
@@ -47,7 +47,6 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                   icon: const Icon(Icons.delete,
                       color: Colors.deepOrange, size: 40),
                   onPressed: () async {
-
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -55,14 +54,12 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                           title: "❗️Achtung❗",
                           text: "Willst du dein Kochbuch wirklich löschen?️",
                           buttonText: "Ja, bitte",
-                          onPressed: (){
-                            deleteCookbook(
-                                widget.cookbook.name);
+                          onPressed: () {
+                            deleteCookbook(widget.cookbook.name);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                    const Home()));
+                                    builder: (context) => const Home()));
                           },
                         );
                       },
@@ -191,9 +188,8 @@ class _CookBookSettingsState extends State<CookBookSettings> {
           recipe.shortDescription,
           recipe.time,
           widget.cookbook.name,
-          //recipe.userNotes,
-          hasImage ? widget.cookbook.image : widget.oldImage
-      );
+          recipe.userNotes,
+          hasImage ? widget.cookbook.image : widget.oldImage);
     }
   }
 

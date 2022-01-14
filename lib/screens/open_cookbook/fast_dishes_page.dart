@@ -1,29 +1,32 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
-import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:flutter/material.dart';
 import '../../model/recipe_object.dart';
 import 'detail_page.dart';
 
 class FastDishesPage extends StatefulWidget {
-  List<Recipe> recipes;
+  final List<Recipe> recipes;
   final List<Recipe> favs;
-  bool isUserBook;
+  final bool isUserBook;
+  final Cookbook cookbook;
 
-  FastDishesPage({Key key, this.recipes, this.favs,this.isUserBook}) : super(key: key);
+  const FastDishesPage(
+      {Key key, this.recipes, this.favs, this.isUserBook, this.cookbook})
+      : super(key: key);
 
   @override
   State<FastDishesPage> createState() => _FastDishesPageState();
 }
 
 class _FastDishesPageState extends State<FastDishesPage> {
-  List<String> reciptSteps = [];
+  List<String> recipeSteps = [];
   List<String> ingredients = [];
 
   void filterSteps(Recipe recipe) {
-    reciptSteps = recipe.description.split("/");
+    recipeSteps = recipe.description.split("/");
   }
 
   void filterIngredients(Recipe recipe) {
@@ -86,10 +89,11 @@ class _FastDishesPageState extends State<FastDishesPage> {
                               builder: (_) => DetailPage(
                                 recipe: widget.recipes[index],
                                 ingredients: ingredients,
-                                recipeSteps: reciptSteps,
+                                recipeSteps: recipeSteps,
                                 fromHome: false,
-                                favs:widget.favs,
+                                favs: widget.favs,
                                 isUserBook: widget.isUserBook,
+                                cookbook: widget.cookbook,
                               ),
                             ),
                           );

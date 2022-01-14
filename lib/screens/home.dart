@@ -112,10 +112,12 @@ class _HomeState extends State<Home> {
                               const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
                           child: CircleAvatar(
                             backgroundImage:
-                            authService.getUser().photoURL == null || authService.getUser().photoURL == '' ? const AssetImage('assets/profilePNG.png') :
-                            CachedNetworkImageProvider(
-                              authService.getUser().photoURL,
-                            ),
+                                authService.getUser().photoURL == null ||
+                                        authService.getUser().photoURL == ''
+                                    ? const AssetImage('assets/profilePNG.png')
+                                    : CachedNetworkImageProvider(
+                                        authService.getUser().photoURL,
+                                      ),
                             backgroundColor: Colors.white,
                             radius: size.width * 0.09,
                             child: TextButton(
@@ -304,7 +306,9 @@ class _HomeState extends State<Home> {
                               snap.data.length + 1,
                               favs),
                           child: _buildFeaturedItem(
-                              image: snap.data.elementAt(index).image == '' ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3' : snap.data.elementAt(index).image,
+                              image: snap.data.elementAt(index).image == ''
+                                  ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3'
+                                  : snap.data.elementAt(index).image,
                               title: snap.data.elementAt(index).name,
                               subtitle: "",
                               isSuggestion: false));
@@ -332,17 +336,19 @@ class _HomeState extends State<Home> {
   }
 
   _openRecipeDetailPage(BuildContext context, int index) {
+    Cookbook cookBook = Cookbook('', 'plant_food_factory', []);
     return Navigator.push(
         context,
         MaterialPageRoute(
             builder: (_) => DetailPage(
-                  recipe: plantFoodFactory.elementAt(index),
-                  recipeSteps: filterSteps(plantFoodFactory.elementAt(index)),
+                  recipe: suggestionRecipes.elementAt(index),
+                  recipeSteps: filterSteps(suggestionRecipes.elementAt(index)),
                   ingredients:
-                      filterIngredients(plantFoodFactory.elementAt(index)),
+                      filterIngredients(suggestionRecipes.elementAt(index)),
                   favs: favs,
                   fromHome: true,
-                  isUserBook:false
+                  isUserBook: false,
+                  cookbook: cookBook,
                 )));
   }
 
@@ -359,8 +365,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
-              child:
-              CachedNetworkImage(
+              child: CachedNetworkImage(
                 imageUrl: image,
                 placeholder: (context, url) => const CircularProgressIndicator(
                   color: basicColor,
@@ -490,9 +495,7 @@ class _HomeState extends State<Home> {
         .getRecipesFromPlantFoodFactory("plant_food_factory")
         .elementAt(0);
     getSuggestions();
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void getUserFavs() async {
@@ -533,12 +536,12 @@ class _HomeState extends State<Home> {
     return recipes;
   }
 
-  void getSuggestions(){
-    List<int> suggestions= [];
+  void getSuggestions() {
+    List<int> suggestions = [];
     var random = Random();
-    while(suggestions.length < 5 ){
+    while (suggestions.length < 5) {
       int randomNumber = random.nextInt(plantFoodFactory.length);
-      if(!suggestions.contains(randomNumber)){
+      if (!suggestions.contains(randomNumber)) {
         suggestions.add(randomNumber);
       }
     }
@@ -546,8 +549,6 @@ class _HomeState extends State<Home> {
     suggestions.forEach((element) {
       suggestionRecipes.add(plantFoodFactory.elementAt(element));
     });
-    setState(() {
-
-    });
+    setState(() {});
   }
 }
