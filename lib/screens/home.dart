@@ -304,28 +304,31 @@ class _HomeState extends State<Home> {
                     color: basicColor,
                   ));
                 }
-
-                return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: snap.data.length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () => _openDestinationPage(
-                              context,
-                              snap.data.elementAt(index).recipes,
-                              snap.data.elementAt(index),
-                              snap.data.length + 1,
-                              favs),
-                          child: _buildFeaturedItem(
-                              image: snap.data.elementAt(index).image == ''
-                                  ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3'
-                                  : snap.data.elementAt(index).image,
-                              title: snap.data.elementAt(index).name,
-                              subtitle: "",
-                              isSuggestion: false));
-                    });
+                return SizedBox(
+                  height: size.height * 0.4,
+                  width: size.width ,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: snap.data.length,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                            onTap: () => _openDestinationPage(
+                                context,
+                                snap.data.elementAt(index).recipes,
+                                snap.data.elementAt(index),
+                                snap.data.length + 1,
+                                favs),
+                            child: _buildFeaturedItem(
+                                image: snap.data.elementAt(index).image == ''
+                                    ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3'
+                                    : snap.data.elementAt(index).image,
+                                title: snap.data.elementAt(index).name,
+                                subtitle: "",
+                                isSuggestion: false));
+                      }),
+                );
               },
             ),
             GestureDetector(
@@ -553,6 +556,8 @@ class _HomeState extends State<Home> {
     List<Cookbook> cookbooks =
         await await recipeDbObject.getAllCookBooksFromUser();
     cookbooks.removeWhere((element) => element.image == 'none');
+    // FIXME check in database why this additional cookbook is inserted
+    // remove additional Plant Food Factory Cookbook
     cookbooks.removeWhere((element) => element.name == 'Plant Food Factory');
     //setState is needed here. If we give back the recipes object directly the books will not appear instantly
     setState(() {});
