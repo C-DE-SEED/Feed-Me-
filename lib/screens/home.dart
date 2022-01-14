@@ -37,6 +37,7 @@ class _HomeState extends State<Home> {
   List<Cookbook> userCookbooks = [];
   List<Recipe> favs = [];
   List<Recipe> allRecipes = [];
+  final textFieldController = TextEditingController();
 
   @override
   void initState() {
@@ -140,6 +141,7 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                     TextField(
+                        controller: textFieldController,
                         onSubmitted: (value) {
                           String recipeName = value;
                           var recipe = findRecipe(recipeName);
@@ -158,6 +160,7 @@ class _HomeState extends State<Home> {
                                           isUserBook: false,
                                           cookbook: cookbook,
                                         )));
+                            textFieldController.clear();
                           }
                         },
                         showCursor: true,
@@ -576,10 +579,11 @@ class _HomeState extends State<Home> {
       allRecipes.addAll(cookbook.recipes);
     });
     allRecipes.addAll(plantFoodFactory);
-    print('valueFromTextField: $valueFromTextField');
-    
-    final recipe = allRecipes
-        .firstWhere((recipe) => recipe.name.contains(valueFromTextField), orElse: () {
+
+    final recipe = allRecipes.firstWhere(
+        (recipe) => recipe.name
+            .toLowerCase()
+            .contains(valueFromTextField.toLowerCase()), orElse: () {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -590,8 +594,6 @@ class _HomeState extends State<Home> {
       );
       return null;
     });
-    print('recipe from search:');
-    print(recipe);
     return recipe;
   }
 }
