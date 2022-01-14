@@ -9,6 +9,7 @@ import 'package:feed_me/screens/open_cookbook/recipe_page.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/screens/user/profile_page.dart';
 import 'package:flutter/material.dart';
+import '../constants/alerts/rounded_custom_alert.dart';
 import '../model/recipe_db_object.dart';
 import '../model/recipe_object.dart';
 import 'create_new_cook_book.dart';
@@ -35,6 +36,7 @@ class _HomeState extends State<Home> {
   List<Recipe> suggestionRecipes = [];
   List<Cookbook> userCookbooks = [];
   List<Recipe> favs = [];
+  List<Recipe> allRecipes = [];
 
   @override
   void initState() {
@@ -138,8 +140,25 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                     TextField(
-                        onChanged: (value) {
-                          //TODO insert filtered value
+                        onSubmitted: (value) {
+                          String recipeName = value;
+                          var recipe = findRecipe(recipeName);
+                          if (recipe != null) {
+                            Cookbook cookbook = Cookbook('', '', []);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => DetailPage(
+                                          recipe: recipe,
+                                          recipeSteps: filterSteps(recipe),
+                                          ingredients:
+                                              filterIngredients(recipe),
+                                          favs: favs,
+                                          fromHome: true,
+                                          isUserBook: false,
+                                          cookbook: cookbook,
+                                        )));
+                          }
                         },
                         showCursor: true,
                         decoration: InputDecoration(
@@ -528,12 +547,12 @@ class _HomeState extends State<Home> {
 
   Future<List<Cookbook>> getUpdates() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
-    List<Cookbook> recipes =
+    List<Cookbook> cookbooks =
         await await recipeDbObject.getAllCookBooksFromUser();
-    recipes.removeWhere((element) => element.image == 'none');
+    cookbooks.removeWhere((element) => element.image == 'none');
     //setState is needed here. If we give back the recipes object directly the books will not appear instantly
     setState(() {});
-    return recipes;
+    return cookbooks;
   }
 
   void getSuggestions() {
@@ -550,5 +569,29 @@ class _HomeState extends State<Home> {
       suggestionRecipes.add(plantFoodFactory.elementAt(element));
     });
     setState(() {});
+  }
+
+  Recipe findRecipe(String valueFromTextField) {
+    userCookbooks.forEach((cookbook) {
+      allRecipes.addAll(cookbook.recipes);
+    });
+    allRecipes.addAll(plantFoodFactory);
+    print('valueFromTextField: $valueFromTextField');
+    
+    final recipe = allRecipes
+        .firstWhere((recipe) => recipe.name.contains(valueFromTextField), orElse: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return RoundedAlert(
+              title: 'Schade 😕',
+              text: 'Leider wurde kein Rezept mit diesem Namen gefunden');
+        },
+      );
+      return null;
+    });
+    print('recipe from search:');
+    print(recipe);
+    return recipe;
   }
 }
