@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+
     // TODO: insert full screen dialog in navigators
     // TODO default profile pictures
     // TODO insert will pop scope in specific screens
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
     // TODO delete/overwrite recipe
     // TODO give possibility to create a recipe without picture
     // TODO improve search function in home screen
+
     /*
      ----------------------------------------------
     |             _____             _____          |
