@@ -245,7 +245,7 @@ class _DetailPageState extends State<DetailPage>
             IngredientsView(
                 ingredients: widget.ingredients,
                 recipeTime: widget.recipe.time,
-                recipeDifficulty: widget.recipe.difficulty),
+                recipeDifficulty: widget.recipe.difficulty, personCount: widget.recipe.persons, origin: widget.recipe.origin,),
             RecipeSteps(widget.recipeSteps)
           ],
           controller: _tabController,

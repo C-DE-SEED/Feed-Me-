@@ -178,7 +178,7 @@ class _RegistrationState extends State<Registration> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          const SignIn()));
+                                                           const SignIn(fromRegistration: true,)));
                                             })
                                       ]));
                           if (newUser != null) {

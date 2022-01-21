@@ -8,55 +8,83 @@ class IngredientsView extends StatelessWidget {
   final List<String> ingredients;
   final String recipeTime;
   final String recipeDifficulty;
+  final String personCount;
+  final String origin;
 
   const IngredientsView(
       {Key key,
       @required this.ingredients,
+      @required this.origin,
+      @required this.personCount,
       @required this.recipeTime,
       @required this.recipeDifficulty})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double iconSize = 30.0;
+    double fontSizeForIcons = 14.0;
+
     Size size = MediaQuery.of(context).size;
-    return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: size.width * 0.2, vertical: size.height * 0.035),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const Icon(
-                  Icons.timer,
-                  size: 25.0,
-                  color: basicColor,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.person,
+                size: iconSize,
+                color: basicColor,
+              ),
+              Text(
+                personCount,
+                style: TextStyle(
+                  fontSize: fontSizeForIcons,
+                  color: Colors.black,
+                  fontFamily: openSansFontFamily,
                 ),
-                const SizedBox(width: 5.0),
-                Text(
-                  recipeTime + ' min',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                    fontFamily: openSansFontFamily,
-                  ),
+              ),
+              Icon(
+                Icons.flag,
+                size: iconSize,
+                color: basicColor,
+              ),
+              Text(
+                origin,
+                style: TextStyle(
+                  fontSize: fontSizeForIcons,
+                  color: Colors.black,
+                  fontFamily: openSansFontFamily,
                 ),
-                const Spacer(),
-                const Icon(Icons.settings, size: 25.0, color: basicColor),
-                const SizedBox(width: 5.0),
-                Text(
-                  recipeDifficulty,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                    fontFamily: openSansFontFamily,
-                  ),
+              ),
+              Icon(
+                Icons.timer,
+                size: iconSize,
+                color: basicColor,
+              ),
+              Text(
+                recipeTime + ' min',
+                style: TextStyle(
+                  fontSize: fontSizeForIcons,
+                  color: Colors.black,
+                  fontFamily: openSansFontFamily,
                 ),
-                SizedBox(height: size.height * 0.02),
-              ],
-            ),
-            SizedBox(height: size.height * 0.02),
-            ListView.builder(
+              ),
+              Icon(Icons.settings, size: iconSize, color: basicColor),
+              Text(
+                recipeDifficulty,
+                style: TextStyle(
+                  fontSize: fontSizeForIcons,
+                  color: Colors.black,
+                  fontFamily: openSansFontFamily,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: size.width * 0.2, vertical: size.height * 0.035),
+            child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: ingredients.length,
                 physics: const BouncingScrollPhysics(),
@@ -87,8 +115,8 @@ class IngredientsView extends StatelessWidget {
                     ],
                   );
                 }),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
