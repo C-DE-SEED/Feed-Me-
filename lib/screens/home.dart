@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -14,6 +15,7 @@ import '../model/recipe_db_object.dart';
 import '../model/recipe_object.dart';
 import 'create_new_cook_book.dart';
 import 'open_cookbook/detail_page.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -38,12 +40,14 @@ class _HomeState extends State<Home> {
   List<Recipe> favs = [];
   List<Recipe> allRecipes = [];
   final textFieldController = TextEditingController();
+  String shoppingListFromUser = '';
 
   @override
   void initState() {
     getCookBooks().then((value) => {setState(() {})});
     getAllPlantFoodFactoryRecipes();
     getUserFavs();
+    //TODO get shoppingListFromStorage
     super.initState();
   }
 
@@ -295,64 +299,130 @@ class _HomeState extends State<Home> {
                 ),
               ]),
             ),
-            GestureDetector(
-                onTap: () => _openDestinationPage(context, favs,
-                    Cookbook('', 'favorites', favs), cookbookCount, favs),
-                child: _buildFavoriteItem(
-                    icon: const Icon(Icons.favorite,
-                        color: Colors.red, size: 100),
-                    title: "Meine Favoriten",
-                    subtitle: '',
-                    size: size)),
-            FutureBuilder<List<Cookbook>>(
-              future: getUpdates(),
-              builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
-                if (snap.data == null) {
-                  return const Center(
-                      child: CircularProgressIndicator(
-                    color: basicColor,
-                  ));
-                }
-
-                return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: snap.data.length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () => _openDestinationPage(
+            SizedBox(
+              height: size.height * 0.4,
+              width: size.width * 0.9,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                physics: const ClampingScrollPhysics(),
+                children: [
+                  GestureDetector(
+                      onTap: () => _openDestinationPage(context, favs,
+                          Cookbook('', 'favorites', favs), cookbookCount, favs),
+                      child: _buildFavoriteItem(
+                          icon: const Icon(Icons.favorite,
+                              color: Colors.red, size: 100),
+                          title: "Meine Favoriten",
+                          subtitle: '',
+                          size: size)),
+                  FutureBuilder<List<Cookbook>>(
+                    future: getUpdates(),
+                    builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
+                      if (snap.data == null) {
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: basicColor,
+                        ));
+                      }
+                      return SizedBox(
+                        height: size.height * 0.4,
+                        width: size.width * 0.9,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: snap.data.length,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                  onTap: () => _openDestinationPage(
+                                      context,
+                                      snap.data.elementAt(index).recipes,
+                                      snap.data.elementAt(index),
+                                      snap.data.length + 1,
+                                      favs),
+                                  child: _buildFeaturedItem(
+                                      image: snap.data
+                                                  .elementAt(index)
+                                                  .image ==
+                                              ''
+                                          ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3'
+                                          : snap.data
+                                              .elementAt(index)
+                                              .image,
+                                      title:
+                                          snap.data.elementAt(index).name,
+                                      subtitle: "",
+                                      isSuggestion: false));
+                            }),
+                      );
+                    },
+                  ),
+                  Container(
+                    height: size.height * 0.4,
+                    width: size.width * 0.9,
+                    padding: const EdgeInsets.only(
+                        left: 16.0,
+                        top: 8.0,
+                        right: 16.0,
+                        bottom: 16.0),
+                    child: Material(
+                      color: Colors.white.withOpacity(0.5),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          size: size.width * 0.3,
+                          color: basicColor,
+                        ),
+                        tooltip: 'Kochbuch\nhinzufügen',
+                        onPressed: () {
+                          Navigator.push(
                               context,
-                              snap.data.elementAt(index).recipes,
-                              snap.data.elementAt(index),
-                              snap.data.length + 1,
-                              favs),
-                          child: _buildFeaturedItem(
-                              image: snap.data.elementAt(index).image == ''
-                                  ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3'
-                                  : snap.data.elementAt(index).image,
-                              title: snap.data.elementAt(index).name,
-                              subtitle: "",
-                              isSuggestion: false));
-                    });
-              },
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CreateNewCookbook()));
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          tooltip: 'Kochbuch\nhinzufügen',
-          backgroundColor: Colors.white,
+          tooltip: 'Einkaufsliste\nöffnen',
+          backgroundColor: Colors.white.withOpacity(0.5),
           child: Icon(
-            Icons.add,
+            Icons.shopping_basket_outlined,
             size: size.width * 0.1,
             color: basicColor,
           ),
           onPressed: () async {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CreateNewCookbook()));
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                    child: TextField(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: shoppingListFromUser.isEmpty
+                        ? 'Deine Einkaufsliste 📙'
+                        : shoppingListFromUser,
+                  ),
+                  minLines: 5,
+                  maxLines: 15,
+                  onSubmitted: (userNotes) {
+                    String list = userNotes;
+
+                  },
+                ));
+              },
+            );
           },
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       ),
     );
   }
@@ -553,6 +623,10 @@ class _HomeState extends State<Home> {
     List<Cookbook> cookbooks =
         await await recipeDbObject.getAllCookBooksFromUser();
     cookbooks.removeWhere((element) => element.image == 'none');
+    // FIXME check in database why this additional cookbook is inserted
+    // remove additional Plant Food Factory Cookbook
+    cookbooks.removeWhere((element) => element.name == 'Plant Food Factory');
+    cookbooks.removeWhere((element) => element.name == 'plant_food_factory');
     //setState is needed here. If we give back the recipes object directly the books will not appear instantly
     setState(() {});
     return cookbooks;

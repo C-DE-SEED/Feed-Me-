@@ -8,7 +8,6 @@ import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:flutter/material.dart';
-
 import '../home.dart';
 
 class CreateNewRecipe_4 extends StatefulWidget {
