@@ -31,7 +31,6 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
   String shortDescription = '';
   String type = 'Auswählen';
   String difficulty = 'Einfach';
-  String spicy = 'Nicht Scharf';
 
   final List<String> keys = [];
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
@@ -251,39 +250,6 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
                   ],
                 ),
                 SizedBox(height: size.height * 0.01),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: size.width * 0.4,
-                      child: const Text("Schärfegrad:",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: fontSize,
-                              fontFamily: openSansFontFamily)),
-                    ),
-                    const Spacer(),
-                    Container(
-                      width: size.width * 0.3,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(color: deepOrange),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: TextButton(
-                        onPressed: () {
-                          _showSpicyPicker(context, size);
-                        },
-                        child: Text(spicy,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: fontSize,
-                                fontFamily: openSansFontFamily)),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: size.height * 0.01),
-
                 const Spacer(),
                 Hero(
                   tag: 'buttonRow',
@@ -488,34 +454,6 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
               setState(() {
                 difficulty = difficultyList.elementAt(value);
                 widget.recipe.difficulty = difficulty;
-              });
-            },
-          ),
-        ));
-  }
-
-  void _showSpicyPicker(BuildContext ctx, Size size) {
-    showCupertinoModalPopup(
-        context: ctx,
-        builder: (_) => SizedBox(
-          width: size.width,
-          height: 250,
-          child: CupertinoPicker(
-            backgroundColor: deepOrange,
-            itemExtent: 30,
-            scrollController: FixedExtentScrollController(initialItem: 1),
-            children: spicyList
-                .map((item) => Center(
-              child: Text(item,
-                  style: const TextStyle(
-                    color: Colors.white,
-                  )),
-            ))
-                .toList(),
-            onSelectedItemChanged: (value) {
-              setState(() {
-                spicy = spicyList.elementAt(value);
-                //TODO: add spicyness to db
               });
             },
           ),
