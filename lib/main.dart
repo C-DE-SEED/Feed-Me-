@@ -48,8 +48,6 @@ class MyApp extends StatelessWidget {
     // maxi
     // TODO insert person food multiplicator
     // maxi
-    // TODO: show important informations on top of the recipe detail page
-    // maxi
     // FIXME: Listview in home page
 
     // FIXME: add ingredients and spices list view

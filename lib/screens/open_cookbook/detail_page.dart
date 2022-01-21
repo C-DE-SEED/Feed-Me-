@@ -225,26 +225,6 @@ class _DetailPageState extends State<DetailPage>
                         Row(
                           children: [
                             Icon(
-                              Icons.person,
-                              size: iconSize,
-                              color: infoRowIconColor,
-                            ),
-                            const SizedBox(
-                              width: 5.0,
-                            ),
-                            Text(
-                              widget.recipe.persons,
-                              style: TextStyle(
-                                fontSize: fontSizeForIcons,
-                                color: infoRowTextColor,
-                                fontFamily: openSansFontFamily,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(
                               Icons.flag,
                               size: iconSize,
                               color: infoRowIconColor,
@@ -333,7 +313,7 @@ class _DetailPageState extends State<DetailPage>
         body: TabBarView(
           children: <Widget>[
             IngredientsView(
-              ingredients: widget.ingredients,
+              ingredients: widget.ingredients, personCount: widget.recipe.persons, unsortedIngredients: widget.recipe.ingredientsAndAmount,
             ),
             RecipeSteps(widget.recipeSteps)
           ],
