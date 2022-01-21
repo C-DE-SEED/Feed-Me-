@@ -51,6 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           builder: (context) => SetProfilePage(
                                 recipeCount: widget.recipeCount,
                                 cookBookCount: widget.cookBookCount,
+                                fromRegistration: false,
                               )));
                 },
                 icon: Icon(MdiIcons.accountEdit, size: size.width * 0.11))),
@@ -75,10 +76,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Colors.white54,
                   text: "Über Uns",
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const About()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const About()));
                   }),
               StandardButtonWithIcon(
                   icon: const Icon(Icons.info, color: Colors.black54),
@@ -94,7 +93,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: const Icon(Icons.thumb_up, color: deepOrange),
                   color: Colors.white54,
                   text: "FeedMe bewerten",
-                  onPressed: () {}),
+                  onPressed: () {
+                    //TODO inser as soon as go in app store
+                  }),
               StandardButtonWithIcon(
                   icon: const Icon(Icons.lock, color: Colors.black54),
                   color: Colors.white54,

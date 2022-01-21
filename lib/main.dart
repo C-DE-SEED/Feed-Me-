@@ -47,6 +47,9 @@ class MyApp extends StatelessWidget {
     // TODO: show important informations on top of the recipe detail page
     // FIXME: Listview in home page
     // FIXME: add ingredients and spices list view
+    // TODO delete/overwrite recipe
+    // TODO give possibility to create a recipe without picture
+    // TODO improve search function in home screen
     /*
      ----------------------------------------------
     |             _____             _____          |
