@@ -47,11 +47,9 @@ class MyApp extends StatelessWidget {
 
     // maxi
     // TODO insert person food multiplicator
-    // maxi
-    // TODO: show important informations on top of the recipe detail page
-    // maxi
-    // FIXME: Listview in home page
+    // TODO insert userNotes direct on cooking steps page
 
+    // FIXME: favorite view
     // FIXME: add ingredients and spices list view
     // TODO delete/overwrite recipe
     // TODO give possibility to create a recipe without picture

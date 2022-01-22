@@ -22,16 +22,16 @@ class DetailPage extends StatefulWidget {
   final bool isUserBook;
   final Cookbook cookbook;
 
-  DetailPage(
-      {Key key,
-      this.recipe,
-      this.recipeSteps,
-      this.ingredients,
-      this.favs,
-      this.fromHome,
-      @required this.isUserBook,
-      @required this.cookbook})
-      : super(key: key);
+  DetailPage({
+    Key key,
+    this.recipe,
+    this.recipeSteps,
+    this.ingredients,
+    this.favs,
+    this.fromHome,
+    @required this.isUserBook,
+    @required this.cookbook,
+  }) : super(key: key);
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -74,7 +74,12 @@ class _DetailPageState extends State<DetailPage>
 
   @override
   Widget build(BuildContext context) {
+    double iconSize = 30.0;
+    double fontSizeForIcons = 16.0;
     Size size = MediaQuery.of(context).size;
+    Color infoRowIconColor = Colors.deepOrange;
+    Color infoRowTextColor = Colors.white;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -199,7 +204,8 @@ class _DetailPageState extends State<DetailPage>
                                           widget.recipe.persons,
                                           widget.recipe.shortDescription,
                                           widget.recipe.spices,
-                                          widget.recipe.time);
+                                          widget.recipe.time,
+                                      widget.recipe.userNotes);
                                     }
                                     setState(() {
                                       isFav = !isFav;
@@ -208,13 +214,78 @@ class _DetailPageState extends State<DetailPage>
                               SizedBox(width: size.width * 0.02),
                             ],
                           ),
-                        )
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: size.height * 0.01,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.flag,
+                              size: iconSize,
+                              color: infoRowIconColor,
+                            ),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              widget.recipe.origin,
+                              style: TextStyle(
+                                fontSize: fontSizeForIcons,
+                                color: infoRowTextColor,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.timer,
+                              size: iconSize,
+                              color: infoRowIconColor,
+                            ),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              widget.recipe.time + ' min',
+                              style: TextStyle(
+                                fontSize: fontSizeForIcons,
+                                color: infoRowTextColor,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.settings,
+                                size: iconSize, color: infoRowIconColor),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              widget.recipe.difficulty,
+                              style: TextStyle(
+                                fontSize: fontSizeForIcons,
+                                color: infoRowTextColor,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ],
                 ),
               ),
-              expandedHeight: size.height * 0.407,
+              expandedHeight: size.height * 0.45,
               pinned: true,
               floating: true,
               elevation: 2.0,
@@ -243,9 +314,8 @@ class _DetailPageState extends State<DetailPage>
         body: TabBarView(
           children: <Widget>[
             IngredientsView(
-                ingredients: widget.ingredients,
-                recipeTime: widget.recipe.time,
-                recipeDifficulty: widget.recipe.difficulty),
+              ingredients: widget.ingredients, personCount: widget.recipe.persons, unsortedIngredients: widget.recipe.ingredientsAndAmount,
+            ),
             RecipeSteps(widget.recipeSteps)
           ],
           controller: _tabController,

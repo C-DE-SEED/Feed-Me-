@@ -18,7 +18,7 @@ import 'package:video_player/video_player.dart';
 import '../home.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key key, this.toggleView, this.fromRegistration})
+  const SignIn({Key key, this.toggleView, @required this.fromRegistration})
       : super(key: key);
 
   final Function toggleView;
@@ -80,19 +80,18 @@ class _SignInState extends State<SignIn> {
                       children: [
                         SizedBox(height: size.height * 0.01),
                         SizedBox(
-                            height: size.height * 0.4,
-                            width: size.width * 1,
-                            child:
-                            FadeInDown(
-                              from: 100,
-                              duration: const Duration(milliseconds: 1000),
-                              child: Center(
-                                  child: Image.asset(
-                                "assets/FeedMeFreigestellt.png",
-                                height: size.height * 1.0,
-                              )),
-                            ),
-                            ),
+                          height: size.height * 0.4,
+                          width: size.width * 1,
+                          child: FadeInDown(
+                            from: 100,
+                            duration: const Duration(milliseconds: 1000),
+                            child: Center(
+                                child: Image.asset(
+                              "assets/FeedMeFreigestellt.png",
+                              height: size.height * 1.0,
+                            )),
+                          ),
+                        ),
                         FadeInDown(
                           from: 100,
                           duration: const Duration(milliseconds: 1000),
@@ -191,8 +190,9 @@ class _SignInState extends State<SignIn> {
                                   setState(() {
                                     loading = true;
                                   });
-                                  dynamic result = await _auth
-                                      .loginWithEmailAndPassword(email, password);
+                                  dynamic result =
+                                      await _auth.loginWithEmailAndPassword(
+                                          email, password);
                                   if (result == null) {
                                     setState(() {
                                       loading = false;
@@ -211,7 +211,8 @@ class _SignInState extends State<SignIn> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => const Home()));
+                                            builder: (context) =>
+                                                const Home()));
                                   }
                                 }
                               }
