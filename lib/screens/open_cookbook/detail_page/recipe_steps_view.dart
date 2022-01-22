@@ -75,9 +75,10 @@ class _RecipeStepsState extends State<RecipeSteps> {
         const Text("Notizen 📓️",
             textAlign: TextAlign.center,
             style: TextStyle(
+                fontWeight: FontWeight.bold,
                 fontFamily: openSansFontFamily,
-                fontSize: 14,
-                color: Colors.black)),
+                fontSize: 18,
+                color: Colors.deepOrange)),
         Container(
             margin: const EdgeInsets.only(left: 10.0, right: 10.0),
             child: const Divider(
