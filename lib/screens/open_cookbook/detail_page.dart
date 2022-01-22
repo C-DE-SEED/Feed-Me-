@@ -19,8 +19,8 @@ class DetailPage extends StatefulWidget {
   final List<String> ingredients;
   List<Recipe> favs;
   final bool fromHome;
-  final bool isUserBook;
   final Cookbook cookbook;
+  final bool isUserCookbook;
 
   DetailPage({
     Key key,
@@ -28,8 +28,8 @@ class DetailPage extends StatefulWidget {
     this.recipeSteps,
     this.ingredients,
     this.favs,
+    this.isUserCookbook,
     this.fromHome,
-    @required this.isUserBook,
     @required this.cookbook,
   }) : super(key: key);
 
@@ -163,7 +163,7 @@ class _DetailPageState extends State<DetailPage>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(width: size.width * 0.02),
-                              widget.isUserBook
+                              widget.isUserCookbook
                                   ? IconButton(
                                       icon: const Icon(
                                         Icons.create,
@@ -205,7 +205,7 @@ class _DetailPageState extends State<DetailPage>
                                           widget.recipe.shortDescription,
                                           widget.recipe.spices,
                                           widget.recipe.time,
-                                      widget.recipe.userNotes);
+                                          widget.recipe.userNotes);
                                     }
                                     setState(() {
                                       isFav = !isFav;
@@ -314,67 +314,15 @@ class _DetailPageState extends State<DetailPage>
         body: TabBarView(
           children: <Widget>[
             IngredientsView(
-              ingredients: widget.ingredients, personCount: widget.recipe.persons, unsortedIngredients: widget.recipe.ingredientsAndAmount,
+              ingredients: widget.ingredients,
+              personCount: widget.recipe.persons,
+              unsortedIngredients: widget.recipe.ingredientsAndAmount,
             ),
-            RecipeSteps(widget.recipeSteps)
+            RecipeSteps(widget.recipeSteps, widget.recipe, widget.isUserCookbook,
+                widget.cookbook.name)
           ],
           controller: _tabController,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return Dialog(
-                child: widget.isUserBook
-                    ? TextFormField(
-                        focusNode: userNotes,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          hintText: widget.recipe.userNotes.isEmpty
-                              ? 'Hier hast du Platz für Notizen 📙'
-                              : widget.recipe.userNotes,
-                        ),
-                        maxLines: 15,
-                        onChanged: (userNotes) {
-                          setState(() {
-                            widget.recipe.userNotes = userNotes;
-                          });
-                        },
-                      )
-                    : SizedBox(
-                        height: size.height * 0.3,
-                        width: size.width * 0.5,
-                        child: Center(
-                            child: widget.recipe.userNotes == 'none'
-                                ? const Text(
-                                    'Zu diesem Gericht haben wir keine speziellen Tipps für dich ☺️')
-                                : Text(widget.recipe.userNotes))),
-              );
-            },
-          ).then((value) async {
-            await RecipeDbObject().updateRecipe(
-                widget.recipe.userNotes,
-                widget.recipe.category,
-                widget.recipe.description,
-                widget.recipe.difficulty,
-                widget.recipe.image,
-                widget.recipe.ingredientsAndAmount,
-                widget.recipe.name,
-                widget.recipe.origin,
-                widget.recipe.persons,
-                widget.recipe.shortDescription,
-                widget.recipe.time,
-                widget.recipe.userNotes,
-                widget.cookbook.name,
-                widget.recipe.image);
-          });
-        },
-        child:
-            const Icon(Icons.note_add_outlined, size: 40, color: Colors.white),
-        elevation: 10.0,
-        backgroundColor: basicColor,
       ),
     );
   }

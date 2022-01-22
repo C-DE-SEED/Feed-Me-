@@ -172,7 +172,7 @@ class _HomeState extends State<Home> {
                                                   filterIngredients(recipe),
                                               favs: favs,
                                               fromHome: true,
-                                              isUserBook: false,
+                                              isUserCookbook: false,
                                               cookbook: cookbook,
                                             )));
                                 textFieldController.clear();
@@ -423,7 +423,7 @@ class _HomeState extends State<Home> {
                       filterIngredients(suggestionRecipes.elementAt(index)),
                   favs: favs,
                   fromHome: true,
-                  isUserBook: false,
+                  isUserCookbook: false,
                   cookbook: cookBook,
                 )));
   }

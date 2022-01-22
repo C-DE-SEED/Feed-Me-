@@ -92,7 +92,7 @@ class _FastDishesPageState extends State<FastDishesPage> {
                                 recipeSteps: recipeSteps,
                                 fromHome: false,
                                 favs: widget.favs,
-                                isUserBook: widget.isUserBook,
+                                isUserCookbook: widget.isUserBook,
                                 cookbook: widget.cookbook,
                               ),
                             ),
