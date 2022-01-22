@@ -91,7 +91,7 @@ class _MainDishesPageState extends State<MainDishesPage> {
                                 recipeSteps: reciptSteps,
                                 favs: widget.favs,
                                 fromHome: false,
-                                isUserBook: widget.isUserBook,
+                                isUserCookbook: widget.isUserBook,
                                 cookbook: widget.cookbook,
                               ),
                             ),
