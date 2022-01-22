@@ -38,15 +38,18 @@ class _HomeState extends State<Home> {
   List<Recipe> suggestionRecipes = [];
   List<Cookbook> userCookbooks = [];
   List<Recipe> favs = [];
+  List<Cookbook> tempCookbooks = [];
   List<Recipe> allRecipes = [];
   final textFieldController = TextEditingController();
   String shoppingListFromUser = '';
+  Future<List<Cookbook>> getUpdateCookbooks;
 
   @override
   void initState() {
     getCookBooks().then((value) => {setState(() {})});
     getAllPlantFoodFactoryRecipes();
     getUserFavs();
+    getUpdateCookbooks = getUpdates();
     //TODO get shoppingListFromStorage
     super.initState();
   }
@@ -224,7 +227,9 @@ class _HomeState extends State<Home> {
                           image: suggestionRecipes.elementAt(index).image,
                           title: suggestionRecipes.elementAt(index).name,
                           subtitle: '',
-                          isSuggestion: true));
+                          isSuggestion: true,
+                          size: size,
+                          isFavorite: false));
                 },
               ),
             ),
@@ -270,7 +275,9 @@ class _HomeState extends State<Home> {
                         "https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/recipe_images%2FRed%20Curry%2F1.png?alt=media&token=bcfdf574-b959-45ff-a251-a171b2969161",
                     title: "Feed Me's Kochbuch",
                     subtitle: 'Gesund & Lecker',
-                    isSuggestion: false)),
+                    isSuggestion: false,
+                    size: size,
+                    isFavorite: false)),
             SizedBox(height: size.height * 0.005),
             // User Cookbooks
             Container(
@@ -306,17 +313,8 @@ class _HomeState extends State<Home> {
                 scrollDirection: Axis.horizontal,
                 physics: const ClampingScrollPhysics(),
                 children: [
-                  GestureDetector(
-                      onTap: () => _openDestinationPage(context, favs,
-                          Cookbook('', 'favorites', favs), cookbookCount, favs),
-                      child: _buildFavoriteItem(
-                          icon: const Icon(Icons.favorite,
-                              color: Colors.red, size: 100),
-                          title: "Meine Favoriten",
-                          subtitle: '',
-                          size: size)),
                   FutureBuilder<List<Cookbook>>(
-                    future: getUpdates(),
+                    future: getUpdateCookbooks,
                     builder: (context, AsyncSnapshot<List<Cookbook>> snap) {
                       if (snap.data == null) {
                         return const Center(
@@ -341,50 +339,20 @@ class _HomeState extends State<Home> {
                                       snap.data.length + 1,
                                       favs),
                                   child: _buildFeaturedItem(
-                                      image: snap.data
-                                                  .elementAt(index)
-                                                  .image ==
+                                      image: snap.data.elementAt(index).image ==
                                               ''
                                           ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3'
-                                          : snap.data
-                                              .elementAt(index)
-                                              .image,
-                                      title:
-                                          snap.data.elementAt(index).name,
+                                          : snap.data.elementAt(index).image,
+                                      title: snap.data.elementAt(index).name,
                                       subtitle: "",
-                                      isSuggestion: false));
+                                      isSuggestion: false,
+                                      size: size,
+                                      isFavorite:
+                                          snap.data.elementAt(index).name ==
+                                              'Meine Favoriten'));
                             }),
                       );
                     },
-                  ),
-                  Container(
-                    height: size.height * 0.4,
-                    width: size.width * 0.9,
-                    padding: const EdgeInsets.only(
-                        left: 16.0,
-                        top: 8.0,
-                        right: 16.0,
-                        bottom: 16.0),
-                    child: Material(
-                      color: Colors.white.withOpacity(0.5),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.add,
-                          size: size.width * 0.3,
-                          color: basicColor,
-                        ),
-                        tooltip: 'Kochbuch\nhinzufügen',
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CreateNewCookbook()));
-                        },
-                      ),
-                    ),
                   ),
                 ],
               ),
@@ -415,7 +383,6 @@ class _HomeState extends State<Home> {
                   maxLines: 15,
                   onSubmitted: (userNotes) {
                     String list = userNotes;
-
                   },
                 ));
               },
@@ -445,123 +412,154 @@ class _HomeState extends State<Home> {
   }
 
   Container _buildFeaturedItem(
-      {String image, String title, String subtitle, bool isSuggestion}) {
-    return Container(
-      padding: const EdgeInsets.only(
-          left: 16.0, top: 8.0, right: 16.0, bottom: 16.0),
-      child: Material(
-        elevation: 5.0,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-        child: Stack(
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15.0),
-              child: CachedNetworkImage(
-                imageUrl: image,
-                placeholder: (context, url) => const CircularProgressIndicator(
-                  color: basicColor,
-                ),
+      {String image,
+      String title,
+      String subtitle,
+      bool isSuggestion,
+      bool isFavorite,
+      Size size}) {
+    return isFavorite
+        ? Container(
+            height: size.height * 0.4,
+            width: size.width * 0.9,
+            padding: const EdgeInsets.only(
+                left: 16.0, top: 8.0, right: 16.0, bottom: 16.0),
+            child: Material(
+              color: Colors.white54,
+              elevation: 0.0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              child: Stack(
+                children: <Widget>[
+                  Center(
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: const Center(
+                            child: Icon(Icons.favorite,
+                                color: Colors.red, size: 100))),
+                  ),
+                  Positioned(
+                      bottom: 20.0,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        color: Colors.black.withOpacity(0.7),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(isFavorite ? "Meine Favoriten" : title,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: openSansFontFamily)),
+                            Text(isFavorite ? '' : subtitle,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: openSansFontFamily)),
+                          ],
+                        ),
+                      )),
+                ],
               ),
             ),
-            Positioned(
-              bottom: 20.0,
-              child: !isSuggestion
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8.0),
-                      color: Colors.black.withOpacity(0.7),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Text(title,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: openSansFontFamily)),
-                          Text(subtitle,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: openSansFontFamily)),
-                        ],
-                      ),
-                    )
-                  : Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 4.0),
-                      color: Colors.black.withOpacity(0.7),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Text(title,
-                              maxLines: 1,
-                              softWrap: false,
-                              overflow: TextOverflow.fade,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: openSansFontFamily,
-                              )),
-                        ],
+          )
+        : Container(
+            padding: const EdgeInsets.only(
+                left: 16.0, top: 8.0, right: 16.0, bottom: 16.0),
+            child: title == 'add'
+                ? Material(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                    color: Colors.white.withOpacity(0.5),
+                    child: SizedBox(
+                      height: size.height * 0.4,
+                      width: size.width * 0.8,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          size: size.width * 0.3,
+                          color: basicColor,
+                        ),
+                        tooltip: 'Kochbuch\nhinzufügen',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreateNewCookbook()));
+                        },
                       ),
                     ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container _buildFavoriteItem(
-      {Icon icon, String title, String subtitle, Size size}) {
-    return Container(
-      height: size.height * 0.4,
-      width: size.width * 0.9,
-      padding: const EdgeInsets.only(
-          left: 16.0, top: 8.0, right: 16.0, bottom: 16.0),
-      child: Material(
-        color: Colors.white54,
-        elevation: 0.0,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-        child: Stack(
-          children: <Widget>[
-            Center(
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15.0),
-                  child: Center(child: icon)),
-            ),
-            Positioned(
-                bottom: 20.0,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  color: Colors.black.withOpacity(0.7),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text(title,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: openSansFontFamily)),
-                      Text(subtitle,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontFamily: openSansFontFamily)),
-                    ],
+                  )
+                : Material(
+                    elevation: 5.0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                    child: Stack(
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15.0),
+                          child: CachedNetworkImage(
+                            imageUrl: image,
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(
+                              color: basicColor,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 20.0,
+                          child: !isSuggestion
+                              ? Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 8.0),
+                                  color: Colors.black.withOpacity(0.7),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Text(title,
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: openSansFontFamily)),
+                                      Text(subtitle,
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: openSansFontFamily)),
+                                    ],
+                                  ),
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 4.0),
+                                  color: Colors.black.withOpacity(0.7),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Text(title,
+                                          maxLines: 1,
+                                          softWrap: false,
+                                          overflow: TextOverflow.fade,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: openSansFontFamily,
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
                   ),
-                )),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   _openDestinationPage(BuildContext context, List<Recipe> recipes,
@@ -627,6 +625,13 @@ class _HomeState extends State<Home> {
     // remove additional Plant Food Factory Cookbook
     cookbooks.removeWhere((element) => element.name == 'Plant Food Factory');
     cookbooks.removeWhere((element) => element.name == 'plant_food_factory');
+
+    tempCookbooks.addAll(cookbooks);
+    cookbooks.clear();
+    cookbooks.add(Cookbook('', 'favorites', favs));
+    cookbooks.addAll(tempCookbooks);
+    cookbooks.add(Cookbook('', 'add', []));
+    tempCookbooks.clear();
     //setState is needed here. If we give back the recipes object directly the books will not appear instantly
     setState(() {});
     return cookbooks;

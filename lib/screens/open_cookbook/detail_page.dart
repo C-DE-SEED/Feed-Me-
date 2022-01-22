@@ -204,7 +204,8 @@ class _DetailPageState extends State<DetailPage>
                                           widget.recipe.persons,
                                           widget.recipe.shortDescription,
                                           widget.recipe.spices,
-                                          widget.recipe.time);
+                                          widget.recipe.time,
+                                      widget.recipe.userNotes);
                                     }
                                     setState(() {
                                       isFav = !isFav;

@@ -19,7 +19,7 @@ class FavsAndShoppingListDbHelper {
     String shortDescription,
     String spices,
     String time,
-    // String userNotes
+    String userNotes
   ) async {
     final CollectionReference collectionReference =
         FirebaseFirestore.instance.collection(auth.getUser().uid);
@@ -39,7 +39,7 @@ class FavsAndShoppingListDbHelper {
       'persons': persons,
       'short_discription': shortDescription,
       'time': time,
-      //'user_notes' : userNotes
+      'user_notes' : userNotes
     });
     // Important: Code beneath is needed. If there is no field in the document, firebase will not recognize it as document
     await collectionReference
@@ -71,7 +71,8 @@ class FavsAndShoppingListDbHelper {
         doc['persons'] ?? '',
         doc['short_discription'] ?? '',
         doc['time'] ?? '',
-        doc['user_notes'] ?? '',
+        //FIXME see screenshot in oneNote Flutter Error db
+        doc['user_notes'] ?? ''
       );
     }).toList();
     return list;
