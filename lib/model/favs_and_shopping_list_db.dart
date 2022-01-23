@@ -112,7 +112,9 @@ class FavsAndShoppingListDbHelper {
     // Important: At the moment there is no method to get name of all subcollections. So we add the name of the subcollection to the field 'name'. The field can be read easy and we have all collection names saved.
     await collectionReference.doc('shoppingList').get().then((value) async {
       if (!value.exists) {
-        await collectionReference.doc('shoppingList').set({'image': 'shoppingList', 'name': name});
+        await collectionReference
+            .doc('shoppingList')
+            .set({'image': 'shoppingList', 'name': name});
       } else {
         String oldName;
         final CollectionReference collectionReference =
@@ -132,6 +134,7 @@ class FavsAndShoppingListDbHelper {
 
   Future<List<String>> getCollectionNames() async {
     String fieldValue;
+    List<String> names;
     final CollectionReference collectionReference =
         FirebaseFirestore.instance.collection(auth.getUser().uid);
     await collectionReference
@@ -139,7 +142,14 @@ class FavsAndShoppingListDbHelper {
         .get()
         .then((value) => {fieldValue = value['name']});
 
-    return fieldValue.split('/');
+    names =  fieldValue.split('/');
+    if(names.elementAt(0) == ''){
+      names.removeAt(0);
+    }
+    if(names.last == ''){
+      names.removeLast();
+    }
+    return names;
   }
 
 //get all shoppingListObjects
@@ -154,26 +164,6 @@ class FavsAndShoppingListDbHelper {
         .map(_shoppingListObjectFromSnapshot);
   }
 
-  // Future<List<ShoppingList>> _shoppingListFromSnapshot(QuerySnapshot snapshot) async {
-  //   List<ShoppingList> shoppingList= snapshot.docs.map((doc) {
-  //
-  //     //TODO: remove image attribute from shoppingLists
-  //     return ShoppingList(
-  //       doc['image'] ?? '',
-  //       doc['name'] ?? '',
-  //     );
-  //   }).toList();
-  //
-  //   for (int i = 0; i < shoppingList.length; i++) {
-  //     var recipesFromShoppingList =
-  //     getRecipesFromShoppingListCollection(shoppingList.elementAt(i).name);
-  //     ingredients = await recipesFromShoppingList.first;
-  //     shoppingList.elementAt(i).shoppingList = ingredients;
-  //   }
-  //
-  //   return shoppingList;
-  // }
-
   List<ShoppingListObject> _shoppingListObjectFromSnapshot(
       QuerySnapshot snapshot) {
     var list = snapshot.docs.map((doc) {
@@ -186,49 +176,59 @@ class FavsAndShoppingListDbHelper {
     return list;
   }
 
-  //get all ShoppingLists
-  /*Stream<List<Recipe>>*/
-  void getRecipesFromShoppingList() async {
-    CollectionReference userCollection =
-        FirebaseFirestore.instance.collection(auth.getUser().uid);
-
-    //  userCollection
-    //     .doc('shoppingList')
-    //     .get()
-    //     .then((documentSnapshot) => {
-    //     documentSnapshot.data()
-    // });
-  }
-
-  // Future<List<Cookbook>> _cookbookFromSnapshot(QuerySnapshot snapshot) async {
-  //   List<Cookbook> books = snapshot.docs.map((doc) {
-  //     return Cookbook.fromDatabase(
-  //       doc['image'] ?? '',
-  //       doc['name'] ?? '',
-  //     );
-  //   }).toList();
-  //
-  //   for (int i = 0; i < books.length; i++) {
-  //     var recipesFromUserCookbook =
-  //     getRecipesFromUserCookbook(books.elementAt(i).name);
-  //     recipesFromCookbook = await recipesFromUserCookbook.first;
-  //     books.elementAt(i).recipes = recipesFromCookbook;
-  //   }
-  //
-  //   return books;
-  // }
-
-  void removeIngredientsFromShoppingList(
-      String name, String collectionName) async {
+  void removeRecipeFromShoppingList(
+      String collectionName) async {
     await FirebaseFirestore.instance
         .collection(auth.getUser().uid)
         .doc('shoppingList')
         .collection(collectionName)
         .get()
         .then((value) => value.docs.forEach((element) {
-              if (element.id == name) {
-                element.reference.delete();
-              }
+              element.reference.delete();
             }));
+
+
+      String name;
+      final CollectionReference collectionReference =
+          FirebaseFirestore.instance.collection(auth.getUser().uid);
+      await collectionReference
+          .doc('shoppingList')
+          .get()
+          .then((value) => {name = value['name']});
+
+      //beneath ist needad to change the field which includes all recipe names of the shopping list
+      name = name.replaceAll(collectionName, '');
+      name = name.replaceAll('//', '');
+      if (name.endsWith('/')) {
+        name = name.substring(0, name.length - 1);
+      }
+      if (name.startsWith('/')) {
+        name = name.substring(1, name.length);
+      }
+
+      if (name == collectionName) {
+        removeWholeShoppingList(collectionName);
+      }
+
+    await collectionReference
+        .doc('shoppingList')
+        .set({'image': 'shoppingList', 'name': name});
+
+  }
+
+  void removeWholeShoppingList(String collectionName) async {
+    await FirebaseFirestore.instance
+        .collection(auth.getUser().uid)
+        .doc('shoppingList')
+        .collection(collectionName)
+        .get()
+        .then((value) => value.docs.forEach((element) {
+              element.reference.delete();
+            }));
+
+    await FirebaseFirestore.instance
+        .collection(auth.getUser().uid)
+        .doc('shoppingList')
+        .delete();
   }
 }
