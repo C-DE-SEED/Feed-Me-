@@ -130,9 +130,9 @@ class RecipeDbObject {
     var cookbooks = FirebaseFirestore.instance
         .collection(auth.getUser().uid)
         .snapshots()
-        .map(_cookbookFromSnapshot);
-
-    return cookbooks.first;
+        .map(_cookbookFromSnapshot).first;
+    
+    return cookbooks;
   }
 
 

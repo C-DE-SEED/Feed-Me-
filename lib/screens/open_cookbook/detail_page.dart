@@ -5,6 +5,7 @@ import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/model/recipe_object.dart';
+import 'package:feed_me/model/shopping_list_object.dart';
 import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/screens/open_cookbook/detail_page/recipe_steps_view.dart';
 import 'package:feed_me/screens/open_cookbook/pdf/pdf_api.dart';
@@ -152,12 +153,11 @@ class _DetailPageState extends State<DetailPage>
                           ),
                         ),
                         Padding(
-                          padding:
-                              EdgeInsets.fromLTRB(0, size.height * 0.27, 0, 0),
-                          child: Row(
+                          padding: EdgeInsets.fromLTRB(
+                              size.width * 0.85, size.height * 0.08, 0, 0),
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(width: size.width * 0.02),
                               widget.isUserBook
                                   ? IconButton(
                                       icon: const Icon(
@@ -171,7 +171,20 @@ class _DetailPageState extends State<DetailPage>
                                   :
                                   //    SizedBox is needed because null value is not allowed in NestedScrollView
                                   const SizedBox(height: 5),
-                              const Spacer(),
+                              IconButton(
+                                  onPressed: () {
+                                    getAsShoppingListObjects().forEach((element) async {
+                                      await favsAndShopping.updateShoppingList(
+                                          element.ingredient,
+                                          element.isChecked,
+                                          widget.recipe.name);
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.shopping_basket_outlined,
+                                    size: size.width * 0.1,
+                                    color: Colors.white,
+                                  )),
                               IconButton(
                                   icon: !isFav
                                       ? const Icon(Icons.favorite_border,
@@ -199,13 +212,13 @@ class _DetailPageState extends State<DetailPage>
                                           widget.recipe.persons,
                                           widget.recipe.shortDescription,
                                           widget.recipe.spices,
-                                          widget.recipe.time);
+                                          widget.recipe.time,
+                                          widget.recipe.userNotes);
                                     }
                                     setState(() {
                                       isFav = !isFav;
                                     });
                                   }),
-                              SizedBox(width: size.width * 0.02),
                             ],
                           ),
                         )
@@ -319,5 +332,13 @@ class _DetailPageState extends State<DetailPage>
     List<String> x = [];
     x = recipe.ingredientsAndAmount.split("/");
     return x;
+  }
+
+  List<ShoppingListObject> getAsShoppingListObjects(){
+    List<ShoppingListObject> shoppingList= [];
+    widget.ingredients.forEach((element) {
+      shoppingList.add( ShoppingListObject(element, '0'));
+    });
+    return shoppingList;
   }
 }

@@ -37,10 +37,14 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-    // TODO: insert full screen dialog in navigators
-    // TODO insert will pop scope in specific screens
-    // TODO einkaufsliste
 
+    // TODO einkaufsliste
+    // TODO delete/overwrite recipe
+    // TODO give possibility to create a recipe without picture
+    // TODO: insert full screen dialog in navigators
+
+
+    // TODO insert will pop scope in specific screens
     // TODO insert flutter inapp_purchase at user recipe amount of 30
     // FIXME: Find out why app crashes and fix it
     // TODO: Change login video with own
@@ -53,10 +57,9 @@ class MyApp extends StatelessWidget {
     // FIXME: Listview in home page
 
     // FIXME: add ingredients and spices list view
-    // TODO delete/overwrite recipe
-    // TODO give possibility to create a recipe without picture
     // TODO improve search function in home screen
-
+    //TODO: Add alert if user still exists in registration
+    //TODO: Video login cached????
     /*
      ----------------------------------------------
     |             _____             _____          |
