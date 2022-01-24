@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:feed_me/constants/buttons/standard_button_with_icon.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
@@ -317,9 +318,10 @@ class _DetailPageState extends State<DetailPage>
               ingredients: widget.ingredients,
               personCount: widget.recipe.persons,
               unsortedIngredients: widget.recipe.ingredientsAndAmount,
+              recipe: widget.recipe,
             ),
             RecipeSteps(widget.recipeSteps, widget.recipe, widget.isUserCookbook,
-                widget.cookbook.name)
+                widget.cookbook.name),
           ],
           controller: _tabController,
         ),
