@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,9 +16,7 @@ import '../constants/alerts/rounded_custom_alert.dart';
 import '../model/recipe_db_object.dart';
 import '../model/recipe_object.dart';
 import 'create_new_cook_book.dart';
-import 'maxi_check_mal_aus.dart';
 import 'open_cookbook/detail_page.dart';
-import 'package:path_provider/path_provider.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -40,19 +37,17 @@ class _HomeState extends State<Home> {
   int cookbookCount = 0;
   List<Recipe> plantFoodFactory = [];
   List<Recipe> suggestionRecipes = [];
-  List<Cookbook> userCookbooks = [];
-  List<Cookbook> cookbooks = [];
   List<Recipe> favs = [];
   List<Cookbook> tempCookbooks = [];
   List<Recipe> allRecipes = [];
-  final TextEditingController _typeAheadController = TextEditingController();
   final textFieldController = TextEditingController();
   String shoppingListFromUser = '';
   Future<List<Cookbook>> getUpdateCookbooks;
+  List<Cookbook> userCookbooks = [];
+  final TextEditingController _typeAheadController = TextEditingController();
 
   @override
   void initState() {
-    getCookBooks().then((value) => {setState(() {})});
     getAllPlantFoodFactoryRecipes();
     getUserFavs();
     getUpdateCookbooks = getUpdates();
@@ -130,10 +125,12 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
+                              padding: const EdgeInsets.fromLTRB(
+                                  0.0, 10.0, 10.0, 0.0),
                               child: CircleAvatar(
-                                backgroundImage: authService.getUser().photoURL ==
+                                backgroundImage: authService
+                                                .getUser()
+                                                .photoURL ==
                                             null ||
                                         authService.getUser().photoURL == ''
                                     ? const AssetImage('assets/profilePNG.png')
@@ -161,13 +158,14 @@ class _HomeState extends State<Home> {
                         ),
                         Row(
                           children: [
-                            SizedBox(width: size.width*0.025),
+                            SizedBox(width: size.width * 0.025),
                             const Icon(Icons.search),
-                            SizedBox(width: size.width*0.025),
+                            SizedBox(width: size.width * 0.025),
                             SizedBox(
-                              width: size.width*0.8,
+                              width: size.width * 0.8,
                               child: TypeAheadField(
-                                  textFieldConfiguration: TextFieldConfiguration(
+                                  textFieldConfiguration:
+                                      TextFieldConfiguration(
                                     decoration: const InputDecoration(
                                       hintText: 'Nach Rezept suchen',
                                       hintStyle: TextStyle(
@@ -176,17 +174,20 @@ class _HomeState extends State<Home> {
                                           color: Colors.black),
                                       focusedBorder: UnderlineInputBorder(
                                           borderSide:
-                                          BorderSide(color: Colors.white)),
+                                              BorderSide(color: Colors.white)),
                                       enabledBorder: UnderlineInputBorder(
                                           borderSide:
-                                          BorderSide(color: Colors.white)),
+                                              BorderSide(color: Colors.white)),
                                     ),
                                     controller: _typeAheadController,
                                   ),
                                   suggestionsCallback: (pattern) {
-                                    return SearchService(recipes: plantFoodFactory).getSuggestions(pattern);
+                                    return SearchService(
+                                            recipes: plantFoodFactory)
+                                        .getSuggestions(pattern);
                                   },
-                                  transitionBuilder: (context, suggestionsBox, controller) {
+                                  transitionBuilder:
+                                      (context, suggestionsBox, controller) {
                                     return suggestionsBox;
                                   },
                                   itemBuilder: (context, suggestion) {
@@ -198,19 +199,20 @@ class _HomeState extends State<Home> {
                                     _typeAheadController.text = suggestion;
                                     var recipe = findRecipe(suggestion);
                                     Cookbook cookbook = Cookbook('', '', []);
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (_) => DetailPage(
-                                                          recipe: recipe,
-                                                          recipeSteps: filterSteps(recipe),
-                                                          ingredients:
-                                                              filterIngredients(recipe),
-                                                          favs: favs,
-                                                          fromHome: true,
-                                                          isUserCookbook: false,
-                                                          cookbook: cookbook,
-                                                        )));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => DetailPage(
+                                                  recipe: recipe,
+                                                  recipeSteps:
+                                                      filterSteps(recipe),
+                                                  ingredients:
+                                                      filterIngredients(recipe),
+                                                  favs: favs,
+                                                  fromHome: true,
+                                                  isUserCookbook: false,
+                                                  cookbook: cookbook,
+                                                )));
                                   }),
                             )
                           ],
@@ -224,7 +226,8 @@ class _HomeState extends State<Home> {
                   child: Row(children: <Widget>[
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                          margin:
+                              const EdgeInsets.only(left: 10.0, right: 20.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -237,7 +240,8 @@ class _HomeState extends State<Home> {
                             color: Colors.black)),
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                          margin:
+                              const EdgeInsets.only(left: 20.0, right: 10.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -272,7 +276,8 @@ class _HomeState extends State<Home> {
                   child: Row(children: <Widget>[
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                          margin:
+                              const EdgeInsets.only(left: 10.0, right: 20.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -285,7 +290,8 @@ class _HomeState extends State<Home> {
                             color: Colors.black)),
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                          margin:
+                              const EdgeInsets.only(left: 20.0, right: 10.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -318,7 +324,8 @@ class _HomeState extends State<Home> {
                   child: Row(children: <Widget>[
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                          margin:
+                              const EdgeInsets.only(left: 10.0, right: 20.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -331,7 +338,8 @@ class _HomeState extends State<Home> {
                             color: Colors.black)),
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                          margin:
+                              const EdgeInsets.only(left: 20.0, right: 10.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -377,7 +385,9 @@ class _HomeState extends State<Home> {
                                                       .image ==
                                                   ''
                                               ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3'
-                                              : snap.data.elementAt(index).image,
+                                              : snap.data
+                                                  .elementAt(index)
+                                                  .image,
                                           title: snap.data
                                                       .elementAt(index)
                                                       .name ==
@@ -389,7 +399,7 @@ class _HomeState extends State<Home> {
                                           size: size,
                                           isFavorite:
                                               snap.data.elementAt(index).name ==
-                                                  'Meine Favoriten'));
+                                                  'favorites'));
                                 }),
                           );
                         },
@@ -408,18 +418,12 @@ class _HomeState extends State<Home> {
                 color: basicColor,
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => TextfieldWithSuggestion(recipes: plantFoodFactory,)));
-
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (_) => ShoppingListCheck()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => ShoppingListCheck()));
               },
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.endDocked,
           ),
         ),
       ),
@@ -480,13 +484,13 @@ class _HomeState extends State<Home> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Text(isFavorite ? "Meine Favoriten" : title,
+                            Text(title,
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: openSansFontFamily)),
-                            Text(isFavorite ? '' : subtitle,
+                            Text(subtitle,
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontFamily: openSansFontFamily)),
@@ -638,20 +642,13 @@ class _HomeState extends State<Home> {
     return x;
   }
 
-  Future<void> getCookBooks() async {
-    RecipeDbObject recipeDbObject = RecipeDbObject();
-    userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
-    cookbookCount = userCookbooks.length;
-    userCookbooks.forEach((element) {
-      recipeCount = recipeCount + element.recipes.length;
-    });
-    setState(() {});
-  }
-
   Future<List<Cookbook>> getUpdates() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     List<Cookbook> cookbooksUpdate =
         await await recipeDbObject.getAllCookBooksFromUser();
+
+    cookbooksUpdate.removeWhere((element) =>
+        element.image == 'none' || element.image == 'shoppingList');
     // FIXME check in database why this additional cookbook is inserted
     // remove additional Plant Food Factory Cookbook
     cookbooksUpdate
@@ -661,13 +658,21 @@ class _HomeState extends State<Home> {
 
     tempCookbooks.addAll(cookbooksUpdate);
     cookbooksUpdate.clear();
+
     cookbooksUpdate.add(Cookbook('', 'favorites', favs));
     cookbooksUpdate.addAll(tempCookbooks);
     cookbooksUpdate.add(Cookbook('', 'add', []));
     tempCookbooks.clear();
     //setState is needed here. If we give back the recipes object directly the books will not appear instantly
     setState(() {});
-    return cookbooksUpdate;
+
+    cookbookCount = cookbooksUpdate.length;
+    cookbooksUpdate.forEach((element) {
+      recipeCount = recipeCount + element.recipes.length;
+    });
+
+    userCookbooks = cookbooksUpdate;
+    return userCookbooks;
   }
 
   void getSuggestions() {
@@ -706,6 +711,7 @@ class _HomeState extends State<Home> {
       );
       return null;
     });
+    allRecipes.clear();
     return recipe;
   }
 }

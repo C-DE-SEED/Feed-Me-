@@ -9,7 +9,6 @@ import 'package:feed_me/model/ingredient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../model/recipe_object.dart';
-import '../maxi_check_mal_aus.dart';
 import 'create_new_recipe_3.dart';
 
 class CreateNewRecipe_2 extends StatefulWidget {
