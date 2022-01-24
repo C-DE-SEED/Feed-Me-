@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -15,7 +14,6 @@ import '../model/recipe_db_object.dart';
 import '../model/recipe_object.dart';
 import 'create_new_cook_book.dart';
 import 'open_cookbook/detail_page.dart';
-import 'package:path_provider/path_provider.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -126,10 +124,12 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
+                              padding: const EdgeInsets.fromLTRB(
+                                  0.0, 10.0, 10.0, 0.0),
                               child: CircleAvatar(
-                                backgroundImage: authService.getUser().photoURL ==
+                                backgroundImage: authService
+                                                .getUser()
+                                                .photoURL ==
                                             null ||
                                         authService.getUser().photoURL == ''
                                     ? const AssetImage('assets/profilePNG.png')
@@ -181,8 +181,8 @@ class _HomeState extends State<Home> {
                             showCursor: true,
                             decoration: InputDecoration(
                               hintText: "Nach Rezept suchen",
-                              prefixIcon:
-                                  const Icon(Icons.search, color: Colors.black54),
+                              prefixIcon: const Icon(Icons.search,
+                                  color: Colors.black54),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                   color: Colors.white,
@@ -199,7 +199,8 @@ class _HomeState extends State<Home> {
                   child: Row(children: <Widget>[
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                          margin:
+                              const EdgeInsets.only(left: 10.0, right: 20.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -212,7 +213,8 @@ class _HomeState extends State<Home> {
                             color: Colors.black)),
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                          margin:
+                              const EdgeInsets.only(left: 20.0, right: 10.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -247,7 +249,8 @@ class _HomeState extends State<Home> {
                   child: Row(children: <Widget>[
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                          margin:
+                              const EdgeInsets.only(left: 10.0, right: 20.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -260,7 +263,8 @@ class _HomeState extends State<Home> {
                             color: Colors.black)),
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                          margin:
+                              const EdgeInsets.only(left: 20.0, right: 10.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -293,7 +297,8 @@ class _HomeState extends State<Home> {
                   child: Row(children: <Widget>[
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                          margin:
+                              const EdgeInsets.only(left: 10.0, right: 20.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -306,7 +311,8 @@ class _HomeState extends State<Home> {
                             color: Colors.black)),
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                          margin:
+                              const EdgeInsets.only(left: 20.0, right: 10.0),
                           child: const Divider(
                             color: Colors.black,
                             height: 36,
@@ -352,7 +358,9 @@ class _HomeState extends State<Home> {
                                                       .image ==
                                                   ''
                                               ? 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3'
-                                              : snap.data.elementAt(index).image,
+                                              : snap.data
+                                                  .elementAt(index)
+                                                  .image,
                                           title: snap.data
                                                       .elementAt(index)
                                                       .name ==
@@ -404,7 +412,8 @@ class _HomeState extends State<Home> {
                 );
               },
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.endDocked,
           ),
         ),
       ),
@@ -465,13 +474,13 @@ class _HomeState extends State<Home> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Text(isFavorite ? "Meine Favoriten" : title,
+                            Text(title,
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: openSansFontFamily)),
-                            Text(isFavorite ? '' : subtitle,
+                            Text(subtitle,
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontFamily: openSansFontFamily)),
