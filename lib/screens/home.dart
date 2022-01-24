@@ -45,7 +45,6 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    // getCookBooks().then((value) => {setState(() {})});
     getAllPlantFoodFactoryRecipes();
     getUserFavs();
     getUpdateCookbooks = getUpdates();
