@@ -6,10 +6,14 @@ class ReciptPreviewImage extends StatelessWidget {
   final double width, height;
   final bool isTitle;
 
-  const ReciptPreviewImage(
-      {Key key, this.fit, this.height, this.width, this.image, this.isTitle,
-        })
-      : super(key: key);
+  const ReciptPreviewImage({
+    Key key,
+    this.fit,
+    this.height,
+    this.width,
+    this.image,
+    this.isTitle,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,7 @@ class ReciptPreviewImage extends StatelessWidget {
                 fit: BoxFit.cover,
               ))
           : BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(32.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(32.0)),
               color: Colors.white,
               image: DecorationImage(
                 image: AssetImage(image),
