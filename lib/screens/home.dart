@@ -35,22 +35,20 @@ class _HomeState extends State<Home> {
   int cookbookCount = 0;
   List<Recipe> plantFoodFactory = [];
   List<Recipe> suggestionRecipes = [];
-  List<Cookbook> userCookbooks = [];
-  List<Cookbook> cookbooks = [];
   List<Recipe> favs = [];
   List<Cookbook> tempCookbooks = [];
   List<Recipe> allRecipes = [];
   final textFieldController = TextEditingController();
   String shoppingListFromUser = '';
   Future<List<Cookbook>> getUpdateCookbooks;
+  List<Cookbook> userCookbooks = [];
 
   @override
   void initState() {
-    getCookBooks().then((value) => {setState(() {})});
+    // getCookBooks().then((value) => {setState(() {})});
     getAllPlantFoodFactoryRecipes();
     getUserFavs();
     getUpdateCookbooks = getUpdates();
-    //TODO get shoppingListFromStorage
     super.initState();
   }
 
@@ -364,8 +362,7 @@ class _HomeState extends State<Home> {
                                                   .image,
                                           title: snap.data
                                                       .elementAt(index)
-                                                      .name ==
-                                                  'favorites'
+                                                      .name == 'favorites'
                                               ? 'Meine Favoriten'
                                               : snap.data.elementAt(index).name,
                                           subtitle: "",
@@ -373,7 +370,7 @@ class _HomeState extends State<Home> {
                                           size: size,
                                           isFavorite:
                                               snap.data.elementAt(index).name ==
-                                                  'Meine Favoriten'));
+                                                  'favorites'));
                                 }),
                           );
                         },
@@ -392,10 +389,8 @@ class _HomeState extends State<Home> {
                 color: basicColor,
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => ShoppingListCheck()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => ShoppingListCheck()));
               },
             ),
             floatingActionButtonLocation:
@@ -618,22 +613,13 @@ class _HomeState extends State<Home> {
     return x;
   }
 
-  Future<void> getCookBooks() async {
-    RecipeDbObject recipeDbObject = RecipeDbObject();
-    userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
-    userCookbooks.removeWhere((element) => element.image == 'shoppingList');
-    cookbookCount = userCookbooks.length;
-    userCookbooks.forEach((element) {
-      recipeCount = recipeCount + element.recipes.length;
-    });
-    setState(() {});
-  }
-
   Future<List<Cookbook>> getUpdates() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     List<Cookbook> cookbooksUpdate =
         await await recipeDbObject.getAllCookBooksFromUser();
-    cookbooks.removeWhere((element) => element.image == 'none' || element.image == 'shoppingList');
+
+    cookbooksUpdate.removeWhere((element) =>
+        element.image == 'none' || element.image == 'shoppingList');
     // FIXME check in database why this additional cookbook is inserted
     // remove additional Plant Food Factory Cookbook
     cookbooksUpdate
@@ -643,13 +629,21 @@ class _HomeState extends State<Home> {
 
     tempCookbooks.addAll(cookbooksUpdate);
     cookbooksUpdate.clear();
+
     cookbooksUpdate.add(Cookbook('', 'favorites', favs));
     cookbooksUpdate.addAll(tempCookbooks);
     cookbooksUpdate.add(Cookbook('', 'add', []));
     tempCookbooks.clear();
     //setState is needed here. If we give back the recipes object directly the books will not appear instantly
     setState(() {});
-    return cookbooksUpdate;
+
+    cookbookCount = cookbooksUpdate.length;
+    cookbooksUpdate.forEach((element) {
+      recipeCount = recipeCount + element.recipes.length;
+    });
+
+    userCookbooks = cookbooksUpdate;
+    return userCookbooks;
   }
 
   void getSuggestions() {
@@ -688,6 +682,7 @@ class _HomeState extends State<Home> {
       );
       return null;
     });
+    allRecipes.clear();
     return recipe;
   }
 }
