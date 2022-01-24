@@ -49,21 +49,6 @@ class _MainDishesPageState extends State<MainDishesPage> {
                     fontFamily: openSansFontFamily)),
           ),
           SizedBox(height: size.height * 0.02),
-          TextField(
-              onChanged: (value) {
-                //TODO insert filtered value
-              },
-              showCursor: true,
-              decoration: InputDecoration(
-                hintText: "Nach Gerichten suchen",
-                prefixIcon: const Icon(Icons.search, color: Colors.black54),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: basicColor,
-                  ),
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-              )),
           Expanded(
             child: widget.recipes.isEmpty
                 ? const Center(

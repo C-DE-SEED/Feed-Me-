@@ -9,7 +9,9 @@ import 'package:feed_me/screens/open_cookbook/recipe_page.dart';
 import 'package:feed_me/screens/shopping_list/shopping_list.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/screens/user/profile_page.dart';
+import 'package:feed_me/services/search_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../constants/alerts/rounded_custom_alert.dart';
 import '../model/recipe_db_object.dart';
 import '../model/recipe_object.dart';
@@ -42,6 +44,7 @@ class _HomeState extends State<Home> {
   String shoppingListFromUser = '';
   Future<List<Cookbook>> getUpdateCookbooks;
   List<Cookbook> userCookbooks = [];
+  final TextEditingController _typeAheadController = TextEditingController();
 
   @override
   void initState() {
@@ -153,41 +156,67 @@ class _HomeState extends State<Home> {
                             )
                           ],
                         ),
-                        TextField(
-                            controller: textFieldController,
-                            onSubmitted: (value) {
-                              String recipeName = value;
-                              var recipe = findRecipe(recipeName);
-                              if (recipe != null) {
-                                Cookbook cookbook = Cookbook('', '', []);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => DetailPage(
-                                              recipe: recipe,
-                                              recipeSteps: filterSteps(recipe),
-                                              ingredients:
-                                                  filterIngredients(recipe),
-                                              favs: favs,
-                                              fromHome: true,
-                                              isUserCookbook: false,
-                                              cookbook: cookbook,
-                                            )));
-                                textFieldController.clear();
-                              }
-                            },
-                            showCursor: true,
-                            decoration: InputDecoration(
-                              hintText: "Nach Rezept suchen",
-                              prefixIcon: const Icon(Icons.search,
-                                  color: Colors.black54),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Colors.white,
-                                ),
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                            )),
+                        Row(
+                          children: [
+                            SizedBox(width: size.width * 0.025),
+                            const Icon(Icons.search),
+                            SizedBox(width: size.width * 0.025),
+                            SizedBox(
+                              width: size.width * 0.8,
+                              child: TypeAheadField(
+                                  textFieldConfiguration:
+                                      TextFieldConfiguration(
+                                    decoration: const InputDecoration(
+                                      hintText: 'Nach Rezept suchen',
+                                      hintStyle: TextStyle(
+                                          fontFamily: openSansFontFamily,
+                                          fontSize: 14,
+                                          color: Colors.black),
+                                      focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.white)),
+                                      enabledBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.white)),
+                                    ),
+                                    controller: _typeAheadController,
+                                  ),
+                                  suggestionsCallback: (pattern) {
+                                    return SearchService(
+                                            recipes: plantFoodFactory)
+                                        .getSuggestions(pattern);
+                                  },
+                                  transitionBuilder:
+                                      (context, suggestionsBox, controller) {
+                                    return suggestionsBox;
+                                  },
+                                  itemBuilder: (context, suggestion) {
+                                    return ListTile(
+                                      title: Text(suggestion),
+                                    );
+                                  },
+                                  onSuggestionSelected: (suggestion) {
+                                    _typeAheadController.text = suggestion;
+                                    var recipe = findRecipe(suggestion);
+                                    Cookbook cookbook = Cookbook('', '', []);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => DetailPage(
+                                                  recipe: recipe,
+                                                  recipeSteps:
+                                                      filterSteps(recipe),
+                                                  ingredients:
+                                                      filterIngredients(recipe),
+                                                  favs: favs,
+                                                  fromHome: true,
+                                                  isUserCookbook: false,
+                                                  cookbook: cookbook,
+                                                )));
+                                  }),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -361,7 +390,8 @@ class _HomeState extends State<Home> {
                                                   .image,
                                           title: snap.data
                                                       .elementAt(index)
-                                                      .name == 'favorites'
+                                                      .name ==
+                                                  'favorites'
                                               ? 'Meine Favoriten'
                                               : snap.data.elementAt(index).name,
                                           subtitle: "",
