@@ -395,10 +395,11 @@ class _HomeState extends State<Home> {
         floatingActionButton: FloatingActionButton(
           tooltip: 'Einkaufsliste\nöffnen',
           backgroundColor: Colors.white.withOpacity(0.5),
+          elevation: 0,
           child: Icon(
             Icons.shopping_basket_outlined,
             size: size.width * 0.1,
-            color: basicColor,
+            color: Colors.black,
           ),
           onPressed: () async {
             Navigator.push(

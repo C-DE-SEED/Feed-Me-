@@ -142,12 +142,11 @@ class FavsAndShoppingListDbHelper {
         .get()
         .then((value) => {fieldValue = value['name']});
 
-    names =  fieldValue.split('/');
-    if(names.elementAt(0) == ''){
-      names.removeAt(0);
-    }
-    if(names.last == ''){
-      names.removeLast();
+    names = fieldValue.split('/');
+    for (int i = 0; i < names.length; i++) {
+      if (names.elementAt(i) == '') {
+        names.removeAt(i);
+      }
     }
     return names;
   }
@@ -176,8 +175,7 @@ class FavsAndShoppingListDbHelper {
     return list;
   }
 
-  void removeRecipeFromShoppingList(
-      String collectionName) async {
+  void removeRecipeFromShoppingList(String collectionName) async {
     await FirebaseFirestore.instance
         .collection(auth.getUser().uid)
         .doc('shoppingList')
@@ -187,33 +185,31 @@ class FavsAndShoppingListDbHelper {
               element.reference.delete();
             }));
 
+    String name;
+    final CollectionReference collectionReference =
+        FirebaseFirestore.instance.collection(auth.getUser().uid);
+    await collectionReference
+        .doc('shoppingList')
+        .get()
+        .then((value) => {name = value['name']});
 
-      String name;
-      final CollectionReference collectionReference =
-          FirebaseFirestore.instance.collection(auth.getUser().uid);
-      await collectionReference
-          .doc('shoppingList')
-          .get()
-          .then((value) => {name = value['name']});
+    //beneath ist needad to change the field which includes all recipe names of the shopping list
+    name = name.replaceAll(collectionName, '');
+    name = name.replaceAll('//', '');
+    if (name.endsWith('/')) {
+      name = name.substring(0, name.length - 1);
+    }
+    if (name.startsWith('/')) {
+      name = name.substring(1, name.length);
+    }
 
-      //beneath ist needad to change the field which includes all recipe names of the shopping list
-      name = name.replaceAll(collectionName, '');
-      name = name.replaceAll('//', '');
-      if (name.endsWith('/')) {
-        name = name.substring(0, name.length - 1);
-      }
-      if (name.startsWith('/')) {
-        name = name.substring(1, name.length);
-      }
-
-      if (name == collectionName) {
-        removeWholeShoppingList(collectionName);
-      }
+    if (name == collectionName) {
+      removeWholeShoppingList(collectionName);
+    }
 
     await collectionReference
         .doc('shoppingList')
         .set({'image': 'shoppingList', 'name': name});
-
   }
 
   void removeWholeShoppingList(String collectionName) async {

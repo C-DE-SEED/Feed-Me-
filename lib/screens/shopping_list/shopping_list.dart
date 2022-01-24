@@ -1,4 +1,6 @@
+import 'package:feed_me/constants/alerts/alert_with_function.dart';
 import 'package:feed_me/constants/styles/colors.dart';
+import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/shopping_list.dart';
 import 'package:feed_me/model/shopping_list_object.dart';
@@ -13,12 +15,10 @@ class ShoppingListCheck extends StatefulWidget {
 
 class _ShoppingListCheckState extends State<ShoppingListCheck> {
   List<ShoppingList> shoppingLists = [];
-  List<String> recipeNames= [];
+  List<String> recipeNames = [];
+  List<List<bool>> checkLists = [];
   FavsAndShoppingListDbHelper shoppingListDbHelper =
       FavsAndShoppingListDbHelper();
-
-  //TODO: Implement updaet method to check or uncheck ingredients
-  //Todo: load page if data is loaded
   @override
   void initState() {
     setState(() {
@@ -33,7 +33,12 @@ class _ShoppingListCheckState extends State<ShoppingListCheck> {
     return Scaffold(
       backgroundColor: basicColor,
       appBar: AppBar(
-          title: const Text('Meine Einkaufsliste'),
+        foregroundColor: Colors.black,
+          title: const Text('Meine Einkaufsliste 👨🏻‍🍳',style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontFamily: openSansFontFamily)),
           backgroundColor: Colors.transparent,
           elevation: 0.0),
       body: Container(
@@ -47,9 +52,13 @@ class _ShoppingListCheckState extends State<ShoppingListCheck> {
           child: FutureBuilder<List<ShoppingList>>(
               future: getShoppingListData(),
               builder: (context, AsyncSnapshot<List<ShoppingList>> snap) {
-                if (snap.data == null) {
+                if (recipeNames.isEmpty) {
                   return const Center(
-                      child: Text("Es gibt noch keine Einträge auf deine Einkaufsliste"));
+                      child: Text(
+                          "Es gibt noch keine Einträge auf deine Einkaufsliste",style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black,
+                          fontFamily: openSansFontFamily)));
                 }
                 return ListView.builder(
                     scrollDirection: Axis.vertical,
@@ -60,6 +69,120 @@ class _ShoppingListCheckState extends State<ShoppingListCheck> {
                       return shoppingListWidget(shoppingLists.elementAt(index));
                     });
               })),
+    );
+  }
+
+  Widget shoppingListWidget(ShoppingList shoppingList) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            const SizedBox(width: 10),
+            Text(shoppingList.name,style: const TextStyle(
+            fontSize: 14.0,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontFamily: openSansFontFamily)),
+            const Spacer(),
+            IconButton(
+                icon: const Icon(Icons.delete, color: Colors.red),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertWithFunction(
+                        title: "❗️Achtung❗",
+                        text:
+                            "Willst du das Rezept wirklich aus deiner Einkaufsliste löschen?️",
+                        buttonText: "Ja, bitte",
+                        onPressed: () {
+                          Navigator.pop(context);
+                          deleteRecipeFromShoppingList(shoppingList.name);
+                          getShoppingListData();
+                        },
+                      );
+                    },
+                  );
+                  setState(() {});
+                }),
+            const SizedBox(width: 10),
+          ],
+        ),
+        Container(
+            margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+            child: const Divider(
+              color: Colors.black38,
+              height: 0,
+              thickness: 2,
+            )),
+        ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: shoppingList.shoppingList.length,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              return Row(
+                children: [
+                  Checkbox(
+                      shape: const CircleBorder(),
+                      activeColor: Colors.green,
+                      checkColor: Colors.white,
+                      value: shoppingList.shoppingList
+                                  .elementAt(index)
+                                  .isChecked ==
+                              '1'
+                          ? true
+                          : false,
+                      onChanged: (newValue) {
+                        setState(() {
+                          if (shoppingList.shoppingList
+                                  .elementAt(index)
+                                  .isChecked ==
+                              '1') {
+                            shoppingListDbHelper.updateShoppingList(
+                                shoppingList.shoppingList
+                                    .elementAt(index)
+                                    .ingredient,
+                                '0',
+                                shoppingList.name);
+                            setState(() {
+                              shoppingList.shoppingList
+                                  .elementAt(index)
+                                  .isChecked = '0';
+                              print(shoppingList.shoppingList
+                                  .elementAt(index)
+                                  .isChecked);
+                            });
+                          } else if (shoppingList.shoppingList
+                                  .elementAt(index)
+                                  .isChecked ==
+                              '0') {
+                            shoppingListDbHelper.updateShoppingList(
+                                shoppingList.shoppingList
+                                    .elementAt(index)
+                                    .ingredient,
+                                '1',
+                                shoppingList.name);
+                            setState(() {
+                              shoppingList.shoppingList
+                                  .elementAt(index)
+                                  .isChecked = '1';
+                              print(shoppingList.shoppingList
+                                  .elementAt(index)
+                                  .isChecked);
+                            });
+                          }
+                        });
+                      }),
+                  Text(shoppingList.shoppingList.elementAt(index).ingredient,style: const TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.black,
+                      fontFamily: openSansFontFamily)),
+                ],
+              );
+            }),
+        const SizedBox(height: 30)
+      ],
     );
   }
 
@@ -74,64 +197,15 @@ class _ShoppingListCheckState extends State<ShoppingListCheck> {
           ShoppingList(ingredients, recipeNames.elementAt(i));
       shoppingLists.add(shoppingList);
     }
+    setState(() {});
     return shoppingLists;
   }
 
-  Widget shoppingListWidget(ShoppingList shoppingList) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            const SizedBox(width: 10),
-            Text(shoppingList.name),
-            const Spacer(),
-            IconButton(
-                icon: const Icon(Icons.delete, color: Colors.black),
-                onPressed: () {
-                  setState(() {
-                    deleteRecipeFromShoppingList(shoppingList.name);
-                    getShoppingListData();
-                  });
-                }),
-            const SizedBox(width: 10),
-          ],
-        ),
-        Container(
-            margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-            child: const Divider(
-              color: Colors.black,
-              height: 36,
-            )),
-        ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: shoppingList.shoppingList.length,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Row(
-                children: [
-                  Checkbox(
-                      value: shoppingList.shoppingList
-                                  .elementAt(index)
-                                  .isChecked ==
-                              '1'
-                          ? true
-                          : false,
-                      onChanged: (newValue) {
-                        setState(() {
-                          //TODO: Change value  of item in database
-                        });
-                      }),
-                  Text(shoppingList.shoppingList.elementAt(index).ingredient),
-                ],
-              );
-            }),
-        const SizedBox(height: 30)
-      ],
-    );
-  }
-
   void deleteRecipeFromShoppingList(String collectionName) {
-    shoppingListDbHelper.removeRecipeFromShoppingList(collectionName);
+    setState(() {
+      shoppingListDbHelper.removeRecipeFromShoppingList(collectionName);
+      recipeNames.removeWhere((element) => element == collectionName);
+      shoppingLists.removeWhere((element) => element.name == collectionName);
+    });
   }
 }
