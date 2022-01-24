@@ -85,7 +85,7 @@ class _ShoppingListCheckState extends State<ShoppingListCheck> {
             fontFamily: openSansFontFamily)),
             const Spacer(),
             IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
+                icon: const Icon(Icons.delete, color: Colors.red, size: 30,),
                 onPressed: () {
                   showDialog(
                     context: context,

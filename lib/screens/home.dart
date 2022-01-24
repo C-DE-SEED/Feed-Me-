@@ -52,7 +52,6 @@ class _HomeState extends State<Home> {
     getAllPlantFoodFactoryRecipes();
     getUserFavs();
     getUpdateCookbooks = getUpdates();
-    //TODO get shoppingListFromStorage
     super.initState();
   }
 
@@ -612,7 +611,6 @@ class _HomeState extends State<Home> {
   Future<void> getCookBooks() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
-    userCookbooks.removeWhere((element) => element.image == 'shoppingList');
     cookbookCount = userCookbooks.length;
     userCookbooks.forEach((element) {
       recipeCount = recipeCount + element.recipes.length;
@@ -624,7 +622,6 @@ class _HomeState extends State<Home> {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     List<Cookbook> cookbooksUpdate =
         await await recipeDbObject.getAllCookBooksFromUser();
-    cookbooks.removeWhere((element) => element.image == 'none' || element.image == 'shoppingList');
     // FIXME check in database why this additional cookbook is inserted
     // remove additional Plant Food Factory Cookbook
     cookbooksUpdate

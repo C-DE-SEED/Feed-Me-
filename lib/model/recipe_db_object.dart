@@ -129,6 +129,7 @@ class RecipeDbObject {
   Future<Future<List<Cookbook>>> getAllCookBooksFromUser() {
     var cookbooks = FirebaseFirestore.instance
         .collection(auth.getUser().uid)
+        .where('image',isNotEqualTo: 'shoppingList')
         .snapshots()
         .map(_cookbookFromSnapshot).first;
     
