@@ -37,6 +37,10 @@ class MyApp extends StatelessWidget {
       ),
     );
 
+
+    // TODO einkaufsliste
+    // TODO delete/overwrite recipe
+    // TODO give possibility to create a recipe without picture
     // TODO: insert full screen dialog in navigators
     // TODO insert will pop scope in specific screens
     // TODO einkaufsliste
@@ -47,14 +51,17 @@ class MyApp extends StatelessWidget {
 
     // maxi
     // TODO insert person food multiplicator
-    // TODO insert userNotes direct on cooking steps page
+    // maxi
+    // TODO: show important informations on top of the recipe detail page
+    // maxi
+    // FIXME: Listview in home page
 
     // FIXME: favorite view
     // FIXME: add ingredients and spices list view
-    // TODO delete/overwrite recipe
-    // TODO give possibility to create a recipe without picture
     // TODO improve search function in home screen
     // TODO insert willpopscope in relevant screens
+    //TODO: Add alert if user still exists in registration
+    //TODO: Video login cached????
     /*
      ----------------------------------------------
     |             _____             _____          |

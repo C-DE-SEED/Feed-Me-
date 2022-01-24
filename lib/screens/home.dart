@@ -6,6 +6,7 @@ import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/screens/open_cookbook/recipe_page.dart';
+import 'package:feed_me/screens/shopping_list/shopping_list.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/screens/user/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -390,26 +391,11 @@ class _HomeState extends State<Home> {
                 size: size.width * 0.1,
                 color: basicColor,
               ),
-              onPressed: () async {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Dialog(
-                        child: TextField(
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        hintText: shoppingListFromUser.isEmpty
-                            ? 'Deine Einkaufsliste 📙'
-                            : shoppingListFromUser,
-                      ),
-                      minLines: 5,
-                      maxLines: 15,
-                      onSubmitted: (userNotes) {
-                        String list = userNotes;
-                      },
-                    ));
-                  },
-                );
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => ShoppingListCheck()));
               },
             ),
             floatingActionButtonLocation:
@@ -635,6 +621,7 @@ class _HomeState extends State<Home> {
   Future<void> getCookBooks() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     userCookbooks = await await recipeDbObject.getAllCookBooksFromUser();
+    userCookbooks.removeWhere((element) => element.image == 'shoppingList');
     cookbookCount = userCookbooks.length;
     userCookbooks.forEach((element) {
       recipeCount = recipeCount + element.recipes.length;
@@ -646,7 +633,7 @@ class _HomeState extends State<Home> {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     List<Cookbook> cookbooksUpdate =
         await await recipeDbObject.getAllCookBooksFromUser();
-    cookbooksUpdate.removeWhere((element) => element.image == 'none');
+    cookbooks.removeWhere((element) => element.image == 'none' || element.image == 'shoppingList');
     // FIXME check in database why this additional cookbook is inserted
     // remove additional Plant Food Factory Cookbook
     cookbooksUpdate

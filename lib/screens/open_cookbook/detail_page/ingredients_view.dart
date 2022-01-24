@@ -1,3 +1,8 @@
+import 'package:feed_me/constants/alerts/alert_with_function.dart';
+import 'package:feed_me/constants/buttons/standard_button.dart';
+import 'package:feed_me/model/favs_and_shopping_list_db.dart';
+import 'package:feed_me/model/recipe_object.dart';
+import 'package:feed_me/model/shopping_list_object.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/styles/colors.dart';
@@ -7,18 +12,21 @@ class IngredientsView extends StatelessWidget {
   final List<String> ingredients;
   final String unsortedIngredients;
   final String personCount;
+  final Recipe recipe;
 
   const IngredientsView(
       {Key key,
       @required this.ingredients,
       @required this.personCount,
-      @required this.unsortedIngredients})
+      @required this.unsortedIngredients,
+      @required this.recipe})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<String> newIngredients = [];
     Size size = MediaQuery.of(context).size;
+    FavsAndShoppingListDbHelper favsAndShopping = FavsAndShoppingListDbHelper();
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -104,11 +112,39 @@ class IngredientsView extends StatelessWidget {
                           ))
                         ],
                       ),
-                      const SizedBox(height: 10)
+                      const SizedBox(height: 10),
+
                     ],
                   );
                 }),
           ),
+          StandardButton(
+            onPressed: (){
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertWithFunction(
+                    title: "",
+                    text:
+                    "Willst du das Rezept wirklich zu deiner Einkaugsliste hinzufügen?️",
+                    buttonText: "Ja, bitte",
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getAsShoppingListObjects().forEach((element) async {
+                        await favsAndShopping.updateShoppingList(
+                            element.ingredient,
+                            element.isChecked,
+                            recipe.name);
+                      });
+                    },
+                  );
+                },
+              );
+            },
+            color: basicColor,
+            text: 'Zur Einkausliste hinzufügen',
+          ),
+          const SizedBox(height:20)
         ],
       ),
     );
@@ -124,5 +160,13 @@ class IngredientsView extends StatelessWidget {
     });
     print(ingredients);
     return x;
+  }
+
+  List<ShoppingListObject> getAsShoppingListObjects(){
+    List<ShoppingListObject> shoppingList= [];
+    ingredients.forEach((element) {
+      shoppingList.add( ShoppingListObject(element, '0'));
+    });
+    return shoppingList;
   }
 }
