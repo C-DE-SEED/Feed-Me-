@@ -90,7 +90,7 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                                 ingredients: ingredients,
                                 fromHome: false,
                                 favs:widget.favs,
-                                isUserBook: widget.isUserBook,
+                                isUserCookbook: widget.isUserBook,
                                 cookbook: widget.cookbook,
                               ),
                             ),

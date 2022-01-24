@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:feed_me/constants/buttons/standard_button_with_icon.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/model/recipe_object.dart';
-import 'package:feed_me/model/shopping_list_object.dart';
 import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/screens/open_cookbook/detail_page/recipe_steps_view.dart';
 import 'package:feed_me/screens/open_cookbook/pdf/pdf_api.dart';
@@ -20,19 +20,19 @@ class DetailPage extends StatefulWidget {
   final List<String> ingredients;
   List<Recipe> favs;
   final bool fromHome;
-  final bool isUserBook;
   final Cookbook cookbook;
+  final bool isUserCookbook;
 
-  DetailPage(
-      {Key key,
-      this.recipe,
-      this.recipeSteps,
-      this.ingredients,
-      this.favs,
-      this.fromHome,
-      @required this.isUserBook,
-      @required this.cookbook})
-      : super(key: key);
+  DetailPage({
+    Key key,
+    this.recipe,
+    this.recipeSteps,
+    this.ingredients,
+    this.favs,
+    this.isUserCookbook,
+    this.fromHome,
+    @required this.cookbook,
+  }) : super(key: key);
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -75,7 +75,12 @@ class _DetailPageState extends State<DetailPage>
 
   @override
   Widget build(BuildContext context) {
+    double iconSize = 30.0;
+    double fontSizeForIcons = 16.0;
     Size size = MediaQuery.of(context).size;
+    Color infoRowIconColor = Colors.deepOrange;
+    Color infoRowTextColor = Colors.white;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -153,12 +158,13 @@ class _DetailPageState extends State<DetailPage>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              size.width * 0.85, size.height * 0.08, 0, 0),
-                          child: Column(
+                          padding:
+                              EdgeInsets.fromLTRB(0, size.height * 0.27, 0, 0),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              widget.isUserBook
+                              SizedBox(width: size.width * 0.02),
+                              widget.isUserCookbook
                                   ? IconButton(
                                       icon: const Icon(
                                         Icons.create,
@@ -171,20 +177,7 @@ class _DetailPageState extends State<DetailPage>
                                   :
                                   //    SizedBox is needed because null value is not allowed in NestedScrollView
                                   const SizedBox(height: 5),
-                              IconButton(
-                                  onPressed: () {
-                                    getAsShoppingListObjects().forEach((element) async {
-                                      await favsAndShopping.updateShoppingList(
-                                          element.ingredient,
-                                          element.isChecked,
-                                          widget.recipe.name);
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.shopping_basket_outlined,
-                                    size: size.width * 0.1,
-                                    color: Colors.white,
-                                  )),
+                              const Spacer(),
                               IconButton(
                                   icon: !isFav
                                       ? const Icon(Icons.favorite_border,
@@ -219,15 +212,81 @@ class _DetailPageState extends State<DetailPage>
                                       isFav = !isFav;
                                     });
                                   }),
+                              SizedBox(width: size.width * 0.02),
                             ],
                           ),
-                        )
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: size.height * 0.01,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.flag,
+                              size: iconSize,
+                              color: infoRowIconColor,
+                            ),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              widget.recipe.origin,
+                              style: TextStyle(
+                                fontSize: fontSizeForIcons,
+                                color: infoRowTextColor,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.timer,
+                              size: iconSize,
+                              color: infoRowIconColor,
+                            ),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              widget.recipe.time + ' min',
+                              style: TextStyle(
+                                fontSize: fontSizeForIcons,
+                                color: infoRowTextColor,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.settings,
+                                size: iconSize, color: infoRowIconColor),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              widget.recipe.difficulty,
+                              style: TextStyle(
+                                fontSize: fontSizeForIcons,
+                                color: infoRowTextColor,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ],
                 ),
               ),
-              expandedHeight: size.height * 0.407,
+              expandedHeight: size.height * 0.45,
               pinned: true,
               floating: true,
               elevation: 2.0,
@@ -256,68 +315,16 @@ class _DetailPageState extends State<DetailPage>
         body: TabBarView(
           children: <Widget>[
             IngredientsView(
-                ingredients: widget.ingredients,
-                recipeTime: widget.recipe.time,
-                recipeDifficulty: widget.recipe.difficulty),
-            RecipeSteps(widget.recipeSteps)
+              ingredients: widget.ingredients,
+              personCount: widget.recipe.persons,
+              unsortedIngredients: widget.recipe.ingredientsAndAmount,
+              recipe: widget.recipe,
+            ),
+            RecipeSteps(widget.recipeSteps, widget.recipe, widget.isUserCookbook,
+                widget.cookbook.name),
           ],
           controller: _tabController,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return Dialog(
-                child: widget.isUserBook
-                    ? TextFormField(
-                        focusNode: userNotes,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          hintText: widget.recipe.userNotes.isEmpty
-                              ? 'Hier hast du Platz für Notizen 📙'
-                              : widget.recipe.userNotes,
-                        ),
-                        maxLines: 15,
-                        onChanged: (userNotes) {
-                          setState(() {
-                            widget.recipe.userNotes = userNotes;
-                          });
-                        },
-                      )
-                    : SizedBox(
-                        height: size.height * 0.3,
-                        width: size.width * 0.5,
-                        child: Center(
-                            child: widget.recipe.userNotes == 'none'
-                                ? const Text(
-                                    'Zu diesem Gericht haben wir keine speziellen Tipps für dich ☺️')
-                                : Text(widget.recipe.userNotes))),
-              );
-            },
-          ).then((value) async {
-            await RecipeDbObject().updateRecipe(
-                widget.recipe.userNotes,
-                widget.recipe.category,
-                widget.recipe.description,
-                widget.recipe.difficulty,
-                widget.recipe.image,
-                widget.recipe.ingredientsAndAmount,
-                widget.recipe.name,
-                widget.recipe.origin,
-                widget.recipe.persons,
-                widget.recipe.shortDescription,
-                widget.recipe.time,
-                widget.recipe.userNotes,
-                widget.cookbook.name,
-                widget.recipe.image);
-          });
-        },
-        child:
-            const Icon(Icons.note_add_outlined, size: 40, color: Colors.white),
-        elevation: 10.0,
-        backgroundColor: basicColor,
       ),
     );
   }
@@ -332,13 +339,5 @@ class _DetailPageState extends State<DetailPage>
     List<String> x = [];
     x = recipe.ingredientsAndAmount.split("/");
     return x;
-  }
-
-  List<ShoppingListObject> getAsShoppingListObjects(){
-    List<ShoppingListObject> shoppingList= [];
-    widget.ingredients.forEach((element) {
-      shoppingList.add( ShoppingListObject(element, '0'));
-    });
-    return shoppingList;
   }
 }

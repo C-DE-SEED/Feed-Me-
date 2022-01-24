@@ -44,11 +44,15 @@ class _Welcome extends State<Welcome> {
     auth.authStateChanges().listen(
       (user) async {
         if (user != null) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const Home()));
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => const Home()));
         } else {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => const SignIn(fromRegistration: false,)));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const SignIn(
+                        fromRegistration: false,
+                      )));
         }
       },
     );

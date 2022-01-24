@@ -92,7 +92,7 @@ class _DessertDishesPageState extends State<DessertDishesPage> {
                                 favs: widget.favs,
                                 ingredients: ingredients,
                                 fromHome: false,
-                                isUserBook: widget.isUserBook,
+                                isUserCookbook: widget.isUserBook,
                                 cookbook: widget.cookbook,
                               ),
                             ),
