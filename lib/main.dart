@@ -38,8 +38,7 @@ class MyApp extends StatelessWidget {
     );
 
 
-    // TODO delete/overwrite recipe
-    // TODO give possibility to create a recipe without picture
+    // FIXME: Rename cookbook, change image
 
     // TODO insert flutter inapp_purchase at user recipe amount of 30
 

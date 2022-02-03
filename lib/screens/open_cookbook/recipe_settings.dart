@@ -176,7 +176,7 @@ class _RecipeSettingsState extends State<RecipeSettings> {
     await db.removeRecipeFromCookbook(cookbookName, recipeName);
   }
 
-  updateRecipe() async {
+  Future <void> updateRecipe() async {
     if (hasImage == true) {
       await uploadFile(image, _authService);
     }
@@ -186,8 +186,7 @@ class _RecipeSettingsState extends State<RecipeSettings> {
       });
     }
     await deleteRecipe(widget.cookbook.name, oldName);
-    print(widget.recipe);
-    print('name : ' + widget.cookbook.name);
+
     await RecipeDbObject().updateRecipe(
         "1",
         widget.recipe.category,
