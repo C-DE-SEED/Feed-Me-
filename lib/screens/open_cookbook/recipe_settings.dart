@@ -25,9 +25,18 @@ class RecipeSettings extends StatefulWidget {
 }
 
 class _RecipeSettingsState extends State<RecipeSettings> {
+  String oldName;
+  String oldImage;
   File image;
   bool hasImage = false;
   final AuthService _authService = AuthService();
+
+  @override
+  void initState() {
+    oldName = widget.recipe.name;
+    oldImage = widget.recipe.image;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +64,7 @@ class _RecipeSettingsState extends State<RecipeSettings> {
                           text: "Willst du dein Rezept wirklich löschen?️",
                           buttonText: "Ja, bitte",
                           onPressed: () async {
-                            await deleteRecipe(
-                                widget.cookbook.name, widget.recipe.name);
+                            await deleteRecipe(widget.cookbook.name, oldName);
                             var userCookbooks = await getUpdates();
                             Navigator.push(
                                 context,
@@ -101,7 +109,7 @@ class _RecipeSettingsState extends State<RecipeSettings> {
                           fontSize: fontSize,
                         ),
                         decoration: InputDecoration(
-                          hintText: widget.cookbook.name,
+                          hintText: widget.recipe.name,
                           hintStyle: const TextStyle(
                               color: Colors.white, fontSize: fontSize),
                           focusedBorder: const UnderlineInputBorder(
@@ -111,7 +119,7 @@ class _RecipeSettingsState extends State<RecipeSettings> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            widget.cookbook.name = value;
+                            widget.recipe.name = value;
                           });
                         },
                       ),
@@ -137,8 +145,8 @@ class _RecipeSettingsState extends State<RecipeSettings> {
                         borderRadius: BorderRadius.circular(20)),
                     child: TextButton(
                       onPressed: () async {
+                        await updateRecipe();
                         var userCookbooks = await getUpdates();
-                        await updateCookbook();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -168,34 +176,33 @@ class _RecipeSettingsState extends State<RecipeSettings> {
     await db.removeRecipeFromCookbook(cookbookName, recipeName);
   }
 
-  updateCookbook() async {
+  updateRecipe() async {
     if (hasImage == true) {
       await uploadFile(image, _authService);
     }
-    if (widget.cookbook.name == null ||
-        widget.cookbook.name == '' ||
-        widget.cookbook.name.isEmpty == true) {
-      setState(() {});
+    if (widget.recipe.name == null || widget.recipe.name.isEmpty) {
+      setState(() {
+        widget.recipe.name = oldName;
+      });
     }
-    await deleteRecipe(widget.cookbook.name, widget.recipe.name);
-    var userCookbooks = await getUpdates();
-    for (var recipe in widget.cookbook.recipes) {
-      await RecipeDbObject().updateRecipe(
-          "1",
-          recipe.category,
-          recipe.description,
-          recipe.difficulty,
-          recipe.image,
-          recipe.ingredientsAndAmount,
-          recipe.name,
-          recipe.origin,
-          recipe.persons,
-          recipe.shortDescription,
-          recipe.time,
-          widget.cookbook.name,
-          recipe.userNotes,
-          widget.cookbook.image);
-    }
+    await deleteRecipe(widget.cookbook.name, oldName);
+    print(widget.recipe);
+    print('name : ' + widget.cookbook.name);
+    await RecipeDbObject().updateRecipe(
+        "1",
+        widget.recipe.category,
+        widget.recipe.description,
+        widget.recipe.difficulty,
+        widget.recipe.image,
+        widget.recipe.ingredientsAndAmount,
+        widget.recipe.name,
+        widget.recipe.origin,
+        widget.recipe.persons,
+        widget.recipe.shortDescription,
+        widget.recipe.time,
+        widget.recipe.userNotes,
+        widget.cookbook.name,
+        widget.cookbook.image);
   }
 
   Widget photoContainer(Size size) {
@@ -243,7 +250,7 @@ class _RecipeSettingsState extends State<RecipeSettings> {
   Future<void> uploadFile(File img, AuthService auth) async {
     var user = auth.getUser();
     String refChildPath = '';
-    String filePath = user.uid + widget.cookbook.name;
+    String filePath = user.uid + widget.recipe.name;
     refChildPath = 'recipe_images_user/' + filePath;
     String downloadUrl = '';
     Reference ref = FirebaseStorage.instance.ref();
@@ -251,7 +258,7 @@ class _RecipeSettingsState extends State<RecipeSettings> {
     if (uploadFile.state == TaskState.success) {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
-      widget.cookbook.image = downloadUrl;
+      widget.recipe.image = downloadUrl;
     }
   }
 

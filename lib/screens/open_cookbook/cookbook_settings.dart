@@ -178,7 +178,6 @@ class _CookBookSettingsState extends State<CookBookSettings> {
       });
     }
     await deleteCookbook(widget.cookbook.name);
-    var userCookbooks = await getUpdates();
     for (var recipe in widget.cookbook.recipes) {
       await RecipeDbObject().updateRecipe(
           "1",
