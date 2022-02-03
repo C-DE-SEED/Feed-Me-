@@ -176,7 +176,7 @@ class _RecipeSettingsState extends State<RecipeSettings> {
     await db.removeRecipeFromCookbook(cookbookName, recipeName);
   }
 
-  updateRecipe() async {
+  Future <void> updateRecipe() async {
     if (hasImage == true) {
       await uploadFile(image, _authService);
     }
