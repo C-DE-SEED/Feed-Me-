@@ -57,8 +57,8 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                           text: "Willst du dein Kochbuch wirklich löschen?️",
                           buttonText: "Ja, bitte",
                           onPressed: () async {
+                            await deleteCookbook(widget.cookbook.name);
                             var userCookbooks = await getUpdates();
-                            deleteCookbook(widget.cookbook.name);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -161,9 +161,9 @@ class _CookBookSettingsState extends State<CookBookSettings> {
     );
   }
 
-  deleteCookbook(String name) {
+  Future<void>  deleteCookbook(String name) async{
     RecipeDbObject db = RecipeDbObject();
-    db.removeCookbook(name);
+    await db.removeCookbook(name);
   }
 
   updateCookbook() async {
@@ -177,7 +177,8 @@ class _CookBookSettingsState extends State<CookBookSettings> {
         widget.cookbook.name = widget.oldName;
       });
     }
-    await deleteCookbook(widget.oldName);
+    await deleteCookbook(widget.cookbook.name);
+    var userCookbooks = await getUpdates();
     for (var recipe in widget.cookbook.recipes) {
       await RecipeDbObject().updateRecipe(
           "1",

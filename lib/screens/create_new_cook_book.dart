@@ -104,7 +104,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                           },
                         );
                       } else if (!hasImage) {
-                        addCookbookToDatabase(cookbook);
+                        await addCookbookToDatabase(cookbook);
                         var userCookbooks = await getUpdates();
                         Navigator.push(
                             context,
@@ -133,7 +133,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
     );
   }
 
-  void addCookbookToDatabase(Cookbook cookbook) async {
+  Future<void> addCookbookToDatabase(Cookbook cookbook) async {
     CookbookDbObject cookbookDbObject = CookbookDbObject(cookbook.name);
     bool exist = await cookbookDbObject.checkIfDocumentExists(cookbook.name);
     if (exist == false) {
@@ -319,7 +319,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
       cookbook.image = downloadUrl;
-      addCookbookToDatabase(cookbook);
+      await addCookbookToDatabase(cookbook);
     }
   }
 

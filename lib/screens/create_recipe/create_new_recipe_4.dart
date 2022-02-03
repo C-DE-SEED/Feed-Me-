@@ -176,7 +176,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                               );
                             } else {
                               widget.recipe.description = buildDescription();
-                              addToDatabase();
+                              await addToDatabase();
                               var userCookbooks = await getUpdates();
                               Navigator.push(
                                   context,
@@ -249,7 +249,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
     );
   }
 
-  void addToDatabase() async {
+  Future<void> addToDatabase() async {
     RecipeDbObject dbObject = RecipeDbObject();
     bool exist = await dbObject.checkIfDocumentExists(widget.cookbook.name);
 

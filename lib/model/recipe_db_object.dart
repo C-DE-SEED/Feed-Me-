@@ -53,7 +53,7 @@ class RecipeDbObject {
         .set({'name': documentName, 'image': cookBookHeaderImage});
   }
 
-  void removeCookbook(String name) async {
+  Future<void>  removeCookbook(String name) async {
     //remove collection of recipes first
     await FirebaseFirestore.instance
         .collection(auth.getUser().uid)

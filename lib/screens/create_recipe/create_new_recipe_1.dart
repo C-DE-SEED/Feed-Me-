@@ -126,7 +126,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                               );
                             },
                           );
-                        } /*else if (!hasImage) {
+                        } else if (!hasImage) {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -137,7 +137,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                               );
                             },
                           );
-                        }*/ else {
+                        } else {
                           recipe.name = recipeName;
                           uploadFile(image, _authService);
                           Navigator.push(
