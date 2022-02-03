@@ -98,6 +98,11 @@ class FavsAndShoppingListDbHelper {
     String isChecked,
     String name,
   ) async {
+    if (name.isEmpty) {
+      name = 'shoppingListName';
+    } else if (name == 'shoppingListName') {
+      name = name.substring(16);
+    }
     final CollectionReference collectionReference =
         FirebaseFirestore.instance.collection(auth.getUser().uid);
     await collectionReference

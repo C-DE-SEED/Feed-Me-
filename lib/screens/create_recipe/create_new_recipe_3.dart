@@ -38,281 +38,285 @@ class _CreateNewRecipe_3State extends State<CreateNewRecipe_3> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: basicColor,
-      body: SafeArea(
-        child: Center(
-          child: SizedBox(
-            width: size.width * 0.9,
-            height: size.height * 0.9,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Center(
-                    child: Text('3. Schritt: Beschreibung des Gerichtes',
+    return WillPopScope(
+      onWillPop: () async => false,
+
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: basicColor,
+        body: SafeArea(
+          child: Center(
+            child: SizedBox(
+              width: size.width * 0.9,
+              height: size.height * 0.9,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Center(
+                      child: Text('3. Schritt: Beschreibung des Gerichtes',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: fontSize,
+                              fontFamily: openSansFontFamily))),
+                  SizedBox(height: size.height * 0.01),
+                  Hero(
+                    tag: 'steps',
+                    child: ShowSteps(colors: step3),
+                  ),
+                  SizedBox(height: size.height * 0.01),
+                  const Center(
+                    child: Text("Kurzbeschreibung hinzufügen:",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: fontSize,
-                            fontFamily: openSansFontFamily))),
-                SizedBox(height: size.height * 0.01),
-                Hero(
-                  tag: 'steps',
-                  child: ShowSteps(colors: step3),
-                ),
-                SizedBox(height: size.height * 0.01),
-                const Center(
-                  child: Text("Kurzbeschreibung hinzufügen:",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: fontSize,
-                          fontFamily: openSansFontFamily)),
-                ),
-                SizedBox(height: size.height * 0.01),
-                Container(
-                  height: size.height * 0.1,
-                  width: size.width * 0.8,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white.withOpacity(0.5)),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.text,
-                    maxLines: 5,
-                    onChanged: (value) {
-                      shortDescription = value;
-                    },
-                    decoration: const InputDecoration.collapsed(
-                      hintText: 'z.B. leckeres rotes Thai Curry...',
-                      border: InputBorder.none,
+                            fontFamily: openSansFontFamily)),
+                  ),
+                  SizedBox(height: size.height * 0.01),
+                  Container(
+                    height: size.height * 0.1,
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white.withOpacity(0.5)),
+                    child: TextFormField(
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.text,
+                      maxLines: 5,
+                      onChanged: (value) {
+                        shortDescription = value;
+                      },
+                      decoration: const InputDecoration.collapsed(
+                        hintText: 'z.B. leckeres rotes Thai Curry...',
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: size.height * 0.05),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: size.width * 0.4,
-                      child: const Text("Zuordnung:  ",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: fontSize,
-                              fontFamily: openSansFontFamily)),
-                    ),
-                    const Spacer(),
-                    Container(
-                      width: size.width * 0.3,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(color: deepOrange),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: TextButton(
-                        onPressed: () {
-                          _showOriginPicker(context, size);
-                        },
-                        child: Text(type,
-                            style: const TextStyle(
+                  SizedBox(height: size.height * 0.05),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.4,
+                        child: const Text("Zuordnung:  ",
+                            style: TextStyle(
                                 color: Colors.white,
                                 fontSize: fontSize,
                                 fontFamily: openSansFontFamily)),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: size.height * 0.01),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: size.width * 0.4,
-                      child: const Text("Zubereitungsdauer in Minuten: ",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: fontSize,
-                              fontFamily: openSansFontFamily)),
-                    ),
-                    const Spacer(),
-                    Container(
-                      width: size.width * 0.3,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(color: deepOrange),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: TextButton(
-                        onPressed: () {
-                          _showMinutesPicker(context, size);
-                        },
-                        child: Text(time,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: fontSize,
-                                fontFamily: openSansFontFamily)),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: size.height * 0.02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: size.width * 0.4,
-                      child: const Text("Anzahl der Personen:",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: fontSize,
-                              fontFamily: openSansFontFamily)),
-                    ),
-                    const Spacer(),
-                    Container(
-                      width: size.width * 0.3,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(color: deepOrange),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: TextButton(
-                        onPressed: () {
-                          _showPersonsPicker(context, size);
-                        },
-                        child: Text(persons,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: fontSize,
-                                fontFamily: openSansFontFamily)),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: size.height * 0.02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: size.width * 0.4,
-                      child: const Text("Art des Gerichts:",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: fontSize,
-                              fontFamily: openSansFontFamily)),
-                    ),
-                    const Spacer(),
-                    Container(
-                      width: size.width * 0.3,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(color: deepOrange),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: TextButton(
-                        onPressed: () {
-                          _showCategoryPicker(context, size);
-                        },
-                        child: Text(category,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: fontSize,
-                                fontFamily: openSansFontFamily)),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: size.height * 0.01),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: size.width * 0.4,
-                      child: const Text("Schwierigkeit:",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: fontSize,
-                              fontFamily: openSansFontFamily)),
-                    ),
-                    const Spacer(),
-                    Container(
-                      width: size.width * 0.3,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(color: deepOrange),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: TextButton(
-                        onPressed: () {
-                          _showDifficultyPicker(context, size);
-                        },
-                        child: Text(difficulty,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: fontSize,
-                                fontFamily: openSansFontFamily)),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: size.height * 0.01),
-                const Spacer(),
-                Hero(
-                  tag: 'buttonRow',
-                  child: ButtonRow(
-                    onPressed: () {
-                     if (time == 'Auswählen') {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return RoundedAlert(
-                              title: "❗️Achtung❗",
-                              text:
-                                  "Gib bitte die Zubereitungsdauer deines Rezeptes an ☺️",
-                            );
+                      const Spacer(),
+                      Container(
+                        width: size.width * 0.3,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: deepOrange),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextButton(
+                          onPressed: () {
+                            _showOriginPicker(context, size);
                           },
-                        );
-                      } else if (persons == 'Auswählen') {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return RoundedAlert(
-                              title: "❗️Achtung❗",
-                              text: "Gib bitte die Anzahl der Personen an ☺️",
-                            );
-                          },
-                        );
-                      } else if (category == 'Auswählen') {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return RoundedAlert(
-                              title: "❗️Achtung❗",
-                              text: "Gib bitte die Art deines Gerichtes an ☺️",
-                            );
-                          },
-                        );
-                      } else if (shortDescription == '') {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return RoundedAlert(
-                              title: "❗️Achtung❗",
-                              text:
-                                  "Gib bitte eine kurze Beschreibung deines Gerichtes an ☺️",
-                            );
-                          },
-                        );
-                      } else {
-                        widget.recipe.shortDescription = shortDescription;
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CreateNewRecipe_4(
-                                    recipe: widget.recipe,
-                                    cookbook: widget.cookbook)));
-                      }
-                      // widget.recipe.shortDescription = shortDescription;
-                      // widget.recipe.time = time;
-                      // widget.recipe.persons = persons;
-                    },
+                          child: Text(type,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontFamily: openSansFontFamily)),
+                        ),
+                      ),
+                    ],
                   ),
-                )
-              ],
+                  SizedBox(height: size.height * 0.01),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.4,
+                        child: const Text("Zubereitungsdauer in Minuten: ",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: fontSize,
+                                fontFamily: openSansFontFamily)),
+                      ),
+                      const Spacer(),
+                      Container(
+                        width: size.width * 0.3,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: deepOrange),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextButton(
+                          onPressed: () {
+                            _showMinutesPicker(context, size);
+                          },
+                          child: Text(time,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontFamily: openSansFontFamily)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.4,
+                        child: const Text("Anzahl der Personen:",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: fontSize,
+                                fontFamily: openSansFontFamily)),
+                      ),
+                      const Spacer(),
+                      Container(
+                        width: size.width * 0.3,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: deepOrange),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextButton(
+                          onPressed: () {
+                            _showPersonsPicker(context, size);
+                          },
+                          child: Text(persons,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontFamily: openSansFontFamily)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.4,
+                        child: const Text("Art des Gerichts:",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: fontSize,
+                                fontFamily: openSansFontFamily)),
+                      ),
+                      const Spacer(),
+                      Container(
+                        width: size.width * 0.3,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: deepOrange),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextButton(
+                          onPressed: () {
+                            _showCategoryPicker(context, size);
+                          },
+                          child: Text(category,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontFamily: openSansFontFamily)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.01),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.4,
+                        child: const Text("Schwierigkeit:",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: fontSize,
+                                fontFamily: openSansFontFamily)),
+                      ),
+                      const Spacer(),
+                      Container(
+                        width: size.width * 0.3,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: deepOrange),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextButton(
+                          onPressed: () {
+                            _showDifficultyPicker(context, size);
+                          },
+                          child: Text(difficulty,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontFamily: openSansFontFamily)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.01),
+                  const Spacer(),
+                  Hero(
+                    tag: 'buttonRow',
+                    child: ButtonRow(
+                      onPressed: () {
+                       if (time == 'Auswählen') {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return RoundedAlert(
+                                title: "❗️Achtung❗",
+                                text:
+                                    "Gib bitte die Zubereitungsdauer deines Rezeptes an ☺️",
+                              );
+                            },
+                          );
+                        } else if (persons == 'Auswählen') {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return RoundedAlert(
+                                title: "❗️Achtung❗",
+                                text: "Gib bitte die Anzahl der Personen an ☺️",
+                              );
+                            },
+                          );
+                        } else if (category == 'Auswählen') {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return RoundedAlert(
+                                title: "❗️Achtung❗",
+                                text: "Gib bitte die Art deines Gerichtes an ☺️",
+                              );
+                            },
+                          );
+                        } else if (shortDescription == '') {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return RoundedAlert(
+                                title: "❗️Achtung❗",
+                                text:
+                                    "Gib bitte eine kurze Beschreibung deines Gerichtes an ☺️",
+                              );
+                            },
+                          );
+                        } else {
+                          widget.recipe.shortDescription = shortDescription;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreateNewRecipe_4(
+                                      recipe: widget.recipe,
+                                      cookbook: widget.cookbook)));
+                        }
+                        // widget.recipe.shortDescription = shortDescription;
+                        // widget.recipe.time = time;
+                        // widget.recipe.persons = persons;
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

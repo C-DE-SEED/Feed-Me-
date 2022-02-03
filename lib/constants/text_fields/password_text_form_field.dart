@@ -15,6 +15,8 @@ class PasswordTextFormField extends StatefulWidget {
 }
 
 class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
+  bool showPassword = true;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +24,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       color: Colors.transparent,
       child: TextFormField(
-        obscureText: true,
+        obscureText: showPassword,
         enableSuggestions: false,
         autocorrect: false,
         keyboardType: TextInputType.visiblePassword,
@@ -35,6 +37,20 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
 
         ),
         decoration: InputDecoration(
+          suffixIcon: IconButton(
+            onPressed: () {
+              setState(() {
+                showPassword = !showPassword;
+              });
+            },
+            icon: showPassword
+                ? const Icon(
+              Icons.visibility_off_outlined,
+              color: basicColor,
+            )
+                : const Icon(Icons.visibility_outlined,
+                color: basicColor),
+          ),
           prefixIcon: const Icon(
             Icons.lock,
             color: basicColor,
@@ -43,7 +59,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
           fillColor: Colors.white,
           hintText: widget.hintText,
           contentPadding:
-              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),

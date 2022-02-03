@@ -4,7 +4,9 @@ import 'package:feed_me/constants/alerts/alert_with_function.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
+import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_db_object.dart';
+import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,12 +56,13 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                           title: "❗️Achtung❗",
                           text: "Willst du dein Kochbuch wirklich löschen?️",
                           buttonText: "Ja, bitte",
-                          onPressed: () {
-                            deleteCookbook(widget.cookbook.name);
+                          onPressed: () async {
+                            await deleteCookbook(widget.cookbook.name);
+                            var userCookbooks = await getUpdates();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Home()));
+                                    builder: (context) =>  Home(userCookbooks: userCookbooks,)));
                           },
                         );
                       },
@@ -133,11 +136,12 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                         borderRadius: BorderRadius.circular(20)),
                     child: TextButton(
                       onPressed: () async {
+                        var userCookbooks = await getUpdates();
                         await updateCookbook();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Home()));
+                                builder: (context) => Home(userCookbooks: userCookbooks)));
                       },
                       child: const Text(
                         "Übernehmen",
@@ -157,9 +161,9 @@ class _CookBookSettingsState extends State<CookBookSettings> {
     );
   }
 
-  deleteCookbook(String name) {
+  Future<void>  deleteCookbook(String name) async{
     RecipeDbObject db = RecipeDbObject();
-    db.removeCookbook(name);
+    await db.removeCookbook(name);
   }
 
   updateCookbook() async {
@@ -173,7 +177,8 @@ class _CookBookSettingsState extends State<CookBookSettings> {
         widget.cookbook.name = widget.oldName;
       });
     }
-    await deleteCookbook(widget.oldName);
+    await deleteCookbook(widget.cookbook.name);
+    var userCookbooks = await getUpdates();
     for (var recipe in widget.cookbook.recipes) {
       await RecipeDbObject().updateRecipe(
           "1",
@@ -248,5 +253,38 @@ class _CookBookSettingsState extends State<CookBookSettings> {
       downloadUrl = await refStorage.getDownloadURL();
       widget.cookbook.image = downloadUrl;
     }
+  }
+  Future<List<Cookbook>> getUpdates() async {
+    RecipeDbObject recipeDbObject = RecipeDbObject();
+    FavsAndShoppingListDbHelper favsAndShoppingListDbHelper =
+    FavsAndShoppingListDbHelper();
+
+    List<Cookbook> tempCookbooks = [];
+    List<Recipe> favs = [];
+    favs = await favsAndShoppingListDbHelper
+        .getRecipesFromUsersFavsCollection()
+        .first;
+    List<Cookbook> cookbooksUpdate =
+    await await recipeDbObject.getAllCookBooksFromUser();
+
+    cookbooksUpdate.removeWhere((element) =>
+    element.image == 'none' || element.image == 'shoppingList');
+    // FIXME check in database why this additional cookbook is inserted
+    // remove additional Plant Food Factory Cookbook
+    cookbooksUpdate
+        .removeWhere((element) => element.name == 'Plant Food Factory');
+    cookbooksUpdate
+        .removeWhere((element) => element.name == 'plant_food_factory');
+
+    tempCookbooks.addAll(cookbooksUpdate);
+    cookbooksUpdate.clear();
+
+    cookbooksUpdate.add(Cookbook('', 'users favorites', favs));
+    cookbooksUpdate.addAll(tempCookbooks);
+    cookbooksUpdate.add(Cookbook('', 'add', []));
+
+    //setState is needed here. If we give back the recipes object directly the books will not appear instantly
+    setState(() {});
+    return cookbooksUpdate;
   }
 }
