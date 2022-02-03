@@ -70,6 +70,19 @@ class RecipeDbObject {
         .delete();
   }
 
+  Future<void> removeRecipeFromCookbook(String cookbookName, String recipeName)async{
+    await FirebaseFirestore.instance
+    .collection(auth.getUser().uid)
+        .doc(cookbookName)
+        .collection('recipes')
+        .get()
+        .then((value) => value.docs.forEach((element) {
+            if(element.id == recipeName){
+              element.reference.delete();
+            }
+    }));
+  }
+
 //  Recipe list from snapshot for plantFoodFactory cooking book
   List<Recipe> _recipeListFromSnapshot(QuerySnapshot snapshot) {
     var list = snapshot.docs.map((doc) {

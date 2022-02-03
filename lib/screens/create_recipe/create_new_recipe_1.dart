@@ -35,13 +35,14 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   String recipeName = '';
   final AuthService _authService = AuthService();
   ImageSource userImageSource;
+  String standardImage =
+      'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3';
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async => false,
-
       child: Scaffold(
         backgroundColor: basicColor,
         body: SafeArea(
@@ -117,41 +118,31 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                     const Spacer(),
                     Hero(
                       tag: 'buttonRow',
-                      child: ButtonRow(
-                        onPressed: () {
-                          if (recipeName == "") {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return RoundedAlert(
-                                  title: "❗️Achtung❗",
-                                  text: "Gib deinem Rezept einen Namen☺️",
-                                );
-                              },
-                            );
-                          } else if (!hasImage) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return RoundedAlert(
-                                  title: "❗️Achtung❗",
-                                  text:
-                                      "Vergiss nicht dein Rezept mit einem Bild zu unterstützen ☺️",
-                                );
-                              },
-                            );
-                          } else {
-                            recipe.name = recipeName;
-                            uploadFile(image, _authService);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CreateNewRecipe_2(
-                                        recipe: recipe,
-                                        cookbook: widget.cookbook)));
-                          }
-                        },
-                      ),
+                      child: ButtonRow(onPressed: () {
+                        if (recipeName == "") {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return RoundedAlert(
+                                title: "❗️Achtung❗",
+                                text: "Gib deinem Rezept einen Namen☺️",
+                              );
+                            },
+                          );
+                        }
+                        recipe.name = recipeName;
+                        if (hasImage == true) {
+                          uploadFile(image, _authService);
+                        } else {
+                          recipe.image = standardImage;
+                        }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateNewRecipe_2(
+                                    recipe: recipe,
+                                    cookbook: widget.cookbook)));
+                      }),
                     )
                   ],
                 ),
@@ -334,8 +325,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   }
 
   Future<void> _cropImage(String sourcePath, Size size) async {
-    var cropAspectRatio =
-    const CropAspectRatio(ratioX: 1.0, ratioY: 0.7);
+    var cropAspectRatio = const CropAspectRatio(ratioX: 1.0, ratioY: 0.7);
     File croppedFile = await ImageCropper.cropImage(
         aspectRatio: cropAspectRatio,
         sourcePath: sourcePath,
