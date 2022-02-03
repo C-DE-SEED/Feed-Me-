@@ -38,12 +38,10 @@ class MyApp extends StatelessWidget {
     );
 
 
-    // TODO einkaufsliste
     // TODO delete/overwrite recipe
     // TODO give possibility to create a recipe without picture
     // TODO: insert full screen dialog in navigators
     // TODO insert will pop scope in specific screens
-    // TODO einkaufsliste
 
     // TODO insert flutter inapp_purchase at user recipe amount of 30
     // FIXME: Find out why app crashes and fix it

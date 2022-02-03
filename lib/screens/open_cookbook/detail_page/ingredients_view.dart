@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import '../../../constants/styles/colors.dart';
 import '../../../constants/styles/text_style.dart';
 
-class IngredientsView extends StatelessWidget {
+class IngredientsView extends StatefulWidget {
   final List<String> ingredients;
   final String unsortedIngredients;
   final String personCount;
@@ -23,9 +23,33 @@ class IngredientsView extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<IngredientsView> createState() => _IngredientsViewState();
+}
+
+class _IngredientsViewState extends State<IngredientsView> {
+  List<double> ingredientAmounts = [];
+  int standardPersonAmount;
+  int newPersonAmount;
+
+  @override
+  void initState() {
+    addExtractedValues();
+    standardPersonAmount = int.parse(widget.recipe.persons);
+    newPersonAmount = int.parse(widget.recipe.persons);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    ingredientAmounts.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     FavsAndShoppingListDbHelper favsAndShopping = FavsAndShoppingListDbHelper();
+    int.parse(widget.recipe.persons);
 
     return SingleChildScrollView(
       child: Column(
@@ -51,7 +75,7 @@ class IngredientsView extends StatelessWidget {
                     style: TextStyle(fontSize: 18.0),
                   ),
                   Text(
-                    personCount,
+                    newPersonAmount.toString(),
                     style: const TextStyle(
                         fontSize: 21.0,
                         color: Colors.deepOrange,
@@ -67,14 +91,19 @@ class IngredientsView extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        List<String> list = increasedIngredients();
-                        //TODO add increase Ingredients Function
+                        if (newPersonAmount < 12) {
+                          newPersonAmount = newPersonAmount + 1;
+                          changePersons(standardPersonAmount, newPersonAmount);
+                        }
                       },
                       icon: const Icon(Icons.add,
                           size: 30, color: Colors.deepOrange)),
                   IconButton(
                       onPressed: () {
-                        //TODO add decrease Ingredients Function
+                        if (newPersonAmount > 1) {
+                          newPersonAmount = newPersonAmount - 1;
+                          changePersons(standardPersonAmount, newPersonAmount);
+                        }
                       },
                       icon: const Icon(Icons.remove,
                           size: 30, color: Colors.deepOrange)),
@@ -87,7 +116,7 @@ class IngredientsView extends StatelessWidget {
                 horizontal: size.width * 0.2, vertical: size.height * 0.025),
             child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: ingredients.length,
+                itemCount: widget.ingredients.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Column(
@@ -103,7 +132,7 @@ class IngredientsView extends StatelessWidget {
                           const SizedBox(width: 10),
                           Flexible(
                               child: Text(
-                            ingredients.elementAt(index),
+                            widget.ingredients.elementAt(index),
                             style: const TextStyle(
                               fontFamily: openSansFontFamily,
                               color: Colors.black,
@@ -113,20 +142,19 @@ class IngredientsView extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 10),
-
                     ],
                   );
                 }),
           ),
           StandardButton(
-            onPressed: (){
+            onPressed: () {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertWithFunction(
                     title: "",
                     text:
-                    "Willst du das Rezept wirklich zu deiner Einkaugsliste hinzufügen?️",
+                        "Willst du das Rezept wirklich zu deiner Einkaugsliste hinzufügen?️",
                     buttonText: "Ja, bitte",
                     onPressed: () {
                       Navigator.pop(context);
@@ -134,7 +162,7 @@ class IngredientsView extends StatelessWidget {
                         await favsAndShopping.updateShoppingList(
                             element.ingredient,
                             element.isChecked,
-                            recipe.name);
+                            widget.recipe.name);
                       });
                     },
                   );
@@ -144,29 +172,50 @@ class IngredientsView extends StatelessWidget {
             color: basicColor,
             text: 'Zur Einkausliste hinzufügen',
           ),
-          const SizedBox(height:20)
+          const SizedBox(height: 20)
         ],
       ),
     );
   }
 
-  List<String> increasedIngredients() {
-    List<String> x = [];
-
-    RegExp regExp = RegExp(r'^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$');
-    ingredients.forEach((element) {
-      var st = regExp.matchAsPrefix(element).toString();
-      print('st output: $st');
-    });
-    print(ingredients);
-    return x;
-  }
-
-  List<ShoppingListObject> getAsShoppingListObjects(){
-    List<ShoppingListObject> shoppingList= [];
-    ingredients.forEach((element) {
-      shoppingList.add( ShoppingListObject(element, '0'));
+  List<ShoppingListObject> getAsShoppingListObjects() {
+    List<ShoppingListObject> shoppingList = [];
+    widget.ingredients.forEach((element) {
+      shoppingList.add(ShoppingListObject(element, '0'));
     });
     return shoppingList;
+  }
+
+  void changePersons(int standard, int newAmountofPersons) {
+    String fullString = "";
+    String newString = "";
+    double newAmount;
+    for (int i = 0; i < widget.ingredients.length; i++) {
+      fullString = widget.ingredients.elementAt(i);
+      newString =
+          widget.ingredients.elementAt(i).replaceAll(RegExp(r'[^0-9,.]'), '');
+      if (newString != '') {
+        newAmount = calculateAmount(
+            standard, newAmountofPersons, ingredientAmounts.elementAt(i));
+        fullString = fullString.replaceAll(RegExp(r'[^a-zA-Z]'), '');
+        widget.ingredients[i] = newAmount.toString() + ' ' + fullString;
+      }
+    }
+    setState(() {});
+  }
+
+  double calculateAmount(int standard, int newAmountofPersons, double amount) {
+    return ((newAmountofPersons * amount) / standard);
+  }
+
+  void addExtractedValues() {
+    widget.ingredients.forEach((element) {
+      element = element.replaceAll(RegExp(r'[^0-9,.]'), '');
+      if (element != '') {
+        ingredientAmounts.add(double.parse(element));
+      } else {
+        ingredientAmounts.add(0);
+      }
+    });
   }
 }
