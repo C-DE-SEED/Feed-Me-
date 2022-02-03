@@ -113,7 +113,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                                       userCookbooks: userCookbooks,
                                     )));
                       } else {
-                        uploadFile(image, _authService);
+                        await uploadFile(image, _authService);
                         var userCookbooks = await getUpdates();
                         Navigator.push(
                             context,
@@ -307,7 +307,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
     });
   }
 
-  void uploadFile(File img, AuthService auth) async {
+  Future<void> uploadFile(File img, AuthService auth) async {
     var user = auth.getUser();
     String refChildPath = '';
     String filePath = user.uid + cookbook.name;

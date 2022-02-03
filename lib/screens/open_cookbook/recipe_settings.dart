@@ -186,8 +186,7 @@ class _RecipeSettingsState extends State<RecipeSettings> {
       });
     }
     await deleteRecipe(widget.cookbook.name, oldName);
-    print(widget.recipe);
-    print('name : ' + widget.cookbook.name);
+
     await RecipeDbObject().updateRecipe(
         "1",
         widget.recipe.category,

@@ -62,7 +62,9 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>  Home(userCookbooks: userCookbooks,)));
+                                    builder: (context) => Home(
+                                          userCookbooks: userCookbooks,
+                                        )));
                           },
                         );
                       },
@@ -141,7 +143,8 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Home(userCookbooks: userCookbooks)));
+                                builder: (context) =>
+                                    Home(userCookbooks: userCookbooks)));
                       },
                       child: const Text(
                         "Übernehmen",
@@ -161,18 +164,27 @@ class _CookBookSettingsState extends State<CookBookSettings> {
     );
   }
 
-  Future<void>  deleteCookbook(String name) async{
+  Future<void> deleteCookbook(String name) async {
     RecipeDbObject db = RecipeDbObject();
+    //TODO: fix removing images from db
+    // await deleteImageFromDb(_authService);
     await db.removeCookbook(name);
   }
 
-  updateCookbook() async {
+  Future<void> deleteImageFromDb(AuthService auth) async {
+    var user = auth.getUser();
+    String refChildPath = '';
+    String filePath = user.uid + widget.cookbook.name;
+    refChildPath = 'cookbook_title_pictures/' + filePath;
+    Reference ref = FirebaseStorage.instance.ref();
+    await ref.child(refChildPath).delete();
+  }
+
+  Future <void> updateCookbook() async {
     if (hasImage == true) {
       await uploadFile(image, _authService);
     }
-    if (widget.cookbook.name == null ||
-        widget.cookbook.name == '' ||
-        widget.cookbook.name.isEmpty == true) {
+    if (widget.cookbook.name == null || widget.cookbook.name.isEmpty == true) {
       setState(() {
         widget.cookbook.name = widget.oldName;
       });
@@ -191,8 +203,8 @@ class _CookBookSettingsState extends State<CookBookSettings> {
           recipe.persons,
           recipe.shortDescription,
           recipe.time,
-          widget.cookbook.name,
           recipe.userNotes,
+          widget.cookbook.name,
           hasImage ? widget.cookbook.image : widget.oldImage);
     }
   }
@@ -253,10 +265,11 @@ class _CookBookSettingsState extends State<CookBookSettings> {
       widget.cookbook.image = downloadUrl;
     }
   }
+
   Future<List<Cookbook>> getUpdates() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     FavsAndShoppingListDbHelper favsAndShoppingListDbHelper =
-    FavsAndShoppingListDbHelper();
+        FavsAndShoppingListDbHelper();
 
     List<Cookbook> tempCookbooks = [];
     List<Recipe> favs = [];
@@ -264,10 +277,10 @@ class _CookBookSettingsState extends State<CookBookSettings> {
         .getRecipesFromUsersFavsCollection()
         .first;
     List<Cookbook> cookbooksUpdate =
-    await await recipeDbObject.getAllCookBooksFromUser();
+        await await recipeDbObject.getAllCookBooksFromUser();
 
     cookbooksUpdate.removeWhere((element) =>
-    element.image == 'none' || element.image == 'shoppingList');
+        element.image == 'none' || element.image == 'shoppingList');
     // FIXME check in database why this additional cookbook is inserted
     // remove additional Plant Food Factory Cookbook
     cookbooksUpdate
