@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/styles/colors.dart';
@@ -17,8 +16,6 @@ import 'package:feed_me/services/google_services/google_sign_in_button.dart';
 import 'package:feed_me/services/loading.dart';
 import 'package:feed_me/screens/registration_and_login/registration.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
-
 import '../home.dart';
 
 class SignIn extends StatefulWidget {
@@ -38,25 +35,6 @@ class _SignInState extends State<SignIn> {
   String email = "";
   String password = "";
   String error = "";
-  VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.asset('assets/welcome.mp4')
-      ..initialize().then((_) {
-        _controller.play();
-        _controller.setLooping(true);
-        // Ensure the first frame is shown after the video is initialized
-        setState(() {});
-      });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +44,14 @@ class _SignInState extends State<SignIn> {
         : WillPopScope(
             onWillPop: () async => false,
             child: Scaffold(
-              backgroundColor: basicColor,
-              body: Stack(
+              body: Container(
+              height: size.height,
+              width: size.width,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/welcome.gif'),
+                      fit: BoxFit.cover)),
+              child: Stack(
                 children: [
                   SizedBox.expand(
                     child: FittedBox(
@@ -75,7 +59,7 @@ class _SignInState extends State<SignIn> {
                       child: SizedBox(
                         width: size.width,
                         height: size.height,
-                        child: VideoPlayer(_controller),
+                        child: Image.asset('assets/welcome.gif'),
                       ),
                     ),
                   ),
@@ -291,7 +275,7 @@ class _SignInState extends State<SignIn> {
                 ],
               ),
             ),
-          );
+          ),);
   }
 
   bool isUserInformationComplete() {
