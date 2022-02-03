@@ -3,6 +3,7 @@ import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
+import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/screens/open_cookbook/detail_page/recipe_steps_view.dart';
@@ -89,10 +90,11 @@ class _DetailPageState extends State<DetailPage>
         foregroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
+          onPressed: () async {
+            var usercookbooks = await getUpdates();
             if (widget.fromHome) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Home()));
+                  MaterialPageRoute(builder: (context) => Home(userCookbooks:usercookbooks ,)));
             } else {
               Navigator.pop(context);
             }
@@ -337,5 +339,39 @@ class _DetailPageState extends State<DetailPage>
     List<String> x = [];
     x = recipe.ingredientsAndAmount.split("/");
     return x;
+  }
+
+  Future<List<Cookbook>> getUpdates() async {
+    RecipeDbObject recipeDbObject = RecipeDbObject();
+    FavsAndShoppingListDbHelper favsAndShoppingListDbHelper =
+    FavsAndShoppingListDbHelper();
+
+    List<Cookbook> tempCookbooks = [];
+    List<Recipe> favs = [];
+    favs = await favsAndShoppingListDbHelper
+        .getRecipesFromUsersFavsCollection()
+        .first;
+    List<Cookbook> cookbooksUpdate =
+    await await recipeDbObject.getAllCookBooksFromUser();
+
+    cookbooksUpdate.removeWhere((element) =>
+    element.image == 'none' || element.image == 'shoppingList');
+    // FIXME check in database why this additional cookbook is inserted
+    // remove additional Plant Food Factory Cookbook
+    cookbooksUpdate
+        .removeWhere((element) => element.name == 'Plant Food Factory');
+    cookbooksUpdate
+        .removeWhere((element) => element.name == 'plant_food_factory');
+
+    tempCookbooks.addAll(cookbooksUpdate);
+    cookbooksUpdate.clear();
+
+    cookbooksUpdate.add(Cookbook('', 'users favorites', favs));
+    cookbooksUpdate.addAll(tempCookbooks);
+    cookbooksUpdate.add(Cookbook('', 'add', []));
+
+    //setState is needed here. If we give back the recipes object directly the books will not appear instantly
+    setState(() {});
+    return cookbooksUpdate;
   }
 }

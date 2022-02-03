@@ -4,6 +4,9 @@ import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/cookbook_db_object.dart';
+import 'package:feed_me/model/favs_and_shopping_list_db.dart';
+import 'package:feed_me/model/recipe_db_object.dart';
+import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -90,6 +93,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                     color: Colors.white,
                     text: "Kochbuch anlegen",
                     onPressed: () async {
+                      var userCookbooks = await getUpdates();
                       if (cookbook.name == "") {
                         showDialog(
                           context: context,
@@ -106,13 +110,13 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Home()));
+                                builder: (context) =>  Home(userCookbooks: userCookbooks,)));
                       } else {
                         uploadFile(image, _authService);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Home()));
+                                builder: (context) =>  Home(userCookbooks: userCookbooks,)));
                       }
                     },
                   ),
@@ -350,5 +354,39 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
         hasImage = true;
       });
     }
+  }
+
+  Future<List<Cookbook>> getUpdates() async {
+    RecipeDbObject recipeDbObject = RecipeDbObject();
+    FavsAndShoppingListDbHelper favsAndShoppingListDbHelper =
+    FavsAndShoppingListDbHelper();
+
+    List<Cookbook> tempCookbooks = [];
+    List<Recipe> favs = [];
+    favs = await favsAndShoppingListDbHelper
+        .getRecipesFromUsersFavsCollection()
+        .first;
+    List<Cookbook> cookbooksUpdate =
+    await await recipeDbObject.getAllCookBooksFromUser();
+
+    cookbooksUpdate.removeWhere((element) =>
+    element.image == 'none' || element.image == 'shoppingList');
+    // FIXME check in database why this additional cookbook is inserted
+    // remove additional Plant Food Factory Cookbook
+    cookbooksUpdate
+        .removeWhere((element) => element.name == 'Plant Food Factory');
+    cookbooksUpdate
+        .removeWhere((element) => element.name == 'plant_food_factory');
+
+    tempCookbooks.addAll(cookbooksUpdate);
+    cookbooksUpdate.clear();
+
+    cookbooksUpdate.add(Cookbook('', 'users favorites', favs));
+    cookbooksUpdate.addAll(tempCookbooks);
+    cookbooksUpdate.add(Cookbook('', 'add', []));
+
+    //setState is needed here. If we give back the recipes object directly the books will not appear instantly
+    setState(() {});
+    return cookbooksUpdate;
   }
 }
