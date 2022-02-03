@@ -31,7 +31,7 @@ class About extends StatelessWidget {
                     fontSize: 20)),
           ),
           body: Center(
-            child: Container(
+            child: SizedBox(
               width: size.width*0.8,
               child: Column(
                 children: [

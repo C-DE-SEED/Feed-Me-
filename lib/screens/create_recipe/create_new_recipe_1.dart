@@ -39,118 +39,122 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: basicColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: SizedBox(
-              height: size.height * 0.9,
-              width: size.width * 0.9,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Center(
-                      child: Text('1. Schritt: Titelbild und Namen erstellen',
-                          style: TextStyle(
+    return WillPopScope(
+      onWillPop: () async => false,
+
+      child: Scaffold(
+        backgroundColor: basicColor,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Center(
+              child: SizedBox(
+                height: size.height * 0.9,
+                width: size.width * 0.9,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Center(
+                        child: Text('1. Schritt: Titelbild und Namen erstellen',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: fontSize,
+                                fontFamily: openSansFontFamily))),
+                    SizedBox(height: size.height * 0.01),
+                    Hero(
+                      tag: 'steps',
+                      child: ShowSteps(colors: step1),
+                    ),
+                    SizedBox(height: size.height * 0.05),
+                    Center(
+                      child: FadeInDown(
+                        from: 100,
+                        duration: const Duration(milliseconds: 500),
+                        child: SizedBox(
+                          width: size.width * 0.9,
+                          child: TextFormField(
+                            autofocus: true,
+                            obscureText: false,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: fontSize,
-                              fontFamily: openSansFontFamily))),
-                  SizedBox(height: size.height * 0.01),
-                  Hero(
-                    tag: 'steps',
-                    child: ShowSteps(colors: step1),
-                  ),
-                  SizedBox(height: size.height * 0.05),
-                  Center(
-                    child: FadeInDown(
-                      from: 100,
-                      duration: const Duration(milliseconds: 500),
-                      child: SizedBox(
-                        width: size.width * 0.9,
-                        child: TextFormField(
-                          autofocus: true,
-                          obscureText: false,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: fontSize,
+                            ),
+                            decoration: const InputDecoration(
+                              hintText: 'Rezeptname eingeben',
+                              hintStyle: TextStyle(
+                                  color: Colors.white, fontSize: fontSize),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white)),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white)),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                recipeName = value;
+                              });
+                            },
                           ),
-                          decoration: const InputDecoration(
-                            hintText: 'Rezeptname eingeben',
-                            hintStyle: TextStyle(
-                                color: Colors.white, fontSize: fontSize),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white)),
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white)),
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              recipeName = value;
-                            });
-                          },
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: size.height * 0.1),
-                  FadeInDown(
-                    from: 100,
-                    duration: const Duration(milliseconds: 500),
-                    child: const Center(
-                      child: Text("Titelbild für das Rezept festlegen:",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: fontSize,
-                              fontFamily: openSansFontFamily)),
-                    ),
-                  ),
-                  SizedBox(height: size.height * 0.02),
-                  FadeInDown(
+                    SizedBox(height: size.height * 0.1),
+                    FadeInDown(
                       from: 100,
                       duration: const Duration(milliseconds: 500),
-                      child: photoContainer(size)),
-                  const Spacer(),
-                  Hero(
-                    tag: 'buttonRow',
-                    child: ButtonRow(
-                      onPressed: () {
-                        if (recipeName == "") {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return RoundedAlert(
-                                title: "❗️Achtung❗",
-                                text: "Gib deinem Rezept einen Namen☺️",
-                              );
-                            },
-                          );
-                        } else if (!hasImage) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return RoundedAlert(
-                                title: "❗️Achtung❗",
-                                text:
-                                    "Vergiss nicht dein Rezept mit einem Bild zu unterstützen ☺️",
-                              );
-                            },
-                          );
-                        } else {
-                          recipe.name = recipeName;
-                          uploadFile(image, _authService);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CreateNewRecipe_2(
-                                      recipe: recipe,
-                                      cookbook: widget.cookbook)));
-                        }
-                      },
+                      child: const Center(
+                        child: Text("Titelbild für das Rezept festlegen:",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: fontSize,
+                                fontFamily: openSansFontFamily)),
+                      ),
                     ),
-                  )
-                ],
+                    SizedBox(height: size.height * 0.02),
+                    FadeInDown(
+                        from: 100,
+                        duration: const Duration(milliseconds: 500),
+                        child: photoContainer(size)),
+                    const Spacer(),
+                    Hero(
+                      tag: 'buttonRow',
+                      child: ButtonRow(
+                        onPressed: () {
+                          if (recipeName == "") {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return RoundedAlert(
+                                  title: "❗️Achtung❗",
+                                  text: "Gib deinem Rezept einen Namen☺️",
+                                );
+                              },
+                            );
+                          } else if (!hasImage) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return RoundedAlert(
+                                  title: "❗️Achtung❗",
+                                  text:
+                                      "Vergiss nicht dein Rezept mit einem Bild zu unterstützen ☺️",
+                                );
+                              },
+                            );
+                          } else {
+                            recipe.name = recipeName;
+                            uploadFile(image, _authService);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CreateNewRecipe_2(
+                                        recipe: recipe,
+                                        cookbook: widget.cookbook)));
+                          }
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

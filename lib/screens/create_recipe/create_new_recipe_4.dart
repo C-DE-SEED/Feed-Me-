@@ -32,168 +32,171 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: basicColor,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Center(
-                child: SizedBox(
-                  width: size.width * 0.9,
-                  height: size.height * 0.9,
-                  child: Column(
-                    children: [
-                      const Center(
-                          child: Text(
-                              '4. Schritt: Wie bereitet man das Rezept zu?',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: fontSize,
-                                  fontFamily: openSansFontFamily))),
-                      SizedBox(height: size.height * 0.01),
-                      Hero(
-                        tag: 'steps',
-                        child: ShowSteps(colors: step4),
-                      ),
-                      SizedBox(height: size.height * 0.01),
-                      AnimatedList(
-                        scrollDirection: Axis.vertical,
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        key: listKey,
-                        initialItemCount: steps.length,
-                        itemBuilder: (context, index, anim) {
-                          return SlideTransition(
-                            position: Tween<Offset>(
-                                    begin: const Offset(1, 0), end: Offset.zero)
-                                .animate(anim),
-                            child: ListTile(
-                              title: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(15)),
-                                height: size.height * 0.1,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                        width: size.width * 0.2,
-                                        child: Text(
-                                            (index + 1).toString() +
-                                                ". Schritt",
-                                            style: const TextStyle(
-                                                color: deepOrange,
-                                                fontSize: fontSize,
-                                                fontFamily:
-                                                    openSansFontFamily))),
-                                    SizedBox(
-                                      width: size.width * 0.6,
-                                      child: TextFormField(
-                                        obscureText: false,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: fontSize,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: basicColor,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Center(
+                  child: SizedBox(
+                    width: size.width * 0.9,
+                    height: size.height * 0.9,
+                    child: Column(
+                      children: [
+                        const Center(
+                            child: Text(
+                                '4. Schritt: Wie bereitet man das Rezept zu?',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: fontSize,
+                                    fontFamily: openSansFontFamily))),
+                        SizedBox(height: size.height * 0.01),
+                        Hero(
+                          tag: 'steps',
+                          child: ShowSteps(colors: step4),
+                        ),
+                        SizedBox(height: size.height * 0.01),
+                        AnimatedList(
+                          scrollDirection: Axis.vertical,
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          key: listKey,
+                          initialItemCount: steps.length,
+                          itemBuilder: (context, index, anim) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                      begin: const Offset(1, 0), end: Offset.zero)
+                                  .animate(anim),
+                              child: ListTile(
+                                title: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(15)),
+                                  height: size.height * 0.1,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                          width: size.width * 0.2,
+                                          child: Text(
+                                              (index + 1).toString() +
+                                                  ". Schritt",
+                                              style: const TextStyle(
+                                                  color: deepOrange,
+                                                  fontSize: fontSize,
+                                                  fontFamily:
+                                                      openSansFontFamily))),
+                                      SizedBox(
+                                        width: size.width * 0.6,
+                                        child: TextFormField(
+                                          obscureText: false,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: fontSize,
+                                          ),
+                                          decoration: const InputDecoration(
+                                            hintText: 'Beschreibung',
+                                            hintStyle: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: fontSize),
+                                            focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.white)),
+                                            enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.white)),
+                                          ),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              steps[index] = value;
+                                            });
+                                          },
                                         ),
-                                        decoration: const InputDecoration(
-                                          hintText: 'Beschreibung',
-                                          hintStyle: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: fontSize),
-                                          focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.white)),
-                                          enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.white)),
-                                        ),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            steps[index] = value;
-                                          });
-                                        },
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                ),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    steps.remove(steps.elementAt(index));
+                                    listKey.currentState.removeItem(
+                                      index,
+                                      (context, animation) {
+                                        return SizeTransition(
+                                          sizeFactor: animation,
+                                          axis: Axis.vertical,
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                              vertical: 4.0,
+                                              horizontal: 8.0,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              border: Border.all(
+                                                width: 1,
+                                                style: BorderStyle.solid,
+                                                color: Colors.transparent,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(40)),
+                                            ),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                    setState(() {});
+                                  },
                                 ),
                               ),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  steps.remove(steps.elementAt(index));
-                                  listKey.currentState.removeItem(
-                                    index,
-                                    (context, animation) {
-                                      return SizeTransition(
-                                        sizeFactor: animation,
-                                        axis: Axis.vertical,
-                                        child: Container(
-                                          margin: const EdgeInsets.symmetric(
-                                            vertical: 4.0,
-                                            horizontal: 8.0,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            border: Border.all(
-                                              width: 1,
-                                              style: BorderStyle.solid,
-                                              color: Colors.transparent,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(40)),
-                                          ),
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                  setState(() {});
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.01),
-                      addNewStep(size),
-                      const Spacer(),
-                      Hero(
-                        tag: 'buttonRow',
-                        child: ButtonRow(
-                          onPressed: () async {
-                            if (steps.elementAt(0) == '') {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return RoundedAlert(
-                                    title: "❗️Achtung❗",
-                                    text:
-                                        "Gib bitte die Bearbeitungsschritte an ☺️",
-                                  );
-                                },
-                              );
-                            } else {
-                              widget.recipe.description = buildDescription();
-                              await addToDatabase();
-                              var userCookbooks = await getUpdates();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Home(
-                                            userCookbooks: userCookbooks,
-                                          )));
-                            }
+                            );
                           },
                         ),
-                      )
-                    ],
+                        SizedBox(height: size.height * 0.01),
+                        addNewStep(size),
+                        const Spacer(),
+                        Hero(
+                          tag: 'buttonRow',
+                          child: ButtonRow(
+                            onPressed: () async {
+                              if (steps.elementAt(0) == '') {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return RoundedAlert(
+                                      title: "❗️Achtung❗",
+                                      text:
+                                          "Gib bitte die Bearbeitungsschritte an ☺️",
+                                    );
+                                  },
+                                );
+                              } else {
+                                widget.recipe.description = buildDescription();
+                                await addToDatabase();
+                                var userCookbooks = await getUpdates();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Home(
+                                              userCookbooks: userCookbooks,
+                                            )));
+                              }
+                            },
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

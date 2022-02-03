@@ -53,181 +53,184 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: basicColor,
-        body: Stack(
-          children: [
-            SizedBox.expand(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: size.width,
-                  height: size.height,
-                  child: VideoPlayer(_controller),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          backgroundColor: basicColor,
+          body: Stack(
+            children: [
+              SizedBox.expand(
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    width: size.width,
+                    height: size.height,
+                    child: VideoPlayer(_controller),
+                  ),
                 ),
               ),
-            ),
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: size.height * 0.05),
-                  SizedBox(
-                    height: size.height * 0.4,
-                    width: size.width * 1,
-                    child: FadeInDown(
-                      from: 100,
-                      duration: const Duration(milliseconds: 1000),
-                      child: Center(
-                        child: Image.asset(
-                          "assets/FeedMeFreigestellt.png",
-                          height: size.height * 1.0,
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: size.height * 0.05),
+                    SizedBox(
+                      height: size.height * 0.4,
+                      width: size.width * 1,
+                      child: FadeInDown(
+                        from: 100,
+                        duration: const Duration(milliseconds: 1000),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/FeedMeFreigestellt.png",
+                            height: size.height * 1.0,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  FadeInDown(
-                    from: 100,
-                    duration: const Duration(milliseconds: 1000),
-                    child: StandardTextFormField(
-                      hintText: "Bitte geben Sie Ihre E-Mail ein",
-                      onChange: (value) {
-                        setState(
-                          () {
-                            email = value;
-                          },
-                        );
-                      },
+                    FadeInDown(
+                      from: 100,
+                      duration: const Duration(milliseconds: 1000),
+                      child: StandardTextFormField(
+                        hintText: "Bitte geben Sie Ihre E-Mail ein",
+                        onChange: (value) {
+                          setState(
+                            () {
+                              email = value;
+                            },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  FadeInDown(
-                    from: 100,
-                    duration: const Duration(milliseconds: 1000),
-                    child: PasswordTextFormField(
-                      hintText: "Bitte geben Sie Ihr Passwort ein",
-                      onChange: (value) {
-                        setState(() {
-                          password1 = value;
-                        });
-                      },
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  FadeInDown(
-                    from: 100,
-                    duration: const Duration(milliseconds: 1000),
-                    child: PasswordTextFormField(
-                      hintText: "Bitte geben Sie Ihr Passwort erneut ein",
-                      onChange: (value) {
-                        setState(
-                          () {
-                            password2 = value;
-                          },
-                        );
-                      },
+                    FadeInDown(
+                      from: 100,
+                      duration: const Duration(milliseconds: 1000),
+                      child: PasswordTextFormField(
+                        hintText: "Bitte geben Sie Ihr Passwort ein",
+                        onChange: (value) {
+                          setState(() {
+                            password1 = value;
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 60,
-                  ),
-                  FadeInUp(
-                    from: 50,
-                    duration: const Duration(milliseconds: 1000),
-                    child: StandardButton(
-                      color: Colors.white,
-                      text: "Registrieren",
-                      onPressed: () async {
-                        if (checkIfPasswordsMatching() == true) {
-                          var newUser = await _auth
-                              .createUserWithEmailAndPassword(email, password);
-                          showDialog(
-                              context: context,
-                              builder: (_) => CupertinoAlertDialog(
-                                      title: const Text(
-                                        'Registrierung erfolgreich',
-                                        style: TextStyle(
-                                            fontFamily: openSansFontFamily,
-                                            color: Colors.black,
-                                            fontSize: 20),
-                                      ),
-                                      content: const Text(
-                                          'Du erhälst eine Bestätigung per Mail von uns 💌',
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    FadeInDown(
+                      from: 100,
+                      duration: const Duration(milliseconds: 1000),
+                      child: PasswordTextFormField(
+                        hintText: "Bitte geben Sie Ihr Passwort erneut ein",
+                        onChange: (value) {
+                          setState(
+                            () {
+                              password2 = value;
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 60,
+                    ),
+                    FadeInUp(
+                      from: 50,
+                      duration: const Duration(milliseconds: 1000),
+                      child: StandardButton(
+                        color: Colors.white,
+                        text: "Registrieren",
+                        onPressed: () async {
+                          if (checkIfPasswordsMatching() == true) {
+                            var newUser = await _auth
+                                .createUserWithEmailAndPassword(email, password);
+                            showDialog(
+                                context: context,
+                                builder: (_) => CupertinoAlertDialog(
+                                        title: const Text(
+                                          'Registrierung erfolgreich',
                                           style: TextStyle(
                                               fontFamily: openSansFontFamily,
                                               color: Colors.black,
-                                              fontSize: 18)),
-                                      actions: <Widget>[
-                                        CupertinoDialogAction(
-                                            child: const Text(
-                                              'OK',
-                                              style: TextStyle(
-                                                  fontFamily:
-                                                      openSansFontFamily,
-                                                  color: basicColor,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                           const SignIn(fromRegistration: true,)));
-                                            })
-                                      ]));
-                          if (newUser != null) {
-                            await newUser.user.sendEmailVerification();
+                                              fontSize: 20),
+                                        ),
+                                        content: const Text(
+                                            'Du erhälst eine Bestätigung per Mail von uns 💌',
+                                            style: TextStyle(
+                                                fontFamily: openSansFontFamily,
+                                                color: Colors.black,
+                                                fontSize: 18)),
+                                        actions: <Widget>[
+                                          CupertinoDialogAction(
+                                              child: const Text(
+                                                'OK',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        openSansFontFamily,
+                                                    color: basicColor,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                             const SignIn(fromRegistration: true,)));
+                                              })
+                                        ]));
+                            if (newUser != null) {
+                              await newUser.user.sendEmailVerification();
+                            }
+                          } else {
+                            error = "Bitte gebe eine valide E-Mail ein!";
+                            loading = false;
                           }
-                        } else {
-                          error = "Bitte gebe eine valide E-Mail ein!";
-                          loading = false;
-                        }
-                      },
+                        },
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.fromLTRB(0.0, size.height * 0.084, 0.0, 0.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Zurück zum Login?",
-                          style: TextStyle(
-                            fontFamily: openSansFontFamily,
-                            fontWeight: FontWeight.w500,
+                    Padding(
+                      padding:
+                          EdgeInsets.fromLTRB(0.0, size.height * 0.084, 0.0, 0.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Zurück zum Login?",
+                            style: TextStyle(
+                              fontFamily: openSansFontFamily,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignIn(
-                                          fromRegistration: false,
-                                        )));
-                          },
-                          child: const Text("Hier klicken",
-                              style: TextStyle(
-                                color: Color(0xFFFDFAF6),
-                                fontFamily: openSansFontFamily,
-                                fontWeight: FontWeight.w500,
-                              )),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const SignIn(
+                                            fromRegistration: false,
+                                          )));
+                            },
+                            child: const Text("Hier klicken",
+                                style: TextStyle(
+                                  color: Color(0xFFFDFAF6),
+                                  fontFamily: openSansFontFamily,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
-        ));
+            ],
+          )),
+    );
   }
 
   bool checkIfPasswordsMatching() {
