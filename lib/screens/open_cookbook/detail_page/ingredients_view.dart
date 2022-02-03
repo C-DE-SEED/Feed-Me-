@@ -113,7 +113,7 @@ class _IngredientsViewState extends State<IngredientsView> {
           ),
           Container(
             padding: EdgeInsets.symmetric(
-                horizontal: size.width * 0.2, vertical: size.height * 0.025),
+                horizontal: size.width * 0.1, vertical: size.height * 0.025),
             child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: widget.ingredients.length,
@@ -132,16 +132,16 @@ class _IngredientsViewState extends State<IngredientsView> {
                           const SizedBox(width: 10),
                           Flexible(
                               child: Text(
-                            widget.ingredients.elementAt(index),
-                            style: const TextStyle(
-                              fontFamily: openSansFontFamily,
-                              color: Colors.black,
-                              fontSize: 16.0,
-                            ),
-                          ))
+                                widget.ingredients.elementAt(index),
+                                style: const TextStyle(
+                                  fontFamily: openSansFontFamily,
+                                  color: Colors.black,
+                                  fontSize: 17.0,
+                                ),
+                              )),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 10.0),
                     ],
                   );
                 }),
@@ -197,8 +197,9 @@ class _IngredientsViewState extends State<IngredientsView> {
       if (newString != '') {
         newAmount = calculateAmount(
             standard, newAmountofPersons, ingredientAmounts.elementAt(i));
-        fullString = fullString.replaceAll(RegExp(r'[^a-zA-Z]'), '');
-        widget.ingredients[i] = newAmount.toString() + ' ' + fullString;
+        fullString = fullString.replaceAll(RegExp(r'[^a-zA-Z,üÜ,äÄ,öÖ, ]'), '');
+
+        widget.ingredients[i] = newAmount.toStringAsFixed(2) + fullString;
       }
     }
     setState(() {});

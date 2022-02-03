@@ -28,7 +28,7 @@ class _RecipeStepsState extends State<RecipeSteps> {
       children: [
         Container(
           padding: EdgeInsets.symmetric(
-              horizontal: size.width * 0.2, vertical: size.height * 0.035),
+              horizontal: size.width * 0.05, vertical: size.height * 0.035),
           child: ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
@@ -57,11 +57,12 @@ class _RecipeStepsState extends State<RecipeSteps> {
                           style: const TextStyle(
                             fontFamily: openSansFontFamily,
                             color: Colors.black,
-                            fontSize: 16.0,
+                            fontSize: 17.0,
                           ),
                         )),
                       ],
                     ),
+                    const SizedBox(height: 15.0),
                   ],
                 );
               }),

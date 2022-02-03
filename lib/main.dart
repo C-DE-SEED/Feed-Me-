@@ -46,12 +46,9 @@ class MyApp extends StatelessWidget {
     // TODO insert flutter inapp_purchase at user recipe amount of 30
     // FIXME: Find out why app crashes and fix it
     // TODO: Change login video with own
-
+    // FIXME change comma to point in db entries
     // maxi
-    // TODO insert person food multiplicator
     //TODO check why camera roll ask not again if it get persmissons to local stored pictures if you denied it
-    // maxi
-    // TODO: show important informations on top of the recipe detail page
     // maxi
     // FIXME: Listview in home page
 
