@@ -35,6 +35,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   String recipeName = '';
   final AuthService _authService = AuthService();
   ImageSource userImageSource;
+  String standardImage = 'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3';
 
   @override
   Widget build(BuildContext context) {
@@ -126,20 +127,27 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
                               );
                             },
                           );
-                        } else if (!hasImage) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return RoundedAlert(
-                                title: "❗️Achtung❗",
-                                text:
-                                    "Vergiss nicht dein Rezept mit einem Bild zu unterstützen ☺️",
-                              );
-                            },
-                          );
-                        } else {
+                        }
+                        // else if (!hasImage) {
+                        //   showDialog(
+                        //     context: context,
+                        //     builder: (BuildContext context) {
+                        //       return RoundedAlert(
+                        //         title: "❗️Achtung❗",
+                        //         text:
+                        //             "Vergiss nicht dein Rezept mit einem Bild zu unterstützen ☺️",
+                        //       );
+                        //     },
+                        //   );
+                        // }
+                        else {
                           recipe.name = recipeName;
-                          uploadFile(image, _authService);
+                          if(hasImage == true){
+                            uploadFile(image, _authService);
+                          }
+                          else{
+                            recipe.image = standardImage;
+                          }
                           Navigator.push(
                               context,
                               MaterialPageRoute(
