@@ -78,6 +78,7 @@ class _HomeState extends State<Home> {
             backgroundColor: Colors.transparent,
             body: ListView(
               children: <Widget>[
+                const SizedBox(height:10),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 15.0),
                   child: Container(
@@ -381,7 +382,8 @@ class _HomeState extends State<Home> {
             ),
             floatingActionButton: FloatingActionButton(
               tooltip: 'Einkaufsliste\nöffnen',
-              backgroundColor: Colors.white.withOpacity(0.5),
+              backgroundColor: Colors.white,
+              //elevation: size.width * 0.1,
               child: Icon(
                 Icons.shopping_basket_outlined,
                 size: size.width * 0.1,
@@ -393,7 +395,7 @@ class _HomeState extends State<Home> {
               },
             ),
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.endDocked,
+                FloatingActionButtonLocation.endFloat,
           ),
         ),
       ),

@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
 
     // maxi
     // TODO insert person food multiplicator
+    //TODO check why camera roll ask not again if it get persmissons to local stored pictures if you denied it
     // maxi
     // TODO: show important informations on top of the recipe detail page
     // maxi

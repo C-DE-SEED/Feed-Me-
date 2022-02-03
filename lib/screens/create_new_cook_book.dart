@@ -34,94 +34,89 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return WillPopScope(
-      onWillPop: () {
-        print('nope');
-      },
-      child: Scaffold(
-        backgroundColor: Colors.orangeAccent,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Center(
-              child: SizedBox(
-                height: size.height * 0.9,
-                width: size.width * 0.9,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(height: size.height * 0.05),
-                    Center(
-                      child: SizedBox(
-                        width: size.width * 0.9,
-                        child: TextFormField(
-                          autofocus: true,
-                          obscureText: false,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: fontSize,
-                          ),
-                          decoration: const InputDecoration(
-                            hintText: 'Gib deinem Kochbuch einen Namen:',
-                            hintStyle: TextStyle(
-                                color: Colors.white, fontSize: fontSize),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white)),
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white)),
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              String name = value;
-                              cookbook.name = name;
-                            });
-                          },
+    return Scaffold(
+      backgroundColor: Colors.orangeAccent,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: SizedBox(
+              height: size.height * 0.9,
+              width: size.width * 0.9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: size.height * 0.05),
+                  Center(
+                    child: SizedBox(
+                      width: size.width * 0.9,
+                      child: TextFormField(
+                        autofocus: true,
+                        obscureText: false,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
                         ),
+                        decoration: const InputDecoration(
+                          hintText: 'Gib deinem Kochbuch einen Namen:',
+                          hintStyle: TextStyle(
+                              color: Colors.white, fontSize: fontSize),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            String name = value;
+                            cookbook.name = name;
+                          });
+                        },
                       ),
                     ),
-                    SizedBox(height: size.height * 0.1),
-                    const Center(
-                      child: Text("Lege ein Titelbild für dein Kochbuch fest:",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: fontSize,
-                              fontFamily: openSansFontFamily)),
-                    ),
-                    SizedBox(height: size.height * 0.02),
-                    photoContainer(size),
-                    const Spacer(),
-                    StandardButton(
-                      color: Colors.white,
-                      text: "Kochbuch anlegen",
-                      onPressed: () async {
-                        if (cookbook.name == "") {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return RoundedAlert(
-                                title: "❗️Achtung❗",
-                                text: "Benne dein Kochbuch bitte ☺️",
-                              );
-                            },
-                          );
-                        }
-                        else if (!hasImage) {
-                          addCookbookToDatabase(cookbook);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Home()));
-                        } else {
-                          uploadFile(image, _authService);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Home()));
-                        }
-                      },
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: size.height * 0.1),
+                  const Center(
+                    child: Text("Lege ein Titelbild für dein Kochbuch fest:",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: fontSize,
+                            fontFamily: openSansFontFamily)),
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                  photoContainer(size),
+                  const Spacer(),
+                  StandardButton(
+                    color: Colors.white,
+                    text: "Kochbuch anlegen",
+                    onPressed: () async {
+                      if (cookbook.name == "") {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return RoundedAlert(
+                              title: "❗️Achtung❗",
+                              text: "Benne dein Kochbuch bitte ☺️",
+                            );
+                          },
+                        );
+                      }
+                      else if (!hasImage) {
+                        addCookbookToDatabase(cookbook);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()));
+                      } else {
+                        uploadFile(image, _authService);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()));
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
           ),

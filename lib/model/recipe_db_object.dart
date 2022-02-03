@@ -97,7 +97,8 @@ class RecipeDbObject {
         doc['name'] ?? '',
       );
     }).toList();
-
+    print('books: $books');
+    
     for (int i = 0; i < books.length; i++) {
       var recipesFromUserCookbook =
           getRecipesFromUserCookbook(books.elementAt(i).name);

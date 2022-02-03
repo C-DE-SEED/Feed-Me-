@@ -246,11 +246,16 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   }
 
   void addToDatabase() async {
+    print('add to database is called');
     RecipeDbObject dbObject = RecipeDbObject();
     bool exist = await dbObject.checkIfDocumentExists(widget.cookbook.name);
+    print('bool exist: $exist');
+    print('widget.cookbook.name:');
+    print(widget.cookbook.name);
     if (exist == true) {
       String imagePath =
           await dbObject.getCookBookAttributes(widget.cookbook.name);
+      print('imagePath: $imagePath');
 
       await RecipeDbObject().updateRecipe(
           "1",
@@ -264,7 +269,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
           widget.recipe.persons,
           widget.recipe.shortDescription,
           widget.recipe.time,
-          '',
+          widget.recipe.userNotes,
           widget.cookbook.name,
           imagePath);
     } else {
@@ -280,7 +285,7 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
           widget.recipe.persons,
           widget.recipe.shortDescription,
           widget.recipe.time,
-          '',
+          widget.recipe.userNotes,
           widget.cookbook.name,
           widget.recipe.image);
     }
