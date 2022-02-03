@@ -5,12 +5,10 @@ class Recipe {
   String _difficulty;
   String _image;
   String _ingredientsAndAmount;
-  String _kitchenStuff;
   String _name;
   String _origin;
   String _persons;
   String _shortDescription;
-  String _spices;
   String _time;
   String _userNotes;
 
@@ -32,7 +30,7 @@ class Recipe {
 
   @override
   String toString() {
-    return 'Recipe{_id: $_id, _category: $_category, _description: $_description, _difficulty: $_difficulty, _image: $_image, _ingredientsAndAmount: $_ingredientsAndAmount, _kitchenStuff: $_kitchenStuff, _name: $_name, _origin: $_origin, _persons: $_persons, _shortDescription: $_shortDescription, _spices: $_spices, _time: $_time, _usernotes: $_userNotes}';
+    return 'Recipe{_id: $_id, _category: $_category, _description: $_description, _difficulty: $_difficulty, _image: $_image, _ingredientsAndAmount: $_ingredientsAndAmount, _name: $_name, _origin: $_origin, _persons: $_persons, _shortDescription: $_shortDescription,_time: $_time, _usernotes: $_userNotes}';
   }
 
   //String get userNotes => _userNotes;
@@ -45,12 +43,6 @@ class Recipe {
 
   set time(String value) {
     _time = value;
-  }
-
-  String get spices => _spices;
-
-  set spices(String value) {
-    _spices = value;
   }
 
   String get shortDescription => _shortDescription;
@@ -75,12 +67,6 @@ class Recipe {
 
   set name(String value) {
     _name = value;
-  }
-
-  String get kitchenStuff => _kitchenStuff;
-
-  set kitchenStuff(String value) {
-    _kitchenStuff = value;
   }
 
   String get ingredientsAndAmount => _ingredientsAndAmount;

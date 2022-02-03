@@ -14,22 +14,29 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../home.dart';
 
-class CookBookSettings extends StatefulWidget {
+class RecipeSettings extends StatefulWidget {
   final Cookbook cookbook;
-  final String oldName;
-  final String oldImage;
+  final Recipe recipe;
 
-  const CookBookSettings({Key key, this.cookbook, this.oldName, this.oldImage})
-      : super(key: key);
+  const RecipeSettings({Key key, this.cookbook, this.recipe}) : super(key: key);
 
   @override
-  _CookBookSettingsState createState() => _CookBookSettingsState();
+  _RecipeSettingsState createState() => _RecipeSettingsState();
 }
 
-class _CookBookSettingsState extends State<CookBookSettings> {
+class _RecipeSettingsState extends State<RecipeSettings> {
+  String oldName;
+  String oldImage;
   File image;
   bool hasImage = false;
   final AuthService _authService = AuthService();
+
+  @override
+  void initState() {
+    oldName = widget.recipe.name;
+    oldImage = widget.recipe.image;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +61,17 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                       builder: (BuildContext context) {
                         return AlertWithFunction(
                           title: "❗️Achtung❗",
-                          text: "Willst du dein Kochbuch wirklich löschen?️",
+                          text: "Willst du dein Rezept wirklich löschen?️",
                           buttonText: "Ja, bitte",
                           onPressed: () async {
-                            await deleteCookbook(widget.cookbook.name);
+                            await deleteRecipe(widget.cookbook.name, oldName);
                             var userCookbooks = await getUpdates();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>  Home(userCookbooks: userCookbooks,)));
+                                    builder: (context) => Home(
+                                          userCookbooks: userCookbooks,
+                                        )));
                           },
                         );
                       },
@@ -83,7 +92,7 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Center(
-                    child: Text("Namen des Kochbuchs ändern:",
+                    child: Text("Namen des Rezepts ändern:",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: fontSize,
@@ -100,7 +109,7 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                           fontSize: fontSize,
                         ),
                         decoration: InputDecoration(
-                          hintText: widget.cookbook.name,
+                          hintText: widget.recipe.name,
                           hintStyle: const TextStyle(
                               color: Colors.white, fontSize: fontSize),
                           focusedBorder: const UnderlineInputBorder(
@@ -110,7 +119,7 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            widget.cookbook.name = value;
+                            widget.recipe.name = value;
                           });
                         },
                       ),
@@ -118,7 +127,7 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                   ),
                   SizedBox(height: size.height * 0.1),
                   const Center(
-                    child: Text("Titelbild für das Kochbuch ändern:",
+                    child: Text("Titelbild des Rezepts ändern:",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: fontSize,
@@ -136,12 +145,13 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                         borderRadius: BorderRadius.circular(20)),
                     child: TextButton(
                       onPressed: () async {
+                        await updateRecipe();
                         var userCookbooks = await getUpdates();
-                        await updateCookbook();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Home(userCookbooks: userCookbooks)));
+                                builder: (context) =>
+                                    Home(userCookbooks: userCookbooks)));
                       },
                       child: const Text(
                         "Übernehmen",
@@ -161,40 +171,38 @@ class _CookBookSettingsState extends State<CookBookSettings> {
     );
   }
 
-  Future<void>  deleteCookbook(String name) async{
+  Future<void> deleteRecipe(String cookbookName, String recipeName) async {
     RecipeDbObject db = RecipeDbObject();
-    await db.removeCookbook(name);
+    await db.removeRecipeFromCookbook(cookbookName, recipeName);
   }
 
-  updateCookbook() async {
+  updateRecipe() async {
     if (hasImage == true) {
       await uploadFile(image, _authService);
     }
-    if (widget.cookbook.name == null ||
-        widget.cookbook.name == '' ||
-        widget.cookbook.name.isEmpty == true) {
+    if (widget.recipe.name == null || widget.recipe.name.isEmpty) {
       setState(() {
-        widget.cookbook.name = widget.oldName;
+        widget.recipe.name = oldName;
       });
     }
-    await deleteCookbook(widget.cookbook.name);
-    for (var recipe in widget.cookbook.recipes) {
-      await RecipeDbObject().updateRecipe(
-          "1",
-          recipe.category,
-          recipe.description,
-          recipe.difficulty,
-          recipe.image,
-          recipe.ingredientsAndAmount,
-          recipe.name,
-          recipe.origin,
-          recipe.persons,
-          recipe.shortDescription,
-          recipe.time,
-          widget.cookbook.name,
-          recipe.userNotes,
-          hasImage ? widget.cookbook.image : widget.oldImage);
-    }
+    await deleteRecipe(widget.cookbook.name, oldName);
+    print(widget.recipe);
+    print('name : ' + widget.cookbook.name);
+    await RecipeDbObject().updateRecipe(
+        "1",
+        widget.recipe.category,
+        widget.recipe.description,
+        widget.recipe.difficulty,
+        widget.recipe.image,
+        widget.recipe.ingredientsAndAmount,
+        widget.recipe.name,
+        widget.recipe.origin,
+        widget.recipe.persons,
+        widget.recipe.shortDescription,
+        widget.recipe.time,
+        widget.recipe.userNotes,
+        widget.cookbook.name,
+        widget.cookbook.image);
   }
 
   Widget photoContainer(Size size) {
@@ -242,7 +250,7 @@ class _CookBookSettingsState extends State<CookBookSettings> {
   Future<void> uploadFile(File img, AuthService auth) async {
     var user = auth.getUser();
     String refChildPath = '';
-    String filePath = user.uid + widget.cookbook.name;
+    String filePath = user.uid + widget.recipe.name;
     refChildPath = 'recipe_images_user/' + filePath;
     String downloadUrl = '';
     Reference ref = FirebaseStorage.instance.ref();
@@ -250,13 +258,14 @@ class _CookBookSettingsState extends State<CookBookSettings> {
     if (uploadFile.state == TaskState.success) {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
-      widget.cookbook.image = downloadUrl;
+      widget.recipe.image = downloadUrl;
     }
   }
+
   Future<List<Cookbook>> getUpdates() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     FavsAndShoppingListDbHelper favsAndShoppingListDbHelper =
-    FavsAndShoppingListDbHelper();
+        FavsAndShoppingListDbHelper();
 
     List<Cookbook> tempCookbooks = [];
     List<Recipe> favs = [];
@@ -264,10 +273,10 @@ class _CookBookSettingsState extends State<CookBookSettings> {
         .getRecipesFromUsersFavsCollection()
         .first;
     List<Cookbook> cookbooksUpdate =
-    await await recipeDbObject.getAllCookBooksFromUser();
+        await await recipeDbObject.getAllCookBooksFromUser();
 
     cookbooksUpdate.removeWhere((element) =>
-    element.image == 'none' || element.image == 'shoppingList');
+        element.image == 'none' || element.image == 'shoppingList');
     // FIXME check in database why this additional cookbook is inserted
     // remove additional Plant Food Factory Cookbook
     cookbooksUpdate

@@ -8,6 +8,7 @@ import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/screens/open_cookbook/detail_page/recipe_steps_view.dart';
 import 'package:feed_me/screens/open_cookbook/pdf/pdf_api.dart';
+import 'package:feed_me/screens/open_cookbook/recipe_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 
@@ -172,7 +173,8 @@ class _DetailPageState extends State<DetailPage>
                                         size: 45,
                                       ),
                                       onPressed: () {
-                                        //TODO: Add option to change image and name of recipe
+                                        Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => RecipeSettings(cookbook: widget.cookbook, recipe: widget.recipe,)));
                                       })
                                   :
                                   //    SizedBox is needed because null value is not allowed in NestedScrollView
@@ -199,12 +201,10 @@ class _DetailPageState extends State<DetailPage>
                                           widget.recipe.difficulty,
                                           widget.recipe.image,
                                           widget.recipe.ingredientsAndAmount,
-                                          widget.recipe.kitchenStuff,
                                           widget.recipe.name,
                                           widget.recipe.origin,
                                           widget.recipe.persons,
                                           widget.recipe.shortDescription,
-                                          widget.recipe.spices,
                                           widget.recipe.time,
                                           widget.recipe.userNotes);
                                     }

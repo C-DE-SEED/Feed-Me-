@@ -15,12 +15,10 @@ class FavsAndShoppingListDbHelper {
       String difficulty,
       String image,
       String ingredientsAndAmount,
-      String kitchenUtensils,
       String name,
       String origin,
       String persons,
       String shortDescription,
-      String spices,
       String time,
       String userNotes) async {
     final CollectionReference collectionReference =

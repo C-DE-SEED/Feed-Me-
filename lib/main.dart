@@ -46,10 +46,12 @@ class MyApp extends StatelessWidget {
     // TODO: Change login video with own
     // FIXME change comma to point in db entries
 
+    // maxi
     //TODO check why camera roll ask not again if it get persmissons to local stored pictures if you denied it
 
+    // maxi
+    // FIXME: Listview in home page
     //TODO: Add alert if user still exists in registration
-    //TODO: Video login cached????
     /*
      ----------------------------------------------
     |             _____             _____          |

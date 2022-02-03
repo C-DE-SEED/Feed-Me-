@@ -1,8 +1,10 @@
+import 'package:feed_me/constants/alerts/alert_with_function.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/buttons/standard_button_with_icon.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
+import 'package:feed_me/model/firebase_db_object.dart';
 import 'package:feed_me/screens/user/about_us.dart';
 import 'package:feed_me/screens/user/impressum.dart';
 import 'package:feed_me/services/auth_service.dart';
@@ -30,6 +32,8 @@ class _ProfilePageState extends State<ProfilePage> {
   AuthService auth = AuthService();
   AuthenticationGoogle authGoogle = AuthenticationGoogle();
   TextEditingController controller = TextEditingController();
+  TextEditingController controller2 = TextEditingController();
+  FirebaseDbService firebaseDbService = FirebaseDbService();
 
   @override
   Widget build(BuildContext context) {
@@ -110,56 +114,71 @@ class _ProfilePageState extends State<ProfilePage> {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text('Neues Passwort eingeben'),
-                            content: Column(
-                              children: [
-                                TextField(
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(),
-                                  controller: controller,
-                                  decoration: const InputDecoration(
-                                      hintText: "Gib dein neues Passwort ein:"),
-                                  onChanged: (value) {
-                                    newPassword1 = value;
-                                  },
-                                ),
-                                TextField(
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(),
-                                  controller: controller,
-                                  decoration: const InputDecoration(
-                                      hintText:
-                                          "Gib dein neues Passwort erneut ein"),
-                                  onChanged: (value) {
-                                    newPassword2 = value;
-                                  },
-                                ),
-                              ],
+                            title: const Text('Neues Passwort eingeben',
+                                style: TextStyle(color: basicColor)),
+                            content: Container(
+                              height: size.height * 0.3,
+                              color: basicColor,
+                              child: Column(
+                                children: [
+                                  TextField(
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(),
+                                    obscureText: true,
+                                    controller: controller,
+                                    decoration: const InputDecoration(
+                                        hintText:
+                                            "Gib dein neues Passwort ein:"),
+                                    onChanged: (value) {
+                                      newPassword1 = value;
+                                    },
+                                  ),
+                                  SizedBox(height: size.height * 0.1),
+                                  TextField(
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(),
+                                    obscureText: true,
+                                    controller: controller2,
+                                    decoration: const InputDecoration(
+                                        hintText:
+                                            "Gib das Passwort erneut ein:"),
+                                    onChanged: (value) {
+                                      newPassword2 = value;
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                             actions: <Widget>[
-                              TextButton(
-                                child: const Text('Bestätigen'),
-                                onPressed: () {
-                                  if (newPassword1 == newPassword2) {
-                                    newPasswordFinal = newPassword2;
-                                    auth
-                                        .getUser()
-                                        .updatePassword(newPasswordFinal);
-                                    Navigator.of(context).pop();
-                                  } else {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return RoundedAlert(
-                                          title: "Achtung",
-                                          text:
-                                              "Deine Passwörter stimmen nicht überein!",
-                                        );
-                                      },
-                                    );
-                                    controller.clear();
-                                  }
-                                },
+                              Container(
+                                color: basicColor,
+                                height: 50.0,
+                                child: TextButton(
+                                  child: const Text('Bestätigen',
+                                      style: TextStyle(color: Colors.white)),
+                                  onPressed: () {
+                                    if (newPassword1 == newPassword2) {
+                                      newPasswordFinal = newPassword2;
+                                      auth
+                                          .getUser()
+                                          .updatePassword(newPasswordFinal);
+                                      Navigator.of(context).pop();
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return RoundedAlert(
+                                            title: "Achtung",
+                                            text:
+                                                "Deine Passwörter stimmen nicht überein!",
+                                          );
+                                        },
+                                      );
+                                      controller.clear();
+                                      controller2.clear();
+                                    }
+                                  },
+                                ),
                               )
                             ],
                           );
@@ -169,24 +188,27 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: const Icon(Icons.delete, color: deepOrange),
                   color: Colors.white54,
                   text: "Konto löschen",
-                  onPressed: () {
-                   auth.getUser().delete();
-                   showDialog(
-                     context: context,
-                     builder: (BuildContext context) {
-                       return RoundedAlert(
-                         title: "Achtung",
-                         text:
-                         "Deine Konto wurdge gelöscht!",
-                       );
-                     },
-                   );
-                   Navigator.push(
-                       context,
-                       MaterialPageRoute(
-                           builder: (context) => const SignIn(
-                             fromRegistration: false,
-                           )));
+                  onPressed: () async {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertWithFunction(
+                          title: "❗️Achtung❗",
+                          text: "Willst du dein Konto wirklich löschen?️",
+                          buttonText: "Ja, bitte",
+                          onPressed: () async {
+                            await firebaseDbService.deleteUserAccountWithData(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignIn(
+                                      fromRegistration: false,
+                                    )));
+
+                          },
+                        );
+                      },
+                    );
                   }),
               StandardButtonWithIcon(
                   icon: const Icon(Icons.logout, color: Colors.black54),

@@ -66,8 +66,7 @@ const List<String> originList = [
 const List<String> categoryList = [
   "Vorspeise",
   "Hauptgericht",
-  "Dessert",
-  'Schnell'
+  "Dessert"
 ];
 
 const List<String> unitList = [
