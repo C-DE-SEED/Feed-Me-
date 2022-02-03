@@ -21,6 +21,7 @@ class AuthService {
         .map(_userFromFireBaseUser);
   }
 
+
   User getUser() {
     return _auth.currentUser;
   }
@@ -88,4 +89,6 @@ class AuthService {
   Future<void> sendPasswordResetEmail(String email) async {
     return _auth.sendPasswordResetEmail(email: email);
   }
+
+
 }
