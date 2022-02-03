@@ -240,6 +240,7 @@ class _SignInState extends State<SignIn> {
                                     style: TextStyle(
                                       fontFamily: openSansFontFamily,
                                       fontWeight: FontWeight.w500,
+                                      color: Colors.white
                                     ),
                                   ),
                                   TextButton(
@@ -252,7 +253,7 @@ class _SignInState extends State<SignIn> {
                                     },
                                     child: const Text("Hier klicken",
                                         style: TextStyle(
-                                          color: Color(0xFFFDFAF6),
+                                          color:basicColor,
                                           fontFamily: openSansFontFamily,
                                           fontWeight: FontWeight.w500,
                                         )),
