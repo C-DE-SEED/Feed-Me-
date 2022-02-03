@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
 
 
     // TODO delete/overwrite recipe
-    // TODO give possibility to create a recipe without picture
 
     // TODO insert flutter inapp_purchase at user recipe amount of 30
     // TODO: Change login video with own
