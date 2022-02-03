@@ -201,12 +201,10 @@ class _DetailPageState extends State<DetailPage>
                                           widget.recipe.difficulty,
                                           widget.recipe.image,
                                           widget.recipe.ingredientsAndAmount,
-                                          widget.recipe.kitchenStuff,
                                           widget.recipe.name,
                                           widget.recipe.origin,
                                           widget.recipe.persons,
                                           widget.recipe.shortDescription,
-                                          widget.recipe.spices,
                                           widget.recipe.time,
                                           widget.recipe.userNotes);
                                     }
