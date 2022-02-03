@@ -118,6 +118,7 @@ class _RegistrationState extends State<Registration> {
                         color: Colors.white,
                         text: "Registrieren",
                         onPressed: () async {
+
                           if (checkIfPasswordsMatching() == true) {
                             var newUser = await _auth
                                 .createUserWithEmailAndPassword(email, password);
@@ -177,6 +178,7 @@ class _RegistrationState extends State<Registration> {
                             style: TextStyle(
                               fontFamily: openSansFontFamily,
                               fontWeight: FontWeight.w500,
+                              color: Colors.white,
                             ),
                           ),
                           TextButton(
@@ -190,7 +192,7 @@ class _RegistrationState extends State<Registration> {
                             },
                             child: const Text("Hier klicken",
                                 style: TextStyle(
-                                  color: Color(0xFFFDFAF6),
+                                  color: basicColor,
                                   fontFamily: openSansFontFamily,
                                   fontWeight: FontWeight.w500,
                                 )),

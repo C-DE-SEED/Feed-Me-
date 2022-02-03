@@ -2,6 +2,7 @@ import 'package:feed_me/constants/alerts/alert_with_function.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/buttons/standard_button_with_icon.dart';
+import 'package:feed_me/constants/images/feed_me_circle_avatar.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/firebase_db_object.dart';
@@ -113,76 +114,118 @@ class _ProfilePageState extends State<ProfilePage> {
                     showDialog(
                         context: context,
                         builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Neues Passwort eingeben',
-                                style: TextStyle(color: basicColor)),
-                            content: Container(
-                              height: size.height * 0.3,
-                              color: basicColor,
-                              child: Column(
-                                children: [
-                                  TextField(
-                                    keyboardType:
-                                        const TextInputType.numberWithOptions(),
-                                    obscureText: true,
-                                    controller: controller,
-                                    decoration: const InputDecoration(
-                                        hintText:
-                                            "Gib dein neues Passwort ein:"),
-                                    onChanged: (value) {
-                                      newPassword1 = value;
-                                    },
-                                  ),
-                                  SizedBox(height: size.height * 0.1),
-                                  TextField(
-                                    keyboardType:
-                                        const TextInputType.numberWithOptions(),
-                                    obscureText: true,
-                                    controller: controller2,
-                                    decoration: const InputDecoration(
-                                        hintText:
-                                            "Gib das Passwort erneut ein:"),
-                                    onChanged: (value) {
-                                      newPassword2 = value;
-                                    },
-                                  ),
-                                ],
+                          return Center(
+                            child: Dialog(
+                              backgroundColor: Colors.transparent,
+                              child: Container(
+                                padding:
+                                const EdgeInsets.only(right: 16.0),
+                                width: size.width * 0.9,
+                                height: size.height * 0.35,
+                                decoration: BoxDecoration(
+                                    color:
+                                    Colors.white.withOpacity(0.8),
+                                    borderRadius: const BorderRadius
+                                        .only(
+                                        topLeft: Radius.circular(55),
+                                        bottomLeft: Radius.circular(55),
+                                        topRight: Radius.circular(15),
+                                        bottomRight:
+                                        Radius.circular(15))),
+                                child: Row(
+                                  children: <Widget>[
+                                    const SizedBox(width: 20.0),
+                                    const FeedMeCircleAvatar(
+                                        radius: 30),
+                                    const SizedBox(width: 20.0),
+                                    Expanded(
+                                      child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            const Text(
+                                                'Neues Passwort eingeben',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16.0,
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                    fontFamily:
+                                                    openSansFontFamily)),
+                                            const SizedBox(
+                                                height: 10.0),
+                                            Column(
+                                              children: [
+                                                TextField(
+                                                  keyboardType:
+                                                  const TextInputType.numberWithOptions(),
+                                                  obscureText: true,
+                                                  controller: controller,
+                                                  decoration: const InputDecoration(
+                                                      hintText:
+                                                      "Passwort"),
+                                                  onChanged: (value) {
+                                                    newPassword1 = value;
+                                                  },
+                                                ),
+                                                TextField(
+                                                  keyboardType:
+                                                  const TextInputType.numberWithOptions(),
+                                                  obscureText: true,
+                                                  controller: controller2,
+                                                  decoration: const InputDecoration(
+                                                      hintText:
+                                                      "Passwort bestätigen"),
+                                                  onChanged: (value) {
+                                                    newPassword2 = value;
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 35.0,),
+                                            Center(
+                                              child:  Container(
+                                                color: basicColor,
+                                                height: 50.0,
+                                                child: TextButton(
+                                                  child: const Text('Bestätigen',
+                                                      style: TextStyle(color: Colors.white)),
+                                                  onPressed: () {
+                                                    if (newPassword1 == newPassword2) {
+                                                      newPasswordFinal = newPassword2;
+                                                      auth
+                                                          .getUser()
+                                                          .updatePassword(newPasswordFinal);
+                                                      Navigator.of(context).pop();
+                                                    } else {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return RoundedAlert(
+                                                            title: "Achtung",
+                                                            text:
+                                                            "Deine Passwörter stimmen nicht überein!",
+                                                          );
+                                                        },
+                                                      );
+                                                      controller.clear();
+                                                      controller2.clear();
+                                                    }
+                                                  },
+                                                ),
+                                              )
+                                            )
+                                          ]),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                            actions: <Widget>[
-                              Container(
-                                color: basicColor,
-                                height: 50.0,
-                                child: TextButton(
-                                  child: const Text('Bestätigen',
-                                      style: TextStyle(color: Colors.white)),
-                                  onPressed: () {
-                                    if (newPassword1 == newPassword2) {
-                                      newPasswordFinal = newPassword2;
-                                      auth
-                                          .getUser()
-                                          .updatePassword(newPasswordFinal);
-                                      Navigator.of(context).pop();
-                                    } else {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return RoundedAlert(
-                                            title: "Achtung",
-                                            text:
-                                                "Deine Passwörter stimmen nicht überein!",
-                                          );
-                                        },
-                                      );
-                                      controller.clear();
-                                      controller2.clear();
-                                    }
-                                  },
-                                ),
-                              )
-                            ],
                           );
                         });
+
                   }),
               StandardButtonWithIcon(
                   icon: const Icon(Icons.delete, color: deepOrange),
@@ -197,14 +240,99 @@ class _ProfilePageState extends State<ProfilePage> {
                           text: "Willst du dein Konto wirklich löschen?️",
                           buttonText: "Ja, bitte",
                           onPressed: () async {
-                            await firebaseDbService.deleteUserAccountWithData(context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignIn(
-                                      fromRegistration: false,
-                                    )));
-
+                            String password = '';
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Center(
+                                    child: Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      child: Container(
+                                        padding:
+                                            const EdgeInsets.only(right: 16.0),
+                                        width: size.width * 0.9,
+                                        height: size.height * 0.3,
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Colors.white.withOpacity(0.8),
+                                            borderRadius: const BorderRadius
+                                                    .only(
+                                                topLeft: Radius.circular(55),
+                                                bottomLeft: Radius.circular(55),
+                                                topRight: Radius.circular(15),
+                                                bottomRight:
+                                                    Radius.circular(15))),
+                                        child: Row(
+                                          children: <Widget>[
+                                            const SizedBox(width: 20.0),
+                                            const FeedMeCircleAvatar(
+                                                radius: 30),
+                                            const SizedBox(width: 20.0),
+                                            Expanded(
+                                              child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    const Text(
+                                                        'Bestätige bitte mit deinem Passwort',
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                openSansFontFamily)),
+                                                    const SizedBox(
+                                                        height: 10.0),
+                                                    TextField(
+                                                      keyboardType:
+                                                          const TextInputType
+                                                              .numberWithOptions(),
+                                                      obscureText: false,
+                                                      controller: controller,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                              hintText:
+                                                                  "Passwort"),
+                                                      onChanged: (value) {
+                                                        password = value;
+                                                      },
+                                                    ),
+                                                    const SizedBox(height: 35.0,),
+                                                    Center(
+                                                      child: Container(
+                                                        color: basicColor,
+                                                        height: 50.0,
+                                                        child: TextButton(
+                                                            child: const Text(
+                                                                'Bestätigen',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white)),
+                                                            onPressed: () async {
+                                                              await firebaseDbService
+                                                                  .deleteUserAccountWithData(
+                                                                      context,
+                                                                      auth
+                                                                          .getUser()
+                                                                          .email,
+                                                                      password);
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            }),
+                                                      ),
+                                                    )
+                                                  ]),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
                           },
                         );
                       },
