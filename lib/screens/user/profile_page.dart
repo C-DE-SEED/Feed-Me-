@@ -30,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
   AuthService auth = AuthService();
   AuthenticationGoogle authGoogle = AuthenticationGoogle();
   TextEditingController controller = TextEditingController();
+  TextEditingController controller2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -110,56 +111,68 @@ class _ProfilePageState extends State<ProfilePage> {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text('Neues Passwort eingeben'),
-                            content: Column(
-                              children: [
-                                TextField(
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(),
-                                  controller: controller,
-                                  decoration: const InputDecoration(
-                                      hintText: "Gib dein neues Passwort ein:"),
-                                  onChanged: (value) {
-                                    newPassword1 = value;
-                                  },
-                                ),
-                                TextField(
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(),
-                                  controller: controller,
-                                  decoration: const InputDecoration(
-                                      hintText:
-                                          "Gib dein neues Passwort erneut ein"),
-                                  onChanged: (value) {
-                                    newPassword2 = value;
-                                  },
-                                ),
-                              ],
+                            title: const Text('Neues Passwort eingeben', style:TextStyle(color:basicColor)),
+                            content: Container(
+                              height: size.height * 0.3,
+                              color: basicColor,
+                              child: Column(
+                                children: [
+                                  TextField(
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(),
+                                    obscureText: true,
+                                    controller: controller,
+                                    decoration: const InputDecoration(
+                                        hintText: "Gib dein neues Passwort ein:"),
+                                    onChanged: (value) {
+                                      newPassword1 = value;
+                                    },
+                                  ),
+                                  SizedBox(height:size.height * 0.1),
+                                  TextField(
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(),
+                                    obscureText: true,
+                                    controller: controller2,
+                                    decoration: const InputDecoration(
+                                        hintText:
+                                            "Gib das Passwort erneut ein:"),
+                                    onChanged: (value) {
+                                      newPassword2 = value;
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                             actions: <Widget>[
-                              TextButton(
-                                child: const Text('Bestätigen'),
-                                onPressed: () {
-                                  if (newPassword1 == newPassword2) {
-                                    newPasswordFinal = newPassword2;
-                                    auth
-                                        .getUser()
-                                        .updatePassword(newPasswordFinal);
-                                    Navigator.of(context).pop();
-                                  } else {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return RoundedAlert(
-                                          title: "Achtung",
-                                          text:
-                                              "Deine Passwörter stimmen nicht überein!",
-                                        );
-                                      },
-                                    );
-                                    controller.clear();
-                                  }
-                                },
+                              Container(
+                                color: basicColor,
+                                height: 50.0,
+                                child: TextButton(
+                                  child: const Text('Bestätigen', style:TextStyle(color: Colors.white)),
+                                  onPressed: () {
+                                    if (newPassword1 == newPassword2) {
+                                      newPasswordFinal = newPassword2;
+                                      auth
+                                          .getUser()
+                                          .updatePassword(newPasswordFinal);
+                                      Navigator.of(context).pop();
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return RoundedAlert(
+                                            title: "Achtung",
+                                            text:
+                                                "Deine Passwörter stimmen nicht überein!",
+                                          );
+                                        },
+                                      );
+                                      controller.clear();
+                                      controller2.clear();
+                                    }
+                                  },
+                                ),
                               )
                             ],
                           );
@@ -181,12 +194,7 @@ class _ProfilePageState extends State<ProfilePage> {
                        );
                      },
                    );
-                   Navigator.push(
-                       context,
-                       MaterialPageRoute(
-                           builder: (context) => const SignIn(
-                             fromRegistration: false,
-                           )));
+
                   }),
               StandardButtonWithIcon(
                   icon: const Icon(Icons.logout, color: Colors.black54),
