@@ -163,7 +163,6 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                         tag: 'buttonRow',
                         child: ButtonRow(
                           onPressed: () async {
-                            var userCookbooks = await getUpdates() ;
                             if (steps.elementAt(0) == '') {
                               showDialog(
                                 context: context,
@@ -178,10 +177,13 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
                             } else {
                               widget.recipe.description = buildDescription();
                               addToDatabase();
+                              var userCookbooks = await getUpdates();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Home(userCookbooks: userCookbooks)));
+                                      builder: (context) => Home(
+                                            userCookbooks: userCookbooks,
+                                          )));
                             }
                           },
                         ),
@@ -248,16 +250,12 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
   }
 
   void addToDatabase() async {
-    print('add to database is called');
     RecipeDbObject dbObject = RecipeDbObject();
     bool exist = await dbObject.checkIfDocumentExists(widget.cookbook.name);
-    print('bool exist: $exist');
-    print('widget.cookbook.name:');
-    print(widget.cookbook.name);
+
     if (exist == true) {
       String imagePath =
           await dbObject.getCookBookAttributes(widget.cookbook.name);
-      print('imagePath: $imagePath');
 
       await RecipeDbObject().updateRecipe(
           "1",
@@ -292,10 +290,11 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
           widget.recipe.image);
     }
   }
+
   Future<List<Cookbook>> getUpdates() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     FavsAndShoppingListDbHelper favsAndShoppingListDbHelper =
-    FavsAndShoppingListDbHelper();
+        FavsAndShoppingListDbHelper();
 
     List<Cookbook> tempCookbooks = [];
     List<Recipe> favs = [];
@@ -303,10 +302,10 @@ class _CreateNewRecipe_4State extends State<CreateNewRecipe_4> {
         .getRecipesFromUsersFavsCollection()
         .first;
     List<Cookbook> cookbooksUpdate =
-    await await recipeDbObject.getAllCookBooksFromUser();
+        await await recipeDbObject.getAllCookBooksFromUser();
 
     cookbooksUpdate.removeWhere((element) =>
-    element.image == 'none' || element.image == 'shoppingList');
+        element.image == 'none' || element.image == 'shoppingList');
     // FIXME check in database why this additional cookbook is inserted
     // remove additional Plant Food Factory Cookbook
     cookbooksUpdate

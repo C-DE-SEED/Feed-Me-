@@ -93,7 +93,6 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                     color: Colors.white,
                     text: "Kochbuch anlegen",
                     onPressed: () async {
-                      var userCookbooks = await getUpdates();
                       if (cookbook.name == "") {
                         showDialog(
                           context: context,
@@ -104,19 +103,24 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
                             );
                           },
                         );
-                      }
-                      else if (!hasImage) {
+                      } else if (!hasImage) {
                         addCookbookToDatabase(cookbook);
+                        var userCookbooks = await getUpdates();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>  Home(userCookbooks: userCookbooks,)));
+                                builder: (context) => Home(
+                                      userCookbooks: userCookbooks,
+                                    )));
                       } else {
                         uploadFile(image, _authService);
+                        var userCookbooks = await getUpdates();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>  Home(userCookbooks: userCookbooks,)));
+                                builder: (context) => Home(
+                                      userCookbooks: userCookbooks,
+                                    )));
                       }
                     },
                   ),
@@ -320,8 +324,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
   }
 
   Future<void> _cropImage(String sourcePath, Size size) async {
-    var cropAspectRatio =
-        const CropAspectRatio(ratioX: 1.0, ratioY: 1.0);
+    var cropAspectRatio = const CropAspectRatio(ratioX: 1.0, ratioY: 1.0);
     File croppedFile = await ImageCropper.cropImage(
         aspectRatio: cropAspectRatio,
         sourcePath: sourcePath,
@@ -359,7 +362,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
   Future<List<Cookbook>> getUpdates() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     FavsAndShoppingListDbHelper favsAndShoppingListDbHelper =
-    FavsAndShoppingListDbHelper();
+        FavsAndShoppingListDbHelper();
 
     List<Cookbook> tempCookbooks = [];
     List<Recipe> favs = [];
@@ -367,10 +370,10 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
         .getRecipesFromUsersFavsCollection()
         .first;
     List<Cookbook> cookbooksUpdate =
-    await await recipeDbObject.getAllCookBooksFromUser();
+        await await recipeDbObject.getAllCookBooksFromUser();
 
     cookbooksUpdate.removeWhere((element) =>
-    element.image == 'none' || element.image == 'shoppingList');
+        element.image == 'none' || element.image == 'shoppingList');
     // FIXME check in database why this additional cookbook is inserted
     // remove additional Plant Food Factory Cookbook
     cookbooksUpdate
