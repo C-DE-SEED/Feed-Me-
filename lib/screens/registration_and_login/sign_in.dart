@@ -51,16 +51,6 @@ class _SignInState extends State<SignIn> {
                       fit: BoxFit.cover)),
               child: Stack(
                 children: [
-                  SizedBox.expand(
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: SizedBox(
-                        width: size.width,
-                        height: size.height,
-                        child: Image.asset('assets/welcome.gif'),
-                      ),
-                    ),
-                  ),
                   SingleChildScrollView(
                     child: SafeArea(
                       child: Column(
