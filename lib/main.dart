@@ -37,13 +37,9 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-
-    // FIXME: Rename cookbook, change image
-
+    //TODO: Add Circle Progress Indicator
     // TODO insert flutter inapp_purchase at user recipe amount of 30
-
     // TODO: Change login video with own
-    // FIXME change comma to point in db entries
 
     // maxi
     //TODO check why camera roll ask not again if it get persmissons to local stored pictures if you denied it

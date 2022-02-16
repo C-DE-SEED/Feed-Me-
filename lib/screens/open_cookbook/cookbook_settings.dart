@@ -4,6 +4,7 @@ import 'package:feed_me/constants/alerts/alert_with_function.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
+import 'package:feed_me/model/cookbook_db_object.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/model/recipe_object.dart';
@@ -30,6 +31,7 @@ class _CookBookSettingsState extends State<CookBookSettings> {
   File image;
   bool hasImage = false;
   final AuthService _authService = AuthService();
+  bool showProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -76,111 +78,123 @@ class _CookBookSettingsState extends State<CookBookSettings> {
           )
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: SizedBox(
-              width: size.width * 0.9,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Center(
-                    child: Text("Namen des Kochbuchs ändern:",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: fontSize,
-                            fontFamily: openSansFontFamily)),
-                  ),
-                  Center(
-                    child: SizedBox(
-                      width: size.width * 0.9,
-                      child: TextFormField(
-                        obscureText: false,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: fontSize,
+      body: showProgress
+          ? const Center(child: CircularProgressIndicator(color: Colors.white))
+          : SafeArea(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: SizedBox(
+                    width: size.width * 0.9,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Center(
+                          child: Text("Namen des Kochbuchs ändern:",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontFamily: openSansFontFamily)),
                         ),
-                        decoration: InputDecoration(
-                          hintText: widget.cookbook.name,
-                          hintStyle: const TextStyle(
-                              color: Colors.white, fontSize: fontSize),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
+                        Center(
+                          child: SizedBox(
+                            width: size.width * 0.9,
+                            child: TextFormField(
+                              obscureText: false,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: fontSize,
+                              ),
+                              decoration: InputDecoration(
+                                hintText: widget.cookbook.name,
+                                hintStyle: const TextStyle(
+                                    color: Colors.white, fontSize: fontSize),
+                                focusedBorder: const UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                                enabledBorder: const UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  widget.cookbook.name = value;
+                                });
+                              },
+                            ),
+                          ),
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            widget.cookbook.name = value;
-                          });
-                        },
-                      ),
+                        SizedBox(height: size.height * 0.1),
+                        const Center(
+                          child: Text("Titelbild für das Kochbuch ändern:",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontFamily: openSansFontFamily)),
+                        ),
+                        SizedBox(height: size.height * 0.02),
+                        photoContainer(size),
+                        SizedBox(height: size.height * 0.1),
+                        Container(
+                          height: size.height * 0.08,
+                          width: size.width * 0.4,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: deepOrange),
+                              color: basicColor,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: TextButton(
+                            onPressed: () async {
+                              setState(() {
+                                showProgress = true;
+                              });
+                              await updateCookbook();
+                              var userCookbooks = await getUpdates();
+                              setState(() {
+                                showProgress = false;
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Home(
+                                              userCookbooks: userCookbooks,
+                                            )));
+                              });
+                            },
+                            child: const Text(
+                              "Übernehmen",
+                              style: TextStyle(
+                                color: deepOrange,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: size.height * 0.1),
-                  const Center(
-                    child: Text("Titelbild für das Kochbuch ändern:",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: fontSize,
-                            fontFamily: openSansFontFamily)),
-                  ),
-                  SizedBox(height: size.height * 0.02),
-                  photoContainer(size),
-                  SizedBox(height: size.height * 0.1),
-                  Container(
-                    height: size.height * 0.08,
-                    width: size.width * 0.4,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: deepOrange),
-                        color: basicColor,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: TextButton(
-                      onPressed: () async {
-                        var userCookbooks = await getUpdates();
-                        await updateCookbook();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Home(userCookbooks: userCookbooks)));
-                      },
-                      child: const Text(
-                        "Übernehmen",
-                        style: TextStyle(
-                          color: deepOrange,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
   Future<void> deleteCookbook(String name) async {
     RecipeDbObject db = RecipeDbObject();
-    //TODO: fix removing images from db
-    // await deleteImageFromDb(_authService);
+    await deleteImageFromDb(name);
     await db.removeCookbook(name);
   }
 
-  Future<void> deleteImageFromDb(AuthService auth) async {
-    var user = auth.getUser();
+  Future<void> deleteImageFromDb(String name) async {
+    var user = _authService.getUser();
     String refChildPath = '';
-    String filePath = user.uid + widget.cookbook.name;
+    String filePath = user.uid + widget.oldName;
     refChildPath = 'cookbook_title_pictures/' + filePath;
     Reference ref = FirebaseStorage.instance.ref();
-    await ref.child(refChildPath).delete();
+    await ref.child(refChildPath).delete().onError((error, stackTrace) {
+      print("No image found!");
+    });
   }
 
-  Future <void> updateCookbook() async {
+  Future<void> updateCookbook() async {
     if (hasImage == true) {
       await uploadFile(image, _authService);
     }
@@ -189,23 +203,37 @@ class _CookBookSettingsState extends State<CookBookSettings> {
         widget.cookbook.name = widget.oldName;
       });
     }
-    await deleteCookbook(widget.cookbook.name);
-    for (var recipe in widget.cookbook.recipes) {
-      await RecipeDbObject().updateRecipe(
-          "1",
-          recipe.category,
-          recipe.description,
-          recipe.difficulty,
-          recipe.image,
-          recipe.ingredientsAndAmount,
-          recipe.name,
-          recipe.origin,
-          recipe.persons,
-          recipe.shortDescription,
-          recipe.time,
-          recipe.userNotes,
-          widget.cookbook.name,
-          hasImage ? widget.cookbook.image : widget.oldImage);
+    if (widget.cookbook.recipes.isEmpty) {
+      await deleteCookbook(widget.oldName);
+      // await deleteImageFromDb(_authService,widget.oldName);
+      CookbookDbObject cookbookDbObject =
+          CookbookDbObject(widget.cookbook.name);
+      bool exist =
+          await cookbookDbObject.checkIfDocumentExists(widget.cookbook.name);
+      if (exist == false) {
+        await cookbookDbObject.updateCookbook(widget.cookbook.name,
+            widget.cookbook.image, widget.cookbook.recipes);
+      }
+    } else {
+      await deleteCookbook(widget.oldName);
+      // await deleteImageFromDb(_authService,widget.oldName);
+      for (var recipe in widget.cookbook.recipes) {
+        await RecipeDbObject().updateRecipe(
+            "1",
+            recipe.category,
+            recipe.description,
+            recipe.difficulty,
+            recipe.image,
+            recipe.ingredientsAndAmount,
+            recipe.name,
+            recipe.origin,
+            recipe.persons,
+            recipe.shortDescription,
+            recipe.time,
+            recipe.userNotes,
+            widget.cookbook.name,
+            hasImage ? widget.cookbook.image : widget.oldImage);
+      }
     }
   }
 
@@ -255,7 +283,7 @@ class _CookBookSettingsState extends State<CookBookSettings> {
     var user = auth.getUser();
     String refChildPath = '';
     String filePath = user.uid + widget.cookbook.name;
-    refChildPath = 'recipe_images_user/' + filePath;
+    refChildPath = 'cookbook_title_pictures/' + filePath;
     String downloadUrl = '';
     Reference ref = FirebaseStorage.instance.ref();
     TaskSnapshot uploadFile = await ref.child(refChildPath).putFile(img);

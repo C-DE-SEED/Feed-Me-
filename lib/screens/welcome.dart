@@ -100,9 +100,4 @@ class _Welcome extends State<Welcome> {
     setState(() {});
     return cookbooksUpdate;
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 }
