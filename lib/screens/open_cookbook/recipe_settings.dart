@@ -30,6 +30,7 @@ class _RecipeSettingsState extends State<RecipeSettings> {
   File image;
   bool hasImage = false;
   final AuthService _authService = AuthService();
+  bool showProgress = false;
 
   @override
   void initState() {
@@ -66,6 +67,7 @@ class _RecipeSettingsState extends State<RecipeSettings> {
                           onPressed: () async {
                             await deleteRecipe(widget.cookbook.name, oldName);
                             var userCookbooks = await getUpdates();
+                            showProgress = false;
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -83,91 +85,102 @@ class _RecipeSettingsState extends State<RecipeSettings> {
           )
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: SizedBox(
-              width: size.width * 0.9,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Center(
-                    child: Text("Namen des Rezepts ändern:",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: fontSize,
-                            fontFamily: openSansFontFamily)),
-                  ),
-                  Center(
-                    child: SizedBox(
-                      width: size.width * 0.9,
-                      child: TextFormField(
-                        obscureText: false,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: fontSize,
+      body: showProgress
+          ? const Center(child: CircularProgressIndicator(color: Colors.white))
+          : SafeArea(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: SizedBox(
+                    width: size.width * 0.9,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Center(
+                          child: Text("Namen des Rezepts ändern:",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontFamily: openSansFontFamily)),
                         ),
-                        decoration: InputDecoration(
-                          hintText: widget.recipe.name,
-                          hintStyle: const TextStyle(
-                              color: Colors.white, fontSize: fontSize),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
+                        Center(
+                          child: SizedBox(
+                            width: size.width * 0.9,
+                            child: TextFormField(
+                              obscureText: false,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: fontSize,
+                              ),
+                              decoration: InputDecoration(
+                                hintText: widget.recipe.name,
+                                hintStyle: const TextStyle(
+                                    color: Colors.white, fontSize: fontSize),
+                                focusedBorder: const UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                                enabledBorder: const UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  widget.recipe.name = value;
+                                });
+                              },
+                            ),
+                          ),
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            widget.recipe.name = value;
-                          });
-                        },
-                      ),
+                        SizedBox(height: size.height * 0.1),
+                        const Center(
+                          child: Text("Titelbild des Rezepts ändern:",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontFamily: openSansFontFamily)),
+                        ),
+                        SizedBox(height: size.height * 0.02),
+                        photoContainer(size),
+                        SizedBox(height: size.height * 0.1),
+                        Container(
+                          height: size.height * 0.08,
+                          width: size.width * 0.4,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: deepOrange),
+                              color: basicColor,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: TextButton(
+                            onPressed: () async {
+                              setState(() {
+                                showProgress = true;
+                              });
+                              await updateRecipe();
+                              var userCookbooks = await getUpdates();
+                              setState(() {
+                                showProgress = false;
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Home(
+                                              userCookbooks: userCookbooks,
+                                            )));
+                              });
+                            },
+                            child: const Text(
+                              "Übernehmen",
+                              style: TextStyle(
+                                color: deepOrange,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: size.height * 0.1),
-                  const Center(
-                    child: Text("Titelbild des Rezepts ändern:",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: fontSize,
-                            fontFamily: openSansFontFamily)),
-                  ),
-                  SizedBox(height: size.height * 0.02),
-                  photoContainer(size),
-                  SizedBox(height: size.height * 0.1),
-                  Container(
-                    height: size.height * 0.08,
-                    width: size.width * 0.4,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: deepOrange),
-                        color: basicColor,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: TextButton(
-                      onPressed: () async {
-                        await updateRecipe();
-                        var userCookbooks = await getUpdates();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Home(userCookbooks: userCookbooks)));
-                      },
-                      child: const Text(
-                        "Übernehmen",
-                        style: TextStyle(
-                          color: deepOrange,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -183,10 +196,12 @@ class _RecipeSettingsState extends State<RecipeSettings> {
     String filePath = user.uid + oldName;
     refChildPath = 'recipe_images_user/' + filePath;
     Reference ref = FirebaseStorage.instance.ref();
-    await ref.child(refChildPath).delete();
+    await ref.child(refChildPath).delete().onError((error, stackTrace) {
+      print("No image found!");
+    });
   }
 
-  Future <void> updateRecipe() async {
+  Future<void> updateRecipe() async {
     if (hasImage == true) {
       await uploadFile(image, _authService);
     }
