@@ -4,6 +4,7 @@ import 'package:feed_me/constants/alerts/alert_with_function.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
+import 'package:feed_me/model/cookbook_db_object.dart';
 import 'package:feed_me/model/favs_and_shopping_list_db.dart';
 import 'package:feed_me/model/recipe_db_object.dart';
 import 'package:feed_me/model/recipe_object.dart';
@@ -58,6 +59,7 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                           buttonText: "Ja, bitte",
                           onPressed: () async {
                             await deleteCookbook(widget.cookbook.name);
+                            // await deleteImageFromDb(_authService,widget.cookbook.name);
                             var userCookbooks = await getUpdates();
                             Navigator.push(
                                 context,
@@ -138,8 +140,8 @@ class _CookBookSettingsState extends State<CookBookSettings> {
                         borderRadius: BorderRadius.circular(20)),
                     child: TextButton(
                       onPressed: () async {
-                        var userCookbooks = await getUpdates();
                         await updateCookbook();
+                        var userCookbooks = await getUpdates();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -166,15 +168,14 @@ class _CookBookSettingsState extends State<CookBookSettings> {
 
   Future<void> deleteCookbook(String name) async {
     RecipeDbObject db = RecipeDbObject();
-    //TODO: fix removing images from db
-    // await deleteImageFromDb(_authService);
+    await deleteImageFromDb(name);
     await db.removeCookbook(name);
   }
 
-  Future<void> deleteImageFromDb(AuthService auth) async {
-    var user = auth.getUser();
+  Future<void> deleteImageFromDb(String name) async {
+    var user = _authService.getUser();
     String refChildPath = '';
-    String filePath = user.uid + widget.cookbook.name;
+    String filePath = user.uid + widget.oldName;
     refChildPath = 'cookbook_title_pictures/' + filePath;
     Reference ref = FirebaseStorage.instance.ref();
     await ref.child(refChildPath).delete();
@@ -189,23 +190,35 @@ class _CookBookSettingsState extends State<CookBookSettings> {
         widget.cookbook.name = widget.oldName;
       });
     }
-    await deleteCookbook(widget.cookbook.name);
-    for (var recipe in widget.cookbook.recipes) {
-      await RecipeDbObject().updateRecipe(
-          "1",
-          recipe.category,
-          recipe.description,
-          recipe.difficulty,
-          recipe.image,
-          recipe.ingredientsAndAmount,
-          recipe.name,
-          recipe.origin,
-          recipe.persons,
-          recipe.shortDescription,
-          recipe.time,
-          recipe.userNotes,
-          widget.cookbook.name,
-          hasImage ? widget.cookbook.image : widget.oldImage);
+    if(widget.cookbook.recipes.isEmpty){
+      await deleteCookbook(widget.oldName);
+      // await deleteImageFromDb(_authService,widget.oldName);
+      CookbookDbObject cookbookDbObject = CookbookDbObject(widget.cookbook.name);
+      bool exist = await cookbookDbObject.checkIfDocumentExists(widget.cookbook.name);
+      if (exist == false) {
+        await cookbookDbObject.updateCookbook(
+            widget.cookbook.name, widget.cookbook.image, widget.cookbook.recipes);
+      }
+    }else {
+      await deleteCookbook(widget.oldName);
+      // await deleteImageFromDb(_authService,widget.oldName);
+      for (var recipe in widget.cookbook.recipes) {
+        await RecipeDbObject().updateRecipe(
+            "1",
+            recipe.category,
+            recipe.description,
+            recipe.difficulty,
+            recipe.image,
+            recipe.ingredientsAndAmount,
+            recipe.name,
+            recipe.origin,
+            recipe.persons,
+            recipe.shortDescription,
+            recipe.time,
+            recipe.userNotes,
+            widget.cookbook.name,
+            hasImage ? widget.cookbook.image : widget.oldImage);
+      }
     }
   }
 
@@ -255,7 +268,7 @@ class _CookBookSettingsState extends State<CookBookSettings> {
     var user = auth.getUser();
     String refChildPath = '';
     String filePath = user.uid + widget.cookbook.name;
-    refChildPath = 'recipe_images_user/' + filePath;
+    refChildPath = 'cookbook_title_pictures/' + filePath;
     String downloadUrl = '';
     Reference ref = FirebaseStorage.instance.ref();
     TaskSnapshot uploadFile = await ref.child(refChildPath).putFile(img);

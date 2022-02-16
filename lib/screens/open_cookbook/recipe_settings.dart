@@ -173,7 +173,17 @@ class _RecipeSettingsState extends State<RecipeSettings> {
 
   Future<void> deleteRecipe(String cookbookName, String recipeName) async {
     RecipeDbObject db = RecipeDbObject();
+    deleteImageFromDb(recipeName);
     await db.removeRecipeFromCookbook(cookbookName, recipeName);
+  }
+
+  Future<void> deleteImageFromDb(String name) async {
+    var user = _authService.getUser();
+    String refChildPath = '';
+    String filePath = user.uid + oldName;
+    refChildPath = 'recipe_images_user/' + filePath;
+    Reference ref = FirebaseStorage.instance.ref();
+    await ref.child(refChildPath).delete();
   }
 
   Future <void> updateRecipe() async {
