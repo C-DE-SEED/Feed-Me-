@@ -34,6 +34,8 @@ class _ProfilePageState extends State<ProfilePage> {
   AuthenticationGoogle authGoogle = AuthenticationGoogle();
   TextEditingController controller = TextEditingController();
   TextEditingController controller2 = TextEditingController();
+  TextEditingController controller3 = TextEditingController();
+
   FirebaseDbService firebaseDbService = FirebaseDbService();
 
   @override
@@ -118,105 +120,106 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: Dialog(
                               backgroundColor: Colors.transparent,
                               child: Container(
-                                padding:
-                                const EdgeInsets.only(right: 16.0),
+                                padding: const EdgeInsets.only(right: 16.0),
                                 width: size.width * 0.9,
                                 height: size.height * 0.35,
                                 decoration: BoxDecoration(
-                                    color:
-                                    Colors.white.withOpacity(0.8),
-                                    borderRadius: const BorderRadius
-                                        .only(
+                                    color: Colors.white.withOpacity(0.8),
+                                    borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(55),
                                         bottomLeft: Radius.circular(55),
                                         topRight: Radius.circular(15),
-                                        bottomRight:
-                                        Radius.circular(15))),
+                                        bottomRight: Radius.circular(15))),
                                 child: Row(
                                   children: <Widget>[
                                     const SizedBox(width: 20.0),
-                                    const FeedMeCircleAvatar(
-                                        radius: 30),
+                                    const FeedMeCircleAvatar(radius: 30),
                                     const SizedBox(width: 20.0),
                                     Expanded(
                                       child: Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                              MainAxisAlignment.center,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             const Text(
                                                 'Neues Passwort eingeben',
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 16.0,
-                                                    fontWeight:
-                                                    FontWeight.bold,
+                                                    fontWeight: FontWeight.bold,
                                                     fontFamily:
-                                                    openSansFontFamily)),
-                                            const SizedBox(
-                                                height: 10.0),
+                                                        openSansFontFamily)),
+                                            const SizedBox(height: 10.0),
                                             Column(
                                               children: [
                                                 TextField(
                                                   keyboardType:
-                                                  const TextInputType.numberWithOptions(),
+                                                      const TextInputType
+                                                          .numberWithOptions(),
                                                   obscureText: true,
                                                   controller: controller,
-                                                  decoration: const InputDecoration(
-                                                      hintText:
-                                                      "Passwort"),
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          hintText: "Passwort"),
                                                   onChanged: (value) {
                                                     newPassword1 = value;
                                                   },
                                                 ),
                                                 TextField(
                                                   keyboardType:
-                                                  const TextInputType.numberWithOptions(),
+                                                      const TextInputType
+                                                          .numberWithOptions(),
                                                   obscureText: true,
                                                   controller: controller2,
                                                   decoration: const InputDecoration(
                                                       hintText:
-                                                      "Passwort bestätigen"),
+                                                          "Passwort bestätigen"),
                                                   onChanged: (value) {
                                                     newPassword2 = value;
                                                   },
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(height: 35.0,),
+                                            const SizedBox(
+                                              height: 35.0,
+                                            ),
                                             Center(
-                                              child:  Container(
-                                                color: basicColor,
-                                                height: 50.0,
-                                                child: TextButton(
-                                                  child: const Text('Bestätigen',
-                                                      style: TextStyle(color: Colors.white)),
-                                                  onPressed: () {
-                                                    if (newPassword1 == newPassword2) {
-                                                      newPasswordFinal = newPassword2;
-                                                      auth
-                                                          .getUser()
-                                                          .updatePassword(newPasswordFinal);
-                                                      Navigator.of(context).pop();
-                                                    } else {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext context) {
-                                                          return RoundedAlert(
-                                                            title: "Achtung",
-                                                            text:
-                                                            "Deine Passwörter stimmen nicht überein!",
-                                                          );
-                                                        },
-                                                      );
-                                                      controller.clear();
-                                                      controller2.clear();
-                                                    }
-                                                  },
-                                                ),
-                                              )
-                                            )
+                                                child: Container(
+                                              color: basicColor,
+                                              height: 50.0,
+                                              child: TextButton(
+                                                child: const Text('Bestätigen',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                                onPressed: () {
+                                                  if (newPassword1 ==
+                                                      newPassword2) {
+                                                    newPasswordFinal =
+                                                        newPassword2;
+                                                    auth
+                                                        .getUser()
+                                                        .updatePassword(
+                                                            newPasswordFinal);
+                                                    Navigator.of(context).pop();
+                                                  } else {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return RoundedAlert(
+                                                          title: "Achtung",
+                                                          text:
+                                                              "Deine Passwörter stimmen nicht überein!",
+                                                        );
+                                                      },
+                                                    );
+                                                    controller.clear();
+                                                    controller2.clear();
+                                                  }
+                                                },
+                                              ),
+                                            ))
                                           ]),
                                     )
                                   ],
@@ -225,7 +228,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           );
                         });
-
                   }),
               StandardButtonWithIcon(
                   icon: const Icon(Icons.delete, color: deepOrange),
@@ -291,7 +293,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                           const TextInputType
                                                               .numberWithOptions(),
                                                       obscureText: false,
-                                                      controller: controller,
+                                                      controller: controller3,
                                                       decoration:
                                                           const InputDecoration(
                                                               hintText:
@@ -300,7 +302,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         password = value;
                                                       },
                                                     ),
-                                                    const SizedBox(height: 35.0,),
+                                                    const SizedBox(
+                                                      height: 35.0,
+                                                    ),
                                                     Center(
                                                       child: Container(
                                                         color: basicColor,
@@ -311,7 +315,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .white)),
-                                                            onPressed: () async {
+                                                            onPressed:
+                                                                () async {
                                                               await firebaseDbService
                                                                   .deleteUserAccountWithData(
                                                                       context,
@@ -319,6 +324,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                           .getUser()
                                                                           .email,
                                                                       password);
+                                                              controller3
+                                                                  .clear();
                                                               Navigator.of(
                                                                       context)
                                                                   .pop();

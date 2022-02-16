@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
@@ -84,9 +85,11 @@ class _DetailPageState extends State<DetailPage>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: AutoSizeText(
           widget.recipe.name,
-          style: const TextStyle(fontFamily: openSansFontFamily),
+          minFontSize: 10,
+          stepGranularity: 1.0,
+          style: const TextStyle(fontFamily: openSansFontFamily, fontSize: 12),
         ),
         foregroundColor: Colors.white,
         leading: IconButton(

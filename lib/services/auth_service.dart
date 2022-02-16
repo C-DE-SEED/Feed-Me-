@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../constants/alerts/rounded_custom_alert.dart';
 import '../model/user_local.dart';
 
 class AuthService {
@@ -59,7 +60,7 @@ class AuthService {
   }
 
 // register with mail and pw
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(String email, String password, BuildContext context) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -67,6 +68,16 @@ class AuthService {
       User user = result.user;
       return _userFromFireBaseUser(user);
     } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return RoundedAlert(
+            title: "Achtung",
+            text:
+            "Es existiert schon ein User zur eingegebenen E-Mail",
+          );
+        },
+      );
       print(e.toString());
     }
   }
@@ -80,11 +91,6 @@ class AuthService {
     }
   }
 
-  Future<UserCredential> createUserWithEmailAndPassword(
-      String email, String password) async {
-    return _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
-  }
 
   Future<void> sendPasswordResetEmail(String email) async {
     return _auth.sendPasswordResetEmail(email: email);

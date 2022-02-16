@@ -23,6 +23,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
       onPressed: () async {
         User user =
             await AuthenticationGoogle.signInWithGoogle(context: context);
+        var userCookbooks = await getUpdates();
         if (user != null) {
           var userCookbooks = await getUpdates();
           Navigator.of(context).pushReplacement(

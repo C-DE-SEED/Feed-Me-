@@ -1,4 +1,3 @@
-import 'package:feed_me/constants/custom_widgets/dismiss_keyboard_widget.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/model/user_local.dart';
 import 'package:feed_me/screens/welcome.dart';
@@ -7,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'constants/custom_widgets/dismiss_keyboard_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

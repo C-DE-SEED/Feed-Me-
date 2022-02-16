@@ -121,7 +121,7 @@ class _RegistrationState extends State<Registration> {
 
                           if (checkIfPasswordsMatching() == true) {
                             var newUser = await _auth
-                                .createUserWithEmailAndPassword(email, password);
+                                .registerWithEmailAndPassword(email, password, context);
                             showDialog(
                                 context: context,
                                 builder: (_) => CupertinoAlertDialog(
