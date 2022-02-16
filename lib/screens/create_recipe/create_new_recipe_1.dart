@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:feed_me/constants/alerts/custom_alert.dart';
 import 'package:feed_me/constants/alerts/rounded_custom_alert.dart';
 import 'package:feed_me/constants/custom_widgets/button_row.dart';
 import 'package:feed_me/constants/custom_widgets/show_steps_widget.dart';
@@ -35,7 +34,7 @@ class _CreateNewRecipe_1State extends State<CreateNewRecipe_1> {
   String recipeName = '';
   final AuthService _authService = AuthService();
   ImageSource userImageSource;
-  String standardImage =
+  final String standardImage =
       'https://firebasestorage.googleapis.com/v0/b/feed-me-b8533.appspot.com/o/assets%2Fstandard_cookbook.jpg?alt=media&token=d0347438-e243-47ee-96a9-9287cd451dc3';
 
   @override

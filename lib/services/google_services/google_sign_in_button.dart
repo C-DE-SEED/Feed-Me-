@@ -21,9 +21,9 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
     Size size = MediaQuery.of(context).size;
     return TextButton(
       onPressed: () async {
-        var userCookbooks = await getUpdates();
         User user =
             await AuthenticationGoogle.signInWithGoogle(context: context);
+        var userCookbooks = await getUpdates();
         if (user != null) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(

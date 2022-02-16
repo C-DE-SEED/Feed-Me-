@@ -1,4 +1,3 @@
-import 'package:feed_me/constants/custom_widgets/dismiss_keyboard_widget.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:feed_me/model/user_local.dart';
 import 'package:feed_me/screens/welcome.dart';
@@ -7,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'constants/custom_widgets/dismiss_keyboard_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,20 +38,6 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-
-    // FIXME: Rename cookbook, change image
-
-    // TODO insert flutter inapp_purchase at user recipe amount of 30
-
-    // TODO: Change login video with own
-    // FIXME change comma to point in db entries
-
-    // maxi
-    //TODO check why camera roll ask not again if it get persmissons to local stored pictures if you denied it
-
-    // maxi
-    // FIXME: Listview in home page
-    //TODO: Add alert if user still exists in registration
     /*
      ----------------------------------------------
     |             _____             _____          |
