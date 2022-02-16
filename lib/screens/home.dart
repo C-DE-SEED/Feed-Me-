@@ -438,7 +438,7 @@ class _HomeState extends State<Home> {
     return isFavorite
         ? Container(
             height: size.height * 0.4,
-            width: size.width * 0.9,
+            width: size.width * 0.8,
             padding: const EdgeInsets.only(
                 left: 16.0, top: 8.0, right: 16.0, bottom: 16.0),
             child: Material(
