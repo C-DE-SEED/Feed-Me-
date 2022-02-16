@@ -4,6 +4,9 @@ import 'package:feed_me/constants/buttons/standard_button.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
 import 'package:feed_me/model/cookbook_db_object.dart';
+import 'package:feed_me/model/favs_and_shopping_list_db.dart';
+import 'package:feed_me/model/recipe_db_object.dart';
+import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -30,102 +33,125 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   final AuthService _authService = AuthService();
   ImageSource userImageSource;
+  bool showProgress = false;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.orangeAccent,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: SizedBox(
-              height: size.height * 0.9,
-              width: size.width * 0.9,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: size.height * 0.05),
-                  Center(
-                    child: SizedBox(
-                      width: size.width * 0.9,
-                      child: TextFormField(
-                        autofocus: true,
-                        obscureText: false,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
+      body: showProgress
+          ? const Center(child: CircularProgressIndicator(color: Colors.white))
+          : SafeArea(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: SizedBox(
+                    height: size.height * 0.9,
+                    width: size.width * 0.9,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SizedBox(height: size.height * 0.05),
+                        Center(
+                          child: SizedBox(
+                            width: size.width * 0.9,
+                            child: TextFormField(
+                              autofocus: true,
+                              obscureText: false,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: fontSize,
+                              ),
+                              decoration: const InputDecoration(
+                                hintText: 'Gib deinem Kochbuch einen Namen:',
+                                hintStyle: TextStyle(
+                                    color: Colors.white, fontSize: fontSize),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  String name = value;
+                                  cookbook.name = name;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: size.height * 0.1),
+                        const Center(
+                          child: Text(
+                              "Lege ein Titelbild für dein Kochbuch fest:",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontFamily: openSansFontFamily)),
+                        ),
+                        SizedBox(height: size.height * 0.02),
+                        photoContainer(size),
+                        const Spacer(),
+                        StandardButton(
                           color: Colors.white,
-                          fontSize: fontSize,
+                          text: "Kochbuch anlegen",
+                          onPressed: () async {
+                            if (cookbook.name == "") {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return RoundedAlert(
+                                    title: "❗️Achtung❗",
+                                    text: "Benne dein Kochbuch bitte ☺️",
+                                  );
+                                },
+                              );
+                            } else if (!hasImage) {
+                              setState(() {
+                                showProgress = true;
+                              });
+                              await addCookbookToDatabase(cookbook);
+                              var userCookbooks = await getUpdates();
+                              setState(() {
+                                showProgress = false;
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Home(
+                                              userCookbooks: userCookbooks,
+                                            )));
+                              });
+                            } else {
+                              setState(() {
+                                showProgress = true;
+                              });
+                              await uploadFile(image, _authService);
+                              var userCookbooks = await getUpdates();
+                              setState(() {
+                                showProgress = false;
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Home(
+                                              userCookbooks: userCookbooks,
+                                            )));
+                              });
+                            }
+                          },
                         ),
-                        decoration: const InputDecoration(
-                          hintText: 'Gib deinem Kochbuch einen Namen:',
-                          hintStyle: TextStyle(
-                              color: Colors.white, fontSize: fontSize),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            String name = value;
-                            cookbook.name = name;
-                          });
-                        },
-                      ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: size.height * 0.1),
-                  const Center(
-                    child: Text("Lege ein Titelbild für dein Kochbuch fest:",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: fontSize,
-                            fontFamily: openSansFontFamily)),
-                  ),
-                  SizedBox(height: size.height * 0.02),
-                  photoContainer(size),
-                  const Spacer(),
-                  StandardButton(
-                    color: Colors.white,
-                    text: "Kochbuch anlegen",
-                    onPressed: () async {
-                      if (cookbook.name == "") {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return RoundedAlert(
-                              title: "❗️Achtung❗",
-                              text: "Benne dein Kochbuch bitte ☺️",
-                            );
-                          },
-                        );
-                      }
-                      else if (!hasImage) {
-                        addCookbookToDatabase(cookbook);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Home()));
-                      } else {
-                        uploadFile(image, _authService);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Home()));
-                      }
-                    },
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
-  void addCookbookToDatabase(Cookbook cookbook) async {
+  Future<void> addCookbookToDatabase(Cookbook cookbook) async {
     CookbookDbObject cookbookDbObject = CookbookDbObject(cookbook.name);
     bool exist = await cookbookDbObject.checkIfDocumentExists(cookbook.name);
     if (exist == false) {
@@ -299,7 +325,7 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
     });
   }
 
-  void uploadFile(File img, AuthService auth) async {
+  Future<void> uploadFile(File img, AuthService auth) async {
     var user = auth.getUser();
     String refChildPath = '';
     String filePath = user.uid + cookbook.name;
@@ -311,13 +337,12 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
       Reference refStorage = FirebaseStorage.instance.ref().child(refChildPath);
       downloadUrl = await refStorage.getDownloadURL();
       cookbook.image = downloadUrl;
-      addCookbookToDatabase(cookbook);
+      await addCookbookToDatabase(cookbook);
     }
   }
 
   Future<void> _cropImage(String sourcePath, Size size) async {
-    var cropAspectRatio =
-        const CropAspectRatio(ratioX: 1.0, ratioY: 1.0);
+    var cropAspectRatio = const CropAspectRatio(ratioX: 1.0, ratioY: 1.0);
     File croppedFile = await ImageCropper.cropImage(
         aspectRatio: cropAspectRatio,
         sourcePath: sourcePath,
@@ -350,5 +375,39 @@ class _CreateNewCookbookState extends State<CreateNewCookbook> {
         hasImage = true;
       });
     }
+  }
+
+  Future<List<Cookbook>> getUpdates() async {
+    RecipeDbObject recipeDbObject = RecipeDbObject();
+    FavsAndShoppingListDbHelper favsAndShoppingListDbHelper =
+        FavsAndShoppingListDbHelper();
+
+    List<Cookbook> tempCookbooks = [];
+    List<Recipe> favs = [];
+    favs = await favsAndShoppingListDbHelper
+        .getRecipesFromUsersFavsCollection()
+        .first;
+    List<Cookbook> cookbooksUpdate =
+        await await recipeDbObject.getAllCookBooksFromUser();
+
+    cookbooksUpdate.removeWhere((element) =>
+        element.image == 'none' || element.image == 'shoppingList');
+    // FIXME check in database why this additional cookbook is inserted
+    // remove additional Plant Food Factory Cookbook
+    cookbooksUpdate
+        .removeWhere((element) => element.name == 'Plant Food Factory');
+    cookbooksUpdate
+        .removeWhere((element) => element.name == 'plant_food_factory');
+
+    tempCookbooks.addAll(cookbooksUpdate);
+    cookbooksUpdate.clear();
+
+    cookbooksUpdate.add(Cookbook('', 'users favorites', favs));
+    cookbooksUpdate.addAll(tempCookbooks);
+    cookbooksUpdate.add(Cookbook('', 'add', []));
+
+    //setState is needed here. If we give back the recipes object directly the books will not appear instantly
+    setState(() {});
+    return cookbooksUpdate;
   }
 }

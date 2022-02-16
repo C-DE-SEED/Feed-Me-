@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
@@ -8,6 +9,7 @@ import 'package:feed_me/model/recipe_object.dart';
 import 'package:feed_me/screens/home.dart';
 import 'package:feed_me/screens/open_cookbook/detail_page/recipe_steps_view.dart';
 import 'package:feed_me/screens/open_cookbook/pdf/pdf_api.dart';
+import 'package:feed_me/screens/open_cookbook/recipe_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:evil_icons_flutter/evil_icons_flutter.dart';
 
@@ -19,19 +21,19 @@ class DetailPage extends StatefulWidget {
   final List<String> ingredients;
   List<Recipe> favs;
   final bool fromHome;
-  final bool isUserBook;
   final Cookbook cookbook;
+  final bool isUserCookbook;
 
-  DetailPage(
-      {Key key,
-      this.recipe,
-      this.recipeSteps,
-      this.ingredients,
-      this.favs,
-      this.fromHome,
-      @required this.isUserBook,
-      @required this.cookbook})
-      : super(key: key);
+  DetailPage({
+    Key key,
+    this.recipe,
+    this.recipeSteps,
+    this.ingredients,
+    this.favs,
+    this.isUserCookbook,
+    this.fromHome,
+    @required this.cookbook,
+  }) : super(key: key);
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -74,21 +76,29 @@ class _DetailPageState extends State<DetailPage>
 
   @override
   Widget build(BuildContext context) {
+    double iconSize = 30.0;
+    double fontSizeForIcons = 16.0;
     Size size = MediaQuery.of(context).size;
+    Color infoRowIconColor = Colors.deepOrange;
+    Color infoRowTextColor = Colors.white;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: AutoSizeText(
           widget.recipe.name,
-          style: const TextStyle(fontFamily: openSansFontFamily),
+          minFontSize: 10,
+          stepGranularity: 1.0,
+          style: const TextStyle(fontFamily: openSansFontFamily, fontSize: 12),
         ),
         foregroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
+          onPressed: () async {
+            var usercookbooks = await getUpdates();
             if (widget.fromHome) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Home()));
+                  MaterialPageRoute(builder: (context) => Home(userCookbooks:usercookbooks ,)));
             } else {
               Navigator.pop(context);
             }
@@ -158,7 +168,7 @@ class _DetailPageState extends State<DetailPage>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(width: size.width * 0.02),
-                              widget.isUserBook
+                              widget.isUserCookbook
                                   ? IconButton(
                                       icon: const Icon(
                                         Icons.create,
@@ -166,7 +176,8 @@ class _DetailPageState extends State<DetailPage>
                                         size: 45,
                                       ),
                                       onPressed: () {
-                                        //TODO: Add option to change image and name of recipe
+                                        Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => RecipeSettings(cookbook: widget.cookbook, recipe: widget.recipe,)));
                                       })
                                   :
                                   //    SizedBox is needed because null value is not allowed in NestedScrollView
@@ -193,13 +204,12 @@ class _DetailPageState extends State<DetailPage>
                                           widget.recipe.difficulty,
                                           widget.recipe.image,
                                           widget.recipe.ingredientsAndAmount,
-                                          widget.recipe.kitchenStuff,
                                           widget.recipe.name,
                                           widget.recipe.origin,
                                           widget.recipe.persons,
                                           widget.recipe.shortDescription,
-                                          widget.recipe.spices,
-                                          widget.recipe.time);
+                                          widget.recipe.time,
+                                          widget.recipe.userNotes);
                                     }
                                     setState(() {
                                       isFav = !isFav;
@@ -208,13 +218,78 @@ class _DetailPageState extends State<DetailPage>
                               SizedBox(width: size.width * 0.02),
                             ],
                           ),
-                        )
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: size.height * 0.01,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.flag,
+                              size: iconSize,
+                              color: infoRowIconColor,
+                            ),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              widget.recipe.origin,
+                              style: TextStyle(
+                                fontSize: fontSizeForIcons,
+                                color: infoRowTextColor,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.timer,
+                              size: iconSize,
+                              color: infoRowIconColor,
+                            ),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              widget.recipe.time + ' min',
+                              style: TextStyle(
+                                fontSize: fontSizeForIcons,
+                                color: infoRowTextColor,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.settings,
+                                size: iconSize, color: infoRowIconColor),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              widget.recipe.difficulty,
+                              style: TextStyle(
+                                fontSize: fontSizeForIcons,
+                                color: infoRowTextColor,
+                                fontFamily: openSansFontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ],
                 ),
               ),
-              expandedHeight: size.height * 0.407,
+              expandedHeight: size.height * 0.45,
               pinned: true,
               floating: true,
               elevation: 2.0,
@@ -243,68 +318,16 @@ class _DetailPageState extends State<DetailPage>
         body: TabBarView(
           children: <Widget>[
             IngredientsView(
-                ingredients: widget.ingredients,
-                recipeTime: widget.recipe.time,
-                recipeDifficulty: widget.recipe.difficulty),
-            RecipeSteps(widget.recipeSteps)
+              ingredients: widget.ingredients,
+              personCount: widget.recipe.persons,
+              unsortedIngredients: widget.recipe.ingredientsAndAmount,
+              recipe: widget.recipe,
+            ),
+            RecipeSteps(widget.recipeSteps, widget.recipe, widget.isUserCookbook,
+                widget.cookbook.name),
           ],
           controller: _tabController,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return Dialog(
-                child: widget.isUserBook
-                    ? TextFormField(
-                        focusNode: userNotes,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          hintText: widget.recipe.userNotes.isEmpty
-                              ? 'Hier hast du Platz für Notizen 📙'
-                              : widget.recipe.userNotes,
-                        ),
-                        maxLines: 15,
-                        onChanged: (userNotes) {
-                          setState(() {
-                            widget.recipe.userNotes = userNotes;
-                          });
-                        },
-                      )
-                    : SizedBox(
-                        height: size.height * 0.3,
-                        width: size.width * 0.5,
-                        child: Center(
-                            child: widget.recipe.userNotes == 'none'
-                                ? const Text(
-                                    'Zu diesem Gericht haben wir keine speziellen Tipps für dich ☺️')
-                                : Text(widget.recipe.userNotes))),
-              );
-            },
-          ).then((value) async {
-            await RecipeDbObject().updateRecipe(
-                widget.recipe.userNotes,
-                widget.recipe.category,
-                widget.recipe.description,
-                widget.recipe.difficulty,
-                widget.recipe.image,
-                widget.recipe.ingredientsAndAmount,
-                widget.recipe.name,
-                widget.recipe.origin,
-                widget.recipe.persons,
-                widget.recipe.shortDescription,
-                widget.recipe.time,
-                widget.recipe.userNotes,
-                widget.cookbook.name,
-                widget.recipe.image);
-          });
-        },
-        child:
-            const Icon(Icons.note_add_outlined, size: 40, color: Colors.white),
-        elevation: 10.0,
-        backgroundColor: basicColor,
       ),
     );
   }
@@ -319,5 +342,39 @@ class _DetailPageState extends State<DetailPage>
     List<String> x = [];
     x = recipe.ingredientsAndAmount.split("/");
     return x;
+  }
+
+  Future<List<Cookbook>> getUpdates() async {
+    RecipeDbObject recipeDbObject = RecipeDbObject();
+    FavsAndShoppingListDbHelper favsAndShoppingListDbHelper =
+    FavsAndShoppingListDbHelper();
+
+    List<Cookbook> tempCookbooks = [];
+    List<Recipe> favs = [];
+    favs = await favsAndShoppingListDbHelper
+        .getRecipesFromUsersFavsCollection()
+        .first;
+    List<Cookbook> cookbooksUpdate =
+    await await recipeDbObject.getAllCookBooksFromUser();
+
+    cookbooksUpdate.removeWhere((element) =>
+    element.image == 'none' || element.image == 'shoppingList');
+    // FIXME check in database why this additional cookbook is inserted
+    // remove additional Plant Food Factory Cookbook
+    cookbooksUpdate
+        .removeWhere((element) => element.name == 'Plant Food Factory');
+    cookbooksUpdate
+        .removeWhere((element) => element.name == 'plant_food_factory');
+
+    tempCookbooks.addAll(cookbooksUpdate);
+    cookbooksUpdate.clear();
+
+    cookbooksUpdate.add(Cookbook('', 'users favorites', favs));
+    cookbooksUpdate.addAll(tempCookbooks);
+    cookbooksUpdate.add(Cookbook('', 'add', []));
+
+    //setState is needed here. If we give back the recipes object directly the books will not appear instantly
+    setState(() {});
+    return cookbooksUpdate;
   }
 }

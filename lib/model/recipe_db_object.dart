@@ -45,7 +45,7 @@ class RecipeDbObject {
       'persons': persons,
       'short_discription': shortDescription,
       'time': time,
-      'user_notes' : userNotes
+      'user_notes': userNotes
     });
     // Important: Code beneath is needed. If there is no field in the document, firebase will not recognize it as document
     await collectionReference
@@ -53,22 +53,35 @@ class RecipeDbObject {
         .set({'name': documentName, 'image': cookBookHeaderImage});
   }
 
-  void removeCookbook(String name) async {
+  Future<void>  removeCookbook(String name) async {
     //remove collection of recipes first
     await FirebaseFirestore.instance
         .collection(auth.getUser().uid)
-        .doc(name)
-        .collection('recipes')
-        .get()
-        .then((value) => value.docs.forEach((element) {
-              element.reference.delete();
-            }));
+    .snapshots()
+    .first
+    .then((element) => element.docs.forEach((element) {
+      if(element.id == name){
+        element.reference.delete();
+      }
+    }));
     //remove fields of cookbook
     await FirebaseFirestore.instance
         .collection(auth.getUser().uid)
         .doc(name)
         .delete();
+  }
 
+  Future<void> removeRecipeFromCookbook(String cookbookName, String recipeName)async{
+    await FirebaseFirestore.instance
+    .collection(auth.getUser().uid)
+        .doc(cookbookName)
+        .collection('recipes')
+        .get()
+        .then((value) => value.docs.forEach((element) {
+            if(element.id == recipeName){
+              element.reference.delete();
+            }
+    }));
   }
 
 //  Recipe list from snapshot for plantFoodFactory cooking book
@@ -86,8 +99,7 @@ class RecipeDbObject {
           doc['persons'] ?? '',
           doc['short_discription'] ?? '',
           doc['time'] ?? '',
-          doc['user_notes'] ?? ''
-      );
+          doc['user_notes'] ?? '');
     }).toList();
     return list;
   }
@@ -99,10 +111,11 @@ class RecipeDbObject {
         doc['name'] ?? '',
       );
     }).toList();
-
+    print('books: $books');
+    
     for (int i = 0; i < books.length; i++) {
       var recipesFromUserCookbook =
-      getRecipesFromUserCookbook(books.elementAt(i).name);
+          getRecipesFromUserCookbook(books.elementAt(i).name);
       recipesFromCookbook = await recipesFromUserCookbook.first;
       books.elementAt(i).recipes = recipesFromCookbook;
     }
@@ -118,7 +131,7 @@ class RecipeDbObject {
 
   Stream<List<Recipe>> getRecipesFromUserCookbook(String docName) {
     CollectionReference recipesCollection =
-    FirebaseFirestore.instance.collection(auth.getUser().uid);
+        FirebaseFirestore.instance.collection(auth.getUser().uid);
     return recipesCollection
         .doc(docName)
         .collection('recipes')
@@ -129,12 +142,13 @@ class RecipeDbObject {
   Future<Future<List<Cookbook>>> getAllCookBooksFromUser() {
     var cookbooks = FirebaseFirestore.instance
         .collection(auth.getUser().uid)
+        .where('image', isNotEqualTo: 'shoppingList')
         .snapshots()
-        .map(_cookbookFromSnapshot);
+        .map(_cookbookFromSnapshot)
+        .first;
 
-    return cookbooks.first;
+    return cookbooks;
   }
-
 
   Future<bool> checkIfDocumentExists(String cookbookName) async {
     bool exists;

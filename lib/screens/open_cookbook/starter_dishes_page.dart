@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feed_me/constants/styles/colors.dart';
-import 'package:feed_me/constants/text_fields/search_text_form_field.dart';
 import 'package:feed_me/constants/styles/text_style.dart';
 import 'package:feed_me/model/cookbook.dart';
 import 'package:flutter/material.dart';
@@ -48,21 +47,6 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                     fontFamily: openSansFontFamily)),
           ),
           SizedBox(height: size.height * 0.02),
-          TextField(
-              onChanged: (value) {
-                //TODO insert filtered value
-              },
-              showCursor: true,
-              decoration: InputDecoration(
-                hintText: "Nach Gerichten suchen",
-                prefixIcon: const Icon(Icons.search, color: Colors.black54),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: basicColor,
-                  ),
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-              )),
           Expanded(
             child: widget.recipes.isEmpty
                 ? const Center(
@@ -90,7 +74,7 @@ class _StarterDishesPageState extends State<StarterDishesPage> {
                                 ingredients: ingredients,
                                 fromHome: false,
                                 favs:widget.favs,
-                                isUserBook: widget.isUserBook,
+                                isUserCookbook: widget.isUserBook,
                                 cookbook: widget.cookbook,
                               ),
                             ),
