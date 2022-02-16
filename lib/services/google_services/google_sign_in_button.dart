@@ -25,10 +25,11 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
             await AuthenticationGoogle.signInWithGoogle(context: context);
         var userCookbooks = await getUpdates();
         if (user != null) {
+          var userCookbooks = await getUpdates();
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => Home(
-                userCookbooks: userCookbooks,
+                 userCookbooks: userCookbooks,
               ),
             ),
           );

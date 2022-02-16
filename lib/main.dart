@@ -38,6 +38,16 @@ class MyApp extends StatelessWidget {
       ),
     );
 
+    //TODO: Add Circle Progress Indicator
+    // TODO insert flutter inapp_purchase at user recipe amount of 30
+    // TODO: Change login video with own
+
+    // maxi
+    //TODO check why camera roll ask not again if it get persmissons to local stored pictures if you denied it
+
+    // maxi
+    // FIXME: Listview in home page
+    //TODO: Add alert if user still exists in registration
     /*
      ----------------------------------------------
     |             _____             _____          |

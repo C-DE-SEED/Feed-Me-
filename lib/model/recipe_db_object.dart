@@ -57,12 +57,13 @@ class RecipeDbObject {
     //remove collection of recipes first
     await FirebaseFirestore.instance
         .collection(auth.getUser().uid)
-        .doc(name)
-        .collection('recipes')
-        .get()
-        .then((value) => value.docs.forEach((element) {
-              element.reference.delete();
-            }));
+    .snapshots()
+    .first
+    .then((element) => element.docs.forEach((element) {
+      if(element.id == name){
+        element.reference.delete();
+      }
+    }));
     //remove fields of cookbook
     await FirebaseFirestore.instance
         .collection(auth.getUser().uid)
