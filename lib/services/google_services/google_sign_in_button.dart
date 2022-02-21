@@ -29,7 +29,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => Home(
-                 userCookbooks: userCookbooks,
+                userCookbooks: userCookbooks,
               ),
             ),
           );
@@ -53,21 +53,20 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 children: <Widget>[
                   const Image(
                     image: AssetImage("assets/google.png"),
-                    height: 30.0,
+                    height: 20.0,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: size.width * 0.18, right: size.width * 0.18),
-                    child: const Text(
-                      'Mit Google anmelden',
-                      style: TextStyle(
-                        fontFamily: openSansFontFamily,
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
+                  Spacer(),
+                  const Text(
+                    'Mit Google anmelden',
+                    style: TextStyle(
+                      fontFamily: openSansFontFamily,
+                      fontSize: 14,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                  SizedBox(width: size.width * 0.05),
+                  Spacer()
                 ],
               ),
             ),
