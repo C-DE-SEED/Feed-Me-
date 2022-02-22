@@ -78,6 +78,7 @@ class AuthService {
           );
         },
       );
+      return null;
       print(e.toString());
     }
   }

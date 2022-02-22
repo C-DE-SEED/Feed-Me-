@@ -53,7 +53,6 @@ class _SignInState extends State<SignIn> {
                         fit: BoxFit.cover)),
                 child: Stack(
                   children: [
-
                     SingleChildScrollView(
                       child: SafeArea(
                         child: Column(
@@ -238,10 +237,9 @@ class _SignInState extends State<SignIn> {
                                   const Text(
                                     "Noch nicht registriert?",
                                     style: TextStyle(
-                                      fontFamily: openSansFontFamily,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white
-                                    ),
+                                        fontFamily: openSansFontFamily,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white),
                                   ),
                                   TextButton(
                                     onPressed: () {
@@ -253,7 +251,7 @@ class _SignInState extends State<SignIn> {
                                     },
                                     child: const Text("Hier klicken",
                                         style: TextStyle(
-                                          color:basicColor,
+                                          color: basicColor,
                                           fontFamily: openSansFontFamily,
                                           fontWeight: FontWeight.w500,
                                         )),
