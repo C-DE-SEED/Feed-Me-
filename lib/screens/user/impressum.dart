@@ -41,11 +41,14 @@ class Impressum extends StatelessWidget {
                     child: const AutoSizeText(
                         'Angaben gem. § 5 TMG:\n'
                         '\nCodeSeed UG.\n'
-                        'Tobias, Neidhardt und Maximilian, Drescher\nZum Rosenberg 2\n97334, Sommerach\n'
+                        'Tobias, Neidhardt und Maximilian, Drescher'
+                        //TODO insert Firmensitz
+                            '\nZum Rosenberg 2\n97334, Sommerach\n'
                         '\nKontaktaufnahme:\n'
                         'E-Mail: codeseed.wue@gmail.com\n'
                         '\nUmsatzsteuer-ID\n'
                         '\nUmsatzsteuer-Identifikationsnummer gem. § 27 a Umsatzsteuergesetz:\n'
+                        // TODO insert umsatzsteuer ID
                         'DE XXX XXX XXX\n'
                         '\nHaftungsausschluss – Disclaimer:\n'
                         'Haftung für Inhalte Alle Inhalte unseres Internetauftritts wurden mit größter Sorgfalt und nach bestem Gewissen erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.'
