@@ -85,20 +85,25 @@ class _DetailPageState extends State<DetailPage>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: AutoSizeText(
-          widget.recipe.name,
-          minFontSize: 10,
-          stepGranularity: 1.0,
-          style: const TextStyle(fontFamily: openSansFontFamily, fontSize: 12),
+        title: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            widget.recipe.name,
+          ),
         ),
+        centerTitle: true,
         foregroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () async {
             var usercookbooks = await getUpdates();
             if (widget.fromHome) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Home(userCookbooks:usercookbooks ,)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Home(
+                            userCookbooks: usercookbooks,
+                          )));
             } else {
               Navigator.pop(context);
             }
@@ -176,8 +181,14 @@ class _DetailPageState extends State<DetailPage>
                                         size: 45,
                                       ),
                                       onPressed: () {
-                                        Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) => RecipeSettings(cookbook: widget.cookbook, recipe: widget.recipe,)));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    RecipeSettings(
+                                                      cookbook: widget.cookbook,
+                                                      recipe: widget.recipe,
+                                                    )));
                                       })
                                   :
                                   //    SizedBox is needed because null value is not allowed in NestedScrollView
@@ -323,8 +334,8 @@ class _DetailPageState extends State<DetailPage>
               unsortedIngredients: widget.recipe.ingredientsAndAmount,
               recipe: widget.recipe,
             ),
-            RecipeSteps(widget.recipeSteps, widget.recipe, widget.isUserCookbook,
-                widget.cookbook.name),
+            RecipeSteps(widget.recipeSteps, widget.recipe,
+                widget.isUserCookbook, widget.cookbook.name),
           ],
           controller: _tabController,
         ),
@@ -347,7 +358,7 @@ class _DetailPageState extends State<DetailPage>
   Future<List<Cookbook>> getUpdates() async {
     RecipeDbObject recipeDbObject = RecipeDbObject();
     FavsAndShoppingListDbHelper favsAndShoppingListDbHelper =
-    FavsAndShoppingListDbHelper();
+        FavsAndShoppingListDbHelper();
 
     List<Cookbook> tempCookbooks = [];
     List<Recipe> favs = [];
@@ -355,10 +366,10 @@ class _DetailPageState extends State<DetailPage>
         .getRecipesFromUsersFavsCollection()
         .first;
     List<Cookbook> cookbooksUpdate =
-    await await recipeDbObject.getAllCookBooksFromUser();
+        await await recipeDbObject.getAllCookBooksFromUser();
 
     cookbooksUpdate.removeWhere((element) =>
-    element.image == 'none' || element.image == 'shoppingList');
+        element.image == 'none' || element.image == 'shoppingList');
     // FIXME check in database why this additional cookbook is inserted
     // remove additional Plant Food Factory Cookbook
     cookbooksUpdate
