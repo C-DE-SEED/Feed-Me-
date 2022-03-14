@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
     // TODO: when user account is deleted, delete also the data in firestore
     // TODO insert flutter inapp_purchase at user recipe amount of 30
     // TODO: Change login video with own
+    // TODO: schupfnudel und Nudelauflauf bild tauschen steht schon im richtigen ordner in FB
     /*
      ----------------------------------------------
     |             _____             _____          |
