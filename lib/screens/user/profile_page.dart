@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: size.height * 0.01),
               NumbersWidget(
                 recipeCount: widget.recipeCount,
-                cookBookCount: widget.cookBookCount,
+                cookBookCount: widget.cookBookCount-1,
               ),
               SizedBox(height: size.height * 0.01),
               StandardButtonWithIcon(

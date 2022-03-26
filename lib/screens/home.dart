@@ -144,7 +144,7 @@ class _HomeState extends State<Home> {
                                           builder: (context) => ProfilePage(
                                                 recipeCount: recipeCount,
                                                 cookBookCount:
-                                                    widget.userCookbooks.length,
+                                                widget.userCookbooks.length-1,
                                               )));
                                 },
                                 child: null,
@@ -159,7 +159,7 @@ class _HomeState extends State<Home> {
                           const Icon(Icons.search),
                           SizedBox(width: size.width * 0.025),
                           SizedBox(
-                            width: size.width * 0.8,
+                            width: size.width * 0.64,
                             child: TypeAheadField(
                                 textFieldConfiguration: TextFieldConfiguration(
                                   decoration: const InputDecoration(
@@ -296,7 +296,7 @@ class _HomeState extends State<Home> {
                       context,
                       plantFoodFactory,
                       Cookbook('', 'Plant Food Factory', plantFoodFactory),
-                      cookbookCount,
+                      widget.userCookbooks.length,
                       usersFavs),
                   child: _buildFeaturedItem(
                       image:
@@ -357,7 +357,7 @@ class _HomeState extends State<Home> {
                                           .elementAt(index)
                                           .recipes,
                                       widget.userCookbooks.elementAt(index),
-                                      widget.userCookbooks.length + 1,
+                                  widget.userCookbooks.length,
                                       usersFavs,
                                     ),
                                 child: _buildFeaturedItem(

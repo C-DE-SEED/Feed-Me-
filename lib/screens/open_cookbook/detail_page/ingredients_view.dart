@@ -146,31 +146,33 @@ class _IngredientsViewState extends State<IngredientsView> {
                   );
                 }),
           ),
-          StandardButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertWithFunction(
-                    title: "",
-                    text:
-                        "Willst du das Rezept wirklich zu deiner Einkaugsliste hinzufügen?️",
-                    buttonText: "Ja, bitte",
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getAsShoppingListObjects().forEach((element) async {
-                        await favsAndShopping.updateShoppingList(
-                            element.ingredient,
-                            element.isChecked,
-                            widget.recipe.name);
-                      });
-                    },
-                  );
-                },
-              );
-            },
-            color: basicColor,
-            text: 'Zur Einkausliste hinzufügen',
+          SafeArea(
+            child: StandardButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertWithFunction(
+                      title: "",
+                      text:
+                          "Willst du das Rezept wirklich zu deiner Einkaugsliste hinzufügen?️",
+                      buttonText: "Ja, bitte",
+                      onPressed: () {
+                        Navigator.pop(context);
+                        getAsShoppingListObjects().forEach((element) async {
+                          await favsAndShopping.updateShoppingList(
+                              element.ingredient,
+                              element.isChecked,
+                              widget.recipe.name);
+                        });
+                      },
+                    );
+                  },
+                );
+              },
+              color: basicColor,
+              text: 'Zur Einkausliste hinzufügen',
+            ),
           ),
           const SizedBox(height: 20)
         ],
