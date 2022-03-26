@@ -37,17 +37,10 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
-
-    //TODO: Add Circle Progress Indicator
+    // TODO: insert profile page informations (impressum usw)
+    // TODO: when user account is deleted, delete also the data in firestore
     // TODO insert flutter inapp_purchase at user recipe amount of 30
-    // TODO: Change login video with own
-
-    // maxi
-    //TODO check why camera roll ask not again if it get persmissons to local stored pictures if you denied it
-
-    // maxi
-    // FIXME: Listview in home page
-    //TODO: Add alert if user still exists in registration
+    // TODO: schupfnudel und Nudelauflauf bild tauschen steht schon im richtigen ordner in FB
     /*
      ----------------------------------------------
     |             _____             _____          |
